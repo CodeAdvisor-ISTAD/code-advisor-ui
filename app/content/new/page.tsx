@@ -78,9 +78,9 @@ const Page = () => {
     }
   }
   return (
-    <div className="main-container grid grid-cols-1 gap-4 items-center bg-[#fafafa] relative overflow-hidden mx-auto my-0 pt-[10px] pl-[80px] pr-[80%] pb-10 ">
+    <div className="container mt-[80px]  grid grid-cols-1 gap-4 items-center  mx-auto my-0  ">
       {/* Grid Container */}
-      <div className="grid grid-cols-2 w-[1274px] px-2 gap-10 items-start relative z-10">
+      <div className="grid grid-cols-2 w-[1274px] px-2 gap-10 items-start ">
         {/* Title: Create New Content */}
         <div className="">
           <span className="col-span-1 flex items-center text-[32px] font-bold text-primary whitespace-nowrap p-2">
@@ -130,7 +130,7 @@ const Page = () => {
                         ដាក់រូបសម្រាប់អត្ថបទ
                       </FormDescription>
                       <FormControl>
-                        <div className="relative">
+                        <div className="">
                           {/* Hidden Input */}
                           <input
                             id="file-upload"
@@ -278,10 +278,12 @@ const Page = () => {
                   <Button type="submit" className="text-white">
                     ដាក់ស្នើ
                   </Button>
-                  <Button type="submit" className="text-primary bg-white border border-secondary hover:bg-slate-50 ">
+                  <Button
+                    type="submit"
+                    className="text-primary bg-white border border-secondary hover:bg-slate-50 "
+                  >
                     រក្សាទុក
                   </Button>
-                  
                 </div>
               </form>
             </Form>
@@ -290,7 +292,7 @@ const Page = () => {
 
         {/* Title: Preview */}
         <span className="col-span-1 flex items-center text-[32px] font-bold text-primary whitespace-nowrap">
-          មើលសាកល្បង
+          លទ្ធផល
         </span>
       </div>
     </div>

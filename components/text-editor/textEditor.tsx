@@ -101,7 +101,7 @@ export default function RichTextEditor({ content, onChange }) {
   return (
     <div>
       <ToolBar editor={editor} />
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} className="" />
       {/* <button
         onClick={handlePreviewClick}
         className="mt-2 p-2 bg-blue-500 text-white rounded"

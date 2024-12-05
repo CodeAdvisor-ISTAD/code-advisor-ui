@@ -1,3 +1,4 @@
+"use client";
 import {
     Sidebar,
     SidebarContent,
@@ -28,6 +29,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "../ui/collapsible";
+import { usePathname } from "next/navigation";
 
 const items = [
     {
@@ -92,6 +94,13 @@ const items = [
 ];
 
 export function AppSidebar() {
+    const pathname = usePathname();
+
+    if(pathname === "/content/new") {
+        return
+    }
+
+
     return (
         <Sidebar className="ml-[100px]">
             <SidebarHeader className="p-4 ">
