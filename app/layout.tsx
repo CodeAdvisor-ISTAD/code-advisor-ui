@@ -7,6 +7,8 @@ import Footer from "@/components/footer/Footer";
 import { roboto, koh_Santepheap } from "./fonts/fonts";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import TrendingComponent from "@/components/card-component/card-trending/LatestComponent";
+import LatestComponent from "@/components/card-component/card-trending/LatestComponent";
 
 export default function RootLayout({
     children,
@@ -22,7 +24,9 @@ export default function RootLayout({
                     <NavbarComponent />
                 </header>
                 <SidebarProvider>
-                    <main className="bg-gray-100 w-full px-[100px]">
+                    <AppSidebar />
+
+                    <main className="bg-gray-100 w-full px-[100px] pb-6">
                         {children}
                     </main>
                 </SidebarProvider>
