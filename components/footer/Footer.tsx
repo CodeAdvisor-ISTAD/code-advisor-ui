@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaEnvelope } from "react-icons/fa";
+import NavbarLogin from "../navbar/NavbarLogin";
 
 export default function Footer() {
   return (
