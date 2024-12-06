@@ -96,10 +96,9 @@ const items = [
 export function AppSidebar() {
     const pathname = usePathname();
 
-    if(pathname === "/content/new") {
-        return
+    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user") {
+        return;
     }
-
 
     return (
         <Sidebar className="ml-[100px]">
