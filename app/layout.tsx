@@ -7,8 +7,7 @@ import Footer from "@/components/footer/Footer";
 import { roboto, koh_Santepheap } from "./fonts/fonts";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
-import TrendingComponent from "@/components/card-component/card-trending/LatestComponent";
-import LatestComponent from "@/components/card-component/card-trending/LatestComponent";
+
 
 export default function RootLayout({
     children,
@@ -20,7 +19,7 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
       >
-        <header className="bg-white fixed top-0 right-0 left-0 ">
+        <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0 ">
           <NavbarComponent />
         </header>
         <SidebarProvider>
