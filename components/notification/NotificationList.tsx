@@ -1,6 +1,6 @@
-import { Notification, NotificationActions } from '@/types/notifications'
-import { NotificationItem } from '@/components/notification/NotificationItem'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { NotificationItem } from "@/components/notification/NotificationItem"
+import type { Notification, NotificationActions } from "@/types/notifications"
 
 interface NotificationListProps {
   notifications: Notification[]
@@ -9,7 +9,7 @@ interface NotificationListProps {
 
 export function NotificationList({ notifications, actions }: NotificationListProps) {
   return (
-    <ScrollArea className="h-[calc(100vh-8rem)]">
+    <ScrollArea className="h-[32rem]">
       <div className="space-y-1">
         {notifications.map((notification) => (
           <NotificationItem
@@ -18,13 +18,6 @@ export function NotificationList({ notifications, actions }: NotificationListPro
             actions={actions}
           />
         ))}
-        {notifications.length === 0 && (
-          <div className="flex h-[200px] items-center justify-center">
-            <p className="text-sm text-muted-foreground">
-              No notifications yet
-            </p>
-          </div>
-        )}
       </div>
     </ScrollArea>
   )
