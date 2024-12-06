@@ -9,7 +9,7 @@ export default function LatestComponent() {
   ];
 
   return (
-    <Card className="w-[341px] h-[315px] rounded-[5px]">
+    <Card className="w-[341px] h-[315px] rounded-[5px] shadow-sm">
       <CardHeader>
         <CardTitle className="font-normal flex items-center gap-2 text-2xl text-primary">
           <Star className="h-6 w-6 fill-red-500 text-red-500" />

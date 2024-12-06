@@ -11,27 +11,29 @@ import TrendingComponent from "@/components/card-component/card-trending/LatestC
 import LatestComponent from "@/components/card-component/card-trending/LatestComponent";
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body
         className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
       >
-        <header className="bg-white border border-gray-300 fixed top-0 right-0 left-0">
+        <header className="bg-white fixed top-0 right-0 left-0">
           <NavbarComponent />
         </header>
         <SidebarProvider>
           <AppSidebar />
 
-          <main className="bg-gray-100 w-full px-[100px] pb-6">{children}</main>
-        </SidebarProvider>
-        <footer>
-          <Footer />
-        </footer>
-      </body>
-    </html>
-  );
+                    <main className="bg-gray-100 w-full px-[100px] pb-6 pt-[72px]">
+                        {children}
+                    </main>
+                </SidebarProvider>
+                <footer>
+                    <Footer />
+                </footer>
+            </body>
+        </html>
+    );
 }
