@@ -20,7 +20,6 @@ import {
     History,
     Phone,
     Contact,
-    Asterisk,
     FileQuestion,
 } from "lucide-react";
 import {
@@ -29,7 +28,7 @@ import {
     CollapsibleTrigger,
 } from "../ui/collapsible";
 import { usePathname } from "next/navigation";
-import { FaForumbee } from "react-icons/fa";
+import Link from "next/link";
 
 const items = [
     {
@@ -58,23 +57,23 @@ const items = [
     {
         id: 18,
         title: "សំណួរទូទៅ",
-        url: "#",
+        url: "/forum",
         icon: FileQuestion,
         subItems: [
             {
                 id: 1,
                 title: "ថ្មីៗ",
-                url: "#",
+                url: "/forum",
             },
             {
                 id: 2,
                 title: "ពេញនិយម",
-                url: "#",
+                url: "/trending",
             },
             {
                 id: 3,
                 title: "ស្លាក",
-                url: "#",
+                url: "/tag",
             },
         ],
     },
@@ -154,12 +153,12 @@ export function AppSidebar() {
                                                         <SidebarMenuSubItem
                                                             key={subItem.id}
                                                         >
-                                                            <a
+                                                            <Link
                                                                 href={item.url}
                                                                 className="flex items-center px-4 py-1 hover:bg-gray-100 rounded-lg"
                                                             >
                                                                 {subItem.title}
-                                                            </a>
+                                                            </Link>
                                                         </SidebarMenuSubItem>
                                                     )
                                                 )}

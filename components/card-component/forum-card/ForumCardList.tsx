@@ -1,6 +1,7 @@
 import React from "react";
 import { ForumCardComponent } from "./ForumCardComponent";
 import TagComponent from "@/components/tag/tagComponent";
+import Link from "next/link";
 
 // Mock Data
 const cardsData = [
@@ -128,7 +129,13 @@ export default function ForumCardList() {
             <TagComponent />
             <div className="grid grid-cols-1 gap-2 max-w-7xl mx-auto">
                 {cardsData.map((card) => (
-                    <ForumCardComponent key={card.id} {...card} />
+                    <Link
+                        href={`/forum/${card.id}`}
+                        key={card.id}
+                        className="cursor-pointer"
+                    >
+                        <ForumCardComponent {...card} />
+                    </Link>
                 ))}
             </div>
         </div>

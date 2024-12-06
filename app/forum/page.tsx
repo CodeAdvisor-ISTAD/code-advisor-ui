@@ -5,7 +5,7 @@ import React from "react";
 
 export default function page() {
     return (
-        <main className=" flex pt-[80px] ">
+        <main className="flex">
             <ForumCardList />
             <div className="flex flex-col ml-2 gap-2 ">
                 <TrendingComponent />

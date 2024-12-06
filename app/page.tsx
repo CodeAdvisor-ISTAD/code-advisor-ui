@@ -18,7 +18,7 @@ export default function Home() {
         "Top 10 VSCode extensions for developers",
       ];
     return (
-        <main className="flex pt-[80px] ">
+        <main className="flex">
 
             <CardList />
             <div className="flex flex-col ml-2 gap-2  ">
