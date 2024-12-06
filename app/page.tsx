@@ -5,7 +5,7 @@ import { CardList } from "@/components/card-component/card/CardList";
 
 export default function Home() {
     return (
-        <main className="flex pt-[80px]">
+        <main className="flex">
 
             <CardList />
             <div className="flex flex-col ml-2 gap-2 ">
