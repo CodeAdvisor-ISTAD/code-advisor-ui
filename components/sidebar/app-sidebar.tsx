@@ -2,10 +2,8 @@
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
@@ -17,12 +15,12 @@ import {
     Home,
     Inbox,
     Calendar,
-    Search,
     Settings,
     ChevronDown,
     History,
     Phone,
     Contact,
+    FileQuestion,
 } from "lucide-react";
 import {
     Collapsible,
@@ -30,6 +28,7 @@ import {
     CollapsibleTrigger,
 } from "../ui/collapsible";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const items = [
     {
@@ -52,6 +51,29 @@ const items = [
                 id: 3,
                 title: "ស្លាក",
                 url: "#",
+            },
+        ],
+    },
+    {
+        id: 18,
+        title: "សំណួរទូទៅ",
+        url: "/forum",
+        icon: FileQuestion,
+        subItems: [
+            {
+                id: 1,
+                title: "ថ្មីៗ",
+                url: "/forum",
+            },
+            {
+                id: 2,
+                title: "ពេញនិយម",
+                url: "/trending",
+            },
+            {
+                id: 3,
+                title: "ស្លាក",
+                url: "/tag",
             },
         ],
     },
@@ -96,10 +118,9 @@ const items = [
 export function AppSidebar() {
     const pathname = usePathname();
 
-    if(pathname === "/content/new") {
-        return
+    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user") {
+        return;
     }
-
 
     return (
         <Sidebar className="ml-[100px]">
@@ -132,12 +153,12 @@ export function AppSidebar() {
                                                         <SidebarMenuSubItem
                                                             key={subItem.id}
                                                         >
-                                                            <a
+                                                            <Link
                                                                 href={item.url}
-                                                                className="flex items-center px-4 py-2 hover:bg-gray-100 rounded-lg"
+                                                                className="flex items-center px-4 py-1 hover:bg-gray-100 rounded-lg"
                                                             >
                                                                 {subItem.title}
-                                                            </a>
+                                                            </Link>
                                                         </SidebarMenuSubItem>
                                                     )
                                                 )}

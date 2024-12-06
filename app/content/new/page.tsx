@@ -98,7 +98,7 @@ const CreateNewContent = () => {
     
   }
   return (
-    <div className="container mt-[80px]  grid grid-cols-1 gap-4 items-center  mx-auto my-0  ">
+    <div className="container grid grid-cols-1 gap-4 items-center  mx-auto my-0  ">
       {/* Grid Container */}
       <div className="grid grid-cols-2 w-[1274px] px-2 gap-10 items-start ">
         {/* Create New Content */}
