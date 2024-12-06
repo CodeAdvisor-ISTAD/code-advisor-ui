@@ -4,8 +4,9 @@
     margin-top: 0;
   }
 
+
   pre {
-    background: #111111;
+    background: #282828;
     border-radius: 0.5rem;
     color: whitesmoke;
     font-family: 'JetBrainsMono', monospace;
@@ -73,3 +74,6 @@
   }
 }
 
+.tiptap {
+  white-space: pre-wrap;
+}
