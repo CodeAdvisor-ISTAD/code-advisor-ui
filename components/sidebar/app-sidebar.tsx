@@ -2,10 +2,8 @@
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
@@ -17,7 +15,6 @@ import {
     Home,
     Inbox,
     Calendar,
-    Search,
     Settings,
     ChevronDown,
     History,

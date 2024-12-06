@@ -1,13 +1,12 @@
-"use client";
 import LatestComponent from "@/components/card-component/card-trending/LatestComponent";
 import TrendingComponent from "@/components/card-component/card-trending/LatestComponent";
-import { CardList } from "@/components/card-component/card/CardList";
+import ForumCardList from "@/components/card-component/forum-card/ForumCardList";
+import React from "react";
 
-export default function Home() {
+export default function page() {
     return (
-        <main className="flex pt-[80px]">
-
-            <CardList />
+        <main className=" flex pt-[80px] ">
+            <ForumCardList />
             <div className="flex flex-col ml-2 gap-2 ">
                 <TrendingComponent />
                 <LatestComponent />
