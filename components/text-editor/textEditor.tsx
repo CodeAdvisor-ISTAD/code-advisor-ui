@@ -14,9 +14,7 @@ import Image from "@tiptap/extension-image";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import { use, useState } from "react";
-import Preview from "./preview";
 import ImageResize from "tiptap-extension-resize-image";
-// import CodeBlock from "@tiptap/extension-code-block";
 import { all, common, createLowlight } from "lowlight";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import "./styleTextEditor.css";
@@ -94,14 +92,14 @@ export default function RichTextEditor({ content, onChange }) {
     },
   });
 
-  const handlePreviewClick = () => {
-    setShowPreview(!showPreview);
-  };
+  // const handlePreviewClick = () => {
+  //   setShowPreview(!showPreview);
+  // };
 
   return (
     <div>
       <ToolBar editor={editor} />
-      <EditorContent editor={editor} className="" />
+      <EditorContent editor={editor} style={{ zIndex: "0"}} />
       {/* <button
         onClick={handlePreviewClick}
         className="mt-2 p-2 bg-blue-500 text-white rounded"

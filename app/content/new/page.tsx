@@ -18,28 +18,33 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { tags } from "./option";
 import RichTextEditor from "@/components/text-editor/textEditor";
+import Preview from "@/components/text-editor/preview";
 
 const formSchema = z.object({
   title: z.string().min(5, {
-    message: "title must be at least 5 characters.",
+    message: "ចំណងជើងត្រូវមានយ៉ាងហោចណាស់ 5 តួអក្សរ",
   }),
   cover: z.instanceof(File).optional(),
   slug: z.string().min(5, {
-    message: "slug must be at least 5 characters.",
+    message: "Slug ត្រូវមានយ៉ាងហោចណាស់ 5 តួអក្សរ",
   }),
   keyword: z.string().min(5, {
-    message: "keyword must be at least 5 characters.",
+    message: "ពាក្យគន្លឹះត្រូវមានយ៉ាងហោចណាស់ 5 តួអក្សរ",
   }),
   tag: z
     .array(z.string())
-    .min(1, { message: "At least one tag is required." }) // Ensure at least one tag
-    .max(5, { message: "You can select up to 5 tags only." }),
+    .min(1, { message: "យ៉ាងហោចណាស់ត្រូវការស្លាកមួយ" }) // Ensure at least one tag
+    .max(5, { message: "អ្នកអាចជ្រើសរើសស្លាកបានត្រឹមតែ 5 ប៉ុណ្ណោះ" }),
+  content: z.string().min(10, {
+    message: "ការពិពណ៌នាត្រូវមានយ៉ាងហោចណាស់ 10 តួអក្សរ",
+  }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-const Page = () => {
+const CreateNewContent = () => {
   const [uploading, setUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const animatedComponents = makeAnimated();
 
@@ -52,17 +57,31 @@ const Page = () => {
       keyword: "",
       tag: [],
       cover: undefined,
+      content: "",
     },
   });
 
-  // Mock upload function
-  const handleMockUpload = (file: File) => {
-    setUploading(true);
-    console.log("Mock uploading file:", file.name);
-    setTimeout(() => {
-      console.log("Mock upload completed:", file.name);
-      setUploading(false);
-    }, 1000); // Simulate 1-second upload
+  // Real-time upload function
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Display image preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string); // Set image preview
+      };
+      reader.readAsDataURL(file);
+
+      // Simulate real-time upload
+      setUploading(true); // Start uploading
+      setTimeout(() => {
+        setUploading(false); // Simulate upload completion
+      }, 1000); // Simulate 1-second upload
+    }
+  };
+
+  const cleanContent = (content: string) => {
+    return content.replace(/<p><\/p>/g, "<br>");
   };
 
   // 2. Define a submit handler.
@@ -76,18 +95,19 @@ const Page = () => {
     if (values.cover) {
       console.log("Cover Image:", values.cover.name);
     }
+    
   }
   return (
     <div className="container grid grid-cols-1 gap-4 items-center  mx-auto my-0  ">
       {/* Grid Container */}
       <div className="grid grid-cols-2 w-[1274px] px-2 gap-10 items-start ">
-        {/* Title: Create New Content */}
-        <div className="">
+        {/* Create New Content */}
+        <div>
           <span className="col-span-1 flex items-center text-[32px] font-bold text-primary whitespace-nowrap p-2">
             បង្កើតអត្ថបទថ្មី
           </span>
           {/* Title: Article Information */}
-          <div className="bg-white p-[30px] rounded-[5px]">
+          <div className="bg-white p-[30px] rounded-[5px] h-auto">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -141,7 +161,7 @@ const Page = () => {
                               const file = e.target.files?.[0];
                               if (file) {
                                 field.onChange(file); // Update form state
-                                handleMockUpload(file); // Simulate upload
+                                handleFileChange(e); // Show preview and simulate upload
                               }
                             }}
                             disabled={uploading}
@@ -195,7 +215,7 @@ const Page = () => {
                 {/* Text Editor */}
                 <FormField
                   control={form.control}
-                  name="tag"
+                  name="content"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-primary text-2xl font-bold">
@@ -208,7 +228,9 @@ const Page = () => {
                       <FormControl>
                         <RichTextEditor
                           content={field.value}
-                          onChange={(value) => field.onChange(value)}
+                          onChange={(value: any) => {
+                            field.onChange(value);
+                          }}
                         />
                       </FormControl>
 
@@ -284,19 +306,101 @@ const Page = () => {
                   >
                     រក្សាទុក
                   </Button>
+                  <Button
+                    type="submit"
+                    className="text-primary bg-white   hover:bg-slate-50 "
+                  >
+                    ផ្ទៀងផ្ទាត់
+                  </Button>
                 </div>
               </form>
             </Form>
           </div>
         </div>
 
-        {/* Title: Preview */}
-        <span className="col-span-1 flex items-center text-[32px] font-bold text-primary whitespace-nowrap">
-          លទ្ធផល
-        </span>
+        {/* Preview */}
+        <div>
+          <span className="col-span-1 flex items-center text-[32px] font-bold text-primary whitespace-nowrap p-2">
+            លទ្ធផលបង្ហាញ
+          </span>
+
+          <div className="bg-white  rounded-[5px] h-auto">
+            {/* Image section */}
+            <div>
+              {/* Image Preview */}
+              {imagePreview ? (
+                <div className="flex justify-center">
+                  <img
+                    src={imagePreview}
+                    alt="Cover preview"
+                    className="w-full h-[217px] object-cover rounded-md"
+                  />
+                </div>
+              ) : (
+                // Placeholder image when no image is uploaded
+                <div className="flex justify-center">
+                  <img
+                    src="https://placehold.co/600x217?text=No+Image+Uploaded"
+                    alt="Placeholder image"
+                    className="w-full h-[217px] object-cover rounded-md"
+                  />
+                </div>
+              )}
+            </div>
+            {/* content section */}
+            <div className="px-[30px] pt-[30px] pb-[5px]">
+              {/* Title */}
+              <h1 className="text-2xl font-bold text-primary">
+                {form.watch("title") || "ចំណងជើង"}
+              </h1>
+            </div>
+
+            {/* Tags */}
+            <div className="p-[30px]">
+              <div className="flex flex-wrap gap-2">
+                {form.watch("tag")?.length > 0 ? (
+                  form.watch("tag")?.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-1 bg-white text-primary border border-secondary rounded-md"
+                    >
+                      {tag}
+                    </span>
+                  ))
+                ) : (
+                  // Placeholder tag if no tags are selected
+                  <span className="px-2 py-1 bg-white text-primary border border-secondary rounded-md">
+                    Tag
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="px-[30px] pt-[10px] pb-[30px]">
+              {/* <Preview
+                content={
+                  form.watch("content") ||
+                  "ការពិពណ៌នានេះនឹងត្រូវបានបង្ហាញនៅទីនេះ"
+                }
+              /> */}
+
+              <Preview
+                content={cleanContent(
+                  form.watch("content") ||
+                    "ការពិពណ៌នានេះនឹងត្រូវបានបង្ហាញនៅទីនេះ"
+                )}
+              />
+              {/* <p>
+                {form.watch("content") ||
+                  "ការពិពណ៌នានេះនឹងត្រូវបានបង្ហាញនៅទីនេះ"}
+              </p> */}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Page;
+export default CreateNewContent;
