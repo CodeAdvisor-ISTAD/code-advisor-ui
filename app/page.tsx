@@ -11,7 +11,7 @@ export default function Home() {
         <main className="flex pt-[80px]">
 
             <CardList />
-            <div className="flex flex-col ml-2 gap-2 sticky">
+            <div className="flex flex-col ml-2 gap-2">
              <TrendingComponent></TrendingComponent>
              <LatestComponent></LatestComponent>
                 <ISTADCard></ISTADCard>

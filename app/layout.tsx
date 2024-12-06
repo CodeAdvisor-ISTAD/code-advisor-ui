@@ -20,13 +20,13 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
       >
-        <header className="bg-white fixed top-0 right-0 left-0">
+        <header className="bg-white fixed top-0 right-0 left-0 ">
           <NavbarComponent />
         </header>
         <SidebarProvider>
           <AppSidebar />
 
-                    <main className="bg-gray-100 w-full px-[100px] pb-6 pt-[72px]">
+                    <main className="bg-gray-100 w-full px-[100px] pb-6 ">
                         {children}
                     </main>
                 </SidebarProvider>
