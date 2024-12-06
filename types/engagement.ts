@@ -27,7 +27,6 @@ export interface Content {
   comment?: Comment[];
   isBookmark?: boolean;
   bookmark?: number;
-
 }
 
 // Type for Comment

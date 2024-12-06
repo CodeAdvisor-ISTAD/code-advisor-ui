@@ -24,7 +24,7 @@ export default function ReportAbusePage({
   const [details, setDetails] = useState("");
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 mt-[90px]">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-2xl">
@@ -79,7 +79,7 @@ export default function ReportAbusePage({
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full sm:w-auto">
+            <Button type="submit" className="w-full sm:w-auto text-white">
               Send Report
             </Button>
           </CardFooter>

@@ -223,7 +223,7 @@ const getTotalComments = (comments: Comment[]): number => {
               <Button type="button" variant="outline" onClick={handleDismiss}>
                 Cancel
               </Button>
-              <Button type="submit">Save</Button>
+              <Button type="submit" className="text-white">Save</Button>
             </div>
           </form>
         ) : (
@@ -276,7 +276,7 @@ const getTotalComments = (comments: Comment[]): number => {
               <Button type="button" variant="outline" onClick={handleDismiss}>
                 Cancel
               </Button>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className="text-white">Submit</Button>
             </div>
           </form>
         </CardContent>
@@ -332,7 +332,7 @@ const getTotalComments = (comments: Comment[]): number => {
               <Button type="button" variant="outline" onClick={handleDismiss}>
                 Dismiss
               </Button>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className="text-white">Submit</Button>
             </div>
           </form>
         </CardContent>
