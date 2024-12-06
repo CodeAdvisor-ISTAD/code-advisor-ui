@@ -2,7 +2,6 @@ import {
  
     Dropdown,
     DropdownItem,
-    DropdownHeader,
     Navbar,
     NavbarBrand,
   } from "flowbite-react";
@@ -11,7 +10,6 @@ import {
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
