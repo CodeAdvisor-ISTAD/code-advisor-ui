@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function NavbarComponent() {
     return (
-        <div className="flex z-10 items-center px-4 justify-between h-[72px] mx-[80px]">
+        <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
             {/* Logo */}
             <section>
                 <Image src="/logo1.png" alt="logo" width={100} height={100} />

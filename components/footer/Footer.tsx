@@ -2,11 +2,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaEnvelope } from "react-icons/fa";
+import NavbarLogin from "../navbar/NavbarLogin";
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-white pl-[100px]">
-      <div className="container px-6 py-8 md:py-12">
+    <footer className=" bg-white pl-[100px]">
+      <div className="container px-6  md:py-8">
         <div className="grid grid-cols-1  md:grid-cols-5">
           {/* Partner Logos */}
           <div className="md:col-span-1  ">
@@ -93,7 +94,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
+        <div className="mt-4 border-t pt-4 text-center text-sm text-muted-foreground">
           © 2024 Copyright CodeAdvisors by ISTAD. All rights reserved.™
         </div>
       </div>
