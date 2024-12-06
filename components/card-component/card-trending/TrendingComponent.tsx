@@ -13,7 +13,7 @@ export default function TrendingComponent() {
       <CardHeader>
         <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary">
           <Star className="h-6 w-6 fill-red-500 text-red-500" />
-          Recommended
+          Latest
         </CardTitle>
       </CardHeader>
       <CardContent>
