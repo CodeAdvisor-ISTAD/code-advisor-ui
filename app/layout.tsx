@@ -15,16 +15,16 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en">
-            <body
-                className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
-            >
-                <header className="bg-white fixed top-0 right-0 left-0 z-50">
-                    <NavbarComponent />
-                </header>
-                <SidebarProvider>
-                    <AppSidebar />
+  return (
+    <html lang="en">
+      <body
+        className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
+      >
+        <header className="bg-white fixed top-0 right-0 left-0 ">
+          <NavbarComponent />
+        </header>
+        <SidebarProvider>
+          <AppSidebar />
 
                     <main className="bg-gray-100 w-full px-[100px] pb-6 pt-[80px]">
                         {children}
