@@ -15,7 +15,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/userprofile/select";
 import {
   Command,
   CommandEmpty,
@@ -28,21 +28,24 @@ export default function UserPost() {
   return (
     <div className="mt-[145px]">
       <Tabs defaultValue="account" className="w-[400px]">
+        {/* Tab for post {content, forum} */}
         <TabsList>
           <TabsTrigger value="account">មាតិការបស់អ្នក</TabsTrigger>
           <TabsTrigger value="password">សំនួររបស់អ្នក</TabsTrigger>
         </TabsList>
-        <div className="">
-          <div className="flex items-center w-[680px] space-x-3">
-            <Command className="border h-8 rounded-lg flex justify-center">
+        {/* Search bar */}
+        <div>
+          <div className="flex items-center w-[680px] space-x-3 pt-3 pb-3">
+            <Command className="border h-8 rounded-sm flex justify-center">
               <CommandInput placeholder="ស្វែងរក" className="h-9" />
             </Command>
+            {/* Filter by day */}
             <Select>
-              <SelectTrigger className="w-[300px] text-start h-8 bg-white ">
+              <SelectTrigger className="w-[300px] text-start h-8 bg-white rounded-sm ">
                 <SelectValue placeholder="កាលបរិច្ឆេទ" />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
+                <SelectGroup className="rounded-sm">
                   <SelectItem value="1">៧ ថ្ងៃមុន</SelectItem>
                   <SelectItem value="2">១ ខែមុន</SelectItem>
                   <SelectItem value="3">២ ខែមុន</SelectItem>
@@ -51,6 +54,7 @@ export default function UserPost() {
             </Select>
           </div>
         </div>
+
         <TabsContent value="account">
           <Card className="w-[680px] p-6 rounded-lg bg-white ">
             <CardTitle className="font-khFont text-2xl pb-6">

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Bio from "@/components/userprofile/Bio";
-import UserInfoTable from "@/components/userprofile/userPersonalData";
+import UserInfoTable from "@/components/userprofile/UserInformation";
 import UserPost from "@/components/userprofile/userPost";
 import AchievementProgress from "@/components/userprofile/AchievementCard";
 import ProfileImageView from "@/components/userprofile/ProfileImageView";

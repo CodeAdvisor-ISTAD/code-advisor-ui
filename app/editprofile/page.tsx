@@ -24,13 +24,11 @@ import {
   FormMessage,
 } from "@/components/userprofile/form";
 import EditUserInformationForm from "@/components/userprofile/EditUserInformationForm";
+import { ColorPicker } from "@/components/userprofile/colorPicker";
 
 // Define the form validation schema using zod
 const formSchema = z.object({
   bio: z.string(),
-  backgroundColor: z.string().regex(/^#[0-9A-F]{6}$/i, {
-    message: "Must be a valid hex color code",
-  }),
   firstName: z.string().min(2),
   lastName: z.string().min(2),
   username: z.string().min(2),
@@ -38,6 +36,7 @@ const formSchema = z.object({
   fullName: z.string(),
   country: z.string(),
   email: z.string().email(),
+  backgroundColor: z.string(),
 });
 
 // Infer the form schema type
@@ -57,14 +56,13 @@ export default function ProfileEdit(): JSX.Element {
     resolver: zodResolver(formSchema),
     defaultValues: {
       bio: "Everything is difficult until you know how to do it 💫",
-      backgroundColor: "#000040",
       firstName: "Lyzhia",
       lastName: "Eung",
       username: "lyzhia",
       university: "Royal University Of PhnomPenh",
       fullName: "Eung Lyzhia",
-      country: "Cambodia",
       email: "lyzhia@168",
+      backgroundColor: "#000040",
     },
   });
 
@@ -85,11 +83,9 @@ export default function ProfileEdit(): JSX.Element {
     }
   };
 
-  // Updates the background color state and form value
-  const handleColorChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const color = e.target.value;
-    setBgColor(color);
-    form.setValue("backgroundColor", color);
+  // Updates the background color state
+  const handleColorChange = (color: string) => {
+    setBgColor(color.startsWith('#') ? color : `#${color}`);
   };
 
   return (
@@ -141,22 +137,26 @@ export default function ProfileEdit(): JSX.Element {
         {/* Background color input and edit button */}
         <div className="absolute top-4 right-4 flex gap-2 items-center">
           {showColorInput && (
-            <Input
-              id="colorInput"
-              type="text"
-              placeholder="Enter hex color"
-              value={bgColor}
-              onChange={handleColorChange}
-              className="w-32"
-            />
+            <div className="relative">
+              <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500">
+                #
+              </span>
+              <Input
+                id="colorInput"
+                type="text"
+                placeholder="Hex color"
+                value={bgColor.slice(1)} // Remove the "#" for display
+                onChange={(e) => {
+                  const input = e.target.value
+                    .replace(/[^0-9A-Fa-f]/g, "")
+                    .slice(0, 6);
+                  handleColorChange(`#${input}`);
+                }}
+                className="w-32 pl-6"
+                maxLength={6}
+              />
+            </div>
           )}
-          <Button
-            variant="outline"
-            type="button"
-            onClick={() => setShowColorInput(!showColorInput)}
-          >
-            Edit
-          </Button>
         </div>
       </div>
 
@@ -181,6 +181,26 @@ export default function ProfileEdit(): JSX.Element {
                     </CardTitle>
                     <FormControl>
                       <Textarea {...field} className="w-[450px]" />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="backgroundColor"
+              render={({ field }) => (
+                <FormItem className="flex flex-col bg-white w-[510px] justify-center items-center pb-[25px] pt-[25px] rounded-lg border-2">
+                  <div className="">
+                    <CardTitle className="font-khFont w-[450px] text-2xl pb-6 text-start">
+                      ផ្ទាំងខាងក្រោយ
+                    </CardTitle>
+                    <FormControl>
+                      <ColorPicker
+                        initialColor={bgColor}
+                        onColorChange={handleColorChange}
+                      />
                     </FormControl>
                     <FormMessage />
                   </div>

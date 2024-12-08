@@ -5,9 +5,9 @@ import { Award, CheckIcon } from "lucide-react";
 import UserActivity from "@/components/userprofile/userActivivity";
 import AwardCard from "./AwardCard";
 
-export default function AchievementProgress() {
+export default function AchievementLevel() {
   return (
-    <Card className="w-full h-[344px] bg-white">
+    <Card className="w-full h-full pb-6 bg-white">
       <CardHeader>
         <CardTitle className="font-khFont text-2xl">សមិទ្ធផល</CardTitle>
         <p className="font-khFont text-muted-foreground">
@@ -29,8 +29,10 @@ export default function AchievementProgress() {
             </div>
           </div> */}
         </div>
+        <div className="mt-8">
+          <UserActivity />
+        </div>
       </CardContent>
-      <UserActivity />
     </Card>
   );
 }

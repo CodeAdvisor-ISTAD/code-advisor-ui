@@ -1,5 +1,6 @@
-"use client"
-import { useState } from "react";
+"use client";
+import { useState, ChangeEvent } from "react";
+import { Input } from "@/components/ui/input";
 
 interface ColorPickerProps {
   initialColor: string;
@@ -23,22 +24,25 @@ export function ColorPicker({ initialColor, onColorChange }: ColorPickerProps) {
         type="color"
         value={color}
         onChange={handleColorChange}
-        className="w-10 h-10 rounded-md border border-gray-300"
+        className="w-10 h-10 rounded-md border border-gray-200"
       />
-      <input
+      <Input
+        id="colorInput"
         type="text"
-        value={color}
-        onChange={handleColorChange}
-        className="border p-2 rounded"
-        placeholder="#64748b"
+        value={color} // Display the color with "#"
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          const input = e.target.value.replace(/[^0-9A-Fa-f]/g, "").slice(0, 6);
+          setColor(`#${input}`);
+        }}
+        className="border w-[400px] rounded"
+        maxLength={7} // Adjusted to include "#"
       />
-      <button
+      {/* <button
         onClick={handleSave}
         className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded transition-colors"
       >
         Save
-      </button>
+      </button> */}
     </div>
   );
 }
-
