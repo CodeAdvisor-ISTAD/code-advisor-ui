@@ -36,7 +36,6 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Reactions } from "@/types/engagement";
-import { useRouter } from "next/navigation";
 
 interface Content {
   contentId?: string;

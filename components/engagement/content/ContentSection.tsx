@@ -12,7 +12,7 @@ export function ContentSection({
   return (
     <div className="">
       <Card className="ml-[100px]">
-        <img src={cover} className="w-full h-80 object-cover rounded-t-xl" />
+        <img src={cover} className="w-full h-80 9-0 object-cover rounded-t-xl" />
         <div className="mx-8">
           <CardHeader>
             <h1 className="text-2xl font-bold py-2">{title}</h1>
