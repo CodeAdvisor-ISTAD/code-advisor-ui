@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function NavbarComponent() {
@@ -6,7 +7,9 @@ export default function NavbarComponent() {
         <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
             {/* Logo */}
             <section>
-                <Image src="/logo1.png" alt="logo" width={100} height={100} />
+                <Link href="/" aria-label="Go to home page">
+                    <Image src="/logo1.png" alt="logo" width={100} height={100} />
+                </Link>
             </section>
 
             {/* Search Section */}
@@ -48,3 +51,4 @@ export default function NavbarComponent() {
         </div>
     );
 }
+

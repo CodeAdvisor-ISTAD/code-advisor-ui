@@ -14,7 +14,11 @@ export default function ISTADCard() {
   ];
 
   return (
-    <a href="https://www.cstad.edu.kh/" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://www.cstad.edu.kh/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <Card className="w-[341px] h-[315px] mx-auto overflow-hidden rounded-[5px] hover:shadow-lg transition-shadow">
         <div className="my-4">
           <CardHeader className="py-1">
@@ -48,14 +52,20 @@ export default function ISTADCard() {
 
             <div className="space-y-2">
               <h2 className="text-lg font-normal text-[#1a237e] leading-tight">
-                Join our intensive Bachelor of Information and Technology and launch your dev career
+                Join our intensive Bachelor of Information and Technology and
+                launch your dev career
               </h2>
               <div className="flex justify-between items-center text-sm">
                 <div className="text-gray-600">01/01/2025</div>
-                <div className="flex items-center gap-1 text-gray-600">
+                <a
+                  href="https://maps.app.goo.gl/ASr8ExGKiBFFzEKj7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-gray-600 hover:text-red-600 transition-colors"
+                >
                   <MapPin className="w-4 h-4 text-red-600" />
                   <span>Phnom Penh</span>
-                </div>
+                </a>
               </div>
             </div>
           </CardContent>
