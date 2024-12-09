@@ -20,17 +20,17 @@ export function CardComponent({
     tags,
     tags1,
     image,
-    id
+    id,
 }: CardData) {
     return (
         <a href={`/content/${id}`}>
-            <Card className="h-auto rounded-[5px]">
-            <CardHeader className="">
+        <Card className="h-auto rounded-[5px] group">
+            <CardHeader>
                 <div>
                     <h2 className="text-xl font-medium tracking-tight text-primary line-clamp-2">
                         {title}
                     </h2>
-                    <p className="text-slate-500 text-[16px] line-clamp-2">
+                    <p className="text-slate-500 text-sm line-clamp-2">
                         {description}
                     </p>
                 </div>
@@ -39,14 +39,12 @@ export function CardComponent({
                         <Badge
                             variant="outline"
                             className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
-                        
                         >
                             #{tags}
                         </Badge>
                         <Badge
                             variant="outline"
                             className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
-                    
                         >
                             #{tags1}
                         </Badge>
@@ -54,7 +52,7 @@ export function CardComponent({
                 </div>
             </CardHeader>
             <CardContent className="pt-0">
-                <div className="relative w-full h-[157.5px] md:h-[262.5px] overflow-hidden z-10">
+                <div className="relative w-full h-[157.5px] md:h-[262.5px] overflow-hidden">
                     <Image
                         src={image}
                         alt={title}
