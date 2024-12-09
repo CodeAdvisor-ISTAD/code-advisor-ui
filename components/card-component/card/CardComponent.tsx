@@ -20,10 +20,12 @@ export function CardComponent({
     tags,
     tags1,
     image,
+    id
 }: CardData) {
     return (
-        <Card className="h-auto rounded-[5px] group">
-            <CardHeader>
+        <a href={`/content/${id}`}>
+            <Card className="h-auto rounded-[5px]">
+            <CardHeader className="">
                 <div>
                     <h2 className="text-xl font-medium tracking-tight text-primary line-clamp-2">
                         {title}
@@ -63,5 +65,6 @@ export function CardComponent({
                 </div>
             </CardContent>
         </Card>
+        </a>
     );
 }

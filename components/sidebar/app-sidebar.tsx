@@ -23,9 +23,9 @@ import {
     FileQuestion,
 } from "lucide-react";
 import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
 } from "../ui/collapsible";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -116,9 +116,9 @@ const items = [
 ];
 
 export function AppSidebar() {
-    const pathname = usePathname();
+  const pathname = usePathname();
 
-    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user") {
+    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user" || pathname.startsWith("/content") ) {
         return;
     }
 
