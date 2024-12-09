@@ -58,7 +58,8 @@ export default function ProfileEdit(): JSX.Element {
       bio: "Everything is difficult until you know how to do it 💫",
       firstName: "Lyzhia",
       lastName: "Eung",
-      username: "lyzhia",
+      username: "lyzhia"
+       ,
       university: "Royal University Of PhnomPenh",
       fullName: "Eung Lyzhia",
       email: "lyzhia@168",

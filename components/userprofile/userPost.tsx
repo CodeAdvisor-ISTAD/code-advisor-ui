@@ -26,7 +26,7 @@ import {
 
 export default function UserPost() {
   return (
-    <div className="mt-[145px]">
+    <div className="mt-[85px]">
       <Tabs defaultValue="account" className="w-[400px]">
         {/* Tab for post {content, forum} */}
         <TabsList>
@@ -35,13 +35,13 @@ export default function UserPost() {
         </TabsList>
         {/* Search bar */}
         <div>
-          <div className="flex items-center w-[680px] space-x-3 pt-3 pb-3">
-            <Command className="border h-8 rounded-sm flex justify-center">
+          <div className="flex items-center w-[680px] space-x-3 pt-4 pb-3">
+            <Command className="border h-9 rounded-lg flex justify-center">
               <CommandInput placeholder="ស្វែងរក" className="h-9" />
             </Command>
             {/* Filter by day */}
             <Select>
-              <SelectTrigger className="w-[300px] text-start h-8 bg-white rounded-sm ">
+              <SelectTrigger className="w-[300px] text-start h-9 bg-white rounded-lg ">
                 <SelectValue placeholder="កាលបរិច្ឆេទ" />
               </SelectTrigger>
               <SelectContent>
