@@ -6,7 +6,7 @@ import NavbarLogin from "../navbar/NavbarLogin";
 export default function Footer() {
   return (
     <footer className=" bg-white pl-[100px]">
-      <div className="container px-6  md:py-8">
+      <div className="container px-6  md:py-6">
         <div className="grid grid-cols-1  md:grid-cols-5">
           {/* Partner Logos */}
           <div className="md:col-span-1  ">
@@ -93,7 +93,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="py-4 mt-2 border-t text-center text-sm text-muted-foreground">
+        <div className="mt-8 pt-6 border-t text-center text-sm text-muted-foreground">
           © 2024 Copyright CodeAdvisors by ISTAD. All rights reserved.™
         </div>
       </div>
