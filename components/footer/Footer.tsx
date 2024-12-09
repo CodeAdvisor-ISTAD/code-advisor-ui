@@ -16,15 +16,15 @@ export default function Footer() {
                 <Image
                   src="/ptc.jpg"
                   alt="PTC Logo"
-                  width={75}
-                  height={75}
+                  width={60}
+                  height={60}
                   className="object-contain"
                 />
                 <Image
                   src="/cbrd.png"
                   alt="CBRD Fund Logo"
-                  width={200}
-                  height={200}
+                  width={160}
+                  height={160}
                   className="object-contain"
                 />
               </div>
@@ -35,10 +35,10 @@ export default function Footer() {
           <div className="md:col-span-1 ml-10">
             <h3 className="mb-4 text-lg font-semibold">រៀបចំដោយ</h3>
             <Image
-              src="/istad.png"
+              src="/logoIstad.png"
               alt="CSTAD Logo"
-              width={200}
-              height={200}
+              width={150}
+              height={150}
               className="object-contain"
             />
           </div>
@@ -93,7 +93,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-4 border-t pt-4 text-center text-sm text-muted-foreground">
+        <div className="py-4 mt-2 border-t text-center text-sm text-muted-foreground">
           © 2024 Copyright CodeAdvisors by ISTAD. All rights reserved.™
         </div>
       </div>

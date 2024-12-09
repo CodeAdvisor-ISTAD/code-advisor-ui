@@ -1,6 +1,6 @@
 export const cardsData = [
     {
-      "title": "A Comprehensive Guide to JDBC in Java",
+      "title": "A Comprehensive Guide to JDBC in Java Programming",
       "tags": "javascript",
       "image": "https://loremflickr.com/640/480/technics",
       "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also....",

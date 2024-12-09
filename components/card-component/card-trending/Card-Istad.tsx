@@ -14,10 +14,11 @@ export default function ISTADCard() {
   ]
 
   return (
-    <Card className="w-[341px] h-[315px] mx-auto overflow-hidden rounded-[5px]">
-      <CardHeader className="py-2">
+    <Card className="w-[341px] h-[315px] mx-auto overflow-hidden rounded-[5px] ">
+      <div className="my-4">
+      <CardHeader className="py-1">
         <div className="flex items-center gap-2">
-          <GraduationCap className="w-6 h-6 text-red-600" />
+          <GraduationCap className="w-7 h-7 text-red-600" />
           <span className="text-xl font-bold text-[#1a237e]">ISTAD</span>
         </div>
       </CardHeader>
@@ -57,6 +58,7 @@ export default function ISTADCard() {
           </div>
         </div>
       </CardContent>
+      </div>
     </Card>
   )
 }
