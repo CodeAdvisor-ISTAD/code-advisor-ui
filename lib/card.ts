@@ -1,6 +1,6 @@
 export const cardsData = [
     {
-      "title": "A Comprehensive Guide to JDBC in Java",
+      "title": "A Comprehensive Guide to JDBC in Java Programming",
       "tags": "javascript",
       "image": "https://loremflickr.com/640/480/technics",
       "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also....",
@@ -45,12 +45,79 @@ export const cardsData = [
       "image": "https://loremflickr.com/640/480/food",
       "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
       "tags1": "tags1 6",
-      "id": "6"
+      "id": "7"
     },
-    
- 
-    
-    
-  ];
-  
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "8"
+    },
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "9"
+    },
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "10"
+    },
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "11"
+    },
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "12"
+    },
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "13"
+    },
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "14"
+    },
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "15"
+    },
+    {
+      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
+      "tags": "tags 6",
+      "image": "https://loremflickr.com/640/480/food",
+      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
+      "tags1": "tags1 6",
+      "id": "16"
+    },    
+];
   
