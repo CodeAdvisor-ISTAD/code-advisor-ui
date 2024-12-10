@@ -7,7 +7,7 @@ export class WebSocketService {
   private wsUrl: string;
   private subscriptionCallback: ((notification: Notification) => void) | null = null
 
-  constructor(wsUrl: string = 'http://localhost:8081/ws') {
+  constructor(wsUrl: string = 'http://localhost:8080/ws') {
     this.wsUrl = wsUrl;
     this.client = new Client({
       webSocketFactory: () => new SockJS(this.wsUrl),

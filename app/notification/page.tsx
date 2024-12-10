@@ -39,8 +39,8 @@ export default function NotificationsPage() {
   }, [])
 
   return (
-    <div className="container max-w-2xl mx-auto p-4 mt-24">
-      <h1 className="text-3xl font-bold mb-6">Notifications</h1>
+    <div className="container max-w-4xl mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Notifications</h1>
       <NotificationList
         notifications={notifications}
         actions={{ markAsRead, remove }}

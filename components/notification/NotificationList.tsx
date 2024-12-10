@@ -9,17 +9,32 @@ interface NotificationListProps {
 
 export function NotificationList({ notifications, actions }: NotificationListProps) {
   return (
-    <ScrollArea className="h-[32rem]">
-      <div className="space-y-1">
-        {notifications.map((notification) => (
+    <div className="space-y-4">
+      {notifications.length > 0 ? (
+        notifications.map((notification) => (
           <NotificationItem
             key={notification.id}
             notification={notification}
             actions={actions}
           />
-        ))}
-      </div>
-    </ScrollArea>
+        ))
+      ) : (
+        <p className="text-center text-gray-500 text-xl">No notifications available</p>
+      )}
+    </div>
+
+    // <ScrollArea className="h-screen">
+    //   <div className="space-y-1">
+    //     {notifications.map((notification) => (
+    //       <NotificationItem
+    //         key={notification.id}
+    //         notification={notification}
+    //         actions={actions}
+    //       />
+    //     ))}
+    //   </div>
+    // </ScrollArea>
+
   )
 }
 
