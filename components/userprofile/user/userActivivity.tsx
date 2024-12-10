@@ -1,5 +1,5 @@
 import React from "react";
-import { DataBlockBlue, DataBlockGreen, DataBlockPink, DataBlockPurple, DataBlockYellow } from "@/components/userprofile/UserDatapoint";
+import { DataBlockBlue, DataBlockGreen, DataBlockPink, DataBlockPurple, DataBlockYellow } from "@/components/userprofile/user/UserDatapoint";
 
 export default function UserActivityPoints() {
   return (

@@ -118,7 +118,7 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
 
-    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user" || pathname.startsWith("/content") ) {
+    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edituser" || pathname.startsWith("/content") ) {
         return;
     }
 
