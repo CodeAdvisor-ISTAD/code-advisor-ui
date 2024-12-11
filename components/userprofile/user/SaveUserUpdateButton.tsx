@@ -10,18 +10,18 @@ export default function SaveUserUpdateButton({
   onCancel,
 }: SaveUserUpdateButtonProps) {
   return (
-    <div>
+    <div className="flex gap-2 justify-end">
       <button
         onClick={onCancel}
-        className="bg-primary text-white px-4 py-2 rounded"
+        className="bg-primary text-white px-4 py-2 rounded-sm"
       >
-        Cancel
+        ចាកចេញ
       </button>
       <button
         onClick={onSave}
-        className="bg-primary text-white px-4 py-2 rounded"
+        className="bg-primary text-white px-4 py-2  rounded-sm"
       >
-        Save
+        រក្សាទុក
       </button>
     </div>
   );

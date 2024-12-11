@@ -7,6 +7,8 @@ import {
   HoverCardTrigger,
   HoverCardContent,
 } from "@radix-ui/react-hover-card";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 interface ProfileImageProps {
   disableButton?: ReactNode;
@@ -14,7 +16,9 @@ interface ProfileImageProps {
 
 export default function ProfileImagey({ disableButton }: ProfileImageProps) {
   // State to manage the profile image
-  const [image, setImage] = useState<string>("/user-profile-image/lyzhia-profile.jpg");
+  const [image, setImage] = useState<string>(
+    "/user-profile-image/lyzhia-profile.jpg"
+  );
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -43,10 +47,10 @@ export default function ProfileImagey({ disableButton }: ProfileImageProps) {
         {disableButton ?? (
           <button
             type="button"
-            className="absolute bottom-3 left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-blue-500 text-white rounded-full hover:bg-blue-700"
+            className="absolute bottom-3 left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-400 text-white rounded-full hover:bg-gray-500"
             onClick={() => document.getElementById("avatarInput")?.click()}
           >
-            💙
+            <FontAwesomeIcon icon={faCamera} />
           </button>
         )}
         {/* Profile details section */}
