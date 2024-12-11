@@ -22,8 +22,8 @@ export function HistoryCard({
   onShare
 }: HistoryCardProps) {
   return (
-    <Card className="rounded-sm">
-      <CardContent className="p-4">
+    <Card className="rounded-sm border-none">
+      <CardContent className="p-6">
         <div className="flex gap-4">
           <Image
             src={thumbnail}

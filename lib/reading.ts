@@ -72,5 +72,29 @@ export interface HistoryItem {
     await new Promise(resolve => setTimeout(resolve, 500))
     return mockData
   }
+
+  // Add these types and data to the existing api.ts file
+
+export interface SearchTag {
+  id: string
+  label: string
+}
+
+export const searchTags: SearchTag[] = [
+  { id: 'java', label: 'java' },
+  { id: 'javascript', label: 'javascript' },
+  { id: 'spring-boot', label: 'Spring boot' },
+  { id: 'microservice', label: 'Microservice' },
+  { id: 'python', label: 'python' },
+  { id: 'backend', label: 'Backend' },
+  { id: 'programming', label: 'Programming' },
+  { id: 'big-data', label: 'Big data' },
+  { id: 'devops', label: 'DevOps' }
+]
+
+export async function getSearchTags(): Promise<SearchTag[]> {
+  await new Promise(resolve => setTimeout(resolve, 500))
+  return searchTags
+}
   
   
