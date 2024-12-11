@@ -1,8 +1,6 @@
 import { CommentSection } from "@/components/engagement/comment/CommentSection";
 import { ContentSection } from "@/components/engagement/content/ContentSection";
 import { ContentSidebar } from "@/components/engagement/content/ContentSidebar";
-import { Profile } from "@/components/engagement/Profile";
-import { Card } from "@/components/ui/card";
 import { getContentById } from "@/lib/api";
 
 export default async function Page({
@@ -15,7 +13,7 @@ export default async function Page({
   const content = await getContentById(slug);
 
   return (
-    <main className="flex mx-auto mt-[90px]">
+    <main className="flex mx-auto mt-[80px] pb-4">
       <div className="w-full fixed">
         <ContentSidebar
           contentId={slug}
@@ -29,6 +27,7 @@ export default async function Page({
           title={content?.title}
           tags={content?.tags}
           author={content?.author}
+          reactions={content?.reactions}
           description={
             <div className="space-y-4">
               <p>
@@ -48,7 +47,7 @@ export default async function Page({
                 alt="Web Development Trends"
                 width={500}
                 height={300}
-                className="w-full h-auto"
+                className="w-full h-auto rounded-[5px]"
               />
               <h2 className="text-xl font-semibold">Impact on Developers</h2>
               <ol className="list-decimal pl-6">
@@ -63,7 +62,7 @@ export default async function Page({
               <img
                 src="https://i.pinimg.com/736x/ed/f4/38/edf438e51cb26e1b312c3fc0d63936a6.jpg"
                 alt="Web Development Trends"
-                className="w-full h-auto"
+                className="w-full h-auto rounded-[5px]"
               />
             </div>
           }
