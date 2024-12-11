@@ -3,7 +3,6 @@
 import EditUserInformationForm from "@/components/userprofile/user/EditUserInformationForm";
 import InputBioCardComponent from "@/components/userprofile/user/InputBioCardComponent";
 import { FormProvider, useForm } from "react-hook-form";
-import ChangeCoverColor from "@/components/userprofile/user/ChangeColorCover";
 import ProfileImage from "@/components/userprofile/user/ProfileImage";
 import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateButton";
 import { useRouter } from "next/navigation";
@@ -42,6 +41,7 @@ export default function EditUser() {
 
   const handleCancel = () => {
     console.log("Cancelled");
+    router.push("/user");
   };
 
   return (
@@ -62,7 +62,13 @@ export default function EditUser() {
               <div className="flex flex-col gap-4">
                 <InputBioCardComponent />
                 <ChangeColorCover onColorChange={handleColorChange} />
-                <SaveUserUpdateButton onSave={handleSave} onCancel={handleCancel} />
+                <SaveUserUpdateButton
+                  onSave={handleSave}
+                  onCancel={handleCancel}
+                  disabledSave={true} // Pass true to disable the Save button
+                  disabledCancel={true} // Pass true to disable the Cancel button
+                  disabledEdit={false} // Pass true to disable the Edit button
+                />
               </div>
             </div>
           </div>

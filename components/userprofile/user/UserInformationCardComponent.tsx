@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardTitle } from "@/components/ui/card";
 import type { UserInformation } from "@/types/user";
-import staticUserProfile from "@/lib/userProfile/information";
+import { staticUserProfile } from "@/lib/userProfile/information";
 
 import {
   Table,

@@ -5,14 +5,17 @@ import UserPost from "@/components/userprofile/user/userPost";
 import UserInformationCardComponent from "@/components/userprofile/user/UserInformationCardComponent";
 import AchievementLevel from "@/components/userprofile/user/AchievementCard";
 import ProfileImage from "@/components/userprofile/user/ProfileImage";
-
-interface UserProps {
-  bgColor: string;
-}
+import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateButton";
+import { useRouter } from "next/navigation";
 
 
 export default function User() {
-  const [bgColor, setBgColor] = useState("#000040");
+  const [bgColor] = useState("#000040");
+  const router = useRouter();
+
+  const handleEdit = () => {
+    router.push("/edituser");
+  };
 
   useEffect(() => {
     // Fetch data here if needed
@@ -27,8 +30,11 @@ export default function User() {
             className="cover w-[1252px] h-[200px] rounded-[5px] flex justify-center relative"
             style={{ backgroundColor: bgColor }}
           >
+            {/* profile image */}
             <ProfileImage disableButton />
-            {/* avatar */}
+            <div className="absolute space-x-5 top-[230px] right-[1px]">
+              <SaveUserUpdateButton disabledCancel={false} disabledSave={false} onEdit={handleEdit} disabledEdit={true} />
+            </div>
           </div>
         </div>
         <div className="flex flex-row space-x-5 ml-5">
