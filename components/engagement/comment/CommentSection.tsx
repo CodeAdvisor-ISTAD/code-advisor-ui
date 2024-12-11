@@ -8,8 +8,7 @@ import {
 import { CommentList } from "./CommentList";
 import { Content } from "@/types/engagement";
 
-export async function CommentSection({comment = [], id}: Content) {
-
+export function CommentSection({comment = [], id}: Content) {
   return (
     <SidebarComment className="sticky border-none z-0​" width="400px" side="right" collapsible="offcanvas">
       <SidebarContent className="bg-gray-100">
