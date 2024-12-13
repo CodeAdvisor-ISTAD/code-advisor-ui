@@ -13,9 +13,9 @@ import { motion } from "framer-motion";
 
 export default function about() {
   return (
-    <main className="">
+    <div>
       {/* Hero Section */}
-      <section className="container mx-auto px-6 py-12 md:py-24">
+      <section className="container mx-auto px-6 ">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Text Section */}
           <motion.div
@@ -44,7 +44,7 @@ export default function about() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <Image
-              src="/about-us/1.png"
+              src="/about-us/1.1.png"
               alt="Programming Education Illustration"
               fill
               className="object-contain rounded-lg"
@@ -54,13 +54,13 @@ export default function about() {
       </section>
 
       {/* Features Section */}
-      <div className=" bg-gray-100">
-        <section className=" mx-16 py-16">
-          <div className="container mx-auto px-10 ">
+      <div className="">
+        <section className="w-full py-16">
+          <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {/* Goal Feature */}
-              <div className="text-center space-y-4 ">
-                <div className="flex justify-center ">
+              <div className="text-center space-y-4">
+                <div className="flex justify-center">
                   <Image
                     src="/about-us/vision.png" // Replace with your logo path
                     alt="Code Advisors Logo"
@@ -68,8 +68,8 @@ export default function about() {
                     height={100}
                   />
                 </div>
-                <h3 className="text-[24px] font-semibold  text-primary">
-                  បេសកកម្ម
+                <h3 className="text-[24px] font-semibold text-primary">
+                  បេសកម្ម
                 </h3>
                 <p className="text-gray-600 flex justify-center text-[18px]">
                   ផ្តល់វិធីសាស្រ្តក្នុងការចែករំលែក ចំណេះដឹង ការដោះស្រាយបញ្ហា
@@ -78,8 +78,8 @@ export default function about() {
               </div>
 
               {/* Meaning Feature */}
-              <div className="text-center space-y-4 ">
-                <div className="flex justify-center ">
+              <div className="text-center space-y-4">
+                <div className="flex justify-center">
                   <Image
                     src="/about-us/vision.png" // Replace with your logo path
                     alt="Code Advisors Logo"
@@ -87,7 +87,7 @@ export default function about() {
                     height={100}
                   />
                 </div>
-                <h3 className="text-[24px] font-semibold  text-primary">
+                <h3 className="text-[24px] font-semibold text-primary">
                   ចក្ខុវិស័យ
                 </h3>
                 <p className="text-gray-600 flex justify-center text-[18px]">
@@ -97,8 +97,8 @@ export default function about() {
               </div>
 
               {/* Quality Feature */}
-              <div className="text-center space-y-4 ">
-                <div className="flex justify-center ">
+              <div className="text-center space-y-4">
+                <div className="flex justify-center">
                   <Image
                     src="/about-us/vision.png" // Replace with your logo path
                     alt="Code Advisors Logo"
@@ -106,7 +106,7 @@ export default function about() {
                     height={100}
                   />
                 </div>
-                <h3 className="text-[24px] font-semibold  text-primary">
+                <h3 className="text-[24px] font-semibold text-primary">
                   គុណតម្លៃ
                 </h3>
                 <p className="text-gray-600 flex justify-center text-[18px]">
@@ -118,8 +118,9 @@ export default function about() {
           </div>
         </section>
       </div>
+
       {/* About Section */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="container mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="relative h-[300px] md:h-[350px] lg:h-[400px]">
             <Image
@@ -141,8 +142,8 @@ export default function about() {
         </div>
       </section>
       {/* Learning Path Section */}
-      <section className=" text-white py-16">
-        <div className="container mx-auto px-4">
+      <section className=" text-white  py-16">
+        <div className="container mx-auto px-6">
           <h2 className="text-center text-3xl font-bold text-secondary mb-12">
             ការផ្តល់ពិន្ទុទៅតាមកម្រិត
           </h2>
@@ -218,7 +219,7 @@ export default function about() {
             />
           </div>
           <div className="space-y-6">
-            <h2 className="text-4xl font-extrabold text-primary">ទំនាក់ទំនង</h2>
+            <h2 className="text-4xl font-extrabold text-secondary">ទំនាក់ទំនង</h2>
             <p className="text-lg text-gray-700 leading-relaxed">
               CodeAdvisors ទទួលនូវរាល់មតិទាំងឡាយពីអ្នកប្រើប្រាស់
               ជាទីស្រលាញ់​របស់ពួកយើង
@@ -239,6 +240,6 @@ export default function about() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
