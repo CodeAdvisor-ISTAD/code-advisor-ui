@@ -1,11 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaEnvelope } from "react-icons/fa";
-import NavbarLogin from "../navbar/NavbarLogin";
 
 export default function Footer() {
   return (
-    <footer className=" bg-white pl-[100px]">
+    <footer className=" bg-white pl-[100px] z-[100]">
       <div className="container px-6  md:py-8">
         <div className="grid grid-cols-1  md:grid-cols-5">
           {/* Partner Logos */}
