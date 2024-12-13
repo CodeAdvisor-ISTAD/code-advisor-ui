@@ -21,12 +21,12 @@ import {
   
   export function NavbarLogin() {
     return (
-      <Navbar fluid rounded className="bg-white shadow-md">
+      <Navbar fluid rounded className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
         {/* Navbar Brand */}
         <NavbarBrand href="/">
-          <div className="flex items-center px-4 justify-between h-[72px] mx-[80px]">
+          <div className="mr-16">
             <Image
-              src="/logo.jpg" // Replace with your logo path
+              src="/logo1.png" // Replace with your logo path
               alt="Code Advisors Logo"
               width={100}
               height={100}
@@ -35,19 +35,34 @@ import {
         </NavbarBrand>
   
         {/* Search Bar */}
-        <div className="flex flex-1 justify-center ">
-          <div className="relative w-[800px]">
-            <input
-              type="text"
-              placeholder="ស្វែងរក"
-              className="w-full h-[35px] text-sm rounded-[5px]  border border-gray-300 bg-gray-100 py-2 pl-10 pr-3 text-gray-800 focus:border-blue-500 focus:outline-none"
-            />
-            <FiSearch className="absolute left-3 top-2.5 text-gray-500" />
-          </div>
-        </div>
+        <div className="flex flex-1 justify-center">
+                <div className="relative w-[800px]">
+                    <input
+                        type="text"
+                        placeholder="ស្វែងរក"
+                        className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none "
+                    />
+                    <button className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px] ">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 21l-4.35-4.35m2.85-6.15a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                        </svg>
+                    </button>
+                </div>
+            </div>
   
         {/* Action Icons */}
-        <div className="flex items-center space-x-6 md:order-2 ">
+        <div className="flex items-center mx-8  ">
          
          <div className=" bg-primary px-4  rounded-md text-white"> {/* Button with Dropdown */}
           <Dropdown
@@ -65,7 +80,7 @@ import {
           </div>
   
           {/* Notification Icon */}
-          <button className="relative text-primary  ">
+          <button className="relative text-primary mx-8 ">
             <FiBell className="h-7 w-7" />
             <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-xs text-white">
               
@@ -76,7 +91,7 @@ import {
           <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="h-8 w-8 cursor-pointer">
-            <AvatarImage src="/8jpg.jpg" alt="User avatar" />
+            <AvatarImage src="/user.jpg" alt="User avatar" />
             <AvatarFallback></AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
@@ -114,7 +129,7 @@ import {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-        </div>
+   </div>
       </Navbar>
     );
   }
