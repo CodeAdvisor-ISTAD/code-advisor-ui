@@ -97,7 +97,7 @@ export default function ReadingHistoryPage() {
     <div className="flex justify-center gap-6 ml-2">
       <div className="w-full max-w-4xl">
         <Tabs defaultValue="reading" className="w-full">
-          <TabsList className="w-full flex justify-between items-center mb-4">
+          <TabsList className="w-full flex justify-between items-center mb-4 text-primary">
             <div>
               <TabsTrigger value="reading">Reading history</TabsTrigger>
               <TabsTrigger value="search">Search history</TabsTrigger>
@@ -125,7 +125,7 @@ export default function ReadingHistoryPage() {
             ) : (
               Object.entries(groupedHistory).map(([date, items]) => 
                 items.length > 0 && (
-                  <div key={date} className="space-y-4">
+                  <div key={date} className="space-y-4 text-primary">
                     <h2 className="text-sm font-semibold">{date}</h2>
                     <div className="space-y-4">
                       {items.map((item) => (

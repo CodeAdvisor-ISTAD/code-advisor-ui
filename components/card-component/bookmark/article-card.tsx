@@ -22,9 +22,9 @@ export function ArticleCard({
   onToggleBookmark
 }: ArticleCardProps) {
   return (
-    <Card className="h-full relative">
+    <Card className="h-full relative rounded-sm border-none">
       <CardContent className="p-4 pb-12 space-y-4">
-        <div className="aspect-video relative overflow-hidden rounded-md">
+        <div className="aspect-video relative overflow-hidden">
           <Image
             src={thumbnail}
             alt={title}
@@ -33,12 +33,12 @@ export function ArticleCard({
           />
         </div>
         <div className="space-y-2">
-          <h3 className="font-semibold line-clamp-2">{title}</h3>
-          <p className="text-sm text-muted-foreground line-clamp-2">{description}</p>
+          <h3 className="text-xl font-medium tracking-tight text-primary line-clamp-2">{title}</h3>
+          <p className="text-slate-500 text-sm line-clamp-2">{description}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="bg-primary/10 hover:bg-primary/20">
+            <Badge key={tag} variant="outline" className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white">
               {tag}
             </Badge>
           ))}

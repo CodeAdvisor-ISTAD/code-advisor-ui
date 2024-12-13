@@ -33,7 +33,7 @@ export function BookmarkCard({
   onToggleBookmark
 }: BookmarkCardProps) {
   return (
-    <Card>
+    <Card className="rounded-sm border-none">
       <CardContent className="p-6">
         <div className="space-y-4">
           <div className="flex items-start justify-between">
@@ -43,7 +43,7 @@ export function BookmarkCard({
                 <AvatarFallback>{author.name[0]}</AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="font-semibold">{author.name}</h3>
+                <h3 className="font-semibold text-primary">{author.name}</h3>
                 <p className="text-sm text-muted-foreground">{timeAgo}</p>
               </div>
             </div>
@@ -59,8 +59,8 @@ export function BookmarkCard({
           </div>
           
           <div className="space-y-2">
-            <h4 className="text-xl font-semibold">{title}</h4>
-            <p className="text-muted-foreground">{description}</p>
+            <h4 className="text-xl font-medium tracking-tight text-primary line-clamp-2">{title}</h4>
+            <p className="text-slate-500 text-sm">{description}</p>
           </div>
 
           <div className="flex flex-wrap gap-2">

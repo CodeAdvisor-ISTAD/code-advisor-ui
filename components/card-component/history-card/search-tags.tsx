@@ -20,8 +20,8 @@ export function SearchTags({ tags, selectedTags, onTagClick }: SearchTagsProps) 
           <Badge
             variant="outline"
             className={cn(
-              "cursor-pointer hover:bg-gray-300",
-              selectedTags.includes(tag.id) && "bg-gray text-gray-foreground hover:bg-gray-300"
+              "border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white",
+              selectedTags.includes(tag.id) && "hover:bg-primary hover:text-white"
             )}
           >
             {tag.label}

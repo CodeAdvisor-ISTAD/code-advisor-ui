@@ -34,14 +34,14 @@ export function HistoryCard({
           />
           <div className="flex-1">
             <div className="flex justify-between items-start">
-              <h3 className="font-normal">{title}</h3>
+              <h3 className="text-xl font-medium tracking-tight text-primary line-clamp-2">{title}</h3>
               <HistoryActions
                 onBookmark={onBookmark}
                 onRemove={onRemove}
                 onShare={onShare}
               />
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-slate-500 text-sm">
               {readTime} · {upvotes}
             </p>
           </div>

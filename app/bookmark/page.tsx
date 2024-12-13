@@ -22,6 +22,22 @@ const mockArticles = [
     tags: ["java", "javascript", "programming"],
     isBookmarked: true
   },
+  {
+    id: 3,
+    title: "Docker Tutorial: Master Docker from Scratch",
+    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
+    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
+    tags: ["java", "javascript", "programming"],
+    isBookmarked: true
+  },
+  {
+    id: 4,
+    title: "Docker Tutorial: Master Docker from Scratch",
+    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
+    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
+    tags: ["java", "javascript", "programming"],
+    isBookmarked: true
+  },
   // Add more mock articles as needed
 ]
 
@@ -65,12 +81,12 @@ export default function BookmarkPage() {
   return (
     <div className="container mx-auto max-w-4xl ml-[316px]">
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold md:text-xl">Bookmark</h1>
+        <h1 className="text-2xl font-bold md:text-xl text-primary">Bookmark</h1>
         
         <Tabs defaultValue="article" className="w-full">
           <TabsList className="w-full sm:w-auto">
-            <TabsTrigger value="article" className="flex-1 sm:flex-none">Article</TabsTrigger>
-            <TabsTrigger value="forum" className="flex-1 sm:flex-none">Forum</TabsTrigger>
+            <TabsTrigger value="article" className="text-primary flex-1 sm:flex-none">Article</TabsTrigger>
+            <TabsTrigger value="forum" className="text-primary flex-1 sm:flex-none">Forum</TabsTrigger>
           </TabsList>
           
           <TabsContent value="article">
