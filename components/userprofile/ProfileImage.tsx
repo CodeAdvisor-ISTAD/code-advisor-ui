@@ -34,14 +34,14 @@ export default function ProfileImage() {
           className="hidden"
           id="avatarInput"
         />
-        <Image
+        {/* <Image
           src="/user-profile-image/lyzhia-profile.jpg"
           alt="Edit"
           className="absolute bottom-2 right-2 cursor-pointer"
           width={24}
           height={24}
           onClick={() => document.getElementById("avatarInput")?.click()}
-        />
+        /> */}
       </div>
       {/* Profile details section */}
       <div className="flex items-center justify-between absolute -right-48 top-28">

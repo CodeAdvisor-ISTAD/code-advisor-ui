@@ -8,7 +8,6 @@ import { roboto, koh_Santepheap } from "./fonts/fonts";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
-
 export default function RootLayout({
     children,
 }: Readonly<{

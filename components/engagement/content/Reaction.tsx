@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/selectContent";
 import { FaFire, FaHeart, FaRegHeart, FaThumbsUp } from "react-icons/fa";
 import { Reactions } from "@/types/engagement";
-import { Heart } from "lucide-react";
 
 interface ReactionButtonProps {
   reactions: Reactions; // Reactions state
@@ -55,7 +54,7 @@ export function ReactionButton({
         onMouseEnter={handleMouseEnter}
       >
         <SelectValue
-          placeholder={<FaRegHeart className="text-2xl border-blue-400" />}
+          placeholder={<FaRegHeart className="text-2xl" />}
         />
       </SelectTrigger>
       <SelectContent>
