@@ -24,7 +24,7 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
 
-                    <main className="bg-gray-100 w-full px-[100px] pb-6 pt-[80px]">
+                    <main className="bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
                         {children}
                     </main>
                 </SidebarProvider>
