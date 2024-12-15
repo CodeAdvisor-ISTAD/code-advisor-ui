@@ -17,7 +17,7 @@ export default function AboutLayout({
         <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
           <NavbarLogin />
         </header>
-        <main className="bg-gray-100 w-full px-[100px]  pt-[80px]">
+        <main className=" w-full px-[100px]  pt-[80px]">
           {children}
         </main>
       </body>

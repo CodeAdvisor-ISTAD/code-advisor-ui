@@ -1,6 +1,11 @@
+'use client'
+
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Github, Send, Facebook } from 'lucide-react'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const leaders = [
   {
@@ -50,9 +55,9 @@ const members = [
 
 function MemberCard({ name, image, quote }: { name: string; image: string; quote: string }) {
   return (
-    <div className="rounded-[50px] border-[5px] w-[270px] h-[390px] border-primary p-4 flex flex-col items-center bg-white">
+    <div className="rounded-[50px] border-[5px] w-[270px] h-[390px] border-primary p-4 flex flex-col items-center bg-white" data-aos="fade-up" data-aos-duration="1000">
       <div className="relative w-[150px] h-[150px] mb-10">
-        <div className="absolute inset-0  transform rotate-45 " />
+        <div className="absolute inset-0 transform rotate-45 " />
         <Image
           src={image}
           alt={name}
@@ -66,18 +71,18 @@ function MemberCard({ name, image, quote }: { name: string; image: string; quote
         {`{${name}}`}
       </h4>
       
-      <p className="text-sm text-center text-primary  mb-6">
+      <p className="text-sm text-center text-primary mb-6">
         {quote}
       </p>
 
-      <div className="flex gap-10 bg-primary text-white p-3  rounded-full">
-        <Link href="#" className="hover:text-secondary">
+      <div className="flex gap-10 bg-primary text-white p-3 rounded-full">
+        <Link href="#" className="hover:text-secondary transition-colors duration-300">
           <Github className="w-5 h-5" />
         </Link>
-        <Link href="#" className="hover:text-blue-400">
+        <Link href="#" className="hover:text-blue-400 transition-colors duration-300">
           <Send className="w-[20px] h-[20px]" />
         </Link>
-        <Link href="#" className="hover:text-blue-400">
+        <Link href="#" className="hover:text-blue-400 transition-colors duration-300">
           <Facebook className="w-5 h-5" />
         </Link>
       </div>
@@ -86,27 +91,38 @@ function MemberCard({ name, image, quote }: { name: string; image: string; quote
 }
 
 export default function TeamSection() {
+  useEffect(() => {
+    AOS.init({
+      once: true,
+      easing: 'ease-out-cubic',
+    })
+  }, [])
+
   return (
     <section className="py-16 container mx-auto px-4">
-      <h2 className="text-3xl font-bold text-red-600 text-center mb-12">
+      <h2 className="text-3xl font-bold text-red-600 text-center mb-12" data-aos="fade-down" data-aos-duration="1000">
         អ្នកដឹកនាំរបស់យើង
       </h2>
       
       {/* Leaders Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-20 max-w-[700px] mx-auto mb-20">
-        {leaders.map((leader) => (
-          <MemberCard key={leader.name} {...leader} />
+        {leaders.map((leader, index) => (
+          <div key={leader.name} data-aos="fade-up" data-aos-delay={index * 200}>
+            <MemberCard {...leader} />
+          </div>
         ))}
       </div>
 
-      <h3 className="text-3xl font-bold text-red-600 text-center mb-20">
+      <h3 className="text-3xl font-bold text-red-600 text-center mb-20" data-aos="fade-down" data-aos-duration="1000">
         សមាជិករបស់ CodeAdvisors
       </h3>
 
       {/* Members Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        {members.map((member) => (
-          <MemberCard key={member.name} {...member} />
+        {members.map((member, index) => (
+          <div key={member.name} data-aos="fade-up" data-aos-delay={index * 100}>
+            <MemberCard {...member} />
+          </div>
         ))}
       </div>
     </section>
