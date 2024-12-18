@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Form,
   FormControl,
@@ -8,19 +8,40 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/userprofile/form";
-
 import { CardTitle } from "@/components/ui/card";
-
 import { Input } from "@/components/ui/input";
-
 import { useForm } from "react-hook-form";
+import { Textarea } from "@/components/userprofile/textarea";
+import { ColorPicker } from "@/components/userprofile/user/colorPicker";
 
-export default function EditUserInformationForm() {
+interface EditUserInformationFormProps {
+  onColorChange?: (color: string) => void;
+  bgColor?: string;
+}
+
+export default function EditUserInformationForm({
+  onColorChange,
+  bgColor = "#000040",
+}: EditUserInformationFormProps) {
+  type FieldName =
+    | "givenName"
+    | "familyName"
+    | "phoneNumber"
+    | "gender"
+    | "dob"
+    | "pob"
+    | "jobPosition"
+    | "school"
+    | "workPlace"
+    | "bio"
+    | "profileImage"
+    | "isDeleted"
+    | "coverColor";
+
   const form = useForm({
     defaultValues: {
       familyName: "",
       givenName: "",
-      username: "",
       gender: "",
       phoneNumber: "",
       bio: "",
@@ -28,20 +49,46 @@ export default function EditUserInformationForm() {
       pob: "",
       school: "",
       jobPosition: "",
-      phone: "",
       dob: "",
       profileImage: "",
       isDeleted: false,
-      coverColor: "",
+      coverColor: bgColor,
     },
   });
+
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/v1/edit_user_profiles/lazizhia"
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        form.reset(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+
+    fetchUserData();
+  }, [form]);
+
+  const handleColorChange = (color: string) => {
+    const formattedColor = color.startsWith("#") ? color : `#${color}`;
+    form.setValue("coverColor", formattedColor);
+    if (onColorChange) {
+      onColorChange(formattedColor);
+    }
+  };
 
   async function onSubmit(data: any) {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/v1/edit_user_profiles",
+        "http://localhost:8080/api/v1/edit_user_profiles/lazizhia",
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -61,223 +108,101 @@ export default function EditUserInformationForm() {
   }
 
   return (
-    <div>
-      <Form children={undefined} {...form}></Form>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6"></form>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="flex flex-col bg-white w-[510px]  items-center pb-[25px] pt-[25px] rounded-lg border">
-            <CardTitle className="font-khFont text-2xl pb-6 pr-[390px]">
-              អំពីអ្នក
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="flex justify-center gap-[15px]">
+          {/* User Information */}
+          <div className="flex flex-col bg-white w-[510px] items-center pb-[25px] pt-[25px] rounded-lg border">
+            <CardTitle className="text-2xl pb-6 pr-[275px]">
+              កែប្រែព័ត៌មានអំពីអ្នក
             </CardTitle>
-            {/* giving name field */}
-            <FormField
-              control={form.control}
-              name="givenName"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  {/*label Giving name */}
-                  <FormLabel className="font-khFont text-base font-bold">
-                    នាម
-                  </FormLabel>
-                  {/* input giving name */}
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* family name field */}
-            <FormField
-              control={form.control}
-              name="familyName"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <FormLabel className="font-khFont text-base font-bold">
-                    គោត្តនាម
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Username field */}
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <FormLabel className="font-khFont text-base font-bold">
-                    ឈ្មោះគណនី
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Email field */}
-            {/* <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <FormLabel className="font-khFont text-base font-bold">
-                    អ៊ីមែល
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" type="email" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-            {/* phone field */}
-            <FormField
-              control={form.control}
-              name="phoneNumber"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <div className="flex flex-row items-center gap-1">
+            {/* Render fields dynamically */}
+            {(
+              [
+                { name: "givenName", label: "នាម" },
+                { name: "familyName", label: "គោត្តនាម" },
+                { name: "phoneNumber", label: "លេខទូរស័ព្ទ" },
+                { name: "gender", label: "ភេទ" },
+                { name: "dob", label: "ថ្ងៃ ខែ​ ឆ្នាំកំណើត" },
+                { name: "pob", label: "ទីកន្លែងកំណើត" },
+                { name: "jobPosition", label: "តួនាទី" },
+              ] as { name: FieldName; label: string }[]
+            ).map(({ name, label }) => (
+              <FormField
+                key={name}
+                control={form.control}
+                name={name}
+                render={({ field }) => (
+                  <FormItem className="pb-[20px]">
                     <FormLabel className="font-khFont text-base font-bold">
-                      លេខទូរស័ព្ទ
+                      {label}
                     </FormLabel>
-                    {/* <p className="text-red-500">*</p> */}
-                  </div>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* gender field */}
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <div className="flex flex-row items-center gap-1">
-                    <FormLabel className="font-khFont text-base font-bold">
-                      ភេទ
-                    </FormLabel>
-                  </div>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* dob field */}
-            <FormField
-              control={form.control}
-              name="dob"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <div className="flex flex-row items-center gap-1">
-                    <FormLabel className="font-khFont text-base font-bold">
-                      ថ្ងៃ ខែ​ ឆ្នាំកំណើត
-                    </FormLabel>
-                  </div>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* pob field */}
-            <FormField
-              control={form.control}
-              name="pob"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <div className="flex flex-row items-center gap-1">
-                    <FormLabel className="font-khFont text-base font-bold">
-                      ទីកន្លែងកំណើត
-                    </FormLabel>
-                    {/* <p className="text-red-500">*</p> */}
-                  </div>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* job pisition field */}
-            <FormField
-              control={form.control}
-              name="jobPosition"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <div className="flex flex-row items-center gap-1">
-                    <FormLabel className="font-khFont text-base font-bold">
-                      តួនាទី
-                    </FormLabel>
-                    {/* <p className="text-red-500">*</p> */}
-                  </div>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* school field */}
-            <FormField
-              control={form.control}
-              name="school"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <div className="flex flex-row items-center gap-1">
-                    <FormLabel className="font-khFont text-base font-bold">
-                      សកលវិទ្យាល័យ
-                    </FormLabel>
-                    {/* <p className="text-red-500">*</p> */}
-                  </div>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* work place field */}
-            <FormField
-              control={form.control}
-              name="workPlace"
-              render={({ field }) => (
-                <FormItem className="pb-[20px]">
-                  <div className="flex flex-row items-center gap-1">
-                    <FormLabel className="font-khFont text-base font-bold">
-                      ទីកន្លែងធ្វើការ
-                    </FormLabel>
-                    {/* <p className="text-red-500">*</p> */}
-                  </div>
-                  <FormControl>
-                    <Input {...field} className="w-[450px]" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Other fields omitted for brevity */}
-          {/* <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Update Information
-          </button> */}
+                    <FormControl>
+                      <Input
+                        {...field}
+                        value={String(field.value)}
+                        className="w-[450px]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
           </div>
-        </form>
-      </Form>
-      
-    </div>
+
+          {/* Bio and Cover */}
+          <div className="flex flex-col gap-4">
+            {/* Bio Field */}
+            <FormField
+              control={form.control}
+              name="bio"
+              render={({ field }) => (
+                <FormItem className="flex flex-col bg-white w-[510px] justify-center items-center pb-[25px] pt-[25px] rounded-lg border">
+                  <CardTitle className="font-khFont text-2xl pr-[415px] pb-6">
+                    ប្រវត្តិ
+                  </CardTitle>
+                  <FormControl>
+                    <Textarea {...field} className="w-[450px]" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Cover Color Picker */}
+            <FormField
+              control={form.control}
+              name="coverColor"
+              render={({ field }) => (
+                <FormItem className="flex flex-col bg-white w-[510px] justify-center items-center pb-[25px] pt-[25px] rounded-lg border">
+                  <div className="w-28 h-[50px] relative mr-[340px]">
+                    <CardTitle className="absolute text-primary w-[450px] text-2xl">
+                      ផ្ទាំងខាងក្រោយ
+                    </CardTitle>
+                  </div>
+                  <FormControl>
+                    <ColorPicker
+                      initialColor={field.value || "#000040"}
+                      onColorChange={handleColorChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* Submit Button */}
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Update Information
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </Form>
   );
 }

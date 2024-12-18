@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Input } from "@/components/ui/input";
 
 interface ColorPickerProps {
@@ -10,6 +10,11 @@ interface ColorPickerProps {
 export function ColorPicker({ initialColor, onColorChange }: ColorPickerProps) {
   const [color, setColor] = useState(initialColor);
 
+  // Sync local state with parent prop if it changes
+  useEffect(() => {
+    setColor(initialColor);
+  }, [initialColor]);
+
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = e.target.value;
     setColor(newColor);
@@ -18,28 +23,35 @@ export function ColorPicker({ initialColor, onColorChange }: ColorPickerProps) {
 
   return (
     <div className="flex items-center space-x-2">
+      {/* Color Picker Input */}
       <input
         type="color"
         value={color}
         onChange={handleColorChange}
         className="w-10 h-10 rounded-md border border-gray-200"
       />
+      {/* Hex Code Input */}
       <Input
         id="colorInput"
         type="text"
-        value={color} // Display the color with "#"
+        value={color}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          const input = e.target.value.replace(/[^0-9A-Fa-f]/g, "").slice(0, 6);
-          const newColor = `#${input}`;
-          setColor(newColor);
-          onColorChange(newColor);
+          let input = e.target.value.trim();
+          // Ensure the value starts with "#" and is valid
+          if (!input.startsWith("#")) {
+            input = `#${input}`;
+          }
+          const validColor = input.replace(/[^#0-9A-Fa-f]/g, "").slice(0, 7);
+          setColor(validColor);
+          onColorChange(validColor);
         }}
         className="border w-[400px] rounded"
-        maxLength={7} // Adjusted to include "#"
+        maxLength={7} // Include "#" in max length
       />
     </div>
   );
 }
+
 // this is use to change the color of the cover with save button
 // "use client";
 // import { useState, ChangeEvent } from "react";

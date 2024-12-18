@@ -1,31 +1,45 @@
-// pages/edit-user.tsx
 "use client";
 import EditUserInformationForm from "@/components/userprofile/user/EditUserInformationForm";
-import InputBioCardComponent from "@/components/userprofile/user/InputBioCardComponent";
 import { FormProvider, useForm } from "react-hook-form";
 import ProfileImage from "@/components/userprofile/user/ProfileImage";
 import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateButton";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import ChangeColorCover from "@/components/userprofile/user/ChangeColorCover";
+import { useState, useEffect } from "react";
+import Bio from "@/components/userprofile/user/Bio";
 
 export default function EditUser() {
   const methods = useForm();
   const [bgColor, setBgColor] = useState<string>("#000040");
+  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
+  useEffect(() => {
+    fetch("http://localhost:8080/api/v1/edit_user_profiles/lazizhia")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.coverColor) {
+          setBgColor(data.coverColor);
+          methods.setValue("bgColor", data.coverColor);
+        }
+      })
+      .catch((error) => console.error("Error fetching cover color:", error))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Update background color when the user selects a new color
   const handleColorChange = (color: string) => {
-    setBgColor(color.startsWith("#") ? color : `#${color}`);
+    const formattedColor = color.startsWith("#") ? color : `#${color}`;
+    setBgColor(formattedColor);
+    methods.setValue("bgColor", formattedColor); // Save color in form state
   };
 
+  // Save the updated user data
   const handleSave = async () => {
     const formData = methods.getValues();
     console.log("Form Data:", formData);
-    console.log("Background Color:", bgColor);
 
-    // Save user data logic here (e.g., API call)
     await fetch("/api/save-user", {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -40,13 +54,16 @@ export default function EditUser() {
   };
 
   const handleCancel = () => {
-    console.log("Cancelled");
     router.push("/user");
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <FormProvider {...methods}>
-      <div className="min-h-screen dark:bg-gray-900 p-4">
+      <div className="flex justify-centermin-h-screen dark:bg-gray-900 p-4">
         <div className="w-[1252px] bg-white pb-4 rounded-lg">
           <div className="flex justify-center mb-8">
             <div
@@ -58,18 +75,10 @@ export default function EditUser() {
           </div>
           <div className="flex flex-row space-x-5 justify-center">
             <div className="flex flex-row justify-center mt-[125px] gap-[15px]">
-              <EditUserInformationForm />
-              <div className="flex flex-col gap-4">
-                <InputBioCardComponent />
-                <ChangeColorCover onColorChange={handleColorChange} />
-                <SaveUserUpdateButton
-                  onSave={handleSave}
-                  onCancel={handleCancel}
-                  disabledSave={true} // Pass true to disable the Save button
-                  disabledCancel={true} // Pass true to disable the Cancel button
-                  disabledEdit={false} // Pass true to disable the Edit button
-                />
-              </div>
+              <EditUserInformationForm
+                onColorChange={handleColorChange}
+                bgColor={bgColor}
+              />
             </div>
           </div>
         </div>

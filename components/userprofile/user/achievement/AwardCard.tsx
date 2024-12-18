@@ -1,11 +1,29 @@
 import { Card } from "@/components/ui/card";
 import { ArrowUp, BadgeCheck } from "lucide-react";
 
-export default function AwardCard() {
+type Achievement = {
+  id: string;
+  userId: string | number;
+  score: number;
+  level: string;
+};
+
+type AwardCardProps = {
+  achievement: Achievement;
+};
+
+function convertToKhmerNumerals(number: number): string {
+  const khmerDigits = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'];
+  return number.toString().split('').map(digit => khmerDigits[parseInt(digit)]).join('');
+}
+
+
+export default function AwardCard({ achievement }: AwardCardProps) {
+
   return (
     <Card className="p-6 flex items-center justify-between w-[450px]">
       <div className="flex flex-col items-center gap-1">
-        <span className="text-5xl font-bold">១៦៨</span>
+        <span className="text-5xl font-bold">{convertToKhmerNumerals(achievement.score)}</span>
         <div className="flex flex-col">
           <div className="flex items-center">
             <span className="text-red-500 text-base font-bold">ពិន្ទុសរុប</span>
@@ -22,8 +40,8 @@ export default function AwardCard() {
           src="/user-profile-image/badge.png"
           alt="achievement award"
         />
-        <span className="text-navy font-semibold">Senior</span>
-        </div>
+        <span className="text-navy font-semibold">{achievement.level}</span>
+      </div>
     </Card>
   );
 }

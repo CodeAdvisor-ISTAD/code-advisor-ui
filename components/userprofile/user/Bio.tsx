@@ -1,6 +1,18 @@
 "use client";
+import React, { useEffect } from "react";
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
+import type { UserInformation } from "@/types/user";
+
 export default function Bio() {
+  const [userInformation, setUserInformation] =
+    React.useState<UserInformation | null>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/v1/edit_user_profiles/lazizhia")
+      .then((response) => response.json())
+      .then((data) => setUserInformation(data));
+  }, []);
+
   return (
     <div>
       <Card className="w-[510px] h-[151px] p-6 rounded-lg bg-white ">
@@ -11,7 +23,7 @@ export default function Bio() {
           <div className="w-[16px] h-[2.5px] left-[13px] top-[27px] absolute bg-[#f31260]"></div>
         </div>
         <CardDescription>
-          Everything is difficult until you know how to do it 🐳
+          <p>{userInformation ? userInformation.bio : "Loading..."}</p>
         </CardDescription>
       </Card>
     </div>
