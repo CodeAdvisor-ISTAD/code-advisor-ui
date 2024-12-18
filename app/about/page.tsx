@@ -24,7 +24,7 @@ export default function about() {
         <main className="overflow-hidden relative z-10">
           {/* Hero Section */}
           <section className="container mt-20 overflow-hidden bg-white">
-          <AnimatedBackground />
+          <AnimatedBackgroun />
             {/* Main Content */}
             <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               {/* Text Section */}
