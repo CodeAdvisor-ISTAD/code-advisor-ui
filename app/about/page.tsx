@@ -19,21 +19,22 @@ export default function about() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <AnimatedBackground />
       <div className="relative z-10">
+
         <main className="overflow-hidden relative z-10">
           {/* Hero Section */}
-          <section className="container mx-auto px-6 py-20 overflow-hidden">
+          <section className="container mt-20 overflow-hidden bg-white">
+          <AnimatedBackground />
             {/* Main Content */}
             <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               {/* Text Section */}
               <div className="space-y-8" data-aos="fade-right">
                 <div className="flex items-center gap-4">
-                  <h1 className="text-4xl font-extrabold text-secondary">
+                  <h1 className="text-4xl ml-28 font-extrabold text-secondary">
                     អំពី​​​ CodeAdvisors
                   </h1>
                 </div>
-                <p className="text-base md:text-lg text-gray-700">
+                <p className="text-lg ml-28  text-gray-700">
                   CodeAdvisors ផ្តល់ជូនពិតជាមួយនឹង Developers
                   តាមរយៈការរៀបចាក់ការជំនាញ វិជ្ជាជីវៈថ្មីៗ
                   និងបង្កើតនូវការទំនាក់ទំនងល្អៗជាមួយគ្នាបន្ថែមទៀត។
@@ -42,11 +43,11 @@ export default function about() {
 
               {/* Image Section */}
               <div
-                className="relative h-[300px] md:h-[400px] lg:h-[450px]"
+                className="relative h-[300px] md:h-[400px] lg:h-[450px] mr-20 "
                 data-aos="fade-left"
               >
                 <Image
-                  src="/about-us/1.1.png"
+                  src="/about-us/1.png"
                   alt="Programming Education Illustration"
                   fill
                   className="object-contain rounded-lg"
@@ -56,11 +57,11 @@ export default function about() {
           </section>
 
           {/* Features Section */}
-          <section className="w-full py-16">
-            <div className="container mx-auto px-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <section className="py-10 mt-[100px]  bg-white">
+            <div className="">
+              <div className="grid grid-cols-1 md:grid-cols-3 ">
                 {/* Goal Feature */}
-                <div className="text-center space-y-4" data-aos="fade-up">
+                <div className="text-center mx-28  space-y-4" data-aos="fade-up">
                   <div className="flex justify-center">
                     <Image
                       src="/about-us/vision.png"
@@ -69,7 +70,7 @@ export default function about() {
                       height={100}
                     />
                   </div>
-                  <h3 className="text-[24px] font-semibold text-primary">
+                  <h3 className="text-[24px]  font-semibold text-primary">
                     បេសកម្ម
                   </h3>
                   <p className="text-gray-600 flex justify-center text-[18px]">
@@ -79,7 +80,7 @@ export default function about() {
                 </div>
 
                 {/* Meaning Feature */}
-                <div className="text-center space-y-4" data-aos="fade-up" data-aos-delay="100">
+                <div className="text-center mx-28 space-y-4" data-aos="fade-up" data-aos-delay="100">
                   <div className="flex justify-center">
                     <Image
                       src="/about-us/vision.png"
@@ -98,7 +99,7 @@ export default function about() {
                 </div>
 
                 {/* Quality Feature */}
-                <div className="text-center space-y-4" data-aos="fade-up" data-aos-delay="200">
+                <div className="text-center mx-28 space-y-4" data-aos="fade-up" data-aos-delay="200">
                   <div className="flex justify-center">
                     <Image
                       src="/about-us/vision.png"
@@ -120,10 +121,10 @@ export default function about() {
           </section>
 
           {/* About Section */}
-          <section className="container mx-auto px-6 py-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <section className="container  bg-white mt-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 items-center ">
               <div
-                className="relative h-[300px] md:h-[350px] lg:h-[400px]"
+                className="h-[300px] md:h-[350px] lg:h-[400px]"
                 data-aos="fade-right"
               >
                 <Image
@@ -133,9 +134,9 @@ export default function about() {
                   className="object-contain"
                 />
               </div>
-              <div className="space-y-6" data-aos="fade-left">
+              <div className=" mr-56" data-aos="fade-left">
                 <h2 className="text-3xl font-bold text-red-600">តើពួកយើងជានរណា?</h2>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg mt-2 text-gray-600">
                   CodeAdvisors គឺជាវេទិកាមួយដែលត្រូវបានអភិវឌ្ឍឡើងដោយនិស្សិត Spring
                   Microservices នៅ ISTAD។ វេបសាយមួយនេះជួយ Developers ក្នុងការ
                   សិក្សាស្វែងយល់ ចែករំលែកចំណេះដឹង និងសហការណ៍គ្នា តាមរយៈវេទិកាសន្ទនា
@@ -146,12 +147,12 @@ export default function about() {
           </section>
 
           {/* Learning Path Section */}
-          <section className="text-white py-16">
-            <div className="container mx-auto px-6">
-              <h2 className="text-center text-3xl font-bold text-secondary mb-12">
+          <section className="text-white mt-20   bg-white">
+            <div className="">
+              <h2 className="text-center text-3xl font-bold text-secondary py-7">
                 ការផ្តល់ពិន្ទុទៅតាមកម្រិត
               </h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mx-40 items-center">
+              <div className="grid grid-cols-1 lg:grid-cols-2 mx-52 items-center mb-10">
                 <div className="space-y-6">
                   {[
                     {
@@ -194,7 +195,7 @@ export default function about() {
                   ))}
                 </div>
                 <div
-                  className="relative h-[300px] md:h-[350px] lg:h-[400px]"
+                  className="relative h-[300px] md:h-[350px] lg:h-[400px] mb-10"
                   data-aos="fade-left"
                 >
                   <Image
@@ -211,10 +212,11 @@ export default function about() {
            <TeamSection />
 
           {/* About Section */}
-          <section className="container mx-auto px-6 py-16">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className='mb-10'>
+          <section className="mx-36 rounded-sm  bg-white mt-10">
+            <div className="grid md:grid-cols-2 gap-5 items-center">
               <div 
-                className="relative h-[300px] md:h-[350px] lg:h-[400px]"
+                className="relative w-[400px] h-[400px] ml-40"
                 data-aos="fade-right"
                 data-aos-delay="100"
               >
@@ -222,7 +224,7 @@ export default function about() {
                   src="/about-us/6.png"
                   alt="Planning Illustration"
                   fill
-                  className="object-cover rounded-lg shadow-lg"
+                  className="object-cover rounded-lg "
                 />
               </div>
               <div 
@@ -261,6 +263,7 @@ export default function about() {
               </div>
             </div>
           </section>
+       </div>
 
          
         </main>
