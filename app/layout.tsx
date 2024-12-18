@@ -8,7 +8,6 @@ import { roboto, koh_Santepheap } from "./fonts/fonts";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
-
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -25,7 +24,7 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
 
-                    <main className="bg-gray-100 w-full  pb-6 pt-[80px] xs:px-[30px] md:px-[80px] lg:px-[100px]">
+                    <main className="w-full">
                         {children}
                     </main>
                 </SidebarProvider>

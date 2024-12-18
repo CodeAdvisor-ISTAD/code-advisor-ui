@@ -20,10 +20,12 @@ export function CardComponent({
     tags,
     tags1,
     image,
+    id,
 }: CardData) {
     return (
-        <Card className="h-auto rounded-[5px]">
-            <CardHeader className="">
+        <a href={`/content/${id}`}>
+        <Card className="h-auto rounded-[5px] group">
+            <CardHeader>
                 <div>
                     <h2 className="text-xl font-medium tracking-tight text-primary line-clamp-2">
                         {title}
@@ -32,17 +34,17 @@ export function CardComponent({
                         {description}
                     </p>
                 </div>
-                <div className="max-h-20 overflow-y-auto ">
+                <div className="max-h-20 overflow-y-auto">
                     <div className="flex flex-wrap gap-2">
                         <Badge
                             variant="outline"
-                            className="border-secondary text-primary text-xs rounded-[5px] font-medium"
+                            className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
                         >
                             #{tags}
                         </Badge>
                         <Badge
                             variant="outline"
-                            className="border-secondary text-primary text-xs rounded-[5px] font-medium"
+                            className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
                         >
                             #{tags1}
                         </Badge>
@@ -50,8 +52,17 @@ export function CardComponent({
                 </div>
             </CardHeader>
             <CardContent className="pt-0">
-                <Image src={image} alt={title} width={500} height={300} />
+                <div className="relative w-full h-[157.5px] md:h-[262.5px] overflow-hidden">
+                    <Image
+                        src={image}
+                        alt={title}
+                        fill
+                        className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+                        sizes="(max-width: 768px) 100vw, 1200px"
+                    />
+                </div>
             </CardContent>
         </Card>
+        </a>
     );
 }

@@ -19,8 +19,10 @@ import {
     PopoverRoot,
     PopoverTrigger,
 } from "@/components/ui/pop-over";
+import Link from "next/link";
 
 export function ForumCardComponent({
+    id,
     avatar,
     username,
     timestamp,
@@ -31,6 +33,7 @@ export function ForumCardComponent({
     comments,
     upvotes,
 }: {
+    id: number;
     avatar: string;
     username: string;
     timestamp: string;
@@ -100,7 +103,11 @@ export function ForumCardComponent({
 
             {/* Content Section */}
             <div className="mb-4">
-                <h2 className="text-[18px] font-bold text-primary">{title}</h2>
+                <Link href={`/forum/${id}`}>
+                    <h2 className="text-[18px] font-bold text-primary underline decoration-primary">
+                        {title}
+                    </h2>
+                </Link>
                 <p className="text-gray-700 mb-4">{content}</p>
             </div>
 
@@ -108,12 +115,11 @@ export function ForumCardComponent({
             <div className="flex flex-wrap gap-2 mb-4 justify-between">
                 <div className="flex flex-wrap gap-2">
                     {tags?.map((tag) => (
-                        <span
-                            key={tag}
-                            className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]"
-                        >
-                            #{tag}
-                        </span>
+                        <Link href={`/tag/${tag}`} key={tag}>
+                            <span className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]">
+                                #{tag}
+                            </span>
+                        </Link>
                     ))}
                 </div>
                 {/* Metrics Section */}

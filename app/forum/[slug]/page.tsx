@@ -1,4 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import ISTADCard from "@/components/card-component/card-trending/Card-Istad";
+import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
+import ForumDetailComponent from "@/components/forum-component/forumDetailComponent";
 import React from "react";
+
+const latest = [
+    "Advanced CSS techniques for modern web design",
+    "Learn Tailwind CSS for responsive layouts",
+    "Master React state management with Redux",
+];
+
 
 // If you're fetching data, make this async
 export default function ForumDetailPage({
@@ -13,12 +24,16 @@ export default function ForumDetailPage({
     // If data doesn't exist, you can show 404
     // if (!forumData) notFound();
 
+    // 1. Define your form.
+   
+
     return (
-        <main className="ml-[264px] w-full">
-            <div className="py-6">
-                {/* Add your detail page layout here */}
-                <h1 className="text-2xl font-bold">Forum Detail {params.id}</h1>
-                {/* Add more content components */}
+        <main className="w-full flex">
+            {/* Forum Detail Component */}
+            <ForumDetailComponent />
+            <div className="flex flex-col ml-2 gap-2 ">
+                <TrendingComponent type="Latest" items={latest} />
+                <ISTADCard />
             </div>
         </main>
     );
