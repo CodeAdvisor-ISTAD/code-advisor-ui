@@ -167,3 +167,26 @@ export async function deleteComment(commentId: string): Promise<void> {
     throw new Error('Failed to delete comment');
   }
 }
+
+
+// for notification in api.ts
+import type { Notification } from '@/types/notifications';
+const API_BASE_URL = 'http://localhost:8080/api/v1';
+
+export const fetchNotifications = async (userId: string): Promise<Notification[]> => {
+  const response = await fetch(`${API_BASE_URL}/notifications/${userId}`);
+  return response.json();
+};
+
+export const markAsRead = async (id: string): Promise<void> => {
+  await fetch(`${API_BASE_URL}/notifications/${id}/read`, {
+    method: 'POST',
+  });
+};
+
+export const removeNotification = async (id: string): Promise<void> => {
+  await fetch(`${API_BASE_URL}/notifications/${id}`, {
+    method: 'DELETE',
+  });
+};
+

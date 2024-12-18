@@ -28,7 +28,7 @@ const getNotificationIcon = (type: NotificationType) => {
 
 export function NotificationItem({ notification, actions }: NotificationItemProps) {
   return (
-    <div className="flex items-start gap-4 p-6 hover:bg-accent/50 rounded-md transition-colors bg-white border border-gray-200">
+    <div className="flex items-start gap-4 p-6 rounded-md transition-colors bg-white border border-gray-200">
       <Avatar className="h-10 w-10 bg-primary/10 flex items-center justify-center">
         <span className="text-xs font-medium">CODE</span>
       </Avatar>
@@ -36,24 +36,24 @@ export function NotificationItem({ notification, actions }: NotificationItemProp
       <div className="flex-1 space-y-1">
         <div className="flex items-center gap-2">
           {getNotificationIcon(notification.notificationType)}
-          <span className="font-normal">
+          <span className="font-normal text-primary">
             {notification.notificationType === NotificationType.LIKE ? (
               <>
-                <span className="font-bold">{notification.senderId}</span> liked your {notification.notificationData.title}
+                <span className="font-bold text-primary">{notification.senderId}</span> liked your {notification.notificationData.title}
               </>
             ) : notification.notificationType === NotificationType.COMMENT ? (
               <>
-                <span className="font-bold">{notification.senderId}</span> commented on your {notification.notificationData.title}
+                <span className="font-bold text-primary">{notification.senderId}</span> commented on your {notification.notificationData.title}
               </>
             ) : (
               <>
-                <span className="font-bold">{notification.senderId}</span> replied to your {notification.notificationData.title}
+                <span className="font-bold text-primary">{notification.senderId}</span> replied to your {notification.notificationData.title}
               </>
             )}
           </span>
         </div>
-        <p className="text-sm text-muted-foreground">{notification.message}</p>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-slate-500 text-sm line-clamp-2">{notification.message}</p>
+        <p className="text-slate-500 text-sm line-clamp-2">
           {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
         </p>
       </div>
