@@ -63,7 +63,7 @@ const contents: Content[] = [
     id: "1",
     title: "Introduction to React",
     description: "Learn the basics of React and how to build modern web applications.",
-    cover: "https://i.pinimg.com/236x/07/9b/23/079b2309477035668cee2f12e74a7a56.jpg",
+    cover: "https://i.pinimg.com/736x/b3/ba/35/b3ba35122f1b364eb13131343c94dc67.jpg",
     author: authors[0],
     tags: ["React", "JavaScript", "Web Development"],
     createdAt: "2023-05-15T10:00:00Z",

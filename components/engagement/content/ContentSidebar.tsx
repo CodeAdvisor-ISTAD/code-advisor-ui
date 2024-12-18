@@ -165,7 +165,7 @@ export function ContentSidebar({
                         <DropdownMenuItem>Share to Facebook</DropdownMenuItem>
                         <DropdownMenuItem>Share to LinkedIn</DropdownMenuItem>
                         <DropdownMenuItem>
-                          <a href={`/report/${contentId}/content`}>
+                          <a href={`/report/content/${contentId}`}>
                             Report Abuse
                           </a>
                         </DropdownMenuItem>

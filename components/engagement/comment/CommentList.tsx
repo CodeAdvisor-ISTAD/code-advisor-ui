@@ -35,7 +35,7 @@ import { Comment } from "@/types/engagement";
 
 interface Content {
   comment: Comment[];
-  contentId?: string
+  contentId?: string;
 }
 
 export function CommentList({ comment = [], contentId }: Content) {
@@ -152,29 +152,39 @@ export function CommentList({ comment = [], contentId }: Content) {
   };
 
   // Function to count all comments and replies
-const getTotalComments = (comments: Comment[]): number => {
-  let total = 0;
-  const countReplies = (comments: Comment[]): void => {
-    total += comments.length;
-    comments.forEach(comment => {
-      if (comment.replies.length > 0) {
-        countReplies(comment.replies); // Recursively count replies
-      }
-    });
+  const getTotalComments = (comments: Comment[]): number => {
+    let total = 0;
+    const countReplies = (comments: Comment[]): void => {
+      total += comments.length;
+      comments.forEach((comment) => {
+        if (comment.replies.length > 0) {
+          countReplies(comment.replies); // Recursively count replies
+        }
+      });
+    };
+    countReplies(comments);
+    return total;
   };
-  countReplies(comments);
-  return total;
-};
 
-  const renderComment = (comment: Comment) => (
-    <Card key={comment.id} className="">
+  const renderComment = (
+    comment: Comment,
+    border: boolean = true,
+    shadow: boolean = false
+  ) => (
+    <Card
+      key={comment.id}
+      className={`
+      ${border ? "border" : "border-none"} 
+      ${shadow ? "shadow" : "shadow-none"}
+      rounded-[5px]
+    `}
+    >
       <CardHeader className="flex flex-row items-center space-y-0">
         <Profile
           key={comment.id}
           imageUrl={comment.author?.image}
           postDate={comment.createdAt.toLocaleDateString()}
           username={comment.author?.userName}
-          
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -189,16 +199,16 @@ const getTotalComments = (comments: Comment[]): number => {
                 onClick={() => handleEdit(comment.id, comment.body)}
               >
                 <Pencil className="mr-2 h-4 w-4" />
-                <span>Edit</span>
+                <span>កែរ</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleDelete(comment.id)}>
                 <Trash className="mr-2 h-4 w-4" />
-                <span>Delete</span>
+                <span>លុប</span>
               </DropdownMenuItem>
 
               <DropdownMenuItem>
                 <TbMessageReport className="mr-2 h-4 w-4" />
-                <a href={`/report/${contentId}/comment`}>Report</a>
+                <a href={`/report/comment/${contentId}/${comment.id}`}>រាយការណ៍</a>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
@@ -221,9 +231,11 @@ const getTotalComments = (comments: Comment[]): number => {
             />
             <div className="flex justify-end space-x-2">
               <Button type="button" variant="outline" onClick={handleDismiss}>
-                Cancel
+                បោះបង់
               </Button>
-              <Button type="submit" className="text-white">Save</Button>
+              <Button type="submit" className="text-white">
+                រក្សាទុក
+              </Button>
             </div>
           </form>
         ) : (
@@ -237,8 +249,8 @@ const getTotalComments = (comments: Comment[]): number => {
           size="sm"
           onClick={() => setReplyingTo(comment.id)}
         >
-          <FaRegComment className="mr-2 h-4 w-4" />
-          Reply
+          <FaRegComment className="mr-2 h-4 w-4​" />
+          <span className="text-sm">ឆ្លើតប</span>
         </Button>
         {comment.replies.length > 0 && (
           <Button
@@ -247,12 +259,14 @@ const getTotalComments = (comments: Comment[]): number => {
             onClick={() => toggleExpanded(comment.id)}
           >
             {expandedComments.includes(comment.id) ? (
-              <ChevronUp className="mr-2 h-4 w-4" />
+              <ChevronUp className="mr-2 h-4 w-4​ " />
             ) : (
               <ChevronDown className="mr-2 h-4 w-4" />
             )}
+            <span className="text-sm">
             {comment.replies.length}{" "}
-            {comment.replies.length === 1 ? "reply" : "replies"}
+            {comment.replies.length === 1 ? "ឆ្លើយតប" : "ឆ្លើយតប"}
+            </span>
           </Button>
         )}
       </CardFooter>
@@ -269,23 +283,25 @@ const getTotalComments = (comments: Comment[]): number => {
             <Textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Write a reply..."
+              placeholder="សរសេរ ការឆ្លើយតប..."
               className="w-full"
             />
             <div className="flex justify-end space-x-2">
               <Button type="button" variant="outline" onClick={handleDismiss}>
-                Cancel
+                បោះបង់
               </Button>
-              <Button type="submit" className="text-white">Submit</Button>
+              <Button type="submit" className="text-white">
+                បញ្ចូន
+              </Button>
             </div>
           </form>
         </CardContent>
       )}
-      
+
       {expandedComments.includes(comment.id) && (
         <CardContent>
-          <div className="space-y-4 mt-4 pl-6 border-l-2">
-            {comment.replies.map(reply => renderComment(reply))}
+          <div className="space-y-4 border-l-2">
+            {comment.replies.map((reply) => renderComment(reply, false))}
           </div>
         </CardContent>
       )}
@@ -293,11 +309,11 @@ const getTotalComments = (comments: Comment[]): number => {
   );
 
   return (
-    <div className="w-full max-w-3xl mx-auto overflow-hidden">
-      <Card className="">
+    <div className="w-full max-w-3xl overflow-hidden p-[1px]">
+      <Card className="rounded-[5px] shadow-none">
         <CardHeader>
-        <CardTitle>Comments ({getTotalComments(comments)})</CardTitle>
-        <Profile
+          <CardTitle>មតិយោបល់ ({getTotalComments(comments)})</CardTitle>
+          <Profile
             imageUrl="https://i.pinimg.com/236x/3f/a9/2a/3fa92a0c86938e43376928b3ee66518b.jpg"
             postDate="30 Jan 2004"
             username="sokkhann"
@@ -323,22 +339,24 @@ const getTotalComments = (comments: Comment[]): number => {
             <div className="space-y-2">
               <Textarea
                 id="comment"
-                placeholder="Write a comment..."
+                placeholder="សរសេរ​ មតិយោបល់..."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
               />
             </div>
             <div className="flex justify-end space-x-2">
               <Button type="button" variant="outline" onClick={handleDismiss}>
-                Dismiss
+                បោះបង់
               </Button>
-              <Button type="submit" className="text-white">Submit</Button>
+              <Button type="submit" className="text-white">
+                បញ្ចូន
+              </Button>
             </div>
           </form>
         </CardContent>
       </Card>
 
-      <div className="space-y-4 mt-4">
+      <div className="space-y-2 mt-2 rounded-[5px] p-[1px]">
         {comments.map((comment) => renderComment(comment))}
       </div>
     </div>

@@ -13,7 +13,7 @@ export default function NavbarComponent() {
             </section>
 
             {/* Search Section */}
-            <div className="flex flex-1 justify-center">
+        <div className="flex flex-1 justify-center">
                 <div className="relative w-[800px]">
                     <input
                         type="text"

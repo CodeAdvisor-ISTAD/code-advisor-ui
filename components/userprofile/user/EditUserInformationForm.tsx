@@ -192,12 +192,18 @@ export default function EditUserInformationForm({
               )}
             />
             {/* Submit Button */}
-            <div className="flex justify-center">
+            <div className="flex justify-end gap-3">
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                className="bg-primary text-white px-4 py-2 rounded"
               >
-                Update Information
+                ចាកចេញ
+              </button>
+              <button
+                type="submit"
+                className="bg-primary text-white px-4 py-2 rounded"
+              >
+                រក្សាទុក
               </button>
             </div>
           </div>

@@ -3,8 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaEnvelope } from "react-icons/fa";
 import NavbarLogin from "../navbar/NavbarLogin";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  
   return (
     <footer className=" bg-white pl-[100px]">
       <div className="container px-6  md:py-6">
