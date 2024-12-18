@@ -17,7 +17,7 @@ export default function ErrorComponent({
   }, [error]);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden  bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
       {/* Fullscreen background */}
       <div className="absolute inset-0 "></div>
 
