@@ -122,12 +122,12 @@ export function AppSidebar() {
     pathname === "/content/new" ||
     pathname === "/user" ||
     pathname === "/edit-user" ||
-    pathname.startsWith("/content") ||
+    pathname.startsWith("/content") && !pathname.includes("/content/tags") || 
     pathname.startsWith("/report")
   ) {
     return;
   }
-    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user" || pathname.startsWith("/content") || pathname.startsWith("/about") ) {
+    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user" || (pathname.startsWith("/content") && !pathname.includes("/content/tags")) || pathname.startsWith("/about") ) {
         return;
     }
 
