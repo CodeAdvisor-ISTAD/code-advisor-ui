@@ -18,15 +18,16 @@ export default function about() {
   }, [])
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden ">
       <div className="relative z-10">
 
         <main className="overflow-hidden relative z-10">
           {/* Hero Section */}
-          <section className="container mt-20 overflow-hidden bg-white">
+          
+          <section className=" mt-40">
           <AnimatedBackground />
             {/* Main Content */}
-            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className=" grid grid-cols-2 gap-12 items-center  ">
               {/* Text Section */}
               <div className="space-y-8" data-aos="fade-right">
                 <div className="flex items-center gap-4">
@@ -55,9 +56,10 @@ export default function about() {
               </div>
             </div>
           </section>
+          
 
           {/* Features Section */}
-          <section className="py-10 mt-[100px]  bg-white">
+          <section className="py-10 mt-[100px]  bg-white border border-gray-100">
             <div className="">
               <div className="grid grid-cols-1 md:grid-cols-3 ">
                 {/* Goal Feature */}
@@ -121,7 +123,7 @@ export default function about() {
           </section>
 
           {/* About Section */}
-          <section className="container  bg-white mt-20">
+          <section className="container  bg-white mt-20 border border-gray-100">
             <div className="grid grid-cols-1 md:grid-cols-2 items-center ">
               <div
                 className="h-[300px] md:h-[350px] lg:h-[400px]"
@@ -147,7 +149,7 @@ export default function about() {
           </section>
 
           {/* Learning Path Section */}
-          <section className="text-white mt-20   bg-white">
+          <section className="text-white mt-20 border border-gray-100  bg-white">
             <div className="">
               <h2 className="text-center text-3xl font-bold text-secondary py-7">
                 ការផ្តល់ពិន្ទុទៅតាមកម្រិត
@@ -212,7 +214,7 @@ export default function about() {
            <TeamSection />
 
           {/* About Section */}
-          <div className='mb-10'>
+          <div className='mb-10 border border-gray-100'>
           <section className="mx-36 rounded-sm  bg-white mt-10">
             <div className="grid md:grid-cols-2 gap-5 items-center">
               <div 

@@ -98,7 +98,7 @@ const items = [
   {
     id: 5,
     title: "អំពីពួកយើង",
-    url: "# ",
+    url: "/about ",
     icon: Contact,
   },
   {
@@ -122,14 +122,13 @@ export function AppSidebar() {
     pathname === "/content/new" ||
     pathname === "/user" ||
     pathname === "/edit-user" ||
-    pathname.startsWith("/content") && !pathname.includes("/content/tags") || 
-    pathname.startsWith("/report")
+    (pathname.startsWith("/content") && !pathname.includes("/content/tags")) ||
+    pathname.startsWith("/about") ||
+    pathname.startsWith("/report") ||
+    pathname === "/notification"
   ) {
     return;
   }
-    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user" || (pathname.startsWith("/content") && !pathname.includes("/content/tags")) || pathname.startsWith("/about") || pathname === "/notification") {
-        return;
-    }
 
   return (
     <Sidebar className="ml-[100px]">
@@ -157,7 +156,7 @@ export function AppSidebar() {
                         {item.subItems?.map((subItem) => (
                           <SidebarMenuSubItem key={subItem.id}>
                             <Link
-                              href={item.url}
+                              href={subItem.url} // Updated to subItem.url
                               className="flex items-center px-4 py-1 hover:bg-gray-100 rounded-lg"
                             >
                               {subItem.title}

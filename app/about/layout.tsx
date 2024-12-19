@@ -17,7 +17,10 @@ export default function AboutLayout({
         <main className={`${roboto.variable} ${koh_Santepheap.variable}`}>
           {children}
         </main>
+
       </ErrorBoundary>
+    
+
       
     </>
   );
