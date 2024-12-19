@@ -94,9 +94,9 @@ export default function ReadingHistoryPage() {
   const groupedHistory = groupByDate(history)
 
   return (
-    <div className="flex justify-center gap-6 ml-2">
-      <div className="w-full max-w-4xl">
-        <Tabs defaultValue="reading" className="w-full">
+    <div className="flex gap-6 mb-5 pt-[80px] lg:pl-[364px]   ">
+      <div className='w-[800px] p-2'>
+     <Tabs defaultValue="reading" className="">
           <TabsList className="w-full flex justify-between items-center mb-4 text-primary">
             <div>
               <TabsTrigger value="reading">Reading history</TabsTrigger>
@@ -127,7 +127,7 @@ export default function ReadingHistoryPage() {
                 items.length > 0 && (
                   <div key={date} className="space-y-4 text-primary">
                     <h2 className="text-sm font-semibold">{date}</h2>
-                    <div className="space-y-4">
+                    <div className="space-y-2">
                       {items.map((item) => (
                         <HistoryCard
                           key={item.id}
@@ -143,6 +143,7 @@ export default function ReadingHistoryPage() {
               )
             )}
           </TabsContent>
+
           
           <TabsContent value="search" className="space-y-6">
             <div className="space-y-4">
@@ -169,10 +170,10 @@ export default function ReadingHistoryPage() {
             </div>
           </TabsContent>
         </Tabs>
-      </div>
-      {/* <div className="flex flex-col gap-2">
+        </div>
+       {/* <div className="flex flex-col gap-2">
         <Recommendations type="Latest" items={latest} />
         <Recommendations type="Trending" items={trending} />
         <ISTADCard />
-      </div> */}
+      </div>  */}
     </div> ) }

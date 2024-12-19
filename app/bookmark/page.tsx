@@ -79,7 +79,7 @@ export default function BookmarkPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl ml-[316px]">
+    <div className="container mx-auto max-w-4xl ml-[364px]">
       <div className="space-y-2">
         <h1 className="text-2xl font-bold md:text-xl text-primary">Bookmark</h1>
         
@@ -90,7 +90,7 @@ export default function BookmarkPage() {
           </TabsList>
           
           <TabsContent value="article">
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-2 sm:grid-cols-2">
               {articles.map((article) => (
                 <ArticleCard
                   key={article.id}

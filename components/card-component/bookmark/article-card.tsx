@@ -22,7 +22,7 @@ export function ArticleCard({
   onToggleBookmark
 }: ArticleCardProps) {
   return (
-    <Card className="h-full relative rounded-sm border-none">
+    <Card className="h-full relative rounded-sm border-gray-100 ">
       <CardContent className="p-4 pb-12 space-y-4">
         <div className="aspect-video relative overflow-hidden">
           <Image

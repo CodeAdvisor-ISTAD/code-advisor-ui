@@ -35,7 +35,7 @@ export function BookmarkCard({
   return (
     <Card className="rounded-sm border-none">
       <CardContent className="p-6">
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10">
