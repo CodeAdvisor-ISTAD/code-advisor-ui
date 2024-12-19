@@ -2,6 +2,7 @@ import { Counts, ForumCardData, UserInformation } from "@/types/user";
 import { ReactNode } from "react";
 
 export const staticUserProfile: UserInformation = {
+  // fullName: "John Doe",
   familyName: "Doe",
   givenName: "John",
   username: "john.doe",

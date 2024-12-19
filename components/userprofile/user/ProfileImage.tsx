@@ -1,6 +1,8 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
+import type { UserInformation } from "@/types/user";
 import { ChangeEvent, useState, ReactNode } from "react";
 import {
   HoverCard,
@@ -15,6 +17,17 @@ interface ProfileImageProps {
 }
 
 export default function ProfileImagey({ disableButton }: ProfileImageProps) {
+  const [userInformation, setUserInformation] =
+      React.useState<UserInformation | null>(null);
+
+  React.useEffect(() => {
+      fetch("http://localhost:8080/api/v1/edit_user_profiles/ZAZA")
+        .then((response) => response.json())
+        .then((data) => setUserInformation(data));
+    }, []);
+  
+    const user = userInformation;
+  
   // State to manage the profile image
   const [image, setImage] = useState<string>(
     "/user-profile-image/lyzhia-profile.jpg"
@@ -47,27 +60,27 @@ export default function ProfileImagey({ disableButton }: ProfileImageProps) {
         {disableButton ?? (
           <button
             type="button"
-            className="absolute bottom-3 left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-400 text-white rounded-full hover:bg-gray-500"
+            className="absolute bottom-3 left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-200 text-white rounded-full hover:bg-primary transition-colors duration-300"
             onClick={() => document.getElementById("avatarInput")?.click()}
           >
-            <FontAwesomeIcon icon={faCamera} />
+            <FontAwesomeIcon className="text-gray-400" icon={faCamera} />
           </button>
         )}
         {/* Profile details section */}
         <div className="flex items-center justify-between absolute -right-60 top-28">
           <div>
             <div className="flex gap-3">
-              <h2 className="text-3xl font-bold">Eung Lyzhia</h2>
+              <h2 className="text-3xl font-bold">{user?.fullName}</h2>
               <HoverCard>
                 <HoverCardTrigger className="flex cursor-pointer items-center text-3xl">
                   ✨
                 </HoverCardTrigger>
-                <HoverCardContent className="text-sm text-gray-400">
+                <HoverCardContent className="text-sm text-gray-200">
                   ITE-Student
                 </HoverCardContent>
               </HoverCard>
             </div>
-            <p className="text-sm text-muted-foreground">@lyzhia</p>
+            <p className="text-sm text-muted-foreground">@{user?.username}</p>
             <p className="text-sm text-muted-foreground font-khFont pt-1">
               គាត់គឺជា Senior
             </p>

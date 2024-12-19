@@ -22,24 +22,7 @@ export default function SaveUserUpdateButton({
   disabledSave = false,
 }: SaveUserUpdateButtonProps) {
   return (
-    <div className="flex gap-2 justify-end">
-      {disabledCancel && ( // Conditionally render the Edit button
-        <button
-          onClick={onCancel}
-          className="bg-primary text-white px-4 py-2  rounded-sm"
-        >
-          ចាកចេញ
-        </button>
-      )}
-      {/* Save */}
-      {disabledSave && ( // Conditionally render the Edit button
-        <button
-          onClick={onSave}
-          className="bg-primary text-white px-4 py-2  rounded-sm"
-        >
-          រក្សាទុក
-        </button>
-      )}
+    <div className="flex justify-end">
       {/* Edit */}
       {disabledEdit && ( // Conditionally render the Edit button
         <button

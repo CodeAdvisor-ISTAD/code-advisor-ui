@@ -17,8 +17,19 @@ function convertToKhmerNumerals(number: number): string {
   return number.toString().split('').map(digit => khmerDigits[parseInt(digit)]).join('');
 }
 
+function determineLevel(score: number): { level: string; image: string } {
+  if (score >= 0 && score <= 99) return { level: "Learner", image: "/user-profile-image/badge.png" };
+  if (score >= 100 && score <= 499) return { level: "Contributor", image: "/images/contributor.png" };
+  if (score >= 500 && score <= 999) return { level: "Senior", image: "/images/senior.png" };
+  if (score >= 1000 && score <= 1999) return { level: "Expert", image: "/images/expert.png" };
+  if (score >= 2000 && score <= 3499) return { level: "Mentor", image: "/images/mentor.png" };
+  if (score >= 3500 && score <= 4999) return { level: "Top Contributor", image: "/images/top-contributor.png" };
+  if (score >= 5000) return { level: "Verified Expert", image: "/images/verified-expert.png" };
+  return { level: "Unknown", image: "/images/default.png" }; // Default case
+}
 
 export default function AwardCard({ achievement }: AwardCardProps) {
+  const { level, image } = determineLevel(achievement.score);
 
   return (
     <Card className="p-6 flex items-center justify-between w-[450px]">
@@ -37,10 +48,11 @@ export default function AwardCard({ achievement }: AwardCardProps) {
       <div className="flex flex-col justify-center items-center">
         <img
           className="h-[100px] w-[100px]"
-          src="/user-profile-image/badge.png"
-          alt="achievement award"
+          src={image}
+          alt={`${level} achievement badge`}
         />
-        <span className="text-navy font-semibold">{achievement.level}</span>
+        {/* <span className="text-navy font-semibold">{level}</span> */}
+        <p className="text-lg font-semibold">{level}</p>
       </div>
     </Card>
   );

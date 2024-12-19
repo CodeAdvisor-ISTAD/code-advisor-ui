@@ -1,4 +1,5 @@
 export interface UserInformation {
+  fullName: string;
   familyName: string;
   givenName: string;
   username: string;
@@ -13,6 +14,7 @@ export interface UserInformation {
   address?: string;
   dob: string;
 }
+
 // Custom hook to fetch counts from the API
 export interface Counts {
   like: number;

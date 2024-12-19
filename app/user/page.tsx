@@ -17,7 +17,7 @@ export default function User() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/edit_user_profiles/lazizhia")
+    fetch("http://localhost:8080/api/v1/edit_user_profiles/ZAZA")
       .then((response) => response.json())
       .then((data) => {
         if (data && data.coverColor) {
@@ -28,7 +28,7 @@ export default function User() {
   }, []);
 
   return (
-    <div className="min-h-screen dark:bg-gray-900 p-4">
+    <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">
       <div className="w-[1252px] bg-white pb-4 rounded-lg">
         <div className="flex justify-center mb-8">
           {/* cover */}
