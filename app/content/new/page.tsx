@@ -98,7 +98,7 @@ const CreateNewContent = () => {
   }
 
   return (
-    <div className="container px-0 py-6 items-center mx-auto lg:max-w-7xl xs:w-full lg:bg-transparent">
+    <div className="container px-0 py-6 items-center mx-auto pb-6 pt-[80px] xs:px-[30px] md:px-[80px] lg:px-[100px]">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
         {/* Create New Content */}
         <div>

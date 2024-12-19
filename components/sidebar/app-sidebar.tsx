@@ -118,8 +118,16 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
 
-    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user" || pathname.startsWith("/content") 
-    || pathname === "/notification") {
+  if (
+    pathname === "/content/new" ||
+    pathname === "/user" ||
+    pathname === "/edit-user" ||
+    pathname.startsWith("/content") && !pathname.includes("/content/tags") || 
+    pathname.startsWith("/report")
+  ) {
+    return;
+  }
+    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edit-user" || (pathname.startsWith("/content") && !pathname.includes("/content/tags")) || pathname.startsWith("/about") || pathname === "/notification") {
         return;
     }
 
