@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { SearchTag } from "@/lib/reading"
+import Footer from "@/components/footer/Footer"
 
 interface SearchTagsProps {
   tags: SearchTag[]
@@ -10,7 +11,7 @@ interface SearchTagsProps {
 
 export function SearchTags({ tags, selectedTags, onTagClick }: SearchTagsProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 ">
       {tags.map((tag) => (
         <button
           key={tag.id}
@@ -29,6 +30,8 @@ export function SearchTags({ tags, selectedTags, onTagClick }: SearchTagsProps) 
         </button>
       ))}
     </div>
+    
+    
   )
 }
 

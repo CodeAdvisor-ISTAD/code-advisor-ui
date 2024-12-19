@@ -214,7 +214,7 @@ export default function about() {
            <TeamSection />
 
           {/* About Section */}
-          <div className='mb-10 border border-gray-100'>
+          <div className='mb-10 '>
           <section className="mx-36 rounded-sm  bg-white mt-10">
             <div className="grid md:grid-cols-2 gap-5 items-center">
               <div 

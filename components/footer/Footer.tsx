@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
   
   return (
-    <footer className=" bg-white pl-[100px]">
+    <footer className=" bg-white pl-[100px] ">
       <div className="container px-6  md:py-6">
         <div className="grid grid-cols-1  md:grid-cols-5">
           {/* Partner Logos */}

@@ -3,6 +3,7 @@ import NavbarLogin from "@/components/navbar/NavbarLogin";
 import Footer from "@/components/footer/Footer";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import Error from "@/app/error";
+
 export default function AboutLayout({
   children,
 }: Readonly<{
@@ -17,11 +18,7 @@ export default function AboutLayout({
         <main className={`${roboto.variable} ${koh_Santepheap.variable}`}>
           {children}
         </main>
-
       </ErrorBoundary>
-    
-
-      
     </>
   );
 }

@@ -176,4 +176,5 @@ export default function ReadingHistoryPage() {
         <Recommendations type="Trending" items={trending} />
         <ISTADCard />
       </div>  */}
-    </div> ) }
+    </div>
+ ) }

@@ -79,7 +79,7 @@ export default function BookmarkPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl ml-[364px]">
+    <div className="container mx-auto max-w-4xl ml-[364px] mb-5">
       <div className="space-y-2">
         <h1 className="text-2xl font-bold md:text-xl text-primary">Bookmark</h1>
         

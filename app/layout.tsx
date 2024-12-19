@@ -24,11 +24,11 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
 
-                    <main className="w-full">
+                    <main className="w-full ">
                         {children}
                     </main>
                 </SidebarProvider>
-                <footer>
+                <footer  >
                     <Footer />
                 </footer>
             </body>
