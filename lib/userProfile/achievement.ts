@@ -4,9 +4,9 @@ export interface Achievement {
   userId: number;
   level: string;
 }
-export type Achievement = {
-  id: string;
-  userId: string | number;
-  score: number;
-  level: string;
-};
+// export type Achievement = {
+//   id: string;
+//   userId: string | number;
+//   score: number;
+//   level: string;
+// };
