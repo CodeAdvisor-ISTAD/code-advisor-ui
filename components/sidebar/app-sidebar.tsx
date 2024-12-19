@@ -121,7 +121,7 @@ export function AppSidebar() {
   if (
     pathname === "/content/new" ||
     pathname === "/user" ||
-    pathname === "/edit-user" ||
+    pathname.startsWith ("/edituser") ||
     (pathname.startsWith("/content") && !pathname.includes("/content/tags")) ||
     pathname.startsWith("/about") ||
     pathname.startsWith("/report") ||

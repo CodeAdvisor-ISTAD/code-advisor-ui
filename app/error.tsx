@@ -24,7 +24,7 @@ export default function ErrorComponent({
       {/* Decorative elements */}
       <div className="absolute inset-0">
         <p className="absolute top-[40%] right-[38%] font-semibold text-[#000033] text-xl">
-          Oops!
+          OOPS!
         </p>
         <XIcon className="absolute top-[20%] left-[30%] w-8 h-8 lg:w-6 lg:h-6 text-primary" strokeWidth={8} />
         <XIcon className="absolute top-[40%] right-[36%] w-8 h-8 lg:w-6 lg:h-6 text-secondary" strokeWidth={5} />

@@ -38,7 +38,7 @@ export default function EditUser() {
 
   return (
     <FormProvider {...methods}>
-      <div className="flex justify-centermin-h-screen justify-center dark:bg-gray-900 p-4">
+      <div className="flex justify-centermin-h-screen justify-center dark:bg-gray-900  p-4">
         <div className="w-[1252px] bg-white pb-4 rounded-lg">
           <div className="flex justify-center mb-8">
             <div
