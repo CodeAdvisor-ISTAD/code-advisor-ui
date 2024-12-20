@@ -27,10 +27,10 @@ export default function SaveUserUpdateButton({
       {disabledEdit && ( // Conditionally render the Edit button
         <button
           onClick={onEdit}
-          className="bg-primary text-white px-4 py-2  rounded-sm"
+          className="bg-primary text-white xs:px-1 xs:py-1 lg:px-4 lg:py-2 rounded-sm"
         >
           <div className="w-full flex items-center justify-center gap-2">
-            <p>កែប្រែ</p>
+            <p className="">កែប្រែ</p>
             <FontAwesomeIcon icon={faPenToSquare} />
           </div>
         </button>

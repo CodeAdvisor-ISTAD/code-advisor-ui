@@ -5,10 +5,9 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import UserActivity from "@/components/userprofile/user/achievement/userActivivity";
 import AwardCard from "./AwardCard";
 
-// Updated Achievement type to ensure userId is a number
 type Achievement = {
   id: string;
-  userId: number; // 🔥 Updated from string to number
+  userId: number;
   score: number;
   level: string;
 };
@@ -22,15 +21,14 @@ export default function AchievementLevel() {
     const fetchAchievement = async () => {
       try {
         const response = await fetch(
-          "https://675fdc231f7ad2426999a73c.mockapi.io/achievement/1"
+          "https://675fdc231f7ad2426999a73c.mockapi.io/achievement/19"
         );
-        
+
         if (!response.ok) throw new Error("Failed to fetch achievement data");
 
         const data: Achievement = await response.json();
-        
+
         if (data && typeof data.userId === "string") {
-          // 🔥 Convert userId to number if it's a string
           data.userId = parseInt(data.userId, 10);
         }
 
@@ -54,7 +52,7 @@ export default function AchievementLevel() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <Card className="w-full h-fit bg-white">
+    <Card className="xs:w-[450px] lg:w-full h-fit bg-white">
       <CardHeader>
         <div className="w-[73px] h-[40px] relative">
           <div className="left-0 top-0 absolute text-center text-2xl font-bold">

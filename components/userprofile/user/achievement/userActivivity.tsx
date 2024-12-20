@@ -90,7 +90,7 @@ export default function UserActivityPoints() {
             <React.Fragment key={index}>
               <Component number={arabicToKhmer(number)} text={text} />
               {color && (
-                <div className="flex w-full items-center">
+                <div className="flex lg:w-full xs:w-16 items-center">
                   <div className={`h-1 w-full ${color} rounded-sm`}></div>
                 </div>
               )}

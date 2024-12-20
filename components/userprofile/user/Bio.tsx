@@ -15,7 +15,7 @@ export default function Bio() {
 
   return (
     <div>
-      <Card className="w-[510px] h-[151px] p-6 rounded-lg bg-white ">
+      <Card className="xs:w-[450px] lg:w-[510px] h-[151px] p-6 rounded-lg bg-white ">
         <div className="w-[57px] h-[55px] relative">
           <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">
             ប្រវត្តិរូប

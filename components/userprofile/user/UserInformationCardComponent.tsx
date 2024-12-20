@@ -23,7 +23,7 @@ export default function UserInformationCardComponent() {
 
   return (
     <div className="flex flex-col gap-4">
-      <Card className="w-[510px] p-6 rounded-lg bg-white">
+      <Card className="xs:w-[450px] lg:w-[510px] p-6 rounded-lg bg-white">
         <div className="w-[75px] h-[55px] relative">
           <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">
             អំពីអ្នក

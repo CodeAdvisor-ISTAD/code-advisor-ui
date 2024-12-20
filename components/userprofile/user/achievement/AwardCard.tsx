@@ -32,7 +32,7 @@ export default function AwardCard({ achievement }: AwardCardProps) {
   const { level, image } = determineLevel(achievement.score);
 
   return (
-    <Card className="p-6 flex items-center justify-between w-[450px]">
+    <Card className="p-6 flex items-center justify-between xs:w-[400px] lg:w-[450px]">
       <div className="flex flex-col items-center gap-1">
         <span className="text-5xl font-bold">{convertToKhmerNumerals(achievement.score)}</span>
         <div className="flex flex-col">
@@ -47,7 +47,7 @@ export default function AwardCard({ achievement }: AwardCardProps) {
       </div>
       <div className="flex flex-col justify-center items-center">
         <img
-          className="h-[100px] w-[100px]"
+          className="xs:h-[50px] xs:w-[50px] lg:h-[100px] lg:w-[100px]"
           src={image}
           alt={`${level} achievement badge`}
         />

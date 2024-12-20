@@ -29,17 +29,17 @@ export default function User() {
 
   return (
     <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">
-      <div className="w-[1252px] bg-white pb-4 rounded-lg">
+      <div className="w-full xs:w-[500px] lg:w-[1252px] bg-white pb-4 rounded-lg">
         <div className="flex justify-center mb-8">
           {/* cover */}
           <div
-            className="cover w-[1252px] h-[200px] rounded-[5px] flex justify-center relative"
+            className="cover xs:w-[500px] lg:w-[1252px] h-[200px] rounded-[5px] flex justify-center relative"
             style={{ backgroundColor: bgColor }}
           >
             {/* profile image */}
             <ProfileImage disableButton />
-            <div className="absolute space-x-5 top-[230px] right-7">
-              <SaveUserUpdateButton
+            <div className="absolute space-x-5 top-[230px] right-7 ">
+              <SaveUserUpdateButton 
                 disabledCancel={false}
                 disabledSave={false}
                 onEdit={handleEdit}
