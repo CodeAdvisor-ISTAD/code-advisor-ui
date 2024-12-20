@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaEnvelope } from "react-icons/fa";
@@ -6,7 +6,6 @@ import NavbarLogin from "../navbar/NavbarLogin";
 import { usePathname } from "next/navigation";
 
 export default function Footer() {
-  
   return (
     <footer className=" bg-white pl-[100px] ">
       <div className="container px-6  md:py-6">
@@ -50,7 +49,7 @@ export default function Footer() {
           <div className="space-y-4 ml-20">
             <h3 className="text-lg font-semibold">តំណភ្ជាប់ទំព័រ</h3>
             <nav className="flex flex-col space-y-2">
-              <Link href="#" className="hover:underline">
+              <Link href="/about" className="hover:underline">
                 អំពីពួកយើង
               </Link>
               <Link href="#" className="hover:underline">
@@ -79,7 +78,11 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">តំណភ្ជាប់បណ្តេាលសង្គម</h3>
             <div className="flex-col space-y-2 ">
-              <Link href="#" className=" flex gap-2 ">
+              <Link
+                href="https://www.facebook.com/istad.co"
+                className=" flex gap-2 "
+                target="blank"
+              >
                 <FaFacebook className="h-6 w-6 fill-primary " />
                 <span className="">Facebook</span>
               </Link>

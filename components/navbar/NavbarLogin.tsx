@@ -79,10 +79,11 @@ export function NavbarLogin() {
         </div>
 
         {/* Notification Icon */}
-        <button className="relative text-primary mx-8 ">
+        <a href="/notification">
+        <button  className="relative text-primary mx-8 ">
           <FiBell className="h-7 w-7" />
           <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-xs text-white"></span>
-        </button>
+        </button></a>
 
         {/* User Avatar */}
         <DropdownMenu>
@@ -100,11 +101,14 @@ export function NavbarLogin() {
             </div>
           </DropdownMenuLabel> */}
             <DropdownMenuSeparator />
+          
             <DropdownMenuGroup>
+            <a href="/user">
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
                 <span>ប្រវត្តិរូប</span>
               </DropdownMenuItem>
+              </a>
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
