@@ -9,8 +9,7 @@ export default function ContentLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
+    <div
         className={`${roboto.variable} ${koh_Santepheap.variable} h-full relative`}
       >
         <header className="bg-white fixed top-0 right-0 left-0 z-50">
@@ -20,7 +19,6 @@ export default function ContentLayout({
         <SidebarProvider>
           <main className="bg-gray-100 w-full ">{children}</main>
         </SidebarProvider>
-      </body>
-    </html>
+      </div>
   );
 }
