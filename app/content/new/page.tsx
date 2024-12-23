@@ -33,7 +33,7 @@ const formSchema = z.object({
   }),
   tag: z
     .array(z.string())
-    .min(1, { message: "យ៉ាងហោចណាស់ត្រូវការស្លាកមួយ" }) // Ensure at least one tag
+    .min(1, { message: "យ៉ាងហោចណាស់ត្រូវការស្លាកមួយ" })
     .max(5, { message: "អ្នកអាចជ្រើសរើសស្លាកបានត្រឹមតែ 5 ប៉ុណ្ណោះ" }),
   content: z.string().min(10, {
     message: "ការពិពណ៌នាត្រូវមានយ៉ាងហោចណាស់ 10 តួអក្សរ",
@@ -95,23 +95,21 @@ const CreateNewContent = () => {
     if (values.cover) {
       console.log("Cover Image:", values.cover.name);
     }
-    
   }
+
   return (
-    <div className="container grid grid-cols-1 gap-4 items-center  mx-auto my-0  ">
-      {/* Grid Container */}
-      <div className="grid grid-cols-2 w-[1274px] px-2 gap-10 items-start ">
+    <div className="container px-0 py-6 items-center mx-auto pb-6 pt-[80px] xs:px-[30px] md:px-[80px] lg:px-[100px]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
         {/* Create New Content */}
         <div>
-          <span className="col-span-1 flex items-center text-[32px] font-bold text-primary whitespace-nowrap p-2">
+          <h2 className="text-2xl lg:text-3xl font-bold text-primary mb-4">
             បង្កើតអត្ថបទថ្មី
-          </span>
-          {/* Title: Article Information */}
-          <div className="bg-white p-[30px] rounded-[5px] h-auto">
+          </h2>
+          <div className="bg-white p-6 rounded-lg shadow-md">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-6"
               >
                 {/* Title */}
                 <FormField
@@ -119,13 +117,12 @@ const CreateNewContent = () => {
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-primary text-2xl font-bold">
+                      <FormLabel className="text-primary text-xl font-bold">
                         ចំណងជើង
                       </FormLabel>
                       <FormDescription className="text-sm">
                         បញ្ចូលចំណងជើងរបស់អ្នក
                       </FormDescription>
-
                       <FormControl>
                         <Input
                           placeholder="ឧទាហរណ៍:  Bootiful Spring Boot 3.4: Spring Batch"
@@ -143,15 +140,14 @@ const CreateNewContent = () => {
                   name="cover"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-primary text-2xl font-bold">
+                      <FormLabel className="text-primary text-xl font-bold">
                         រូបភាព
                       </FormLabel>
                       <FormDescription className="text-sm">
-                        ដាក់រូបសម្រាប់អត្ថបទ
+                        ដាក់រូបសម្រាប់អត្ថបទ (1200 x 630)
                       </FormDescription>
                       <FormControl>
-                        <div className="">
-                          {/* Hidden Input */}
+                        <div>
                           <input
                             id="file-upload"
                             type="file"
@@ -160,17 +156,15 @@ const CreateNewContent = () => {
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               if (file) {
-                                field.onChange(file); // Update form state
-                                handleFileChange(e); // Show preview and simulate upload
+                                field.onChange(file);
+                                handleFileChange(e);
                               }
                             }}
                             disabled={uploading}
                           />
-
-                          {/* Label as Button */}
                           <label
                             htmlFor="file-upload"
-                            className={`block w-[129px] py-2 px-4 text-center font-medium text-white rounded-md cursor-pointer ${
+                            className={`inline-block w-full sm:w-auto px-4 py-2 text-center font-medium text-white rounded-md cursor-pointer ${
                               uploading
                                 ? "bg-gray-400"
                                 : "bg-primary hover:bg-primary-dark"
@@ -180,7 +174,6 @@ const CreateNewContent = () => {
                           </label>
                         </div>
                       </FormControl>
-
                       <FormMessage />
                       {uploading && (
                         <p className="text-sm text-gray-500">Uploading...</p>
@@ -189,18 +182,18 @@ const CreateNewContent = () => {
                   )}
                 />
 
+                {/* Slug */}
                 <FormField
                   control={form.control}
                   name="slug"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-primary text-2xl font-bold">
+                      <FormLabel className="text-primary text-xl font-bold">
                         ទិន្នន័យបង្ហាញលើ URL (Slug)
                       </FormLabel>
                       <FormDescription className="text-sm">
                         បញ្ចូលទិន្នន័យបង្ហាញលើ URL សម្រាប់អត្ថបទរបស់អ្នក
                       </FormDescription>
-
                       <FormControl>
                         <Input
                           placeholder="ឧទាហរណ៍:  bootiful-spring-boot-3.4-spring-batch"
@@ -218,13 +211,12 @@ const CreateNewContent = () => {
                   name="content"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-primary text-2xl font-bold">
+                      <FormLabel className="text-primary text-xl font-bold">
                         ការពិពណ៌នា
                       </FormLabel>
                       <FormDescription className="text-sm">
                         ចែករំលែកគំនិតរបស់អ្នក
                       </FormDescription>
-
                       <FormControl>
                         <RichTextEditor
                           content={field.value}
@@ -233,23 +225,23 @@ const CreateNewContent = () => {
                           }}
                         />
                       </FormControl>
-
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                {/* Keyword */}
                 <FormField
                   control={form.control}
                   name="keyword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-primary text-2xl font-bold">
+                      <FormLabel className="text-primary text-xl font-bold">
                         ពាក្យគន្លឹះ
                       </FormLabel>
                       <FormDescription className="text-sm">
                         បញ្ចូលរូបពាក្យគន្លឹះសម្រាប់អត្ថបទរបស់អ្នក
                       </FormDescription>
-
                       <FormControl>
                         <Input
                           placeholder="ឧទាហរណ៍:  spring, spring-boot, spring-batch"
@@ -261,18 +253,18 @@ const CreateNewContent = () => {
                   )}
                 />
 
+                {/* Tags */}
                 <FormField
                   control={form.control}
                   name="tag"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-primary text-2xl font-bold">
+                      <FormLabel className="text-primary text-xl font-bold">
                         ស្លាក #
                       </FormLabel>
                       <FormDescription className="text-sm">
                         បញ្ចូលរូបស្លាកសម្រាប់អត្ថបទរបស់អ្នក
                       </FormDescription>
-
                       <FormControl>
                         <Select
                           closeMenuOnSelect={true}
@@ -283,34 +275,30 @@ const CreateNewContent = () => {
                           maxMenuHeight={125}
                           value={tags.filter((tag) =>
                             field.value?.includes(tag.value)
-                          )} // Map form value to react-select
+                          )}
                           onChange={(selectedOptions) => {
                             field.onChange(
                               selectedOptions.map((option) => option.value)
-                            ); // Update form value
+                            );
                           }}
                         />
                       </FormControl>
-
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div className="flex flex-row-reverse gap-[10px]">
-                  <Button type="submit" className="text-white">
-                    ដាក់ស្នើ
+
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
+                  <Button type="submit" className="w-full sm:w-auto text-white">
+                    បោះពុម្ភផ្សាយ
                   </Button>
                   <Button
-                    type="submit"
-                    className="text-primary bg-white border border-secondary hover:bg-slate-50 "
+                    type="button"
+                    variant="outline"
+                    className="w-full sm:w-auto text-primary"
                   >
-                    រក្សាទុក
-                  </Button>
-                  <Button
-                    type="submit"
-                    className="text-primary bg-white   hover:bg-slate-50 "
-                  >
-                    ផ្ទៀងផ្ទាត់
+                    សេចក្តីព្រាង
                   </Button>
                 </div>
               </form>
@@ -320,81 +308,67 @@ const CreateNewContent = () => {
 
         {/* Preview */}
         <div>
-          <span className="col-span-1 flex items-center text-[32px] font-bold text-primary whitespace-nowrap p-2">
+          <h2 className="text-2xl lg:text-3xl font-bold text-primary mb-4">
             លទ្ធផលបង្ហាញ
-          </span>
+          </h2>
 
-          <div className="bg-white  rounded-[5px] h-auto">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
             {/* Image section */}
             <div>
-              {/* Image Preview */}
               {imagePreview ? (
-                <div className="flex justify-center">
+                <div className="w-full h-48 md:h-64 lg:h-72">
                   <img
                     src={imagePreview}
                     alt="Cover preview"
-                    className="w-full h-[217px] object-cover rounded-md"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               ) : (
-                // Placeholder image when no image is uploaded
-                <div className="flex justify-center">
+                <div className="w-full h-[630px] md:h-64 lg:h-72 xs:h-[180px] sm:h-[250px]">
                   <img
                     src="https://placehold.co/600x217?text=No+Image+Uploaded"
                     alt="Placeholder image"
-                    className="w-full h-[217px] object-cover rounded-md"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               )}
             </div>
-            {/* content section */}
-            <div className="px-[30px] pt-[30px] pb-[5px]">
-              {/* Title */}
-              <h1 className="text-2xl font-bold text-primary">
+
+            {/* Content section */}
+            <div className="p-4 md:p-6">
+              <h1 className="text-xl md:text-2xl font-bold text-primary mb-4">
                 {form.watch("title") || "ចំណងជើង"}
               </h1>
-            </div>
 
-            {/* Tags */}
-            <div className="p-[30px]">
-              <div className="flex flex-wrap gap-2">
-                {form.watch("tag")?.length > 0 ? (
-                  form.watch("tag")?.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-1 bg-white text-primary border border-secondary rounded-md"
-                    >
-                      {tag}
+              {/* Tags */}
+              <div className="mb-4">
+                <div className="flex flex-wrap gap-2">
+                  {form.watch("tag")?.length > 0 ? (
+                    form.watch("tag")?.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-1 text-sm bg-white text-primary border border-secondary rounded-md"
+                      >
+                        {tag}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="px-2 py-1 text-sm bg-white text-primary border border-secondary rounded-md">
+                      Tag
                     </span>
-                  ))
-                ) : (
-                  // Placeholder tag if no tags are selected
-                  <span className="px-2 py-1 bg-white text-primary border border-secondary rounded-md">
-                    Tag
-                  </span>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* Content */}
-            <div className="px-[30px] pt-[10px] pb-[30px]">
-              {/* <Preview
-                content={
-                  form.watch("content") ||
-                  "ការពិពណ៌នានេះនឹងត្រូវបានបង្ហាញនៅទីនេះ"
-                }
-              /> */}
-
-              <Preview
-                content={cleanContent(
-                  form.watch("content") ||
-                    "ការពិពណ៌នានេះនឹងត្រូវបានបង្ហាញនៅទីនេះ"
-                )}
-              />
-              {/* <p>
-                {form.watch("content") ||
-                  "ការពិពណ៌នានេះនឹងត្រូវបានបង្ហាញនៅទីនេះ"}
-              </p> */}
+              {/* Content */}
+              <div>
+                <Preview
+                  content={cleanContent(
+                    form.watch("content") ||
+                      "ការពិពណ៌នានេះនឹងត្រូវបានបង្ហាញនៅទីនេះ"
+                  )}
+                />
+              </div>
             </div>
           </div>
         </div>
