@@ -10,21 +10,27 @@ import type { Notification } from "@/types/notifications";
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [userId, setUserId] = useState<string>('');
+  
 
-  const handleMarkAsRead = useCallback(async (id: string) => {
+  console.log("Notification log",notifications);
+
+  const handleMarkAsRead = useCallback(async (id: string, status: boolean) => {
     try {
-      await markAsRead(id);
+      console.log('Updating read status:', id, status);
+      await markAsRead(id, status);
       setNotifications(prev =>
         prev.map(notification =>
           notification.id === id
-            ? { ...notification, isRead: true }
+            ? { ...notification, isRead: status }
             : notification
         )
       );
     } catch (error) {
-      console.error('Error marking notification as read:', error);
+      console.error('Error updating notification status:', error);
     }
   }, []);
+
+
 
   const handleRemove = useCallback(async (id: string) => {
     try {
@@ -38,11 +44,11 @@ export default function NotificationsPage() {
   }, []);
 
   useEffect(() => {
-    const currentUserId = 'receiverID'; // Replace with actual user ID retrieval method
+    const currentUserId = 'receiver'; // Replace with actual user ID retrieval method
     setUserId(currentUserId);
 
     const wsService = new WebSocketService(
-      'http://localhost:8080/ws',
+      'http://localhost:8888/ws',
       currentUserId
     );
 
@@ -53,9 +59,9 @@ export default function NotificationsPage() {
     wsService.connect();
 
     // Fetch initial notifications
-wsService.fetchInitialNotifications('desc').then(initialNotifications => {
-  setNotifications(initialNotifications);
-});
+  wsService.fetchInitialNotifications('desc').then(initialNotifications => {
+    setNotifications(initialNotifications);
+  });
 
     return () => {
       wsService.disconnect();
