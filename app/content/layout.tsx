@@ -12,7 +12,6 @@ export default function ContentLayout({
     <div
         className={`${roboto.variable} ${koh_Santepheap.variable} h-full relative`}
       >
-
         <SidebarProvider>
           <main className="bg-gray-100 w-full ">{children}</main>
         </SidebarProvider>
