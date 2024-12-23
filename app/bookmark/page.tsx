@@ -38,6 +38,22 @@ const mockArticles = [
     tags: ["java", "javascript", "programming"],
     isBookmarked: true
   },
+  {
+    id: 5,
+    title: "Top 5 JavaScript Features You're Not Using Enough",
+    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
+    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
+    tags: ["java", "javascript", "programming"],
+    isBookmarked: true
+  },
+  {
+    id: 6,
+    title: "Top 5 JavaScript Features You're Not Using Enough",
+    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
+    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
+    tags: ["java", "javascript", "programming"],
+    isBookmarked: true
+  },
   // Add more mock articles as needed
 ]
 
@@ -79,7 +95,7 @@ export default function BookmarkPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl ml-[364px] mb-5">
+    <div className="container mx-auto max-w-6xl ml-[364px] mb-5 mt-[76px]">
       <div className="space-y-2">
         <h1 className="text-2xl font-bold md:text-xl text-primary">Bookmark</h1>
         
@@ -90,7 +106,7 @@ export default function BookmarkPage() {
           </TabsList>
           
           <TabsContent value="article">
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid gap-2 sm:grid-cols-3">
               {articles.map((article) => (
                 <ArticleCard
                   key={article.id}
@@ -105,7 +121,7 @@ export default function BookmarkPage() {
             </div>
           </TabsContent>
           
-          <TabsContent value="forum" className="space-y-4">
+          <TabsContent value="forum" className="space-y-4 h-screen">
             {forumPosts.map((post) => (
               <BookmarkCard
                 key={post.id}

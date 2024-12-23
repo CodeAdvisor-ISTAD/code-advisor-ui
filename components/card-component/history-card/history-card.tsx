@@ -22,7 +22,7 @@ export function HistoryCard({
   onShare
 }: HistoryCardProps) {
   return (
-    <Card className="rounded-sm border border-gray-100 ">
+    <Card className="rounded-sm border border-gray-100">
       <CardContent className="p-6 ">
         <div className="flex gap-4">
           <Image

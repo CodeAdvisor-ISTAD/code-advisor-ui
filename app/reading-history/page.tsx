@@ -94,9 +94,9 @@ export default function ReadingHistoryPage() {
   const groupedHistory = groupByDate(history)
 
   return (
-    <div className="flex gap-6 mb-5 pt-[80px] lg:pl-[364px]   ">
-      <div className='w-[800px] p-2'>
-     <Tabs defaultValue="reading" className="">
+    <div className="flex gap-6 pt-[72px] lg:pl-[364px] mb-20">
+      <div className='w-[900px] p-2 '>
+     <Tabs defaultValue="reading">
           <TabsList className="w-full flex justify-between items-center mb-4 text-primary">
             <div>
               <TabsTrigger value="reading">Reading history</TabsTrigger>
@@ -114,7 +114,7 @@ export default function ReadingHistoryPage() {
             </TabsContent>
           </TabsList>
           
-          <TabsContent value="reading" className="space-y-6 ml-1">
+          <TabsContent value="reading" className="space-y-6 ml-1 h-screen">
             <Input
               type="search"
               placeholder="Search reading history"
@@ -145,7 +145,7 @@ export default function ReadingHistoryPage() {
           </TabsContent>
 
           
-          <TabsContent value="search" className="space-y-6">
+          <TabsContent value="search" className="space-y-6 h-screen">
             <div className="space-y-4">
               <SearchTags
                 tags={searchTags}
