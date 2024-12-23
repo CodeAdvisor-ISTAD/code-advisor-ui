@@ -12,10 +12,7 @@ export default function AboutLayout({
   return (
     <>
       <ErrorBoundary errorComponent={Error}>
-        <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0 z-50">
-          <NavbarLogin />
-        </header>
-        <main className={`${roboto.variable} ${koh_Santepheap.variable}`}>
+        <main className= {`${roboto.variable} ${koh_Santepheap.variable} h-full relative` }>
           {children}
         </main>
       </ErrorBoundary>

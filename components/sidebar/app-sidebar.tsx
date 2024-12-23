@@ -131,8 +131,9 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar className="ml-[100px] h-auto">
-      <SidebarHeader className="p-4">
+    
+    <Sidebar className="ml-[100px]  h-auto">
+      <SidebarHeader className="p-4 ">
         <h2 className="text-lg font-semibold">CodeAdvisor</h2>
       </SidebarHeader>
       <SidebarContent>
