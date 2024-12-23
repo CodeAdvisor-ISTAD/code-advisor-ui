@@ -8,8 +8,8 @@ interface RecommendationProps {
 
 export default function Recommendations({ type, items }: RecommendationProps) {
   return (
-    <Card className="w-[341px] h-[315px] rounded-[5px] ">
-      <div className="my-1">
+    <Card className="w-[341px] h-[300px] rounded-[5px]  ">
+      <div className="mt-[8px]">
       <CardHeader>
         <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary">
           <Star className="h-6 w-6 fill-red-500 text-red-500" />

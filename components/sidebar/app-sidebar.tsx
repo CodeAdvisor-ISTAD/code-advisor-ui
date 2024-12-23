@@ -34,13 +34,13 @@ const items = [
   {
     id: 1,
     title: "អត្ថបទ",
-    url: "#",
+    url: "/home",
     icon: Home,
     subItems: [
       {
         id: 1,
         title: "ថ្មីៗ",
-        url: "#",
+        url: "/home",
       },
       {
         id: 2,
@@ -50,14 +50,14 @@ const items = [
       {
         id: 3,
         title: "ស្លាក",
-        url: "#",
+        url: "/content/tags",
       },
     ],
   },
   {
     id: 18,
     title: "សំណួរទូទៅ",
-    url: "/forum",
+    url: "",
     icon: FileQuestion,
     subItems: [
       {
@@ -68,12 +68,12 @@ const items = [
       {
         id: 2,
         title: "ពេញនិយម",
-        url: "/trending",
+        url: "/forum",
       },
       {
         id: 3,
         title: "ស្លាក",
-        url: "/tag",
+        url: "/forum/tags",
       },
     ],
   },
@@ -131,8 +131,9 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar className="ml-[100px] h-auto">
-      <SidebarHeader className="p-4">
+    
+    <Sidebar className="ml-[100px]  h-auto">
+      <SidebarHeader className="p-4 ">
         <h2 className="text-lg font-semibold">CodeAdvisor</h2>
       </SidebarHeader>
       <SidebarContent>
