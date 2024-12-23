@@ -13,11 +13,11 @@ export function ContentSection({
   reactions,
 }: Content) {
   return (
-    <div className="">
-      <Card className="ml-[100px] rounded-[5px] shadow-none">
+    <div className="no-scrollbar">
+      <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar">
         <img
           src={cover}
-          className="w-full h-80 9-0 object-cover rounded-t-[5px]"
+          className="w-full h-80 object-cover rounded-t-[5px]"
         />
         <div className="mx-20">
           <CardHeader>
