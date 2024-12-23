@@ -13,7 +13,7 @@ export default async function Page({
   const content = await getContentById(slug);
 
   return (
-    <main className="flex mx-auto mt-[80px] pb-4">
+    <main className="flex mx-auto mt-[80px] pb-4 bg-gray-100 w-full px-[100px]">
       <div className="w-full fixed">
         <ContentSidebar
           contentId={slug}

@@ -1,7 +1,7 @@
 import { SidebarProvider } from "@/components/ui/sidebarContent";
 import { koh_Santepheap, roboto } from "../fonts/fonts";
+import '../globals.css';
 import NavbarComponent from "@/components/navbar/NavbarComponent";
-import Footer from "@/components/footer/Footer";
 
 export default function ContentLayout({
   children,
@@ -18,7 +18,7 @@ export default function ContentLayout({
         </header>
 
         <SidebarProvider>
-          <main className="bg-gray-100 w-full px-[100px]">{children}</main>
+          <main className="">{children}</main>
         </SidebarProvider>
       </body>
     </html>
