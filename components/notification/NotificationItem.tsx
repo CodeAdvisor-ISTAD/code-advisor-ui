@@ -32,8 +32,9 @@ const getNotificationIcon = (type: NotificationType) => {
   }
 };
 
-export  function NotificationItem({ notification, actions }: NotificationItemProps) {
+export function NotificationItem({ notification, actions }: NotificationItemProps) {
   const [userProfile, setUserProfile] = useState<{ name: string; profile: string } | null>(null);
+  const [isRead, setIsRead] = useState(notification.read);
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -44,7 +45,24 @@ export  function NotificationItem({ notification, actions }: NotificationItemPro
     fetchUserProfile();
   }, [notification.senderId]);
 
-  console.log("Notification log",notification.read);
+  const handleMarkAsRead = async () => {
+    const newReadStatus = !isRead;
+    setIsRead(newReadStatus); // Optimistic UI update
+    try {
+      await actions.markAsRead(notification.id, newReadStatus);
+    } catch (error) {
+      setIsRead(!newReadStatus); // Revert UI in case of error
+      console.error("Failed to update read status", error);
+    }
+  };
+
+  const handleRemoveNotification = async () => {
+    try {
+      await actions.remove(notification.id);
+    } catch (error) {
+      console.error("Failed to remove notification", error);
+    }
+  };
 
   return (
     <div className="flex items-start gap-4 p-6 rounded-md transition-colors bg-white border border-gray-200">
@@ -81,11 +99,8 @@ export  function NotificationItem({ notification, actions }: NotificationItemPro
         </p>
       </div>
 
-
-      
-
       <div className="flex items-center gap-2">
-        {!notification.read && <div className="h-2 w-2 rounded-full bg-yellow-600" />}
+        {!isRead && <div className="h-2 w-2 rounded-full bg-yellow-600" />}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="h-8 w-8 border-none focus:outline-none active:border-none focus:ring-0">
@@ -94,11 +109,11 @@ export  function NotificationItem({ notification, actions }: NotificationItemPro
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="border-none">
-            <DropdownMenuItem onClick={() => actions.markAsRead(notification.id, !notification.read)} className="border-none text-yellow-600">
+            <DropdownMenuItem onClick={handleMarkAsRead} className="border-none text-yellow-600">
               <CircleCheck className="mr-2 text-yellow-600" />
-              <span className="text-yellow-600">{notification.read ? 'Mark as unread' : 'Mark as read'}</span>
+              <span className="text-yellow-600">{isRead ? 'Mark as unread' : 'Mark as read'}</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => actions.remove(notification.id)} className="border-none text-red-700">
+            <DropdownMenuItem onClick={handleRemoveNotification} className="border-none text-red-700">
               <Trash2 className="mr-2 text-red-700" />
               <span className="text-red-700">Remove</span>
             </DropdownMenuItem>

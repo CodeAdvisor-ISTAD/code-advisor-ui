@@ -171,7 +171,7 @@ export async function deleteComment(commentId: string): Promise<void> {
 
 // for notification
 import type { Notification } from '@/types/notifications';
-const API_BASE_URL = 'http://localhost:8080/api/v1';
+const API_BASE_URL = 'http://localhost:8888/api/v1';
 
 export const fetchNotifications = async (userId: string): Promise<Notification[]> => {
   const response = await fetch(`${API_BASE_URL}/notifications/${userId}`);
