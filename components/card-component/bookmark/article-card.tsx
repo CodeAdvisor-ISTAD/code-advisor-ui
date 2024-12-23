@@ -33,7 +33,7 @@ export function ArticleCard({
           />
         </div>
         <div className="space-y-2">
-          <h3 className="text-xl font-medium tracking-tight text-primary line-clamp-2">{title}</h3>
+          <h3 className="text-xl font-medium tracking-tight text-primary line-clamp-1">{title}</h3>
           <p className="text-slate-500 text-sm line-clamp-2">{description}</p>
         </div>
         <div className="flex flex-wrap gap-2">
