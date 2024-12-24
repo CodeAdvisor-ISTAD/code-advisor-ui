@@ -8,12 +8,17 @@ export default function NavbarComponent() {
             {/* Logo */}
             <section>
                 <Link href="/" aria-label="Go to home page">
-                    <Image src="/logo1.png" alt="logo" width={100} height={100} />
+                    <Image
+                        src="/logo1.png"
+                        alt="logo"
+                        width={100}
+                        height={100}
+                    />
                 </Link>
             </section>
 
             {/* Search Section */}
-        <div className="flex flex-1 justify-center">
+            <div className="flex flex-1 justify-center">
                 <div className="relative w-[800px]">
                     <input
                         type="text"
@@ -41,14 +46,19 @@ export default function NavbarComponent() {
 
             {/* Action Buttons */}
             <div className="flex h-[50px] ">
-                <Button className="m-[8px] text-white bg-primary rounded-[5px]">
-                    ចុះឈ្មោះ
-                </Button>
-                <Button className="m-[8px] text-white bg-primary rounded-[5px]">
-                    ចូលប្រើ
-                </Button>
+                <Link
+                    href="/oauth2/authorization/code-advisor"
+                    className="m-[8px] text-white bg-primary rounded-[5px]"
+                >
+                    login
+                </Link>
+                <Link
+                    href="/logout"
+                    className="m-[8px] text-white bg-primary rounded-[5px]"
+                >
+                    logout
+                </Link>
             </div>
         </div>
     );
 }
-

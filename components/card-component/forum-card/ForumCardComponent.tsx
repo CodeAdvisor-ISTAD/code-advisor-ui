@@ -20,6 +20,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/pop-over";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function ForumCardComponent({
     id,
@@ -62,8 +63,17 @@ export function ForumCardComponent({
         },
     ];
 
+    const router = useRouter();
+
+    const handleNavigate = (id: number) => {
+        router.push(`/forum/${id}`);
+    };
+
     return (
-        <div className=" bg-white rounded-[5px] shadow-sm p-6">
+        <div
+            className=" bg-white rounded-[5px] shadow-sm p-6 cursor-pointer"
+            onClick={() => handleNavigate(id)}
+        >
             {/* Header Section */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
@@ -103,11 +113,9 @@ export function ForumCardComponent({
 
             {/* Content Section */}
             <div className="mb-4">
-                <Link href={`/forum/${id}`}>
-                    <h2 className="text-[18px] font-bold text-primary underline decoration-primary">
-                        {title}
-                    </h2>
-                </Link>
+                <h2 className="text-[18px] font-bold text-primary decoration-primary">
+                    {title}
+                </h2>
                 <p className="text-gray-700 mb-4">{content}</p>
             </div>
 
