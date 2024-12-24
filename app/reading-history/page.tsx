@@ -94,7 +94,7 @@ export default function ReadingHistoryPage() {
   const groupedHistory = groupByDate(history)
 
   return (
-    <div className="flex gap-6 pt-[72px] lg:pl-[364px] mb-20">
+    <div className="flex gap-6 pt-[72px] lg:pl-[364px] mb-20 no-scrollbar">
       <div className='w-[900px] p-2 '>
      <Tabs defaultValue="reading">
           <TabsList className="w-full flex justify-between items-center mb-4 text-primary">
