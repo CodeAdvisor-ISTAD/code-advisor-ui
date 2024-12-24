@@ -9,7 +9,7 @@ interface RecommendationProps {
 export default function Recommendations({ type, items }: RecommendationProps) {
   return (
     <Card className="w-[341px] h-[300px] rounded-[5px]  ">
-      <div className="mt-[8px]">
+      <div className="py-2">
       <CardHeader>
         <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary">
           <Star className="h-6 w-6 fill-red-500 text-red-500" />
