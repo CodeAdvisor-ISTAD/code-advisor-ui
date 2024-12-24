@@ -9,9 +9,9 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
