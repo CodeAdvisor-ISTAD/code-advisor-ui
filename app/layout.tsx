@@ -9,9 +9,9 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -24,11 +24,11 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
 
-                    <main className="bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
+                    <main className="w-full bg-background ">
                         {children}
                     </main>
                 </SidebarProvider>
-                <footer>
+                <footer  >
                     <Footer />
                 </footer>
             </body>

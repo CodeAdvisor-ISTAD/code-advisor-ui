@@ -24,13 +24,13 @@ export function CardComponent({
 }: CardData) {
     return (
         <a href={`/content/${id}`}>
-        <Card className="h-auto rounded-[5px] group">
-            <CardHeader>
-                <div>
-                    <h2 className="text-xl font-medium tracking-tight text-primary line-clamp-2">
+        <Card className=" rounded-[5px] ">
+            <CardHeader className="space-y-3">
+                <div className="space-y-3">
+                    <h2 className="text-xl font-medium tracking-normal text-primary ">
                         {title}
                     </h2>
-                    <p className="text-slate-500 text-sm line-clamp-2">
+                    <p className="text-slate-500 text-sm line-clamp-2 ">
                         {description}
                     </p>
                 </div>

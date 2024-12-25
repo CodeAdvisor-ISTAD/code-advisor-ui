@@ -21,7 +21,7 @@ export default function ProfileImagey({ disableButton }: ProfileImageProps) {
       React.useState<UserInformation | null>(null);
 
   React.useEffect(() => {
-      fetch("http://localhost:8080/api/v1/edit_user_profiles/ZAZA")
+      fetch("http://localhost:8085/api/v1/edit_user_profiles/ZAZA")
         .then((response) => response.json())
         .then((data) => setUserInformation(data));
     }, []);

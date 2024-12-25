@@ -34,13 +34,13 @@ const items = [
   {
     id: 1,
     title: "អត្ថបទ",
-    url: "#",
+    url: "/home",
     icon: Home,
     subItems: [
       {
         id: 1,
         title: "ថ្មីៗ",
-        url: "#",
+        url: "/home",
       },
       {
         id: 2,
@@ -50,14 +50,14 @@ const items = [
       {
         id: 3,
         title: "ស្លាក",
-        url: "#",
+        url: "/content/tags",
       },
     ],
   },
   {
     id: 18,
     title: "សំណួរទូទៅ",
-    url: "/forum",
+    url: "",
     icon: FileQuestion,
     subItems: [
       {
@@ -68,12 +68,12 @@ const items = [
       {
         id: 2,
         title: "ពេញនិយម",
-        url: "/trending",
+        url: "/forum",
       },
       {
         id: 3,
         title: "ស្លាក",
-        url: "/tag",
+        url: "/forum/tags",
       },
     ],
   },
@@ -86,19 +86,19 @@ const items = [
   {
     id: 3,
     title: "កត់ចាំណាំ",
-    url: "#",
+    url: "/bookmark",
     icon: Calendar,
   },
   {
     id: 4,
     title: "ប្រវត្តិ",
-    url: "#",
+    url: "/reading-history",
     icon: History,
   },
   {
     id: 5,
     title: "អំពីពួកយើង",
-    url: "# ",
+    url: "/about",
     icon: Contact,
   },
   {
@@ -118,12 +118,21 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
 
-    if (pathname === "/content/new" || pathname === "/user" || pathname === "/edituser" || pathname.startsWith("/content") ) {
-        return;
-    }
+  if (
+    pathname === "/content/new" ||
+    pathname === "/user" ||
+    pathname ==="/edituser" ||
+    (pathname.startsWith("/content") && !pathname.includes("/content/tags")) ||
+    pathname ==="/about" ||
+    pathname.startsWith("/report") ||
+    pathname === "/notification"
+  ) {
+    return;
+  }
 
   return (
-    <Sidebar className="ml-[100px]">
+    
+    <Sidebar className="ml-[100px]  h-auto">
       <SidebarHeader className="p-4 ">
         <h2 className="text-lg font-semibold">CodeAdvisor</h2>
       </SidebarHeader>
@@ -132,31 +141,45 @@ export function AppSidebar() {
           <SidebarGroup>
             <SidebarGroupContent>
               {items.map((item) => (
-                <Collapsible key={item.id} className="group/collapsible">
+                <Collapsible
+                  key={item.id}
+                  className="group/collapsible"
+                  disabled={!item.subItems} // Disable collapsible if no sub-items
+                >
                   <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton className="text-[16px]">
-                        <item.icon className="w-4 h-4 mr-2" />
-                        {item.title}
-                        {item.subItems && (
+                    {item.subItems ? (
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton className="flex items-center text-[16px] px-4 py-2 hover:bg-gray-100 rounded-lg">
+                          <item.icon className="w-4 h-4 mr-2" />
+                          {item.title}
                           <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
-                        )}
-                      </SidebarMenuButton>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <SidebarMenuSub>
-                        {item.subItems?.map((subItem) => (
-                          <SidebarMenuSubItem key={subItem.id}>
-                            <Link
-                              href={item.url}
-                              className="flex items-center px-4 py-1 hover:bg-gray-100 rounded-lg"
-                            >
-                              {subItem.title}
-                            </Link>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                    ) : (
+                      <Link
+                        href={item.url}
+                        className="flex items-center text-[16px] px-4 py-2 hover:bg-gray-100 rounded-lg"
+                      >
+                        <item.icon className="w-4 h-4 mr-4" />
+                        {item.title}
+                      </Link>
+                    )}
+                    {item.subItems && (
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.subItems.map((subItem) => (
+                            <SidebarMenuSubItem key={subItem.id}>
+                              <Link
+                                href={subItem.url}
+                                className="flex items-center px-4 py-1 hover:bg-gray-100 rounded-lg"
+                              >
+                                {subItem.title}
+                              </Link>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    )}
                   </SidebarMenuItem>
                 </Collapsible>
               ))}
@@ -166,4 +189,6 @@ export function AppSidebar() {
       </SidebarContent>
     </Sidebar>
   );
+  
+  
 }

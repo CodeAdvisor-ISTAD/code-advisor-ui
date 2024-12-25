@@ -14,7 +14,7 @@ export default function UserInformationCardComponent() {
     React.useState<UserInformation | null>(null);
 
   React.useEffect(() => {
-    fetch("http://localhost:8080/api/v1/edit_user_profiles/ZAZA")
+    fetch("http://localhost:8085/api/v1/edit_user_profiles/ZAZA")
       .then((response) => response.json())
       .then((data) => setUserInformation(data));
   }, []);
@@ -24,7 +24,7 @@ export default function UserInformationCardComponent() {
   return (
     <div className="flex flex-col gap-4">
       <Card className="xs:w-[450px] lg:w-[510px] p-6 rounded-lg bg-white">
-        <div className="w-[75px] h-[55px] relative">
+        <div className="w-[80px] h-[55px] relative">
           <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">
             អំពីអ្នក
           </CardTitle>
@@ -34,57 +34,59 @@ export default function UserInformationCardComponent() {
           <TableBody>
             <TableRow>
               <TableCell className="text-lg pb-[10px]">នាម</TableCell>
-              <TableCell className="text-right text-lg pb-[10px] font-b">
+              <TableCell className="text-right text-lg pb-[10px] font-bold">
                 {user.fullName || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-lg pb-[10px]">ឈ្មោះគណនី</TableCell>
-              <TableCell className="text-right text-lg pb-[10px]">
+              <TableCell className="text-right text-lg pb-[10px] font-bold">
                 {user.username || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-lg pb-[10px]">អុីម៉ែល</TableCell>
-              <TableCell className="text-right text-lg pb-[10px]">
+              <TableCell className="text-right text-lg pb-[10px] font-bold">
                 {user.email || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-lg pb-[10px]">លេខទូរស័ព្ទ</TableCell>
-              <TableCell className="text-right font-roboto text-lg pb-[10px]">
+              <TableCell className="text-right font-roboto text-lg pb-[10px] font-bold">
                 {user.phoneNumber || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-lg pb-[10px]">ភេទ</TableCell>
-              <TableCell className="text-right font-khFont text-lg pb-[10px]">
+              <TableCell className="text-right font-khFont text-lg pb-[10px] font-bold">
                 {user.gender || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="text-lg pb-[10px]">
+              <TableCell className="text-lg pb-[10px] font-bold">
                 ថ្ងៃ ខែ​ ឆ្នាំកំណើត
               </TableCell>
-              <TableCell className="text-right font-khFont text-lg pb-[10px]">
+              <TableCell className="text-right font-khFont text-lg pb-[10px] font-bold">
                 {user.dob || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-lg pb-[10px]">ទីកន្លែងកំណើត</TableCell>
-              <TableCell className="text-right font-khFont text-lg pb-[10px]">
+              <TableCell className="text-right font-khFont text-lg pb-[10px] font-bold">
                 {user.pob || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-lg pb-[10px]">តួនាទី</TableCell>
-              <TableCell className="text-right font-roboto text-lg pb-[10px]">
+              <TableCell className="text-right font-roboto text-lg pb-[10px] font-bold">
                 {user.jobPosition || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="text-lg pb-[10px]">ទីកន្លែងធ្វើការ</TableCell>
-              <TableCell className="text-right font-roboto text-lg pb-[10px]">
+              <TableCell className="text-lg pb-[10px] ">
+                ទីកន្លែងធ្វើការ
+              </TableCell>
+              <TableCell className="text-right font-roboto text-lg pb-[10px] font-bold">
                 {user.workPlace || "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>

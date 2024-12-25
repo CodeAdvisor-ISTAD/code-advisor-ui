@@ -250,7 +250,7 @@ export function CommentList({ comment = [], contentId }: Content) {
           onClick={() => setReplyingTo(comment.id)}
         >
           <FaRegComment className="mr-2 h-4 w-4​" />
-          <span className="text-sm">ឆ្លើតប</span>
+          <span className="text-sm">ឆ្លើយតប</span>
         </Button>
         {comment.replies.length > 0 && (
           <Button

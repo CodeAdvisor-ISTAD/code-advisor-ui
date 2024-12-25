@@ -92,7 +92,7 @@ export function ContentSidebar({
         className="bg-gray"
         collapsible="none"
         side="left"
-        width="100px"
+        width="55px"
       >
         <SidebarContent>
           <SidebarGroup>

@@ -18,15 +18,15 @@ export type NotificationData = {
     message: string
     notificationData: NotificationData
     notificationType: NotificationType
-    isRead: boolean
+    read: boolean
     senderId: string
     receiverId: string
     createdAt: string
   }
-  
-  export type NotificationActions = {
-    markAsRead: (id: string) => void;
-    remove: (id: string) => void;
+
+  export interface NotificationActions {
+    markAsRead: (id: string, status: boolean) => Promise<void>;
+    remove: (id: string) => Promise<void>;
   }
   
   

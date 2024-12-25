@@ -17,7 +17,7 @@ export default function User() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/edit_user_profiles/ZAZA")
+    fetch("http://localhost:8085/api/v1/edit_user_profiles/ZAZA")
       .then((response) => response.json())
       .then((data) => {
         if (data && data.coverColor) {
@@ -39,7 +39,7 @@ export default function User() {
             {/* profile image */}
             <ProfileImage disableButton />
             <div className="absolute space-x-5 top-[230px] right-7 ">
-              <SaveUserUpdateButton 
+              <SaveUserUpdateButton
                 disabledCancel={false}
                 disabledSave={false}
                 onEdit={handleEdit}

@@ -111,13 +111,6 @@ export const cardsData = [
       "tags1": "tags1 6",
       "id": "15"
     },
-    {
-      "title": "Git Like a Pro: 10 Things I Regret Not Knowing Earlier",
-      "tags": "tags 6",
-      "image": "https://loremflickr.com/640/480/food",
-      "description": "In this blog post we’ll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also.....",
-      "tags1": "tags1 6",
-      "id": "16"
-    },    
+     
 ];
   

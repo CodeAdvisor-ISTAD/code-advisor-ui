@@ -45,7 +45,7 @@ export default function EditUserInformationForm({
 
   const form = useForm({
     defaultValues: async () => {
-      const response = await fetch("http://localhost:8080/api/v1/edit_user_profiles/ZAZA");
+      const response = await fetch("http://localhost:8085/api/v1/edit_user_profiles/ZAZA");
       const data = await response.json();
       return {
         fullName: data.fullName || "",
@@ -77,7 +77,7 @@ export default function EditUserInformationForm({
   async function onSubmit(data: any) {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/v1/edit_user_profiles/ZAZA",
+        "http://localhost:8085/api/v1/edit_user_profiles/ZAZA",
         {
           method: "PATCH",
           headers: {
