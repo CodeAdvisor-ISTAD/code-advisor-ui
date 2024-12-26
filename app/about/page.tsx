@@ -65,76 +65,72 @@ export default function about() {
 
           {/* Features Section */}
           <section className="mt-[100px]  bg-white border border-gray-100">
-           
-              <div className="grid grid-cols-1 md:grid-cols-3 mb-10">
-                {/* Goal Feature */}
-                <div
-                  className="text-center mx-28  "
-                  data-aos="fade-up"
-                >
-                  <div className="flex justify-center">
-                    <Image
-                      src="/2.png"
-                      alt="Code Advisors Logo"
-                      width={200}
-                      height={200}
-                    />
-                  </div>
-                  <h3 className="text-[24px]  font-semibold text-primary">
-                    បេសកម្ម
-                  </h3>
-                  <p className="text-gray-600 flex justify-center text-[18px]">
-                    ផ្តល់វិធីសាស្រ្តក្នុងការចែករំលែក ចំណេះដឹង ការដោះស្រាយបញ្ហា
-                    និងអភិវឌ្ឍន៍ចំណេះដឹង។
-                  </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 mb-10">
+              {/* Goal Feature */}
+              <div className="text-center mx-28  " data-aos="fade-up">
+                <div className="flex justify-center">
+                  <Image
+                    src="/2.png"
+                    alt="Code Advisors Logo"
+                    width={200}
+                    height={200}
+                  />
                 </div>
-
-                {/* Meaning Feature */}
-                <div
-                  className="text-center mx-28"
-                  data-aos="fade-up"
-                  data-aos-delay="100"
-                >
-                  <div className="flex justify-center">
-                    <Image
-                      src="/1.png"
-                      alt="Code Advisors Logo"
-                      width={200}
-                      height={200}
-                    />
-                  </div>
-                  <h3 className="text-[24px] font-semibold text-primary">
-                    ចក្ខុវិស័យ
-                  </h3>
-                  <p className="text-gray-600 flex justify-center text-[18px]">
-                    ផ្តល់ឱកាសឲ្យ Developers សិក្សាស្វែងយល់ សហការណ៍
-                    និងបង្កើនការច្នៃប្រឌិត។
-                  </p>
-                </div>
-
-                {/* Quality Feature */}
-                <div
-                  className="text-center mx-28"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                >
-                  <div className="flex justify-center">
-                    <Image
-                      src="/3.png"
-                      alt="Code Advisors Logo"
-                      width={200}
-                      height={200}
-                    />
-                  </div>
-                  <h3 className="text-[24px] font-semibold text-primary">
-                    គុណតម្លៃ
-                  </h3>
-                  <p className="text-gray-600 flex justify-center text-[18px]">
-                    ការសហការណ៍ ការដោះស្រាយបញ្ហា
-                    ការចែករំលែកចំណេះដឹង​និងបង្កើនការអភិវឌ្ឍន៍។
-                  </p>
-                </div>
+                <h3 className="text-[24px]  font-semibold text-primary">
+                  បេសកម្ម
+                </h3>
+                <p className="text-gray-600 flex justify-center text-[18px]">
+                  ផ្តល់វិធីសាស្រ្តក្នុងការចែករំលែក ចំណេះដឹង ការដោះស្រាយបញ្ហា
+                  និងអភិវឌ្ឍន៍ចំណេះដឹង។
+                </p>
               </div>
+
+              {/* Meaning Feature */}
+              <div
+                className="text-center mx-28"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                <div className="flex justify-center">
+                  <Image
+                    src="/1.png"
+                    alt="Code Advisors Logo"
+                    width={200}
+                    height={200}
+                  />
+                </div>
+                <h3 className="text-[24px] font-semibold text-primary">
+                  ចក្ខុវិស័យ
+                </h3>
+                <p className="text-gray-600 flex justify-center text-[18px]">
+                  ផ្តល់ឱកាសឲ្យ Developers សិក្សាស្វែងយល់ សហការណ៍
+                  និងបង្កើនការច្នៃប្រឌិត។
+                </p>
+              </div>
+
+              {/* Quality Feature */}
+              <div
+                className="text-center mx-28"
+                data-aos="fade-up"
+                data-aos-delay="200"
+              >
+                <div className="flex justify-center">
+                  <Image
+                    src="/3.png"
+                    alt="Code Advisors Logo"
+                    width={200}
+                    height={200}
+                  />
+                </div>
+                <h3 className="text-[24px] font-semibold text-primary">
+                  គុណតម្លៃ
+                </h3>
+                <p className="text-gray-600 flex justify-center text-[18px]">
+                  ការសហការណ៍ ការដោះស្រាយបញ្ហា
+                  ការចែករំលែកចំណេះដឹង​និងបង្កើនការអភិវឌ្ឍន៍។
+                </p>
+              </div>
+            </div>
           </section>
 
           {/* About Section */}
@@ -301,8 +297,10 @@ export default function about() {
                           d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                         />
                       </svg>
-                      <span className="font-semibold">អុីម៉ែល:</span>{" "}
-                      istad.tk@edu.kh
+                      <span className="font-semibold mr-2">អុីម៉ែល:</span>{" "}
+                      <a href="/info.istad@gmail.com" className=" hover:text-primary">
+                        istad.tk@edu.kh
+                      </a>
                     </li>
                     <li
                       data-aos="fade-up"
@@ -323,8 +321,13 @@ export default function about() {
                           d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                         />
                       </svg>
-                      <span className="font-semibold">លេខទូរស័ព្ទ:</span> +855
-                      123 456 789
+                      <span className="font-semibold mr-2">លេខទូរស័ព្ទ:</span>{" "}
+                      <a
+                        href="tel:+855123456789"
+                        className=" hover:text-primary"
+                      >
+                        +855 123 456 789
+                      </a>
                     </li>
                     <li
                       data-aos="fade-up"
@@ -351,8 +354,15 @@ export default function about() {
                           d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                         />
                       </svg>
-                      <span className="font-semibold">ទីតាំង:</span> Near 23
-                      Street 564, Phnom Penh
+                      <span className="font-semibold mr-2">ទីតាំង:</span>{" "}
+                      <a
+                        href="https://www.google.com/maps?q=23+Street+564,+Phnom+Penh"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className=" hover:text-primary"
+                      >
+                         Street 562,Sangkat Boeung Kak I,Khan Toul Kork,Phnom Penh
+                      </a>
                     </li>
                   </ul>
                 </div>

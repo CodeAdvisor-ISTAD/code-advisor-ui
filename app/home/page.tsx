@@ -23,7 +23,7 @@ export default function Home() {
         <CardList />
       </div>
       
-      <div className="flex flex-col ml-2 gap-2  ">
+      <div className="flex flex-col ml-2 gap-2 ">
         <Recommendations type="Latest" items={latest} />
         <Recommendations type="Trending" items={trending} />
         <ISTADCard></ISTADCard>

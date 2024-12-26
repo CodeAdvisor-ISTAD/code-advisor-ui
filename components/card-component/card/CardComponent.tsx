@@ -30,7 +30,7 @@ export function CardComponent({
                     <h2 className="text-xl font-medium tracking-normal text-primary ">
                         {title}
                     </h2>
-                    <p className="text-slate-500 text-sm line-clamp-2 ">
+                    <p className="text-slate-500  text-[16px] line-clamp-2 ">
                         {description}
                     </p>
                 </div>
