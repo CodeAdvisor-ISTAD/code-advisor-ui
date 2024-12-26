@@ -1,28 +1,55 @@
-import Link from 'next/link'
-import { formatDistanceToNow } from 'date-fns'
-import { Bell } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns';
+import { Bell } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Notification, NotificationActions } from '@/types/index'
+} from '@/components/ui/dropdown-menu';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Notification, NotificationActions } from '@/types/notifications';
+import { WebSocketService } from '@/lib/websocket';
 
 interface NotificationDropdownProps {
-  notifications: Notification[]
-  unreadCount: number
-  actions: NotificationActions
+  notifications: Notification[];
+  unreadCount: number;
+  actions: NotificationActions;
 }
 
 export function NotificationDropdown({
-  notifications,
-  unreadCount,
+  notifications: initialNotifications,
+  unreadCount: initialUnreadCount,
   actions,
 }: NotificationDropdownProps) {
+  const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);
+  const [unreadCount, setUnreadCount] = useState<number>(initialUnreadCount);
+
+  useEffect(() => {
+    const userId = 'receiver'; // Replace with actual user ID retrieval method
+    const wsService = new WebSocketService('http://localhost:8084/ws', userId);
+
+    wsService.onNotification((notification) => {
+      setNotifications((prev) => [notification, ...prev]);
+      setUnreadCount((prev) => prev + 1);
+    });
+
+    wsService.connect();
+
+    // Fetch initial notifications
+    wsService.fetchInitialNotifications('desc').then((initialNotifications) => {
+      setNotifications(initialNotifications);
+      setUnreadCount(initialNotifications.filter((n) => !n.read).length);
+    });
+
+    return () => {
+      wsService.disconnect();
+    };
+  }, []);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,17 +62,14 @@ export function NotificationDropdown({
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[380px] p-0">
+      <DropdownMenuContent align="start" className="mt-4 w-[380px] p-0 mr-2">
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-sm font-semibold">Notifications</h2>
-          <Link
-            href="/notifications"
-            className="text-sm text-muted-foreground hover:text-primary"
-          >
+          <Link href="/notifications" className="text-sm text-muted-foreground hover:text-primary">
             See more
           </Link>
         </div>
-        <ScrollArea className="h-[400px]">
+        <ScrollArea className="h-[600px]">
           {notifications.map((notification) => (
             <div
               key={notification.id}
@@ -59,34 +83,18 @@ export function NotificationDropdown({
               </Avatar>
               <div className="flex-1 space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-sm">
-                    {notification.title}
-                  </span>
-                  {!notification.isRead && (
-                    <span className="h-2 w-2 rounded-full bg-red-500" />
-                  )}
+                  <span className="font-medium text-sm">{notification.title}</span>
+                  {!notification.read && <span className="h-2 w-2 rounded-full bg-red-500" />}
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  {notification.message}
-                </p>
+                <p className="text-sm text-muted-foreground">{notification.message}</p>
                 <p className="text-xs text-muted-foreground">
-                  {formatDistanceToNow(new Date(notification.createdAt), {
-                    addSuffix: true,
-                  })}
+                  {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
                 </p>
               </div>
             </div>
           ))}
-          {notifications.length === 0 && (
-            <div className="flex h-[100px] items-center justify-center">
-              <p className="text-sm text-muted-foreground">
-                No notifications yet
-              </p>
-            </div>
-          )}
         </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
-

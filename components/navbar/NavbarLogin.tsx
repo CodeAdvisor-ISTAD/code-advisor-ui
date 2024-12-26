@@ -18,8 +18,16 @@ import {
   import { Switch } from "@/components/ui/switch"
   import Image from "next/image";
   import { FiSearch, FiBell, FiEdit2 } from "react-icons/fi";
-  
-  export function NavbarLogin() {
+import { NotificationDropdown } from "../notification/NotificationDropdown";
+import { Notification, NotificationActions } from '@/types/notifications'
+
+interface NavbarProps {
+  notifications: Notification[]
+  actions: NotificationActions
+}
+
+export function NavbarLogin({ notifications, actions }: NavbarProps) {
+  const unreadCount = notifications.filter(n => !n.read).length
     return (
       <Navbar fluid rounded className="bg-white shadow-md">
         {/* Navbar Brand */}
@@ -63,14 +71,20 @@ import {
             <DropdownItem className="text-black">បង្កើត Forum</DropdownItem>
           </Dropdown>
           </div>
-  
+
+          <NotificationDropdown
+            notifications={notifications}
+            unreadCount={unreadCount}
+            actions={actions}
+          />
+
           {/* Notification Icon */}
-          <button className="relative text-primary  ">
+          {/* <button className="relative text-primary  ">
             <FiBell className="h-7 w-7" />
             <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-xs text-white">
               
             </span>
-          </button>
+          </button> */}
   
           {/* User Avatar */}
           <DropdownMenu>
