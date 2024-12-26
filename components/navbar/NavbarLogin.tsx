@@ -15,6 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
 import { FiBell, FiEdit2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function NavbarLogin({ user }: { user: any }) {
 
@@ -82,7 +83,7 @@ export function NavbarLogin({ user }: { user: any }) {
                         }
                     >
                         <DropdownItem className="text-black">
-                            បង្កើតអត្ថបទ
+                            <span onClick={()=> route.push("/content/new")}>បង្កើតអត្ថបទ</span>
                         </DropdownItem>
                         <DropdownItem className="text-black">
                             បង្កើត Forum
