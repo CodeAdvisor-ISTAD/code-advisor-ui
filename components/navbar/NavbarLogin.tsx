@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Dropdown, DropdownItem, Navbar, NavbarBrand } from "flowbite-react";
 import {
@@ -18,26 +17,25 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export function NavbarLogin({ user }: { user: any }) {
-
-
     const route = useRouter();
+
+    const handleLogout = async () => {
+        route.push("http://127.0.0.1:9090/logout");
+    };
+
     return (
-        <Navbar
-            fluid
-            rounded
-            className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]"
-        >
-            {/* Navbar Brand */}
-            <NavbarBrand href="/">
-                <div className="mr-16">
+        <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
+            {/* Logo */}
+            <section>
+                <Link href="/" aria-label="Go to home page">
                     <Image
-                        src="/logo1.png" // Replace with your logo path
-                        alt="Code Advisors Logo"
+                        src="/logo1.png"
+                        alt="logo"
                         width={100}
                         height={100}
                     />
-                </div>
-            </NavbarBrand>
+                </Link>
+            </section>
 
             {/* Search Bar */}
             <div className="flex flex-1 justify-center">
@@ -83,7 +81,9 @@ export function NavbarLogin({ user }: { user: any }) {
                         }
                     >
                         <DropdownItem className="text-black">
-                            <span onClick={()=> route.push("/content/new")}>បង្កើតអត្ថបទ</span>
+                            <span onClick={() => route.push("/content/new")}>
+                                បង្កើតអត្ថបទ
+                            </span>
                         </DropdownItem>
                         <DropdownItem className="text-black">
                             បង្កើត Forum
@@ -143,14 +143,19 @@ export function NavbarLogin({ user }: { user: any }) {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-red-600">
                             <LogOut className="mr-2 h-4 w-4" />
-                            <span onClick={() =>
-                                route.push("http://127.0.0.1:9090/logout")
-                            }>ចាកចេញ</span>
+                            <span onClick={handleLogout}>ចាកចេញ</span>
+                            {/* <span
+                                onClick={() =>
+                                    route.push("http://127.0.0.1:9090/logout")
+                                }
+                            >
+                                ចាកចេញ
+                            </span> */}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-        </Navbar>
+        </div>
     );
 }
 
