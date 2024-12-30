@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import ISTADCard from "@/components/card-component/card-trending/Card-Istad";
 import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
