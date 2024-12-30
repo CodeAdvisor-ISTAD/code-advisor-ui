@@ -2,8 +2,8 @@
 import {
   useEditor,
   EditorContent,
-  NodeViewContent,
-  NodeViewProps,
+  // NodeViewContent,
+  // NodeViewProps,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";

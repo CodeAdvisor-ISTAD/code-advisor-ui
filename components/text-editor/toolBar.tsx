@@ -1,5 +1,5 @@
 "use client";
-import { icons, List } from "lucide-react";
+import { List } from "lucide-react";
 import { Toggle } from "../ui/toggle";
 import {
     Heading1,

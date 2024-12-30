@@ -19,6 +19,9 @@ import makeAnimated from "react-select/animated";
 // import { tags } from "./option";
 import RichTextEditor from "@/components/text-editor/textEditor";
 import Preview from "@/components/text-editor/preview";
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from "next/navigation";
+
 
 const formSchema = z.object({
   title: z.string().min(5, {
@@ -40,6 +43,31 @@ const formSchema = z.object({
   }),
 });
 
+
+const createContent = async (data:any) => {
+  try {
+    const response = await fetch('/contents/api/v1/contents/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to post content');
+    }
+    
+    const result = await response.json();
+    console.log('Content successfully posted:', result);
+    return result;
+  } catch (error) {
+    console.error('Error posting content:', error);
+    return null;
+  }
+};
+
+
 type FormValues = z.infer<typeof formSchema>;
 
 const CreateNewContent = () => {
@@ -48,12 +76,18 @@ const CreateNewContent = () => {
   const [tags, setTags] = useState<TagOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [editorContent, setEditorContent] = useState(""); // State for RichTextEditor
+
+  const router = useRouter();
+  
 
   useEffect(() => {
     const fetchTags = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch("/contents/api/v1/tags/all");
+        const response = await fetch("/contents/api/v1/tags/all",{
+          cache: 'force-cache',
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch tags");
         }
@@ -126,11 +160,43 @@ const CreateNewContent = () => {
     console.log("Slug:", values.slug);
     console.log("Keyword:", values.keyword);
     console.log("Selected Tags:", values.tag);
+    console.log("Content:", values.content);
 
     // If a cover image was uploaded
     if (values.cover) {
       console.log("Cover Image:", values.cover.name);
     }
+    
+    // Prepare data for posting
+  const postData = {
+    title: values.title,
+    content: values.content,
+    thumbnail: values.cover ? URL.createObjectURL(values.cover) : null,
+    slug: values.slug,
+    keywords: values.keyword,
+    tags: values.tag,
+    isDraft: false,
+  };
+
+  // Post content
+  createContent(postData)
+    .then((result) => {
+      if (result) {
+        // toast.success('Content successfully posted');
+        toast.success('អត្ថបទត្រូវបានបង្ហាញដោយជោគជ័យ');
+        // setEditorContent(""); // Clear RichTextEditor content 
+        // form.reset();
+        // setImagePreview(null);
+        router.push(`/contents/${values.slug}`);
+
+      }else {
+        // toast.error('Failed to post content');
+        toast.error('បរាជ័យក្នុងការបង្ហាញអត្ថបទ');
+      }
+    });
+    
+
+    
   }
 
   return (
@@ -242,29 +308,30 @@ const CreateNewContent = () => {
                 />
 
                 {/* Text Editor */}
-                <FormField
-                  control={form.control}
-                  name="content"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-primary text-xl font-bold">
-                        ការពិពណ៌នា
-                      </FormLabel>
-                      <FormDescription className="text-sm">
-                        ចែករំលែកគំនិតរបស់អ្នក
-                      </FormDescription>
-                      <FormControl>
-                        <RichTextEditor
-                          content={field.value}
-                          onChange={(value: any) => {
-                            field.onChange(value);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="content"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-primary text-xl font-bold">
+                          ការពិពណ៌នា
+                        </FormLabel>
+                        <FormDescription className="text-sm">
+                          ចែករំលែកគំនិតរបស់អ្នក
+                        </FormDescription>
+                        <FormControl>
+                          <RichTextEditor
+                            content={editorContent}
+                            onChange={(value: any) => {
+                              field.onChange(value);
+                              setEditorContent(value)
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                 {/* Keyword */}
                 <FormField
@@ -326,7 +393,7 @@ const CreateNewContent = () => {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
-                  <Button type="submit" className="w-full sm:w-auto text-white">
+                  <Button type="submit" className="w-full sm:w-auto text-white" onClick={() => form.handleSubmit(onSubmit)}>
                     បោះពុម្ភផ្សាយ
                   </Button>
                   <Button
