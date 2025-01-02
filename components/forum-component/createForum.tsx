@@ -22,6 +22,7 @@ import { UseFetchForumTags } from "@/hooks/api-hook/forum/use-tag";
 import { useMutation } from "@tanstack/react-query";
 import { createForum } from "@/hooks/api-hook/forum/forum-api";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const formSchema = z.object({
     title: z.string().min(5, {
@@ -49,22 +50,26 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const CreateNewForum = () => {
-
     const router = useRouter();
     const [slug, setSlug] = useState("");
 
-
     const { data, isLoading, isError, error } = UseFetchForumTags();
-    
+
     const { mutate } = useMutation({
         mutationFn: createForum,
-        onMutate : () => {
+        onMutate: () => {
             return { slug };
         },
         onSuccess: (data, variables, context) => {
+            toast.success("សំណួររបស់អ្នកបានបោះពុម្ភផ្សាយដោយជោគជ័យ");
+
             router.push(`/forum/${variables.slug}`);
-        }
+        },
     });
+
+    if (status === "pending") {
+        toast.loading("កំពុងដំណើរការ...");
+    }
 
     // Transform the data into the desired format (if needed)
     const transformedTags: TagOption[] =
@@ -104,7 +109,6 @@ const CreateNewForum = () => {
 
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-
         const forumData: CreateForumType = {
             title: values.title,
             slug: values.slug,
@@ -112,7 +116,7 @@ const CreateNewForum = () => {
             tagName: values.tag,
             introduction: values.introduction,
             expectedAnswers: values.expectedAnswers,
-            isDrafted: false
+            isDrafted: false,
         };
 
         // 3. Call the mutation function with the form data.
@@ -214,10 +218,10 @@ const CreateNewForum = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="text-primary text-xl font-bold">
-                                                បញ្ហាដែលអ្នកជួបប្រទះ
+                                                ចម្លើយដែលអ្នកចង់បាន
                                             </FormLabel>
                                             <FormDescription className="text-sm">
-                                                សរសេរអំពីបញ្ហាដែលអ្នកបានជួបប្រទះ
+                                                សរសេរអំពីចម្លើយដែលអ្នកចង់បាន
                                             </FormDescription>
                                             <FormControl>
                                                 <RichTextEditor

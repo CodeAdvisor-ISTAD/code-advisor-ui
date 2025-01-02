@@ -2,9 +2,9 @@
 import ISTADCard from "@/components/card-component/card-trending/Card-Istad";
 import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
 import ForumDetailComponent from "@/components/forum-component/forumDetailComponent";
-import { getForumBySlug } from "@/hooks/api-hook/forum/forum-api";
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Preview from "@/components/text-editor/preview";
+
 
 const latest = [
     "Advanced CSS techniques for modern web design",
@@ -18,26 +18,20 @@ export default function ForumDetailPage({
 }: {
     params: { slug: string };
 }) {
-    // You can get the forum data using the ID from params
-    // For example:
-    // const forumData = await getForumById(params.id);
 
-    // If data doesn't exist, you can show 404
-    // if (!forumData) notFound();
+    const [isClient, setIsClient] = useState(false);
 
-    // 1. Define your form.
-    const slug = params.slug;
-    const { data } = useQuery({
-        queryKey: ["forumDetail", slug],
-        queryFn: () => getForumBySlug(slug),
-    })
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
-    console.log("forum: ",data);
-
+    if (!isClient) {
+        return null; // or a loading spinner
+    }
     return (
         <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
             {/* Forum Detail Component */}
-            <ForumDetailComponent />
+            <ForumDetailComponent slug={params?.slug}/>
             <div className="flex flex-col ml-2 gap-2 ">
                 <TrendingComponent type="Latest" items={latest} />
                 <ISTADCard />

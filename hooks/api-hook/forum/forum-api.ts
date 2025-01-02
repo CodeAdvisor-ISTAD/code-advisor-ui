@@ -15,7 +15,7 @@ const createForum =  async function fetchPostForum(createForumData : CreateForum
 }
 
 const getForumBySlug = async function fetchForumBySlug(slug: string) {
-    const response = await fetch(`/forums/api/v1/questions/${slug}`);
+    const response = await fetch(`/forums/api/v1/questions/slug/${slug}`);
     if(response.ok){
         const data = await response.json();
         return data;
