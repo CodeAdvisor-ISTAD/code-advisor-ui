@@ -122,15 +122,13 @@ const cardsData = [
         upvotes: 220,
     },
 ];
-export default function ForumCardList() {
-
-    
+export default function ForumCardList({ forumCardData = [] }: { forumCardData?: any }) {
     return (
         <div className="ml-[264px] w-full">
             <TagComponent />
             <div className="grid grid-cols-1 gap-2 max-w-7xl mx-auto">
-                {cardsData.map((card) => (
-                    <ForumCardComponent key={card.id} {...card} />
+                {forumCardData?.content?.map((card: ForumCardType) => (
+                    <ForumCardComponent key={card.uuid} forumCardData={card} />
                 ))}
             </div>
         </div>

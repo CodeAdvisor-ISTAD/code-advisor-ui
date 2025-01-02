@@ -34,4 +34,4 @@ const getAllForums = async function fetchAllForums() {
     }
 }
 
-export { createForum, getForumBySlug };
+export { createForum, getForumBySlug, getAllForums };
