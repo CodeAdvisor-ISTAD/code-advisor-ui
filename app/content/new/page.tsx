@@ -187,7 +187,7 @@ const CreateNewContent = () => {
         // setEditorContent(""); // Clear RichTextEditor content 
         // form.reset();
         // setImagePreview(null);
-        router.push(`/contents/${values.slug}`);
+        router.push(`/content/${values.slug}`);
 
       }else {
         // toast.error('Failed to post content');
