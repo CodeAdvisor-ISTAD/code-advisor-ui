@@ -2,6 +2,8 @@
 import ISTADCard from "@/components/card-component/card-trending/Card-Istad";
 import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
 import ForumDetailComponent from "@/components/forum-component/forumDetailComponent";
+import { getForumBySlug } from "@/hooks/api-hook/forum/forum-api";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 const latest = [
@@ -10,12 +12,11 @@ const latest = [
     "Master React state management with Redux",
 ];
 
-
 // If you're fetching data, make this async
 export default function ForumDetailPage({
     params,
 }: {
-    params: { id: string };
+    params: { slug: string };
 }) {
     // You can get the forum data using the ID from params
     // For example:
@@ -25,7 +26,13 @@ export default function ForumDetailPage({
     // if (!forumData) notFound();
 
     // 1. Define your form.
-   
+    const slug = params.slug;
+    const { data } = useQuery({
+        queryKey: ["forumDetail", slug],
+        queryFn: () => getForumBySlug(slug),
+    })
+
+    console.log("forum: ",data);
 
     return (
         <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
