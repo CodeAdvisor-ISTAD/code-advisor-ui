@@ -29,7 +29,7 @@ export function NotificationDropdown({
   const [unreadCount, setUnreadCount] = useState<number>(initialUnreadCount);
 
   useEffect(() => {
-    const userId = 'receiver'; // Replace with actual user ID retrieval method
+    const userId = 'receiverId'; // Replace with actual user ID retrieval method
     const wsService = new WebSocketService('http://localhost:8084/ws', userId);
 
     wsService.onNotification((notification) => {
@@ -49,7 +49,7 @@ export function NotificationDropdown({
       wsService.disconnect();
     };
   }, []);
-
+ 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

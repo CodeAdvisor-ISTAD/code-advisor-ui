@@ -44,7 +44,7 @@ export default function NotificationsPage() {
   }, []);
 
   useEffect(() => {
-    const currentUserId = 'receiver'; // Replace with actual user ID retrieval method
+    const currentUserId = 'receiverId'; // Replace with actual user ID retrieval method
     setUserId(currentUserId);
 
     const wsService = new WebSocketService(

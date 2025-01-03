@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { MessageSquare, Heart, Reply, MoreVertical, Trash2, CircleCheck } from 'lucide-react';
 import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -32,9 +33,11 @@ const getNotificationIcon = (type: NotificationType) => {
   }
 };
 
+
 export function NotificationItem({ notification, actions }: NotificationItemProps) {
   const [userProfile, setUserProfile] = useState<{ name: string; profile: string } | null>(null);
   const [isRead, setIsRead] = useState(notification.read);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -64,8 +67,13 @@ export function NotificationItem({ notification, actions }: NotificationItemProp
     }
   };
 
+  const handleNotificationClick = () => {
+    const route = notification.notificationData.isContent ? `/content/${notification.notificationData.slug}` : `/forum/${notification.notificationData.slug}`;
+    router.push(route);
+  };
+
   return (
-    <div className="flex items-start gap-4 p-6 rounded-md transition-colors bg-white border border-gray-200">
+    <div onClick={handleNotificationClick} className="flex items-start gap-4 p-6 rounded-md transition-colors bg-white border border-gray-200 cursor-pointer">
       <Avatar className="h-10 w-10 bg-yellow-400 flex items-center justify-center">
         {userProfile?.profile ? (
           <img src={userProfile.profile} alt={userProfile.name} className="w-full h-full rounded-full" />
@@ -99,7 +107,7 @@ export function NotificationItem({ notification, actions }: NotificationItemProp
         </p>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
         {!isRead && <div className="h-2 w-2 rounded-full bg-yellow-600" />}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

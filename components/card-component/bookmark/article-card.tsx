@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Bookmark } from 'lucide-react'
 import Image from "next/image"
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface ArticleCardProps {
   title: string
@@ -21,6 +23,11 @@ export function ArticleCard({
   isBookmarked,
   onToggleBookmark
 }: ArticleCardProps) {
+  const handleToggleBookmark = () => {
+    onToggleBookmark()
+    toast(isBookmarked ? 'Bookmark removed' : 'Bookmark added')
+  }
+
   return (
     <Card className="h-full relative rounded-sm border-none">
       <CardContent className="p-4 pb-12 space-y-4">
@@ -47,7 +54,7 @@ export function ArticleCard({
           variant="ghost"
           size="icon"
           className="absolute bottom-10 right-2 text-yellow-500 hover:text-yellow-600 bg-white/80 hover:bg-white z-10"
-          onClick={onToggleBookmark}
+          onClick={handleToggleBookmark}
         >
           <Bookmark className="h-5 w-5" fill={isBookmarked ? "currentColor" : "none"} />
         </Button>
@@ -55,4 +62,3 @@ export function ArticleCard({
     </Card>
   )
 }
-
