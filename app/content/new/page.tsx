@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { tags } from "./option";
+// import { tags } from "./option";
 import RichTextEditor from "@/components/text-editor/textEditor";
 import Preview from "@/components/text-editor/preview";
 
@@ -45,6 +45,42 @@ type FormValues = z.infer<typeof formSchema>;
 const CreateNewContent = () => {
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [tags, setTags] = useState<TagOption[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("/contents/api/v1/tags/all");
+        if (!response.ok) {
+          throw new Error("Failed to fetch tags");
+        }
+        const data: TagResponse[] = await response.json();
+
+        const transformedTags: TagOption[] = data.map((tag) => ({
+          value: tag.name,
+          label: tag.name,
+        }));
+        setTags(transformedTags);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        // Fallback tags
+        setTags([
+          { value: "java", label: "java" },
+          { value: "spring-boot", label: "spring-boot" },
+          { value: "react", label: "react" },
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTags();
+  }, []);
+
+  
 
   const animatedComponents = makeAnimated();
 
@@ -349,12 +385,12 @@ const CreateNewContent = () => {
                         key={tag}
                         className="px-2 py-1 text-sm bg-white text-primary border border-secondary rounded-md"
                       >
-                        {tag}
+                        #{tag}
                       </span>
                     ))
                   ) : (
                     <span className="px-2 py-1 text-sm bg-white text-primary border border-secondary rounded-md">
-                      Tag
+                      #ស្លាក 
                     </span>
                   )}
                 </div>
