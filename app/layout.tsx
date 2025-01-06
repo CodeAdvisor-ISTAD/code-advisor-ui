@@ -24,14 +24,12 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
 
-                    <main className="w-full bg-background ">
-                        {children}
-                    </main>
-                </SidebarProvider>
-                <footer  >
-                    <Footer />
-                </footer>
-            </body>
-        </html>
-    );
+          <main className="w-full bg-background">{children}</main>
+        </SidebarProvider>
+        <footer>
+          <Footer />
+        </footer>
+      </body>
+    </html>
+  );
 }
