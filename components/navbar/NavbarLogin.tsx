@@ -19,10 +19,6 @@ import Link from "next/link";
 export function NavbarLogin({ user }: { user: any }) {
     const route = useRouter();
 
-    const handleLogout = async () => {
-        route.push("http://127.0.0.1:9090/logout");
-    };
-
     return (
         <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
             {/* Logo */}
@@ -86,7 +82,7 @@ export function NavbarLogin({ user }: { user: any }) {
                             </span>
                         </DropdownItem>
                         <DropdownItem className="text-black">
-                            បង្កើត Forum
+                            <Link href="/forum/new">បង្កើត Forum</Link>
                         </DropdownItem>
                     </Dropdown>
                 </div>
@@ -143,14 +139,14 @@ export function NavbarLogin({ user }: { user: any }) {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-red-600">
                             <LogOut className="mr-2 h-4 w-4" />
-                            <span onClick={handleLogout}>ចាកចេញ</span>
-                            {/* <span
+                            {/* <span onClick={handleLogout}>ចាកចេញ</span> */}
+                            <span
                                 onClick={() =>
                                     route.push("http://127.0.0.1:9090/logout")
                                 }
                             >
                                 ចាកចេញ
-                            </span> */}
+                            </span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
-async function fetchUserProfile() {
-        const response = await fetch("/identity/api/v1/auth/me");
+async function fetchForumTags() {
+        const response = await fetch("/forums/api/v1/tags");
         if(response.ok){
             const data = await response.json();
             return data;
@@ -10,9 +10,9 @@ async function fetchUserProfile() {
         }
 }
 
-export const UseFetchProfile = () => {
+export const UseFetchForumTags = () => {
     return useQuery({
-        queryKey: ["userProfile"],
-        queryFn: fetchUserProfile
+        queryKey: ["forumTags"],
+        queryFn: fetchForumTags
     })
 };

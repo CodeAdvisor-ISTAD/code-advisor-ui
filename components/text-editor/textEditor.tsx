@@ -34,7 +34,6 @@ import 'highlight.js/styles/github.css';
 
 export default function RichTextEditor({ content, onChange }) {
   const [htmlContent, setHtmlContent] = useState(content);
-  const [showPreview, setShowPreview] = useState(false);
 
 
   const lowlights = createLowlight(common);
@@ -92,21 +91,10 @@ export default function RichTextEditor({ content, onChange }) {
     },
   });
 
-  // const handlePreviewClick = () => {
-  //   setShowPreview(!showPreview);
-  // };
-
   return (
     <div>
       <ToolBar editor={editor} />
       <EditorContent editor={editor} style={{ zIndex: "0"}} />
-      {/* <button
-        onClick={handlePreviewClick}
-        className="mt-2 p-2 bg-blue-500 text-white rounded"
-      >
-        {showPreview ? "Hide Preview" : "Show Preview"}
-      </button>
-      {showPreview && <Preview content={htmlContent} />} */}
     </div>
   );
 }

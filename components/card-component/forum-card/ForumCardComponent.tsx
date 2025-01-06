@@ -23,27 +23,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export function ForumCardComponent({
-    id,
-    avatar,
-    username,
-    timestamp,
-    title,
-    content,
-    tags,
-    views,
-    comments,
-    upvotes,
+    forumCardData,
 }: {
-    id: number;
-    avatar: string;
-    username: string;
-    timestamp: string;
-    title: string;
-    content: string;
-    tags: string[];
-    views: number;
-    comments: number;
-    upvotes: number;
+    forumCardData: ForumCardType;
 }) {
     const actions = [
         {
@@ -65,28 +47,28 @@ export function ForumCardComponent({
 
     const router = useRouter();
 
-    const handleNavigate = (id: number) => {
-        router.push(`/forum/${id}`);
+    const handleNavigate = (slug: string) => {
+        router.push(`/forum/${slug}`);
     };
 
     return (
         <div
             className=" bg-white rounded-[5px] shadow-sm p-6 cursor-pointer"
-            onClick={() => handleNavigate(id)}
+            onClick={() => handleNavigate(forumCardData.slug)}
         >
             {/* Header Section */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                     <Image
-                        src={avatar}
-                        alt={username}
+                        src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
+                        alt="User Avatar"
                         width={100}
                         height={100}
                         className="rounded-full w-[40px] h-[40px] object-cover"
                     />
                     <div>
-                        <h3 className="text-base font-normal">{username}</h3>
-                        <p className="text-sm text-gray-500">{timestamp}</p>
+                        <h3 className="text-base font-normal">Username</h3>
+                        <p className="text-sm text-gray-500">"Username</p>
                     </div>
                 </div>
                 <div className="text-gray-500 hover:text-gray-700">
@@ -114,35 +96,35 @@ export function ForumCardComponent({
             {/* Content Section */}
             <div className="mb-4">
                 <h2 className="text-[18px] font-bold text-primary decoration-primary">
-                    {title}
+                    {forumCardData.title}
                 </h2>
-                <p className="text-gray-700 mb-4">{content}</p>
+                <p className="text-gray-700 mb-4">
+                    {forumCardData.description}
+                </p>
             </div>
 
             {/* Tags Section */}
             <div className="flex flex-wrap gap-2 mb-4 justify-between">
                 <div className="flex flex-wrap gap-2">
-                    {tags?.map((tag) => (
-                        <Link href={`/tag/${tag}`} key={tag}>
-                            <span className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]">
-                                #{tag}
-                            </span>
-                        </Link>
+                    {forumCardData?.tags.map((tag) => (
+                        <span className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]" key={tag.id}>
+                            #{tag.name}
+                        </span>
                     ))}
                 </div>
                 {/* Metrics Section */}
                 <div className="flex items-center space-x-4 text-gray-500 mr-5">
                     <div className="flex items-center space-x-1">
                         <Eye className="w-4 h-4" />
-                        <span>{views}</span>
+                        <span>123</span>
                     </div>
                     <div className="flex items-center space-x-1">
                         <MessageSquare className="w-4 h-4" />
-                        <span>{comments}</span>
+                        <span>56</span>
                     </div>
                     <div className="flex items-center space-x-1">
                         <ArrowUp className="w-4 h-4" />
-                        <span>{upvotes}</span>
+                        <span>1</span>
                     </div>
                 </div>
             </div>

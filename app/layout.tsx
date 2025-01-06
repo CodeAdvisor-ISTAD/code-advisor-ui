@@ -6,8 +6,8 @@ import Footer from "@/components/footer/Footer";
 import { roboto, koh_Santepheap } from "./fonts/fonts";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
-import { Toaster } from "@/components/ui/toaster";
 import Provider from "./_provider";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
     children,
@@ -29,11 +29,11 @@ export default function RootLayout({
                         <main className="w-full bg-background ">
                             {children}
                         </main>
-                        <Toaster />
                     </SidebarProvider>
                     <footer>
                         <Footer />
                     </footer>
+                    <Toaster />
                 </Provider>
             </body>
         </html>

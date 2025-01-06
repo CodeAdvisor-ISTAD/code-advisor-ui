@@ -1,22 +1,40 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Profile } from "../Profile";
-import { Author, Content } from "@/types/engagement";
+// import { Author, Content } from "@/types/engagement";
 import { Badge } from "@/components/ui/badge";
 import { FaHeart, FaFire, FaThumbsUp } from "react-icons/fa";
+import Preview from "@/components/text-editor/preview";
+
+const formatDate = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
+  return new Date(dateString)
+    .toLocaleDateString(undefined, options)
+    .replace(",", "");
+};
 
 export function ContentSection({
-  cover,
-  title,
-  tags,
-  description,
-  author,
-  reactions,
-}: Content) {
+  thumbnail: thumbnail,
+  title: title,
+  tags: tags,
+  content: content,
+  authorUuid: authorUuid,
+  communityEngagement: communityEngagement,
+  createdAt: createdAt,
+}: ContentDetails) {
+  const formattedDate = formatDate(createdAt);
+
   return (
-    <div className="no-scrollbar">
-      <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar">
+    <div className="no-scrollbar overflow-x-hidden">
+      <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar w-[100%%]">
         <img
-          src={cover}
+          src={thumbnail}
           className="w-full h-80 object-cover rounded-t-[5px]"
         />
         <div className="mx-20">
@@ -36,27 +54,34 @@ export function ContentSection({
             <div className="flex gap-4">
               <div className="flex gap-2">
                 <FaHeart className="text-2xl text-pink-700" />
-                <span>{reactions?.love}</span>
+                <span>{communityEngagement?.loveCount}</span>
               </div>
               <div className="flex gap-2">
                 <FaFire className="text-2xl text-red-500" />
-                <span>{reactions?.fire}</span>
+                <span>{communityEngagement?.fireCount}</span>
               </div>
               <div className="flex gap-2">
                 <FaThumbsUp className="text-2xl text-blue-500" />
-                <span>{reactions?.like}</span>
+                <span>{communityEngagement?.likeCount}</span>
               </div>
             </div>
 
             <div className="pt-4">
               <Profile
-                imageUrl={author?.image}
-                username={author?.userName}
-                postDate="23 Jan 21"
+                imageUrl={authorUuid}
+                username={authorUuid}
+                // postDate="23 Jan 21"
+                postDate={formattedDate}
               />
             </div>
           </CardHeader>
-          <CardContent>{description}</CardContent>
+          <div className="p-6 pt-0">
+            <Preview content={content} />
+          </div>
+          {/* 
+          <CardContent>{
+            
+            content}</CardContent> */}
         </div>
       </Card>
     </div>
