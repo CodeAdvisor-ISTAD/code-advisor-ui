@@ -109,7 +109,7 @@ const TechAndKeywordList: React.FC = () => {
               {technology2.map((tech, index) => (
                 <li key={index} className="text-sm pb-2">
                   <a
-                    href={`/content/tags/${tech}`}
+                    href={`/forums/tags/${tech}`}
                     className="hover:underline hover:text-primary"
                   >
                     {" "}

@@ -5,6 +5,7 @@ type CreateForumType = {
     tagName: string[];
     introduction: string;
     expectedAnswers: string;
+    description: string;
     isDrafted : boolean;
 }
 

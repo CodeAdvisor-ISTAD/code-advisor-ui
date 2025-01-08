@@ -25,8 +25,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import CommentReplyComponent from "./commentReplyComponent";
-import { useQuery } from "@tanstack/react-query";
-import { getForumBySlug } from "@/hooks/api-hook/forum/forum-api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    getForumBySlug,
+    checkIsUpVoted,
+    upVoteQuestion,
+    totalUpVotes,
+    totalDownVotes,
+    downVoteQuestion,
+} from "@/hooks/api-hook/forum/forum-api";
 import Preview from "../text-editor/preview";
 
 const formSchema = z.object({
@@ -36,13 +43,58 @@ const formSchema = z.object({
 });
 
 export default function ForumDetailComponent({ slug }: { slug: string }) {
-    console.log("slug: ", slug);
-    const { data } = useQuery({
+    const queryClient = useQueryClient();
+
+    const { data: forum } = useQuery({
         queryKey: ["forum", slug],
         queryFn: () => getForumBySlug(slug),
     });
 
-    console.log("forum: ", data);
+    const { data: checkVoted, status } = useQuery({
+        queryKey: ["vote", forum?.uuid],
+        queryFn: () => checkIsUpVoted(forum?.uuid),
+    });
+
+    console.log(checkVoted);
+
+    const upvoteMutation = useMutation({
+        mutationFn: () => upVoteQuestion(forum?.uuid),
+        onSuccess: (data, variables, context) => {
+            queryClient.invalidateQueries({
+                queryKey: ["vote", forum?.uuid],
+            });
+        },
+    });
+
+    const downvoteMutation = useMutation({
+        mutationFn: () => downVoteQuestion(forum?.uuid),
+        onSuccess: (data, variables, context) => {
+            queryClient.invalidateQueries({
+                queryKey: ["vote", forum?.uuid],
+            });
+        },
+    });
+
+    const { data: totalUpVotes } = useQuery({
+        queryKey: ["vote", forum?.uuid],
+        queryFn: () => totalUpVotes(forum?.uuid),
+    });
+
+    const { data: totalDownVotes } = useQuery({
+        queryKey: ["vote", forum?.uuid],
+        queryFn: () => totalDownVotes(forum?.uuid),
+    });
+
+    // Handle upvote button click
+    const handleUpvote = () => {
+        upvoteMutation.mutate();
+    };
+
+    // Handle downvote button click
+    const handleDownvote = () => {
+        downvoteMutation.mutate();
+    };
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -79,36 +131,27 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
                 {/* Content */}
 
                 <div className="space-y-4">
-                    <h2 className="text-2xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
-                    <h2 className="text-xl font-bold">{data?.title}</h2>
-                    <p className="text-gray-700">
-                        <Preview content={data?.introduction} />
-                    </p>
+                    <h2 className="text-2xl font-bold">{forum?.title}</h2>
+                    <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
+                    <p className="text-lg">{forum?.description}</p>
+                    <Preview content={forum?.introduction} />
 
                     {/* Code Block */}
-                    <div className="bg-gray-100 rounded-md p-4 font-mono text-sm">
-                        <h2 className="text-2xl font-bold">
+                    <div className="rounded-md p-4 font-mono text-sm">
+                        <h2 className="text-xl font-bold mb-3">
                             ចម្លើយដែលអ្នកចង់បាន
                         </h2>
-                        <Preview content={data?.expectedAnswers} />
+                        <Preview content={forum?.expectedAnswers} />
                     </div>
-
-                    <p className="text-gray-700">
-                        Posuere arcu arcu consectetur turpis rhoncus tellus.
-                        Massa, consectetur massa sit fames nulla eu vehicula
-                        ullamcorper. Ante sit mauris elementum sollicitudin arcu
-                        sit suspendisse pretium. Nisl egestas fringilla justo
-                        bibendum.
-                    </p>
 
                     {/* Tags */}
                     <div className="flex gap-2">
-                        {["java", "javascript", "spring"].map((tag) => (
+                        {forum?.tags?.map((tag: TagsType) => (
                             <span
-                                key={tag}
+                                key={tag.id}
                                 className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]"
                             >
-                                #{tag}
+                                #{tag.name}
                             </span>
                         ))}
                     </div>
@@ -116,14 +159,37 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
 
                 {/* Footer */}
                 <div className="flex justify-between items-center mt-6">
-                    <div className="flex items-center gap-2">
-                        <button className="p-2 hover:bg-gray-100 rounded-full">
-                            <CircleArrowUp className="w-6 h-6 text-gray-600" />
+                    <div className="flex items-center">
+                        <button
+                            className="p-2 hover:bg-gray-100 rounded-full"
+                            onClick={handleUpvote}
+                        >
+                            <CircleArrowUp
+                                className={`w-6 h-6 ${
+                                    checkVoted && checkVoted?.isUpvote
+                                        ? "text-green-500"
+                                        : "text-gray-600"
+                                }`}
+                            />
                         </button>
-                        <span className="text-gray-600">30</span>
-                        <button className="p-2 hover:bg-gray-100 rounded-full">
-                            <CircleArrowDown className="w-6 h-6 text-gray-600" />
+                        <span className="text-gray-600">
+                            {totalUpVotes?.totalVotes}
+                        </span>
+                        <button
+                            className="p-2 hover:bg-gray-100 rounded-full"
+                            onClick={handleDownvote}
+                        >
+                            <CircleArrowDown
+                                className={`w-6 h-6 ${
+                                    checkVoted?.isVoted && !checkVoted?.isUpvote
+                                        ? "text-green-500"
+                                        : "text-gray-600"
+                                }`}
+                            />
                         </button>
+                        <span className="text-gray-600">
+                            {totalDownVotes?.totalVotes}
+                        </span>
                     </div>
 
                     <div className="flex gap-4">
