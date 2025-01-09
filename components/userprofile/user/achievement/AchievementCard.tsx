@@ -1,56 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import UserActivity from "@/components/userprofile/user/achievement/userActivivity";
 import AwardCard from "./AwardCard";
+import { useFetchAchievementLevel } from "@/hooks/achievement";
 
-type Achievement = {
-  id: string;
-  userId: number;
-  score: number;
-  level: string;
-};
-
-export default function AchievementLevel() {
-  const [achievement, setAchievement] = useState<Achievement | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchAchievement = async () => {
-      try {
-        const response = await fetch(
-          "https://675fdc231f7ad2426999a73c.mockapi.io/achievement/19"
-        );
-
-        if (!response.ok) throw new Error("Failed to fetch achievement data");
-
-        const data: Achievement = await response.json();
-
-        if (data && typeof data.userId === "string") {
-          data.userId = parseInt(data.userId, 10);
-        }
-
-        setAchievement(data);
-      } catch (err: unknown) {
-        console.error("Error fetching achievement data:", err);
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unknown error occurred");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAchievement();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
+export default function AchievementLevelComponent(userId) {
+  const [achievement, setAchievement] = useState(null);
+  // const [error, setError] = useState(null);
+  console.log("AchievementLevelComponent", userId.userId);
+  const { data, isLoading, error } = useFetchAchievementLevel(userId.userId);
+  console.log("useFetchAchievementLevel", data);
   return (
     <Card className="xs:w-[450px] lg:w-full h-fit bg-white">
       <CardHeader>
@@ -67,15 +29,11 @@ export default function AchievementLevel() {
 
       <CardContent>
         <div className="flex items-center justify-center">
-          {achievement ? (
-            <AwardCard achievement={achievement} />
-          ) : (
-            <div>No Achievement Found</div>
-          )}
+          <AwardCard achievement={data} />
         </div>
 
         <div className="mt-6">
-          <UserActivity />
+          <UserActivity achievement={data} />
         </div>
       </CardContent>
     </Card>

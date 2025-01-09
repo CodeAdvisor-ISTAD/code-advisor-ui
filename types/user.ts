@@ -13,6 +13,7 @@ export interface UserInformation {
   phoneNumber?: string; // Optional field
   address?: string;
   dob: string;
+  profileImage?: string;
 }
 
 // Custom hook to fetch counts from the API

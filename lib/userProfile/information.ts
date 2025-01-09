@@ -29,20 +29,17 @@ export interface DataBlockProps {
   text: string;
   color: string;
 }
-// export const activityData = {
-//   like: 10,
-//   question: 5,
-//   answer: 70,
-//   comment: 3,
-//   content: 20,
-// };
+
 export const arabicToKhmer = (num: number) => {
   const khmerDigits = ["០", "១", "២", "៣", "៤", "៥", "៦", "៧", "៨", "៩"];
-  return num
+
+  let convert = num
     .toString()
     .split("")
     .map((digit) => khmerDigits[parseInt(digit)])
     .join("");
+
+  return convert;
 };
 
 

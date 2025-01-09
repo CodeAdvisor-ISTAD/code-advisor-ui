@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect ,useState} from "react";
+
 import { Card, CardTitle } from "@/components/ui/card";
-import type { UserInformation } from "@/types/user";
 import { staticUserProfile } from "@/lib/userProfile/information";
 import {
   Table,
@@ -9,17 +9,9 @@ import {
   TableRow,
 } from "@/components/userprofile/table";
 
-export default function UserInformationCardComponent() {
-  const [userInformation, setUserInformation] =
-    React.useState<UserInformation | null>(null);
-
-  React.useEffect(() => {
-    fetch("http://localhost:8085/api/v1/edit_user_profiles/ZAZA")
-      .then((response) => response.json())
-      .then((data) => setUserInformation(data));
-  }, []);
-
-  const user = userInformation || staticUserProfile;
+export default function UserInformationCardComponent(userInformation) {
+  console.log("userInformation", userInformation);
+  const user = userInformation.userInformation || staticUserProfile;
 
   return (
     <div className="flex flex-col gap-4">
@@ -35,7 +27,7 @@ export default function UserInformationCardComponent() {
             <TableRow>
               <TableCell className="text-lg pb-[10px]">នាម</TableCell>
               <TableCell className="text-right text-lg pb-[10px] font-bold">
-                {user.fullName || "មិនមានទិន្នន័យ"}
+                {user?.fullName ? user?.fullName : "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -63,11 +55,11 @@ export default function UserInformationCardComponent() {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="text-lg pb-[10px] font-bold">
+              <TableCell className="text-lg pb-[10px]">
                 ថ្ងៃ ខែ​ ឆ្នាំកំណើត
               </TableCell>
-              <TableCell className="text-right font-khFont text-lg pb-[10px] font-bold">
-                {user.dob || "មិនមានទិន្នន័យ"}
+                <TableCell className="text-right font-khFont text-lg pb-[10px] font-bold">
+                {user.dob ? new Date(user.dob).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).replace(/ /g, ' - ') : "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>
