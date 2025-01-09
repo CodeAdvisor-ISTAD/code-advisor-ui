@@ -8,6 +8,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import Provider from "./_provider";
 import { Toaster } from "react-hot-toast";
+import { CommentProvider } from "@/lib/context/commentContext";
 
 export default function RootLayout({
     children,
@@ -19,22 +20,24 @@ export default function RootLayout({
             <body
                 className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
             >
-                <Provider>
-                    <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
-                        <NavbarComponent />
-                    </header>
-                    <SidebarProvider>
-                        <AppSidebar />
+                <CommentProvider>
+                    <Provider>
+                        <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
+                            <NavbarComponent />
+                        </header>
+                        <SidebarProvider>
+                            <AppSidebar />
 
-                        <main className="w-full bg-background ">
-                            {children}
-                        </main>
-                    </SidebarProvider>
-                    <footer>
-                        <Footer />
-                    </footer>
-                    <Toaster />
-                </Provider>
+                            <main className="w-full bg-background ">
+                                {children}
+                            </main>
+                        </SidebarProvider>
+                        <footer>
+                            <Footer />
+                        </footer>
+                        <Toaster />
+                    </Provider>
+                </CommentProvider>
             </body>
         </html>
     );

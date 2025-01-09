@@ -34,8 +34,8 @@ const getAllForums = async function fetchAllForums() {
     }
 }
 
-const checkIsUpVoted = async function checkIsUpVoted(questionUuid: string) {
-    const response = await fetch(`/forums/api/v1/votes/question/check-vote?questionUuid=${questionUuid}`);
+const checkIsUpVoted = async function checkIsUpVoted(slug: string) {
+    const response = await fetch(`/forums/api/v1/votes/question/check-vote?slug=${slug}`);
     if(response.ok){
         const data = await response.json();
         return data;
@@ -44,8 +44,8 @@ const checkIsUpVoted = async function checkIsUpVoted(questionUuid: string) {
     }
 }
 
-const upVoteQuestion = async function voteQuestion(questionUuid: string) {
-    const response = await fetch(`/forums/api/v1/votes/question/up-vote?questionUuid=${questionUuid}`, {
+const upVoteQuestion = async function upVoteQuestion(slug: string) {
+    const response = await fetch(`/forums/api/v1/votes/question/up-vote?slug=${slug}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -59,8 +59,8 @@ const upVoteQuestion = async function voteQuestion(questionUuid: string) {
     }
 }
 
-const downVoteQuestion = async function voteQuestion(questionUuid: string) {
-    const response = await fetch(`/forums/api/v1/votes/question/down-vote?questionUuid=${questionUuid}`, {
+const downVoteQuestion = async function downVoteQuestion(slug: string) {
+    const response = await fetch(`/forums/api/v1/votes/question/down-vote?slug=${slug}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -74,8 +74,8 @@ const downVoteQuestion = async function voteQuestion(questionUuid: string) {
     }
 }
 
-const totalUpVotes = async function getTotalUpVotes(questionUuid: string) {
-    const response = await fetch(`/forums/api/v1/votes/question/${questionUuid}/total-up-votes`);
+const totalUpVotes = async function getTotalUpVotes(slug: string) {
+    const response = await fetch(`/forums/api/v1/votes/question/${slug}/total-up-votes`);
     if(response.ok){
         const data = await response.json();
         return data;
@@ -84,8 +84,8 @@ const totalUpVotes = async function getTotalUpVotes(questionUuid: string) {
     }
 }
 
-const totalDownVotes = async function getTotalDownVotes(questionUuid: string) {
-    const response = await fetch(`/forums/api/v1/votes/question/${questionUuid}/total-down-votes`);
+const totalDownVotes = async function getTotalDownVotes(slug: string) {
+    const response = await fetch(`/forums/api/v1/votes/question/${slug}/total-down-votes`);
     if(response.ok){
         const data = await response.json();
         return data;
@@ -94,4 +94,65 @@ const totalDownVotes = async function getTotalDownVotes(questionUuid: string) {
     }
 }
 
-export { createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes };
+const commentOnForum = async function commentOnForum(CreateCommentData : CreateComment) {
+    const response = await fetch(`/forums/api/v1/answers`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(CreateCommentData),
+    });
+    if(response.ok){
+        const data = await response.json();
+        return data;
+    }else{
+        return null;
+    }
+}
+
+const getAllAnswersByQuestion = async function fetchAllAnswersByQuestion(questionSlug: string) {
+    const response = await fetch(`/forums/api/v1/answers/${questionSlug}/question`);
+    if(response.ok){
+        const data = await response.json();
+        return data;
+    }
+
+}
+
+const acceptedAnswer = async function acceptAnswerOnForum(createdAnswerData : CreateAcceptedAnswerType) {
+    const response = await fetch(`/forums/api/v1/answers/accepted`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(createdAnswerData),
+
+    });
+    const data = await response.json();
+    
+    if (response.ok) {
+        return data;
+    } else {
+        // Throw the error data so it can be caught by onError
+        throw data;
+    }
+}
+
+const unAcceptedAnswer = async function unAcceptAnswerOnForum(createdAnswerData : CreateAcceptedAnswerType) {
+    const response = await fetch(`/forums/api/v1/answers/un-accepted`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(createdAnswerData),
+
+    });
+    if(response.ok){
+        const data = await response.json();
+        return data;
+    }else{
+        return null;
+    }
+}
+
+export { acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };

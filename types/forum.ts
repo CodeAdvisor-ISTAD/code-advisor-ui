@@ -43,3 +43,22 @@ type ForumCardType = {
 }
 
 type ForumContent = ForumCardType[];
+
+type CreateComment = {
+    questionSlug: string;
+    answerUuid?: string;
+    slug: string;
+    content: string;
+};
+
+type CreateAcceptedAnswerType = {
+    questionSlug: string,
+    answerUuid: string,
+}
+
+type ErrorResponse = {
+    error: {
+      code: number;
+      reason: string;
+    }
+  };
