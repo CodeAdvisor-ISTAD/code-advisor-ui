@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { GraduationCap, MapPin, Phone } from "lucide-react";
 

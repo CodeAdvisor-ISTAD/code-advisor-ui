@@ -126,7 +126,8 @@ export function AppSidebar() {
     (pathname.startsWith("/content") && !pathname.includes("/content/tags")) ||
     pathname === "/about" ||
     pathname.startsWith("/report") ||
-    pathname === "/notification"
+    pathname === "/notification" ||
+    pathname === "/forum/new" 
   ) {
     return;
   }

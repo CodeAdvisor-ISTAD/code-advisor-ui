@@ -6,10 +6,13 @@ interface PreviewProps {
 
 const Preview: React.FC<PreviewProps> = ({ content }) => {
   return (
-    <div
-      className="preview tiptap"
-      dangerouslySetInnerHTML={{ __html: content }}
-    />
+    <>
+      <div
+        className="tiptap"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+
+    </>
   );
 };
 

@@ -18,11 +18,7 @@ import Link from "next/link";
 import { UseFetchProfile } from "@/hooks/api-hook/auth/use-profile";
 
 export function NavbarLogin({ user }: { user: any }) {
-  const route = useRouter();
-  const { data: userProfile } = UseFetchProfile();
-  const handleLogout = async () => {
-    route.push("http://127.0.0.1:9090/logout");
-  };
+    const route = useRouter();
 
   return (
     <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
@@ -60,28 +56,32 @@ export function NavbarLogin({ user }: { user: any }) {
         </div>
       </div>
 
-      {/* Action Icons */}
-      <div className="flex items-center mx-8  ">
-        <div className=" bg-primary px-4  rounded-md text-white">
-          {" "}
-          {/* Button with Dropdown */}
-          <Dropdown
-            inline
-            label={
-              <div className="flex items-center space-x-2 bg-primary py-2 rounded-md text-white shadow hover:bg-primary-dark">
-                <span className="text-sm font-medium">បង្កើតថ្មី</span>
-                <FiEdit2 className="text-white" />
-              </div>
-            }
-          >
-            <DropdownItem className="text-black">
-              <span onClick={() => route.push("/content/new")}>
-                បង្កើតអត្ថបទ
-              </span>
-            </DropdownItem>
-            <DropdownItem className="text-black">បង្កើត Forum</DropdownItem>
-          </Dropdown>
-        </div>
+            {/* Action Icons */}
+            <div className="flex items-center mx-8  ">
+                <div className=" bg-primary px-4  rounded-md text-white">
+                    {" "}
+                    {/* Button with Dropdown */}
+                    <Dropdown
+                        inline
+                        label={
+                            <div className="flex items-center space-x-2 bg-primary py-2 rounded-md text-white shadow hover:bg-primary-dark">
+                                <span className="text-sm font-medium">
+                                    បង្កើតថ្មី
+                                </span>
+                                <FiEdit2 className="text-white" />
+                            </div>
+                        }
+                    >
+                        <DropdownItem className="text-black">
+                            <span onClick={() => route.push("/content/new")}>
+                                បង្កើតអត្ថបទ
+                            </span>
+                        </DropdownItem>
+                        <DropdownItem className="text-black">
+                            <Link href="/forum/new">បង្កើត Forum</Link>
+                        </DropdownItem>
+                    </Dropdown>
+                </div>
 
         {/* Notification Icon */}
         <a href="/notification">
@@ -108,44 +108,44 @@ export function NavbarLogin({ user }: { user: any }) {
           </DropdownMenuLabel> */}
             <DropdownMenuSeparator />
 
-            <DropdownMenuGroup>
-              <a href={`/user-profile/${userProfile?.username}`}>
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>ប្រវត្តិរូប</span>
-                </DropdownMenuItem>
-              </a>
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex w-full items-center justify-between">
-                  <div className="flex items-center">
-                    <Moon className="mr-2 h-4 w-4" />
-                    <span>មុខងារងងឹត</span>
-                  </div>
-                  <Switch />
-                </div>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">
-              <LogOut className="mr-2 h-4 w-4" />
-              <span onClick={handleLogout}>ចាកចេញ</span>
-              {/* <span
+                        <DropdownMenuGroup>
+                            <a href="/user">
+                                <DropdownMenuItem>
+                                    <User className="mr-2 h-4 w-4" />
+                                    <span>ប្រវត្តិរូប</span>
+                                </DropdownMenuItem>
+                            </a>
+                            <DropdownMenuItem>
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex items-center">
+                                        <Moon className="mr-2 h-4 w-4" />
+                                        <span>មុខងារងងឹត</span>
+                                    </div>
+                                    <Switch />
+                                </div>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className="text-red-600">
+                            <LogOut className="mr-2 h-4 w-4" />
+                            {/* <span onClick={handleLogout}>ចាកចេញ</span> */}
+                            <span
                                 onClick={() =>
                                     route.push("http://127.0.0.1:9090/logout")
                                 }
                             >
                                 ចាកចេញ
-                            </span> */}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </div>
-  );
+                            </span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+        </div>
+    );
 }
 
 export default NavbarLogin;
