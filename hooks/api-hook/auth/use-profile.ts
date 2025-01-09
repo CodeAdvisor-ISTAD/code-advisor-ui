@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-async function fetchUserProfile() {
+export async function fetchUserProfile() {
         const response = await fetch("/identity/api/v1/auth/me");
         if(response.ok){
             const data = await response.json();
@@ -10,9 +10,3 @@ async function fetchUserProfile() {
         }
 }
 
-export const UseFetchProfile = () => {
-    return useQuery({
-        queryKey: ["userProfile"],
-        queryFn: fetchUserProfile
-    })
-};

@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import NavbarLogin from "./NavbarLogin";
-import { UseFetchProfile } from "@/hooks/api-hook/auth/use-profile";
+import { useUser } from "@/lib/context/userContext";
+import { UserData } from "@/types/user";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 
 export default function NavbarComponent() {
     const route = useRouter();
@@ -22,7 +25,17 @@ export default function NavbarComponent() {
     // useEffect(() => {
     //     getUser();
     // }, []);
-    const { data: user } = UseFetchProfile();
+    const { data: user } = useQuery({
+        queryKey: ["profile"],
+        queryFn: fetchUserProfile,
+    })
+    const { setUser } = useUser();
+
+    useEffect(() => {
+        if (user) {
+            setUser(user);
+        }
+    }, [user, setUser]);
 
     return (
         <>

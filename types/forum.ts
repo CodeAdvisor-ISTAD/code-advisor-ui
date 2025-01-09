@@ -62,3 +62,8 @@ type ErrorResponse = {
       reason: string;
     }
   };
+
+type EditAnswerType = {
+    answerUuid: string;
+    content: string;
+}

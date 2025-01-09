@@ -155,4 +155,37 @@ const unAcceptedAnswer = async function unAcceptAnswerOnForum(createdAnswerData 
     }
 }
 
-export { acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };
+const deleteAnswer = async function deleteAnswerOnForum(answerUuid: string) {
+    const response = await fetch(`/forums/api/v1/answers/${answerUuid}/soft-delete`, {
+        method: 'DELETE',
+    });
+    const data = await response.json();
+    
+    if (response.ok) {
+        return data;
+    } else {
+        // Throw the error data so it can be caught by onError
+        throw data;
+    }
+}
+
+const editAnswer = async function editAnswerOnForum(editAnswerData : EditAnswerType) {
+    const response = await fetch(`/forums/api/v1/answers`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({editAnswerData}),
+
+    });
+    const data = await response.json();
+    
+    if (response.ok) {
+        return data;
+    } else {
+        // Throw the error data so it can be caught by onError
+        throw data;
+    }
+}
+
+export { editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };
