@@ -12,6 +12,8 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@radix-ui/react-hover-card";
+import { ImageUp } from "lucide-react"
+
 
 interface ProfileImageProps {
   disableButton: boolean;
@@ -69,7 +71,7 @@ export default function ProfileImage({
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8168/users/api/v1/edit_user_profiles/upload",
+        "http://127.0.0.1:8168/users/api/v1/user_profiles/upload",
         {
           method: "PATCH",
           headers: {
@@ -115,16 +117,16 @@ export default function ProfileImage({
   return (
     <div>
       <div className="flex flex-row absolute -bottom-28 left-8">
-        <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden border-white bg-white">
+        <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden bottom-2">
           <Image
             src={
               tempImage ||
               (image !== "null"
-                ? image
-                : profileAuth?.profileImage || profilePlaceholder.src)
+          ? image
+          : data?.profileImage || profileAuth?.profileImage || profilePlaceholder.src)
             }
             alt="Profile"
-            className="object-cover"
+            className="object-cover rounded-full border-4 border-gray-200 w-[200px] h-[200px]"
             fill
           />
           <input
@@ -138,10 +140,10 @@ export default function ProfileImage({
         {!disableButton && (
           <button
             type="button"
-            className="absolute bottom-3 left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-200 text-white rounded-full hover:bg-primary transition-colors duration-300"
+            className="absolute bottom-3 left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-200 text-white rounded-full hover:bg-gray-300 transition-colors duration-300"
             onClick={() => document.getElementById("avatarInput")?.click()}
           >
-            <FontAwesomeIcon className="text-gray-400" icon={faCamera} />
+            <ImageUp className="w-5 h-5 text-primary" />
           </button>
         )}
         {/* Profile details section */}

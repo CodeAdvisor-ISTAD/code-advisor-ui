@@ -80,7 +80,7 @@ export default function EditUserInformationForm(
   async function onSubmit(data: any) {
     console.log("firstName", data);
     try {
-      const response = await fetch("/users/api/v1/edit_user_profiles", {
+      const response = await fetch("/users/api/v1/user_profiles", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"

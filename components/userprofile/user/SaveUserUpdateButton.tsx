@@ -2,6 +2,7 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { UserRoundPen } from "lucide-react"
 
 interface SaveUserUpdateButtonProps {
   onSave?: () => void;
@@ -31,7 +32,8 @@ export default function SaveUserUpdateButton({
         >
           <div className="w-full flex items-center justify-center gap-2">
             <p className="">កែប្រែ</p>
-            <FontAwesomeIcon icon={faPenToSquare} />
+            {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
+            <UserRoundPen className="w-5 h-5"/>
           </div>
         </button>
       )}
