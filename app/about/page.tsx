@@ -5,6 +5,8 @@ import { Star } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Image from "next/image";
+import { motion } from "framer-motion";
+
 import {
   PenLine,
   MessageCircle,
@@ -49,17 +51,38 @@ export default function about() {
               </div>
 
               {/* Image Section */}
-              <div
-                className="relative h-[300px] md:h-[400px] lg:h-[450px] mr-20 "
-                data-aos="fade-left"
+              <motion.div
+                className="relative h-[300px] md:h-[400px] lg:h-[450px] mr-20"
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <Image
-                  src="/about-us/1.png"
-                  alt="Programming Education Illustration"
-                  fill
-                  className="object-contain rounded-lg"
-                />
-              </div>
+                <motion.div
+                  className="w-full h-full"
+                  animate={{
+                    y: [0, 8, -8, 0],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "easeInOut",
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    rotate: [0, -2, 2, -2, 0],
+                    transition: { duration: 0.5},
+                  }}
+                  whileTap={{ scale: 3, rotate: 0 }}
+                >
+                  <Image
+                    src="/about-us/1.png"
+                    alt="Programming Education Illustration"
+                    fill
+                    className="object-contain rounded-lg"
+                  />
+                </motion.div>
+              </motion.div>
             </div>
           </section>
 
@@ -298,7 +321,10 @@ export default function about() {
                         />
                       </svg>
                       <span className="font-semibold mr-2">អុីម៉ែល:</span>{" "}
-                      <a href="/info.istad@gmail.com" className=" hover:text-primary">
+                      <a
+                        href="/info.istad@gmail.com"
+                        className=" hover:text-primary"
+                      >
                         istad.tk@edu.kh
                       </a>
                     </li>
@@ -356,12 +382,13 @@ export default function about() {
                       </svg>
                       <span className="font-semibold mr-2">ទីតាំង:</span>{" "}
                       <a
-                        href="https://www.google.com/maps?q=23+Street+564,+Phnom+Penh"
+                        href="https://maps.app.goo.gl/HRN4hrCyrAqTdZzP6"
                         target="_blank"
                         rel="noopener noreferrer"
                         className=" hover:text-primary"
                       >
-                         Street 562,Sangkat Boeung Kak I,Khan Toul Kork,Phnom Penh
+                        Street 562,Sangkat Boeung Kak I,Khan Toul Kork,Phnom
+                        Penh
                       </a>
                     </li>
                   </ul>
