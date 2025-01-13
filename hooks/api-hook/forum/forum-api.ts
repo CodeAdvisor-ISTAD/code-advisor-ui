@@ -16,11 +16,12 @@ const createForum =  async function fetchPostForum(createForumData : CreateForum
 
 const getForumBySlug = async function fetchForumBySlug(slug: string) {
     const response = await fetch(`/forums/api/v1/questions/slug/${slug}`);
-    if(response.ok){
-        const data = await response.json();
+    const data = await response.json();
+    if (response.ok) {
         return data;
-    }else{
-        return null;
+    } else {
+        // Throw the error data so it can be caught by onError
+        throw data;
     }
 }
 

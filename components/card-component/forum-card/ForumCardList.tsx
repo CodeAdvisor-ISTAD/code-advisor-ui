@@ -2,7 +2,7 @@ import React from "react";
 import { ForumCardComponent } from "./ForumCardComponent";
 import TagComponent from "@/components/tag/tagComponent";
 
-export default function ForumCardList({ forumCardData = [] }: { forumCardData?: any }) {
+export default function ForumCardList({ forumCardData = { content: [] } }: { forumCardData?: any }) {
     return (
         <div className="ml-[264px] w-full">
             <TagComponent />

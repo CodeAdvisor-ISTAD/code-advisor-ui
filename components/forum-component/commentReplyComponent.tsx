@@ -130,16 +130,16 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
         },
     })
 
-    const handleEditAnswer = () => {
-        const editData : EditAnswerType = {
-            answerUuid: answerUuid,
-            content: "ចម្លើយថ្មី"
-        }
-    }
+    // const handleEditAnswer = () => {
+    //     const editData : EditAnswerType = {
+    //         answerUuid: answerUuid,
+    //         content: "ចម្លើយថ្មី"
+    //     }
+    // }
 
     return (
         <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-bold mb-4">12 Answers</h2>
+            <h2 className="text-xl font-bold mb-4">Answers</h2>
 
             {/* Main Comment */}
             <div className="space-y-4">
