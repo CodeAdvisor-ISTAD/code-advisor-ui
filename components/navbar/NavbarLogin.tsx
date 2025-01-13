@@ -15,7 +15,8 @@ import Image from "next/image";
 import { FiBell, FiEdit2 } from "react-icons/fi";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { UseFetchProfile } from "@/hooks/api-hook/auth/use-profile";
+import { UseFetchProfile } from "@/hooks/api-hook/user-service";
+
 
 export function NavbarLogin({ user }: { user: any }) {
     const route = useRouter();
@@ -109,7 +110,7 @@ export function NavbarLogin({ user }: { user: any }) {
             <DropdownMenuSeparator />
 
                         <DropdownMenuGroup>
-                            <a href="/user">
+                        <a href={`/user-profile/${user?.username}`}>
                                 <DropdownMenuItem>
                                     <User className="mr-2 h-4 w-4" />
                                     <span>ប្រវត្តិរូប</span>

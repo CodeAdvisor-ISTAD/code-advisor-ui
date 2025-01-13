@@ -17,7 +17,7 @@ export default function Viewer({username} : {username: string}) {
 
 
   useEffect(() => {
-    fetch(`users/api/v1/edit_user_profiles/${username}`)
+    fetch(`users/api/v1/user_profiles/${username}`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.coverColor) {

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchUserServiceProfile() {
-  const response = await fetch("/users/api/v1/edit_user_profiles/me");
+  const response = await fetch("/users/api/v1/user_profiles/me");
   if (response.ok) {
     const data = await response.json();
     return data;
@@ -9,10 +9,6 @@ async function fetchUserServiceProfile() {
     return null;
   }
 }
-
-
-
-
 
 // export const UseFetchAchievementLevel = (userId: number) => {
 //   return useQuery({
@@ -30,7 +26,7 @@ export const UseFetchUserServiceProfile = () => {
 
 export const fetchUserProfile = async () => {
   try {
-    const response = await fetch("/users/api/v1/edit_user_profiles/me");
+    const response = await fetch("/users/api/v1/user_profiles/me");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -41,5 +37,9 @@ export const fetchUserProfile = async () => {
   }
 };
 
-
-  
+export const UseFetchProfile = () => {
+  return useQuery({
+    queryKey: ["userProfile"],
+    queryFn: fetchUserProfile,
+  });
+};

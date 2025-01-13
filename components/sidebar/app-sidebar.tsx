@@ -120,15 +120,15 @@ export function AppSidebar() {
 
   if (
     pathname === "/content/new" ||
-    // pathname === "/user-profile" ||
-    pathname === "/user-profile/**" ||
+    pathname === "/user-profile" ||
+    pathname.startsWith("/user-profile/") ||
     pathname === "/edit-user-profile" ||
     (pathname.startsWith("/content") && !pathname.includes("/content/tags")) ||
     pathname === "/about" ||
     pathname.startsWith("/report") ||
     pathname === "/notification" ||
     pathname === "/forum/new" 
-  ) {
+    ) {
     return;
   }
 

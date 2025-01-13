@@ -1,7 +1,7 @@
 "use client";
 import Owner from "@/components/userprofile/role/Owner";
 import Viewer from "@/components/userprofile/role/ViewerComponent";
-import { UseFetchProfile } from "@/hooks/api-hook/auth/use-profile";
+import { UseFetchProfile } from "@/hooks/api-hook/user-service";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
@@ -10,6 +10,8 @@ const UserProfile = () => {
   const params = useParams();
   const paramName = params?.username; // Access the username parameter
   const { data: user } = UseFetchProfile();
+
+  console.log("paramName", paramName);
 
   if (user?.username === paramName) {
     return <Owner />;
