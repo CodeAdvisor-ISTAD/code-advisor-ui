@@ -2,6 +2,7 @@ import { SidebarProvider } from "@/components/ui/sidebarContent";
 import { koh_Santepheap, roboto } from "../fonts/fonts";
 import '../globals.css';
 import NavbarComponent from "@/components/navbar/NavbarComponent";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function ContentLayout({
   children,
@@ -15,6 +16,7 @@ export default function ContentLayout({
         <SidebarProvider>
           <main className="bg-gray-100 w-full ">{children}</main>
         </SidebarProvider>
+        <Toaster />
       </div>
   );
 }

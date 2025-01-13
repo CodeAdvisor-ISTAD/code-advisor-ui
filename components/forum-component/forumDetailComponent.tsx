@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 import {
     Bookmark,
@@ -25,6 +25,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import CommentReplyComponent from "./commentReplyComponent";
+import { useQuery } from "@tanstack/react-query";
+import { getForumBySlug } from "@/hooks/api-hook/forum/forum-api";
+import Preview from "../text-editor/preview";
 
 const formSchema = z.object({
     content: z.string().min(10, {
@@ -32,7 +35,14 @@ const formSchema = z.object({
     }),
 });
 
-export default function ForumDetailComponent() {
+export default function ForumDetailComponent({ slug }: { slug: string }) {
+    console.log("slug: ", slug);
+    const { data } = useQuery({
+        queryKey: ["forum", slug],
+        queryFn: () => getForumBySlug(slug),
+    });
+
+    console.log("forum: ", data);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -67,27 +77,20 @@ export default function ForumDetailComponent() {
                 </div>
 
                 {/* Content */}
+
                 <div className="space-y-4">
-                    <h2 className="text-xl font-bold">
-                        How to patch KDE on FreeBSD?
-                    </h2>
+                    <h2 className="text-2xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
+                    <h2 className="text-xl font-bold">{data?.title}</h2>
                     <p className="text-gray-700">
-                        Mi magna sed nec nisl mattis. Magna cursus tincidunt
-                        rhoncus imperdiet fermentum pretium, pharetra nisl.
-                        Euismod.
+                        <Preview content={data?.introduction} />
                     </p>
 
                     {/* Code Block */}
                     <div className="bg-gray-100 rounded-md p-4 font-mono text-sm">
-                        <pre className="space-y-1">
-                            <div>package main</div>
-                            <div>&nbsp;</div>
-                            <div>import &quot;fmt&quot;</div>
-                            <div>&nbsp;</div>
-                            <div>func main() {"{"}</div>
-                            <div> fmt.Println(&quot;Hello, world!&quot;)</div>
-                            <div>{"}"}</div>
-                        </pre>
+                        <h2 className="text-2xl font-bold">
+                            ចម្លើយដែលអ្នកចង់បាន
+                        </h2>
+                        <Preview content={data?.expectedAnswers} />
                     </div>
 
                     <p className="text-gray-700">

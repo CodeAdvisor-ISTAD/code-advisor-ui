@@ -24,7 +24,7 @@ const members = [
   {
     name: "Yith Sopheaktra",
     image: "/about-us/leader.png",
-    quote: "This user is so lazy, they can't even be bothered to put quotes on a card.",
+    quote: "Never late to learn, never stop to grow",
   },
   {
     name: "Eung Lyzhia",

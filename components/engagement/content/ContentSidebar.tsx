@@ -35,7 +35,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { Reactions } from "@/types/engagement";
+
 
 interface Content {
   contentId?: string;
@@ -57,14 +57,14 @@ export function ContentSidebar({
   ); // Initialize with a default value of 0 if bookmarksCount is undefined
 
   const [localReactions, setLocalReactions] = useState<Reactions>({
-    like: 0,
-    love: 0,
-    fire: 0,
+    likeCount: 0,
+    loveCount: 0,
+    fireCount: 0,
     ...reactions, // Ensure you merge the passed reactions (defaults to 0 if undefined)
   });
 
   const totalReactions =
-    localReactions.like + localReactions.love + localReactions.fire;
+    localReactions.likeCount + localReactions.loveCount + localReactions.fireCount;
 
   const toggleComment = () => setIsCommentFilled(!isCommentFilled);
 
