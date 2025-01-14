@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Star } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -7,12 +8,12 @@ interface RecommendationProps {
 }
 
 interface ContentItem {
+  id: string;
   title: string;
-  // Add other fields as needed
 }
 
 export default function Recommendations({ type }: RecommendationProps) {
-  const [items, setItems] = useState<string[]>([]);
+  const [items, setItems] = useState<ContentItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,9 +26,20 @@ export default function Recommendations({ type }: RecommendationProps) {
 
       try {
         const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
-        const items = data.hits.hits.map((hit: { _source: ContentItem }) => hit._source.title);
-        setItems(items);
+
+        if (data && data.hits && data.hits.hits) {
+          const items = data.hits.hits.map((hit: { _id: string; _source: ContentItem }) => ({
+            id: hit._id,
+            title: hit._source.title,
+          }));
+          setItems(items);
+        } else {
+          console.error("Unexpected API response structure:", data);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -47,10 +59,12 @@ export default function Recommendations({ type }: RecommendationProps) {
         </CardHeader>
         <CardContent>
           <ul className="space-y-4">
-            {items.map((item, index) => (
-              <li key={index} className="flex items-start gap-2">
-                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary" />
-                <span className="text-primary">{item}</span>
+            {items.map((item) => (
+              <li key={item.id} className="flex items-start gap-2">
+                <span className="mt-4 h-2 w-2 shrink-0 rounded-full bg-primary" />
+                <Link href={`/content/${item.id}`} className="text-primary p-[0.3rem] rounded-[2px]  hover:bg-gray-100">
+                  {item.title}
+                </Link>
               </li>
             ))}
           </ul>

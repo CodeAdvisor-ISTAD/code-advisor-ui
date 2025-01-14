@@ -19,10 +19,9 @@ export default function RootLayout({
             <body
                 className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
             >
+                
                 <Provider>
-                    <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
-                        <NavbarComponent />
-                    </header>
+                  
                     <SidebarProvider>
                         <AppSidebar />
 

@@ -34,7 +34,7 @@ const members = [
   {
     name: "Thoeng Mengseu",
     image: "/about-us/sue.png",
-    quote: "just a poor boy fight for his dream and wish to have a good future..",
+    quote: "I'd rather debug for 5 hour then reading documentation for 5 min.",
   },
   {
     name: "Art Vandeth",
@@ -49,7 +49,7 @@ const members = [
   {
     name: "Pol sokkhann",
     image: "/about-us/khann.png",
-    quote: "This user is so lazy, they can't even be bothered to put quotes on a card.",
+    quote: "Embrace the unknown to find success.",
   },
 ]
 
@@ -71,11 +71,11 @@ function MemberCard({ name, image, quote }: { name: string; image: string; quote
         {`{${name}}`}
       </h4>
       
-      <p className="text-sm text-center text-primary mb-6">
+      <p className="text-sm text-center text-primary mb-6 line-clamp-3">
         {quote}
       </p>
 
-      <div className="flex gap-10 bg-primary text-white p-3 rounded-full">
+      <div className="flex gap-10 bg-primary text-white p-2 rounded-full">
         <Link href="#" className="hover:text-secondary transition-colors duration-300">
           <Github className="w-5 h-5" />
         </Link>

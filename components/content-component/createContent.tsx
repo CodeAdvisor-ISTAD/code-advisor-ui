@@ -19,7 +19,7 @@ import makeAnimated from "react-select/animated";
 // import { tags } from "./option";
 import RichTextEditor from "@/components/text-editor/textEditor";
 import Preview from "@/components/text-editor/preview";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { UseFetchContentTags } from "@/hooks/api-hook/content/use-tag";
 import { useMutation } from "@tanstack/react-query";
