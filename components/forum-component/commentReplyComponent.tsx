@@ -7,207 +7,294 @@ import {
     MoreVertical,
 } from "lucide-react";
 import React from "react";
+import { useCommentContext } from "@/lib/context/commentContext";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    acceptedAnswer,
+    getAllAnswersByQuestion,
+    unAcceptedAnswer,
+    deleteAnswer,
+    editAnswer,
+} from "@/hooks/api-hook/forum/forum-api";
+import Preview from "../text-editor/preview";
+import { toast } from "react-hot-toast";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { useUser } from "@/lib/context/userContext";
+import { getUserByUsername } from "@/hooks/api-hook/user-service";
 
-export default function CommentReplyComponent() {
+export default function CommentReplyComponent({ slug }: { slug: string }) {
+    const { setReplyTo } = useCommentContext();
+    const queryClient = useQueryClient();
+    const { user } = useUser();
+
+    const handleReply = (answerUuid) => {
+        setReplyTo(answerUuid);
+        document
+            .getElementById("editor")
+            .scrollIntoView({ behavior: "smooth" });
+    };
+
+    const { data: answer } = useQuery({
+        queryKey: ["answers"],
+        queryFn: () => getAllAnswersByQuestion(slug),
+    });
+
+    const { mutate: acceptAnswer } = useMutation({
+        mutationFn: acceptedAnswer,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["answers"],
+            });
+            toast.success("អ្នកបានទទួលស្គាល់ថាចម្លើយនេះត្រឹមត្រូវ", {
+                duration: 4000,
+            });
+        },
+        onError: (error: ErrorResponse, variables, context) => {
+            // Now you can access the error details
+            if (error.error.code === 403) {
+                toast.error("អ្នកមិនមានសិទ្ធិដើម្បីធ្វើការនេះទេ");
+            } else {
+                toast.error("Something went wrong");
+            }
+        },
+    });
+
+    const { mutate: unAccepted } = useMutation({
+        mutationFn: unAcceptedAnswer,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["answers"],
+            });
+            toast.success("អ្នកបានលុបការទទួលស្គាល់ចម្លើយនេះ", {
+                duration: 4000,
+            });
+        },
+    });
+
+    const handleAcceptAnswer = (answerUuid: string) => {
+        const acceptedAnswerData = {
+            questionSlug: slug,
+            answerUuid: answerUuid,
+        };
+        acceptAnswer(acceptedAnswerData);
+    };
+
+    const handleUnAcceptAnswer = (answerUuid: string) => {
+        const acceptedAnswerData = {
+            questionSlug: slug,
+            answerUuid: answerUuid,
+        };
+        unAccepted(acceptedAnswerData);
+    };
+
+    const { mutate: deleteAnswerForum } = useMutation({
+        mutationFn: deleteAnswer,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["answers"],
+            });
+            toast.success("អ្នកបានលុបចម្លើយនេះ", {
+                duration: 4000,
+            });
+        },
+        onError: (error: ErrorResponse, variables, context) => {
+            // Now you can access the error details
+            if (error.error.code === 403) {
+                toast.error("អ្នកមិនមានសិទ្ធិដើម្បីធ្វើការនេះទេ");
+            } else {
+                toast.error("Something went wrong");
+            }
+        },
+    });
+
+    const handleDeleteAnswer = (answerUuid: string) => {
+        deleteAnswerForum(answerUuid);
+    };
+
+    const {mutate : editAnswerOnForum} = useMutation({
+        mutationFn: editAnswer,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["answers"],
+            });
+            toast.success("អ្នកបានកែប្រែចម្លើយនេះជោគជ័យ", {
+                duration: 4000,
+            });
+        },
+    })
+
+    // const handleEditAnswer = () => {
+    //     const editData : EditAnswerType = {
+    //         answerUuid: answerUuid,
+    //         content: "ចម្លើយថ្មី"
+    //     }
+    // }
+
     return (
         <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-bold mb-4">12 Answers</h2>
+            <h2 className="text-xl font-bold mb-4">Answers</h2>
 
             {/* Main Comment */}
             <div className="space-y-4">
-                <div className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-3">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                <img
-                                    src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
-                                    alt="Jenny Wilson"
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <div>
-                                <div className="font-medium">Jenny Wilson</div>
-                                <div className="text-sm text-gray-500">
-                                    12-Nov-2024 1:38PM
-                                </div>
-                            </div>
-                        </div>
-                        <button className="text-gray-500">
-                            <MoreVertical className="w-5 h-5" />
-                        </button>
-                    </div>
+                {answer?.content?.map((ans) => (
+                    <div className="border rounded-lg p-4" key={ans.uuid}>
+                        <div className="flex justify-between items-start mb-3">
+                        <UserProfile authorUsername={ans.authorUsername} createdAt={ans?.createdAt}/>
 
-                    <div className="space-y-3">
-                        <p>
-                            If you use too many keyboard layouts, maybe the
-                            MacOS shortcut might be active. You can disabled
-                            ^(Ctrl)+Space shortcuts for MacOS.
-                        </p>
-
-                        <ul className="list-disc ml-5">
-                            <li>
-                                System
-                                Preferences&gt;Keyboard&gt;Shorcuts&gt;Input
-                                Sources&gt; Disable Select the previous input
-                                source.
-                            </li>
-                        </ul>
-
-                        <p>
-                            You can use next shortcut for change input
-                            sources.Ctrl+Alt+Space
-                        </p>
-
-                        <div className="flex items-center gap-4 mt-4">
-                            <div className="flex items-center">
-                                <CircleCheck className="w-5 h-5 text-green-500  rounded-full" />
-                                <div className="flex items-center mx-2">
-                                    <ChevronUp className="w-5 h-5" />
-                                    <span className="mx-1">50</span>
-                                    <ChevronDown className="w-5 h-5" />
-                                </div>
-                            </div>
-                            <button className="text-gray-600 flex items-center gap-1">
-                                <MessageCircle className="w-5 h-5" />
-                                <span>Reply</span>
+                            <button className="text-gray-500">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <MoreVertical className="w-5 h-5" />
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        <DropdownMenuItem
+                                            className={
+                                                user?.uuid == ans?.authorUuid
+                                                    ? "block"
+                                                    : "hidden"
+                                            }
+                                            onClick={() =>
+                                                handleDeleteAnswer(ans?.uuid)
+                                            }
+                                        >
+                                            <p className="text-red-500">
+                                                លុបការឆ្លើយ
+                                            </p>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            រាយការណ៍
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </button>
                         </div>
-                    </div>
 
-                    {/* Nested Comments */}
-                    <div className="mt-4 space-y-4 ml-8 border-l-2 border-gray-200 pl-4">
-                        {/* First Reply */}
-                        <div className="mt-4">
-                            <div className="flex justify-between items-start mb-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                        <img
-                                            src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
-                                            alt="Yith Sopheaktra"
-                                            className="w-full h-full object-cover"
+                        <div className="space-y-3">
+                            <Preview content={ans?.content} />
+                            {/* {
+                           answer?.content?.map((content, index) => (
+                               <Preview key={index} content={content.content} />
+                           ))
+                       } */}
+
+                            <div className="flex items-center gap-4 mt-4">
+                                <div className="flex items-center">
+                                    {ans?.isAccepted == true ? (
+                                        <CircleCheck
+                                            onClick={() => {
+                                                handleUnAcceptAnswer(ans?.uuid);
+                                            }}
+                                            className="w-5 h-5 text-green-500  rounded-full cursor-pointer"
                                         />
-                                    </div>
-                                    <div>
-                                        <div className="font-medium">
-                                            Yith Sopheaktra
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            12-Nov-2024 1:38PM
-                                        </div>
+                                    ) : (
+                                        <CircleCheck
+                                            onClick={() =>
+                                                handleAcceptAnswer(ans?.uuid)
+                                            }
+                                            className="w-5 h-5 text-gray-500  rounded-full cursor-pointer"
+                                        />
+                                    )}
+                                    <div className="flex items-center mx-2">
+                                        <ChevronUp className="w-5 h-5" />
+                                        <span className="mx-1">50</span>
+                                        <ChevronDown className="w-5 h-5" />
                                     </div>
                                 </div>
-                                <button className="text-gray-500">
-                                    <MoreVertical className="w-5 h-5" />
+                                <button className="text-gray-600 flex items-center gap-1">
+                                    <MessageCircle className="w-5 h-5" />
+                                    <span
+                                        onClick={() =>
+                                            handleReply(ans?.uuid as string)
+                                        }
+                                    >
+                                        Reply
+                                    </span>
                                 </button>
                             </div>
-                            <p className="mb-2">
-                                Do I have to press control + space every time?
-                                In my previous system it used to show without
-                                pressing. Any idea why it's not working anymore?
-                            </p>
-                            <p>
-                                Not sure why you single out CJK languages. This
-                                is true for ANY multi-language setup. For
-                                example, I am using SWE keyboard and I have to
-                                use ALT+ESC.
-                            </p>
                         </div>
 
-                        {/* Second Reply */}
-                        <div className="mt-4">
-                            <div className="flex justify-between items-start mb-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                        <img
-                                            src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
-                                            alt="Thoeng Mengseu"
-                                            className="w-full h-full object-cover"
-                                        />
+                        {/* Nested Comments */}
+                        {ans?.replies?.map((reply) => (
+                            <div
+                                className="mt-4 space-y-4 ml-8 border-l-2 border-gray-200 pl-4"
+                                key={reply.uuid}
+                            >
+                                {/* First Reply */}
+                                <div className="mt-4">
+                                    <div className="flex justify-between items-start mb-3">
+                                    <UserProfile authorUsername={reply?.authorUsername} createdAt={reply?.createdAt}/>
+
+
+                                        <button className="text-gray-500">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <MoreVertical className="w-5 h-5" />
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent className="w-56">
+                                                    <DropdownMenuItem
+                                                        className={user?.uuid == reply?.authorUuid ? "block" : "hidden"}
+                                                        onClick={() =>
+                                                            handleDeleteAnswer(
+                                                                reply?.uuid
+                                                            )
+                                                        }
+                                                    >
+                                                        <p className="text-red-500">
+                                                            លុបការឆ្លើយ
+                                                        </p>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem>
+                                                        រាយការណ៍
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </button>
                                     </div>
-                                    <div>
-                                        <div className="font-medium">
-                                            Thoeng Mengseu
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            12-Nov-2024 1:38PM
-                                        </div>
-                                    </div>
+                                    <Preview content={reply?.content} />
                                 </div>
                             </div>
-                            <p>
-                                Confirmed ! Awesome. I upgraded VS Code to
-                                1.141.1, and Option + esc
-                            </p>
-                        </div>
+                        ))}
                     </div>
-                </div>
-
-                {/* Second Main Comment */}
-                <div className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-3">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                <img
-                                    src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
-                                    alt="Eung Lyzhia"
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <div>
-                                <div className="font-medium">Eung Lyzhia</div>
-                                <div className="text-sm text-gray-500">
-                                    12-Nov-2024 1:38PM
-                                </div>
-                            </div>
-                        </div>
-                        <button className="text-gray-500">
-                            <MoreVertical className="w-5 h-5" />
-                        </button>
-                    </div>
-
-                    <div className="space-y-3">
-                        <p>
-                            "change input source&ldquo; keyboard shortcut should
-                            be disabled
-                        </p>
-                        <p>To disable it-&gt;</p>
-                        <ul className="list-disc ml-5 space-y-1">
-                            <li>
-                                Go to system preferences -&gt; keyboard -&gt;
-                                input sources
-                            </li>
-                            <li>add a new input source (choose ABC)</li>
-                            <li>
-                                Go to shortcuts tab (inside of keyboard
-                                settings)
-                            </li>
-                            <li>Click on input sources on the left</li>
-                            <li>
-                                disable the &ldquo;select previous input
-                                source&ldquo; shortcut
-                            </li>
-                        </ul>
-                        <p>
-                            restart your vs code and now ctrl+space will show
-                            quick suggestions.
-                        </p>
-
-                        <div className="flex items-center gap-4 mt-4">
-                            <div className="flex items-center">
-                                <div className="flex items-center">
-                                    <ChevronUp className="w-5 h-5" />
-                                    <span className="mx-1">5</span>
-                                    <ChevronDown className="w-5 h-5" />
-                                </div>
-                            </div>
-                            <button className="text-gray-600 flex items-center gap-1">
-                                <MessageCircle className="w-5 h-5" />
-                                <span>Reply</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     );
 }
+
+
+// Create a separate component for the user profile section
+const UserProfile = ({ authorUsername, createdAt }) => {
+    const { data: userData } = useQuery({
+        queryKey: ['user', authorUsername],
+        queryFn: () => getUserByUsername(authorUsername),
+        enabled: !!authorUsername
+    });
+
+    return (
+        <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                <img
+                    src={userData?.profileImage || "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"}
+                    alt={userData?.name || "User"}
+                    className="w-full h-full object-cover"
+                />
+            </div>
+            <div>
+                <div className="font-medium">
+                    {userData?.fullName || "Loading..."}
+                </div>
+                <div className="text-sm text-gray-500">
+                {new Date(createdAt).toLocaleString()}
+                </div>
+            </div>
+        </div>
+    );
+};

@@ -45,6 +45,10 @@ const formSchema = z.object({
     expectedAnswers: z.string().min(10, {
         message: "ចំណងជើងត្រូវមានយ៉ាងហោចណាស់ 10 តួអក្សរ",
     }),
+    description: z.string().min(10, {
+        message: "ការពិពណ៌នាសំណួរត្រូវមានយ៉ាងហោចណាស់ 10 តួអក្សរ",
+    }),
+    isDrafted: z.boolean().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -53,7 +57,7 @@ const CreateNewForum = () => {
     const router = useRouter();
     const [slug, setSlug] = useState("");
 
-    const { data, isLoading, isError, error } = UseFetchForumTags();
+    const { data, isError } = UseFetchForumTags();
 
     const { mutate } = useMutation({
         mutationFn: createForum,
@@ -61,15 +65,26 @@ const CreateNewForum = () => {
             return { slug };
         },
         onSuccess: (data, variables, context) => {
-            toast.success("សំណួររបស់អ្នកបានបោះពុម្ភផ្សាយដោយជោគជ័យ");
+            // Show success message
+            toast.success(
+                variables.isDrafted
+                    ? "សំណួររបស់អ្នកត្រូវបានរក្សាទុកជាព្រាង"
+                    : "សំណួររបស់អ្នកបានបោះពុម្ភផ្សាយដោយជោគជ័យ"
+            );
 
-            router.push(`/forum/${variables.slug}`);
+            // Redirect only if it's not a draft
+            if (!variables.isDrafted) {
+                router.push(`/forum/${variables.slug}`);
+            }
+        },
+        onError: (error, variables, context) => {
+
+            // Show error message
+            console.log("error : ", error);
+
+            toast.error("មានបញ្ហាកើតឡើងនៅពេលបោះពុម្ភផ្សាយសំណួរ");
         },
     });
-
-    if (status === "pending") {
-        toast.loading("កំពុងដំណើរការ...");
-    }
 
     // Transform the data into the desired format (if needed)
     const transformedTags: TagOption[] =
@@ -100,6 +115,8 @@ const CreateNewForum = () => {
             tag: [],
             introduction: "",
             expectedAnswers: "",
+            description: "",
+            isDrafted: false,
         },
     });
 
@@ -108,7 +125,7 @@ const CreateNewForum = () => {
     };
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof formSchema>, isDrafted: boolean) {
         const forumData: CreateForumType = {
             title: values.title,
             slug: values.slug,
@@ -116,7 +133,8 @@ const CreateNewForum = () => {
             tagName: values.tag,
             introduction: values.introduction,
             expectedAnswers: values.expectedAnswers,
-            isDrafted: false,
+            description: values.description,
+            isDrafted: isDrafted,
         };
 
         // 3. Call the mutation function with the form data.
@@ -136,7 +154,9 @@ const CreateNewForum = () => {
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <Form {...form}>
                             <form
-                                onSubmit={form.handleSubmit(onSubmit)}
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}
                                 className="space-y-6"
                             >
                                 {/* Title */}
@@ -178,6 +198,29 @@ const CreateNewForum = () => {
                                             <FormControl>
                                                 <Input
                                                     placeholder="ឧទាហរណ៍:  bootiful-spring-boot-3.4-spring-batch"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                {/* Description */}
+                                <FormField
+                                    control={form.control}
+                                    name="description"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-primary text-xl font-bold">
+                                                ពត័មានបន្ថែម
+                                            </FormLabel>
+                                            <FormDescription className="text-sm">
+                                                បញ្ចូលពត័មានបន្ថែមសម្រាប់ពញ្ហាដែលអ្នកបានជួបប្រទះ
+                                            </FormDescription>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="ឧទាហរណ៍:  ការរៀបចំ, គ្រប់គ្រង, និងរក្សាទុកទិន្នន័យ "
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -307,12 +350,22 @@ const CreateNewForum = () => {
                                 <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
                                     <Button
                                         type="submit"
+                                        onClick={() =>
+                                            form.handleSubmit((data) =>
+                                                onSubmit(data, false)
+                                            )()
+                                        }
                                         className="w-full sm:w-auto text-white"
                                     >
                                         បោះពុម្ភផ្សាយ
                                     </Button>
                                     <Button
-                                        type="button"
+                                        onClick={() =>
+                                            form.handleSubmit((values) =>
+                                                onSubmit(values, true)
+                                            )()
+                                        }
+                                        type="submit"
                                         variant="outline"
                                         className="w-full sm:w-auto text-primary"
                                     >

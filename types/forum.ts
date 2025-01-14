@@ -5,6 +5,7 @@ type CreateForumType = {
     tagName: string[];
     introduction: string;
     expectedAnswers: string;
+    description: string;
     isDrafted : boolean;
 }
 
@@ -29,7 +30,8 @@ type TagsType = {
 type ForumCardType = {
     uuid: string;
     slug: string;
-    authorUuid: string;
+    author_uuid: string;
+    author_username: string;
     title: string;
     description: string | null;
     expectedAnswers: string;
@@ -42,3 +44,27 @@ type ForumCardType = {
 }
 
 type ForumContent = ForumCardType[];
+
+type CreateComment = {
+    questionSlug: string;
+    answerUuid?: string;
+    slug: string;
+    content: string;
+};
+
+type CreateAcceptedAnswerType = {
+    questionSlug: string,
+    answerUuid: string,
+}
+
+type ErrorResponse = {
+    error: {
+      code: number;
+      reason: string;
+    }
+  };
+
+type EditAnswerType = {
+    answerUuid: string;
+    content: string;
+}

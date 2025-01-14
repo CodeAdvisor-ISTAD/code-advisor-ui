@@ -4,6 +4,7 @@ import TrendingComponent from "@/components/card-component/card-trending/Trendin
 import ForumDetailComponent from "@/components/forum-component/forumDetailComponent";
 import React, { useEffect, useState } from "react";
 import Preview from "@/components/text-editor/preview";
+import { usePathname,useParams } from "next/navigation";
 
 
 const latest = [
@@ -13,25 +14,13 @@ const latest = [
 ];
 
 // If you're fetching data, make this async
-export default function ForumDetailPage({
-    params,
-}: {
-    params: { slug: string };
-}) {
+export default function Page() {
+    const { slug: forumSlug } = useParams();
 
-    const [isClient, setIsClient] = useState(false);
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
-
-    if (!isClient) {
-        return null; // or a loading spinner
-    }
     return (
         <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
             {/* Forum Detail Component */}
-            <ForumDetailComponent slug={params?.slug}/>
+            <ForumDetailComponent slug={forumSlug as string} />
             <div className="flex flex-col ml-2 gap-2 ">
                 <TrendingComponent type="Latest" items={latest} />
                 <ISTADCard />

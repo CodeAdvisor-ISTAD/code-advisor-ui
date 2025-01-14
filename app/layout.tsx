@@ -8,11 +8,13 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import Provider from "./_provider";
 import { Toaster } from "react-hot-toast";
+import { CommentProvider } from "@/lib/context/commentContext";
+import { UserProvider, useUser } from "@/lib/context/userContext";
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
     return (
         <html lang="en">
@@ -25,16 +27,16 @@ export default function RootLayout({
                     <SidebarProvider>
                         <AppSidebar />
 
-                        <main className="w-full bg-background ">
-                            {children}
-                        </main>
-                    </SidebarProvider>
-                    <footer>
-                        <Footer />
-                    </footer>
-                    <Toaster />
-                </Provider>
-            </body>
-        </html>
-    );
+                <main className="w-full bg-background ">{children}</main>
+              </SidebarProvider>
+              <footer>
+                <Footer />
+              </footer>
+              <Toaster />
+            </Provider>
+          </CommentProvider>
+        </UserProvider>
+      </body>
+    </html>
+  );
 }
