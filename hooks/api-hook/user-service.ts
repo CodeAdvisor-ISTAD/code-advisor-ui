@@ -10,13 +10,6 @@ async function fetchUserServiceProfile() {
   }
 }
 
-// export const UseFetchAchievementLevel = (userId: number) => {
-//   return useQuery({
-//     queryKey: ["achievementLevel", userId],
-//     queryFn: () => fetchAchievementLevel(userId),
-//   });
-// }
-
 export const UseFetchUserServiceProfile = () => {
   return useQuery({
     queryKey: ["userServiceProfile"],
@@ -43,3 +36,17 @@ export const UseFetchProfile = () => {
     queryFn: fetchUserProfile,
   });
 };
+
+
+export const getUserByUsername = async (username: string) => {
+  try {
+    const response = await fetch(`/users/api/v1/user_profiles/${username}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    throw error; // Rethrow for error handling
+  }
+}

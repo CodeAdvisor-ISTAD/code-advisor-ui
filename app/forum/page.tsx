@@ -17,6 +17,7 @@ type ElasticQuestion = {
             created_at: number;
             is_archived: boolean;
             is_deleted: boolean;
+            author_username: string;
         };
     };
 };
@@ -33,7 +34,7 @@ type ElasticResponse = {
 // Updated fetch function for Elasticsearch
 const getAllForums = async function fetchAllForums() {
     try {
-        const response = await fetch(`http://167.172.78.79:9200/forum.public.question/_search?pretty=true&q=*:*`);
+        const response = await fetch(`http://167.172.78.79:9200/forum.public.question/_search?q=*`);
         if (response.ok) {
             const data: ElasticResponse = await response.json();
             // Transform Elasticsearch data to match your component's expected format
@@ -47,7 +48,8 @@ const getAllForums = async function fetchAllForums() {
                     created_at: hit?._source?.after?.created_at,
                     tags: [], // Add tags if available in your Elasticsearch data
                     is_archived: hit?._source?.after?.is_archived,
-                    is_deleted: hit?._source?.after?.is_deleted
+                    is_deleted: hit?._source?.after?.is_deleted,
+                    author_username: hit?._source?.after?.author_username
                 }))
             };
             return transformedData;

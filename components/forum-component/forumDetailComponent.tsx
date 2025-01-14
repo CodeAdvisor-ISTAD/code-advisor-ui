@@ -38,6 +38,7 @@ import {
 } from "@/hooks/api-hook/forum/forum-api";
 import Preview from "../text-editor/preview";
 import { useCommentContext } from "@/lib/context/commentContext";
+import { getUserByUsername } from "@/hooks/api-hook/user-service";
 
 const formSchema = z.object({
     content: z.string().min(10, {
@@ -205,6 +206,12 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
         createComment(createAnswer);
     }
 
+    const {data: user} = useQuery({
+        queryKey: ["owner"],
+        queryFn: () => getUserByUsername(forum?.authorUsername),
+    })
+
+
     return (
         <div className="  ml-[264px] w-full">
             <TagComponent />
@@ -214,15 +221,17 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
                             <img
-                                src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
+                                src={user?.profileImage}
                                 alt="Profile"
                                 className="w-full h-full object-cover"
                             />
                         </div>
                         <div>
-                            <div className="font-medium">@Golanginya</div>
+                            <div className="font-medium">{user?.fullName}</div>
+                            <div className="text-gray-500 text-sm">@{user?.username}</div>
                             <div className="text-sm text-gray-500">
-                                12-Nov-2024 1:38PM
+                                {/* 12-Nov-2024 1:38PM */}
+                                {new Date(forum?.createdAt).toLocaleString()}
                             </div>
                         </div>
                     </div>

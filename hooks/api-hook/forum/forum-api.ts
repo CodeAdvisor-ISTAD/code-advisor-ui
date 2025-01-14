@@ -8,9 +8,14 @@ const createForum =  async function fetchPostForum(createForumData : CreateForum
             },
             body: JSON.stringify(createForumData),
         }); 
-        if(response.ok){
-            const data = await response.json();
+
+        const data = await response.json();
+
+        if (response.ok) {
             return data;
+        } else {
+            // Throw the error data so it can be caught by onError
+            throw data;
         }
 }
 

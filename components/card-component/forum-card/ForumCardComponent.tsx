@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/pop-over";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getUserByUsername } from "@/hooks/api-hook/user-service";
 
 export function ForumCardComponent({
     forumCardData,
@@ -51,6 +53,15 @@ export function ForumCardComponent({
         router.push(`/forum/${slug}`);
     };
 
+    console.log(" forumCardData : ", forumCardData);
+
+    const { data: userData } = useQuery({
+        queryKey: ['user'],
+        queryFn: () => getUserByUsername(forumCardData?.author_username),
+    });
+
+    
+
     return (
         <div
             className=" bg-white rounded-[5px] shadow-sm p-6 cursor-pointer"
@@ -60,15 +71,15 @@ export function ForumCardComponent({
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                     <Image
-                        src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
+                        src={userData?.profileImage || ""}
                         alt="User Avatar"
                         width={100}
                         height={100}
                         className="rounded-full w-[40px] h-[40px] object-cover"
                     />
                     <div>
-                        <h3 className="text-base font-normal">Username</h3>
-                        <p className="text-sm text-gray-500">"Username</p>
+                        <h3 className="text-base font-normal">{userData?.fullName}</h3>
+                        <p className="text-sm text-gray-500">@{userData?.username}</p>
                     </div>
                 </div>
                 <div className="text-gray-500 hover:text-gray-700">
