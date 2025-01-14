@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar } from "@/components/ui/avatar";
 import { Notification, NotificationActions, NotificationType } from "@/types/notifications";
-import { useEffect, useState } from 'react';
-import { getUserProfile } from '@/lib/api';
+import { useState } from 'react';
+import { useUser } from "@/lib/context/userContext";
 
 interface NotificationItemProps {
   notification: Notification;
@@ -46,18 +46,12 @@ const getNotificationIcon = (type: NotificationType) => {
 };
 
 export function NotificationItem({ notification, actions }: NotificationItemProps) {
-  const [userProfile, setUserProfile] = useState<{ name: string; profile: string } | null>(null);
   const [isRead, setIsRead] = useState(notification.read);
   const router = useRouter();
+  const { user } = useUser();
 
-  useEffect(() => {
-    async function fetchUserProfile() {
-      const profile = await getUserProfile(notification.senderId);
-      setUserProfile(profile);
-    }
-
-    fetchUserProfile();
-  }, [notification.senderId]);
+  const profileImage = user?.profileImage || placeholderProfile;
+  const username = user?.username || 'Unknown';
 
   const handleMarkAsRead = async () => {
     const newReadStatus = !isRead;
@@ -84,85 +78,85 @@ export function NotificationItem({ notification, actions }: NotificationItemProp
   };
 
   return (
-    <div onClick={handleNotificationClick} className="flex items-start gap-4 p-6 rounded-md transition-colors bg-white border border-gray-200 cursor-pointer">
-      <Avatar className="h-10 w-10 bg-yellow-400 flex items-center justify-center">
-        {userProfile?.profile ? (
-          <img src={userProfile.profile} alt={userProfile.name} className="w-full h-full rounded-full" />
-        ) : (
-          <img src={placeholderProfile} alt="Placeholder" className="w-9 h-9 rounded-full" />
-        )}
-      </Avatar>
+      <div onClick={handleNotificationClick} className="flex items-start gap-4 p-6 rounded-md transition-colors bg-white border border-gray-200 cursor-pointer">
+        <Avatar className="h-10 w-10 bg-yellow-400 flex items-center justify-center">
+          {profileImage ? (
+              <img src={profileImage} alt={username} className="w-full h-full rounded-full" />
+          ) : (
+              <img src={placeholderProfile} alt="Placeholder" className="w-9 h-9 rounded-full" />
+          )}
+        </Avatar>
 
-      <div className="flex-1 space-y-1">
-        <div className="flex items-center gap-2">
-          {getNotificationIcon(notification.notificationType)}
-          <span className="font-normal text-primary">
+        <div className="flex-1 space-y-1">
+          <div className="flex items-center gap-2">
+            {getNotificationIcon(notification.notificationType)}
+            <span className="font-normal text-primary">
             {notification.notificationType === NotificationType.LIKE ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> liked your {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> liked your {notification.notificationData.title}
+                </>
             ) : notification.notificationType === NotificationType.COMMENT ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> commented on your {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> commented on your {notification.notificationData.title}
+                </>
             ) : notification.notificationType === NotificationType.REPLY ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> replied to your {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> replied to your {notification.notificationData.title}
+                </>
             ) : notification.notificationType === NotificationType.VOTE ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> voted on your {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> voted on your {notification.notificationData.title}
+                </>
             ) : notification.notificationType === NotificationType.ACCEPT ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> accepted your {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> accepted your {notification.notificationData.title}
+                </>
             ) : notification.notificationType === NotificationType.CREATE ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> created {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> created {notification.notificationData.title}
+                </>
             ) : notification.notificationType === NotificationType.REPORT ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> reported {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> reported {notification.notificationData.title}
+                </>
             ) : notification.notificationType === NotificationType.ANSWER ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> answered your {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> answered your {notification.notificationData.title}
+                </>
             ) : notification.notificationType === NotificationType.QUESTION ? (
-              <>
-                <span className="font-bold text-primary">{userProfile?.name}</span> asked a question {notification.notificationData.title}
-              </>
+                <>
+                  <span className="font-bold text-primary">{username}</span> asked a question {notification.notificationData.title}
+                </>
             ) : null}
           </span>
+          </div>
+          <p className="text-slate-500 text-sm line-clamp-2">{notification.message}</p>
+          <p className="text-slate-500 text-sm line-clamp-2">
+            {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
+          </p>
         </div>
-        <p className="text-slate-500 text-sm line-clamp-2">{notification.message}</p>
-        <p className="text-slate-500 text-sm line-clamp-2">
-          {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
-        </p>
-      </div>
 
-      <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-        {!isRead && <div className="h-2 w-2 rounded-full bg-yellow-600" />}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8 border-none focus:outline-none active:border-none focus:ring-0">
-              <MoreVertical className="h-4 w-4" />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="border-none">
-            <DropdownMenuItem onClick={handleMarkAsRead} className="border-none text-yellow-600">
-              <CircleCheck className="mr-2 text-yellow-600" />
-              <span className="text-yellow-600">{isRead ? 'Mark as unread' : 'Mark as read'}</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleRemoveNotification} className="border-none text-red-700">
-              <Trash2 className="mr-2 text-red-700" />
-              <span className="text-red-700">Remove</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+          {!isRead && <div className="h-2 w-2 rounded-full bg-yellow-600" />}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 border-none focus:outline-none active:border-none focus:ring-0">
+                <MoreVertical className="h-4 w-4" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="border-none">
+              <DropdownMenuItem onClick={handleMarkAsRead} className="border-none text-yellow-600">
+                <CircleCheck className="mr-2 text-yellow-600" />
+                <span className="text-yellow-600">{isRead ? 'Mark as unread' : 'Mark as read'}</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleRemoveNotification} className="border-none text-red-700">
+                <Trash2 className="mr-2 text-red-700" />
+                <span className="text-red-700">Remove</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
-    </div>
   );
 }

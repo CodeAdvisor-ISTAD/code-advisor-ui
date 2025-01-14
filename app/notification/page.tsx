@@ -7,12 +7,12 @@ import { NotificationList } from "@/components/notification/NotificationList";
 import { markAsRead, removeNotification } from "@/lib/api";
 import type { Notification } from "@/types/notifications";
 import NotificationStatic from "@/components/notification/NotificationStatic";
+import {useUser} from "@/lib/context/userContext";
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [userId, setUserId] = useState<string>("");
-
-  console.log("Notification log", notifications);
+  const {user} = useUser();
 
   const handleMarkAsRead = useCallback(async (id: string, status: boolean) => {
     try {
@@ -42,11 +42,12 @@ export default function NotificationsPage() {
   }, []);
 
   useEffect(() => {
-    const currentUserId = "receiver"; // Replace with actual user ID retrieval method
+    const currentUserId = user?.uuid;// Replace with actual user ID retrieval method
+    // console.log("Current user ID:", currentUserId);
     setUserId(currentUserId);
 
     const wsService = new WebSocketService(
-      "http://localhost:8888/ws",
+      "http://localhost:8084/ws",
       currentUserId
     );
 
@@ -67,7 +68,7 @@ export default function NotificationsPage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl mx-auto p-4">
+    <div className="mt-[68px] container max-w-4xl mx-auto p-4">
       <h1 className="text-primary font-semibold text-3xl mb-4">
         Notifications
       </h1>
@@ -75,7 +76,6 @@ export default function NotificationsPage() {
         notifications={notifications}
         actions={{ markAsRead: handleMarkAsRead, remove: handleRemove }}
       />
-      <NotificationStatic></NotificationStatic>
     </div>
   );
 }
