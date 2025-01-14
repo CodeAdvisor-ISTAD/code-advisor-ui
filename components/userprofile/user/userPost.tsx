@@ -16,7 +16,7 @@ import {
 import { Command } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { CardForumComponent } from "@/components/userprofile/user/CardForumComponent";
-import { CardsData } from "@/lib/userProfile/information";
+import { CardsData } from "@/lib/information";
 import EmptyCard from "./EmptyCardComponent";
 
 export default function UserPost() {
@@ -41,7 +41,7 @@ export default function UserPost() {
     if (forumData) {
       const filtered = forumData.filter(
         (card: any) =>
-          card.title.toLowerCase().includes(query.toLowerCase()) || 
+          card.title.toLowerCase().includes(query.toLowerCase()) ||
           card.content.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredData(filtered);
@@ -64,16 +64,15 @@ export default function UserPost() {
           <TabsTrigger value="password">សំនួររបស់អ្នក</TabsTrigger>
         </TabsList>
         <div className="flex items-center w-[680px] space-x-3 pt-1 pb-0.5">
-        <Command className="border h-9 rounded-lg flex justify-center">
-        <Input
-          type="text"
-          placeholder="ស្វែងរកតាមចំណងជើង"
-          className="h-9 px-4 text-sm border rounded-md w-full"
-          value={searchQuery}
-          onChange={handleSearch}
-        />
-      
-      </Command>
+          <Command className="border h-9 rounded-lg flex justify-center">
+            <Input
+              type="text"
+              placeholder="ស្វែងរកតាមចំណងជើង"
+              className="h-9 px-4 text-sm border rounded-md w-full"
+              value={searchQuery}
+              onChange={handleSearch}
+            />
+          </Command>
           <Select>
             <SelectTrigger className="w-[300px] text-start h-9 bg-white rounded-lg">
               <SelectValue placeholder="កាលបរិច្ឆេទ" />
@@ -89,21 +88,21 @@ export default function UserPost() {
         </div>
         <TabsContent value="account">
           <div className="grid grid-cols-1 w-[680px] gap-2 max-w-7xl mx-auto">
-          {filteredData && filteredData.length > 0 ? (
-        filteredData.map((card: any) => (
-          <CardForumComponent
-            key={card.id}
-            timestamp={card.timestamp}
-            title={card.title}
-            content={card.content}
-            views={card.views}
-            comments={card.comments}
-            upvotes={card.upvotes}
-          />
-        ))
-      ) : (
-        <EmptyCard />
-      )}
+            {filteredData && filteredData.length > 0 ? (
+              filteredData.map((card: any) => (
+                <CardForumComponent
+                  key={card.id}
+                  timestamp={card.timestamp}
+                  title={card.title}
+                  content={card.content}
+                  views={card.views}
+                  comments={card.comments}
+                  upvotes={card.upvotes}
+                />
+              ))
+            ) : (
+              <EmptyCard />
+            )}
           </div>
         </TabsContent>
         <TabsContent value="password">

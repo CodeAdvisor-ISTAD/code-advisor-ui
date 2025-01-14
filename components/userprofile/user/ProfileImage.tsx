@@ -4,16 +4,9 @@ import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import profilePlaceholder from "@/public/user-profile-image/place-holder-profile.png";
 import { UseFetchUserServiceProfile } from "@/hooks/api-hook/user-service";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify"; // Assuming you are using react-toastify for notifications
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@radix-ui/react-hover-card";
-import { ImageUp } from "lucide-react"
-
+import { ImageUp } from "lucide-react";
+import BadgeComponent from "./badge/BadgeComponent";
 
 interface ProfileImageProps {
   disableButton: boolean;
@@ -117,13 +110,15 @@ export default function ProfileImage({
   return (
     <div>
       <div className="flex flex-row absolute -bottom-28 left-8">
-        <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden bottom-2">
+        <div className="relative w-[200px] h-[200px] rounded-full bg-white overflow-hidden bottom-2">
           <Image
             src={
               tempImage ||
               (image !== "null"
-          ? image
-          : data?.profileImage || profileAuth?.profileImage || profilePlaceholder.src)
+                ? image
+                : data?.profileImage ||
+                  profileAuth?.profileImage ||
+                  profilePlaceholder.src)
             }
             alt="Profile"
             className="object-cover rounded-full border-4 border-gray-200 w-[200px] h-[200px]"
@@ -151,19 +146,20 @@ export default function ProfileImage({
           <div>
             <div className="flex gap-3">
               <h2 className="text-3xl font-bold">{data?.fullName}</h2>
-              <HoverCard>
+              {/* <HoverCard>
                 <HoverCardTrigger className="flex cursor-pointer items-center text-3xl">
                   ✨
                 </HoverCardTrigger>
                 <HoverCardContent className="text-sm text-gray-400">
                   ITE-Student
                 </HoverCardContent>
-              </HoverCard>
+              </HoverCard> */}
+              <BadgeComponent />
             </div>
-            <p className="text-sm text-muted-foreground">@{data?.username}</p>
-            <p className="text-sm text-muted-foreground font-khFont pt-1">
+            <p className="text-lg text-muted-foreground">@{data?.username}</p>
+            {/* <p className="text-sm text-muted-foreground font-khFont pt-1">
               គាត់គឺជា Senior
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

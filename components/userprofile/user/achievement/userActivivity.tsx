@@ -6,10 +6,13 @@ import {
   DataBlockPurple,
   DataBlockYellow,
 } from "@/components/userprofile/user/achievement/UserDatapoint";
-import { arabicToKhmer } from "@/lib/userProfile/information";
+import { arabicToKhmer } from "@/lib/information";
 
 export default function UserActivityPoints(achievement) {
-  console.log("UserActivityPoints", achievement?.achievement?.interaction_total);
+  console.log(
+    "UserActivityPoints",
+    achievement?.achievement?.interaction_total
+  );
 
   const dataBlocks = [
     {
@@ -20,7 +23,7 @@ export default function UserActivityPoints(achievement) {
     },
     {
       component: DataBlockBlue,
-      number: achievement?.achievement?.ask_question_total  || 0,
+      number: achievement?.achievement?.ask_question_total || 0,
       text: "ធ្លាប់បានសួរ",
       color: "bg-blue-500",
     },
@@ -43,8 +46,6 @@ export default function UserActivityPoints(achievement) {
       color: "",
     },
   ];
-
-
 
   return (
     <div className="w-full max-w-3xl space-y-4 justify-center items-center flex flex-col">

@@ -10,7 +10,6 @@ import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateBu
 import { useRouter } from "next/navigation";
 import { fetchUserProfile } from "@/hooks/api-hook/user-service";
 import { fetchUserProfileAuthMe } from "@/hooks/api-hook/auth/use-profile";
-import { UserRoundPen } from "lucide-react"
 
 export default function Owner() {
   const [error, setError] = useState(null);
