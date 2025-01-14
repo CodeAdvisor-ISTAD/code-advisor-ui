@@ -5,8 +5,16 @@ import Image from "next/image";
 import profilePlaceholder from "@/public/user-profile-image/place-holder-profile.png";
 import { UseFetchUserServiceProfile } from "@/hooks/api-hook/user-service";
 import { toast } from "react-toastify"; // Assuming you are using react-toastify for notifications
-import { ImageUp } from "lucide-react";
-import BadgeComponent from "./badge/BadgeComponent";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@radix-ui/react-hover-card";
+import { ImageUp } from "lucide-react"
+import {useRouter} from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
+
 
 interface ProfileImageProps {
   disableButton: boolean;
@@ -21,6 +29,10 @@ export default function ProfileImage({
   const [image, setImage] = useState<string>("null");
   const [tempImage, setTempImage] = useState<string | null>(null); // Temporary image for preview
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
+  const { refetch : refetchUserAuth, } = useQuery({
+    queryKey: ["profile"],
+    queryFn: fetchUserProfile,
+})
 
   const uploadFile = async (file: File) => {
     try {
@@ -76,9 +88,7 @@ export default function ProfileImage({
 
       if (!response.ok) {
         toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព។ សូមព្យាយាមម្តងទៀត");
-      } else {
-        toast.success("រូបភាពត្រូវបានរក្សាទុក!");
-      }
+      } 
     } catch (error) {
       console.error("Error saving profile image URL:", error);
       toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព។ សូមព្យាយាមម្តងទៀត");
@@ -98,7 +108,7 @@ export default function ProfileImage({
       setImage(tempImage); // Save the new image
       setShowSavePopup(false); // Hide the popup
       saveProfileImageUrl(tempImage); // Send the file URL to backend
-      toast.success("រូបភាពត្រូវបានរក្សាទុក!");
+      refetchUserAuth();
     }
   };
 
@@ -142,7 +152,7 @@ export default function ProfileImage({
           </button>
         )}
         {/* Profile details section */}
-        <div className="flex items-center justify-between absolute -right-60 top-[105px]">
+        <div className="flex items-center justify-between absolute -right-80 top-[105px]">
           <div>
             <div className="flex gap-3">
               <h2 className="text-3xl font-bold">{data?.fullName}</h2>

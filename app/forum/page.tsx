@@ -4,16 +4,63 @@ import TrendingComponent from "@/components/card-component/card-trending/Trendin
 import ForumCardList from "@/components/card-component/forum-card/ForumCardList";
 import React from "react";
 
+
+// Types for Elasticsearch response
+type ElasticQuestion = {
+    _source: {
+        after: {
+            uuid: string;
+            title: string;
+            description: string;
+            slug: string;
+            author_uuid: string;
+            created_at: number;
+            is_archived: boolean;
+            is_deleted: boolean;
+            author_username: string;
+        };
+    };
+};
+
+type ElasticResponse = {
+    hits: {
+        hits: ElasticQuestion[];
+        total: {
+            value: number;
+        };
+    };
+};
+
+// Updated fetch function for Elasticsearch
 const getAllForums = async function fetchAllForums() {
-    const response = await fetch(`http://127.0.0.1:8168/forums/api/v1/questions`);
-    if (response.ok) {
-        const data = await response.json();
-        return data;
-    } else {
+    try {
+        const response = await fetch(`http://167.172.78.79:9200/forum.public.question/_search?q=*`);
+        if (response.ok) {
+            const data: ElasticResponse = await response.json();
+            // Transform Elasticsearch data to match your component's expected format
+            const transformedData = {
+                content: data.hits.hits.map(hit => ({
+                    uuid: hit?._source.after?.uuid,
+                    title: hit?._source.after?.title,
+                    description: hit?._source?.after?.description,
+                    slug: hit?._source?.after?.slug,
+                    author_uuid: hit?._source?.after?.author_uuid,
+                    created_at: hit?._source?.after?.created_at,
+                    tags: [], // Add tags if available in your Elasticsearch data
+                    is_archived: hit?._source?.after?.is_archived,
+                    is_deleted: hit?._source?.after?.is_deleted,
+                    author_username: hit?._source?.after?.author_username
+                }))
+            };
+            return transformedData;
+        } else {
+            console.error('Failed to fetch forum data');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching forum data:', error);
         return null;
     }
-
-
 };
 
 export default async function Page() {

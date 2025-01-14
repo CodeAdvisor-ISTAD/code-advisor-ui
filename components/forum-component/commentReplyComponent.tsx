@@ -28,6 +28,7 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useUser } from "@/lib/context/userContext";
+import { getUserByUsername } from "@/hooks/api-hook/user-service";
 
 export default function CommentReplyComponent({ slug }: { slug: string }) {
     const { setReplyTo } = useCommentContext();
@@ -130,39 +131,24 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
         },
     })
 
-    const handleEditAnswer = () => {
-        const editData : EditAnswerType = {
-            answerUuid: answerUuid,
-            content: "ចម្លើយថ្មី"
-        }
-    }
+    // const handleEditAnswer = () => {
+    //     const editData : EditAnswerType = {
+    //         answerUuid: answerUuid,
+    //         content: "ចម្លើយថ្មី"
+    //     }
+    // }
 
     return (
         <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-bold mb-4">12 Answers</h2>
+            <h2 className="text-xl font-bold mb-4">Answers</h2>
 
             {/* Main Comment */}
             <div className="space-y-4">
                 {answer?.content?.map((ans) => (
                     <div className="border rounded-lg p-4" key={ans.uuid}>
                         <div className="flex justify-between items-start mb-3">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                    <img
-                                        src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
-                                        alt="Jenny Wilson"
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                                <div>
-                                    <div className="font-medium">
-                                        Jenny Wilson
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                        12-Nov-2024 1:38PM
-                                    </div>
-                                </div>
-                            </div>
+                        <UserProfile authorUsername={ans.authorUsername} createdAt={ans?.createdAt}/>
+
                             <button className="text-gray-500">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -244,23 +230,8 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
                                 {/* First Reply */}
                                 <div className="mt-4">
                                     <div className="flex justify-between items-start mb-3">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                                                <img
-                                                    src="https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
-                                                    alt="Yith Sopheaktra"
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            </div>
-                                            <div>
-                                                <div className="font-medium">
-                                                    Yith Sopheaktra
-                                                </div>
-                                                <div className="text-sm text-gray-500">
-                                                    12-Nov-2024 1:38PM
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <UserProfile authorUsername={reply?.authorUsername} createdAt={reply?.createdAt}/>
+
 
                                         <button className="text-gray-500">
                                             <DropdownMenu>
@@ -297,3 +268,33 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
         </div>
     );
 }
+
+
+// Create a separate component for the user profile section
+const UserProfile = ({ authorUsername, createdAt }) => {
+    const { data: userData } = useQuery({
+        queryKey: ['user', authorUsername],
+        queryFn: () => getUserByUsername(authorUsername),
+        enabled: !!authorUsername
+    });
+
+    return (
+        <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                <img
+                    src={userData?.profileImage || "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"}
+                    alt={userData?.name || "User"}
+                    className="w-full h-full object-cover"
+                />
+            </div>
+            <div>
+                <div className="font-medium">
+                    {userData?.fullName || "Loading..."}
+                </div>
+                <div className="text-sm text-gray-500">
+                {new Date(createdAt).toLocaleString()}
+                </div>
+            </div>
+        </div>
+    );
+};

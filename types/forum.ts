@@ -30,7 +30,8 @@ type TagsType = {
 type ForumCardType = {
     uuid: string;
     slug: string;
-    authorUuid: string;
+    author_uuid: string;
+    author_username: string;
     title: string;
     description: string | null;
     expectedAnswers: string;

@@ -78,6 +78,10 @@ const CreateNewForum = () => {
             }
         },
         onError: (error, variables, context) => {
+
+            // Show error message
+            console.log("error : ", error);
+
             toast.error("មានបញ្ហាកើតឡើងនៅពេលបោះពុម្ភផ្សាយសំណួរ");
         },
     });
