@@ -11,32 +11,32 @@ const mockArticles = [
     title: "Top 5 JavaScript Features You're Not Using Enough",
     description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
     image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
+    tags: ["#java", "#javascript", "#programming"],
+    url: "/content/1"
   },
   {
     id: 2,
     title: "Docker Tutorial: Master Docker from Scratch",
     description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
     image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
+    tags: ["#java", "#javascript", "#programming"],
+    url: "/content/2"
   },
   {
     id: 3,
     title: "Docker Tutorial: Master Docker from Scratch",
     description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
     image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
+    tags: ["#java", "#javascript", "#programming"],
+    url: "/content/3"
   },
   {
     id: 4,
     title: "Docker Tutorial: Master Docker from Scratch",
     description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
     image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
+    tags: ["#java", "#javascript", "#programming"],
+    url: "/content/4"
   },
   {
     id: 5,
@@ -73,7 +73,7 @@ const mockForumPosts = [
       comments: 155
     },
     timeAgo: "25 min ago",
-    isBookmarked: true
+    url: "/forum/1"
   },
   // Add more mock forum posts as needed
 ]
@@ -81,18 +81,6 @@ const mockForumPosts = [
 export default function BookmarkPage() {
   const [articles, setArticles] = useState(mockArticles)
   const [forumPosts, setForumPosts] = useState(mockForumPosts)
-
-  const handleToggleArticleBookmark = (id: number) => {
-    setArticles(articles.map(article => 
-      article.id === id ? { ...article, isBookmarked: !article.isBookmarked } : article
-    ))
-  }
-
-  const handleToggleForumPostBookmark = (id: number) => {
-    setForumPosts(forumPosts.map(post => 
-      post.id === id ? { ...post, isBookmarked: !post.isBookmarked } : post
-    ))
-  }
 
   return (
     <div className="container mx-auto max-w-5xl ml-[364px] mb-5 mt-[76px]">
@@ -108,32 +96,34 @@ export default function BookmarkPage() {
           <TabsContent value="article">
             <div className="grid gap-2 sm:grid-cols-3">
               {articles.map((article) => (
-                <ArticleCard
-                  key={article.id}
-                  title={article.title}
-                  description={article.description}
-                  tags={article.tags}
-                  thumbnail={article.image}
-                  isBookmarked={article.isBookmarked}
-                  onToggleBookmark={() => handleToggleArticleBookmark(article.id)}
-                />
+                <a href={article.url} key={article.id}>
+                  <ArticleCard
+                    title={article.title}
+                    description={article.description}
+                    tags={article.tags}
+                    thumbnail={article.image}
+                    isBookmarked={true} // or false, depending on your logic
+                    onToggleBookmark={() => {}} // provide the appropriate function
+                  />
+                </a>
               ))}
             </div>
           </TabsContent>
           
           <TabsContent value="forum" className="space-y-4 h-screen">
             {forumPosts.map((post) => (
-              <BookmarkCard
-                key={post.id}
-                author={post.author}
-                title={post.title}
-                description={post.description}
-                tags={post.tags}
-                metrics={post.metrics}
-                timeAgo={post.timeAgo}
-                isBookmarked={post.isBookmarked}
-                onToggleBookmark={() => handleToggleForumPostBookmark(post.id)}
-              />
+              <a href={post.url} key={post.id}>
+                <BookmarkCard
+                  author={post.author}
+                  title={post.title}
+                  description={post.description}
+                  tags={post.tags}
+                  metrics={post.metrics}
+                  timeAgo={post.timeAgo}
+                  isBookmarked={true} // or false, depending on your logic
+                  onToggleBookmark={() => {}} // provide the appropriate function
+                />
+              </a>
             ))}
           </TabsContent>
         </Tabs>

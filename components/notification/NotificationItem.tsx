@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { MessageSquare, Heart, Reply, MoreVertical, Trash2, CircleCheck } from 'lucide-react';
 import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,18 @@ const getNotificationIcon = (type: NotificationType) => {
       return <MessageSquare className="h-4 w-4 text-blue-500" />;
     case NotificationType.REPLY:
       return <Reply className="h-4 w-4 text-green-500" />;
+    case NotificationType.VOTE:
+      return <Heart className="h-4 w-4 text-purple-500" />;
+    case NotificationType.ACCEPT:
+      return <CircleCheck className="h-4 w-4 text-green-500" />;
+    case NotificationType.CREATE:
+      return <MessageSquare className="h-4 w-4 text-yellow-500" />;
+    case NotificationType.REPORT:
+      return <Trash2 className="h-4 w-4 text-red-500" />;
+    case NotificationType.ANSWER:
+      return <Reply className="h-4 w-4 text-blue-500" />;
+    case NotificationType.QUESTION:
+      return <MessageSquare className="h-4 w-4 text-orange-500" />;
     default:
       return null;
   }
@@ -35,6 +48,7 @@ const getNotificationIcon = (type: NotificationType) => {
 export function NotificationItem({ notification, actions }: NotificationItemProps) {
   const [userProfile, setUserProfile] = useState<{ name: string; profile: string } | null>(null);
   const [isRead, setIsRead] = useState(notification.read);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -64,8 +78,13 @@ export function NotificationItem({ notification, actions }: NotificationItemProp
     }
   };
 
+  const handleNotificationClick = () => {
+    const route = notification.notificationData.isContent ? `/content/${notification.notificationData.slug}` : `/forum/${notification.notificationData.slug}`;
+    router.push(route);
+  };
+
   return (
-    <div className="flex items-start gap-4 p-6 rounded-md transition-colors bg-white border border-gray-200">
+    <div onClick={handleNotificationClick} className="flex items-start gap-4 p-6 rounded-md transition-colors bg-white border border-gray-200 cursor-pointer">
       <Avatar className="h-10 w-10 bg-yellow-400 flex items-center justify-center">
         {userProfile?.profile ? (
           <img src={userProfile.profile} alt={userProfile.name} className="w-full h-full rounded-full" />
@@ -86,11 +105,35 @@ export function NotificationItem({ notification, actions }: NotificationItemProp
               <>
                 <span className="font-bold text-primary">{userProfile?.name}</span> commented on your {notification.notificationData.title}
               </>
-            ) : (
+            ) : notification.notificationType === NotificationType.REPLY ? (
               <>
                 <span className="font-bold text-primary">{userProfile?.name}</span> replied to your {notification.notificationData.title}
               </>
-            )}
+            ) : notification.notificationType === NotificationType.VOTE ? (
+              <>
+                <span className="font-bold text-primary">{userProfile?.name}</span> voted on your {notification.notificationData.title}
+              </>
+            ) : notification.notificationType === NotificationType.ACCEPT ? (
+              <>
+                <span className="font-bold text-primary">{userProfile?.name}</span> accepted your {notification.notificationData.title}
+              </>
+            ) : notification.notificationType === NotificationType.CREATE ? (
+              <>
+                <span className="font-bold text-primary">{userProfile?.name}</span> created {notification.notificationData.title}
+              </>
+            ) : notification.notificationType === NotificationType.REPORT ? (
+              <>
+                <span className="font-bold text-primary">{userProfile?.name}</span> reported {notification.notificationData.title}
+              </>
+            ) : notification.notificationType === NotificationType.ANSWER ? (
+              <>
+                <span className="font-bold text-primary">{userProfile?.name}</span> answered your {notification.notificationData.title}
+              </>
+            ) : notification.notificationType === NotificationType.QUESTION ? (
+              <>
+                <span className="font-bold text-primary">{userProfile?.name}</span> asked a question {notification.notificationData.title}
+              </>
+            ) : null}
           </span>
         </div>
         <p className="text-slate-500 text-sm line-clamp-2">{notification.message}</p>
@@ -99,7 +142,7 @@ export function NotificationItem({ notification, actions }: NotificationItemProp
         </p>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
         {!isRead && <div className="h-2 w-2 rounded-full bg-yellow-600" />}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
