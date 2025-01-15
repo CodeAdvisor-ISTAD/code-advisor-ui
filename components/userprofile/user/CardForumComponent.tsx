@@ -18,11 +18,14 @@ import {
   PopoverRoot,
   PopoverTrigger,
 } from "@/components/ui/pop-over";
+import formatDate from "@/lib/utils/formatDate";
+import { useRouter } from "next/navigation";
 
 export function CardForumComponent({
   timestamp,
   title,
   content,
+  slug,
   //   tags,
   views,
   comments,
@@ -35,7 +38,9 @@ export function CardForumComponent({
   views: number;
   comments: number;
   upvotes: number;
+  slug: string;
 }) {
+  const router = useRouter();
   const actions = [
     {
       icon: <Bookmark className="w-4 h-4" />,
@@ -55,7 +60,7 @@ export function CardForumComponent({
   ];
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end cursor-pointer" onClick={() => router.push(`/forum/${slug}`)} >
       <div className=" bg-white rounded-[5px] w-[680px] border p-6">
         {/* Content Section */}
         <div className="mb-4">
@@ -84,13 +89,9 @@ export function CardForumComponent({
 
         {/* Tags Section */}
         <div className="flex flex-wrap gap-2 mb-4 justify-between">
-          <div className="text-gray-500">{timestamp}</div>
+          <div className="text-gray-500">{formatDate(timestamp)}</div>
           {/* Metrics Section */}
           <div className="flex items-center space-x-4 text-gray-500 mr-2">
-            <div className="flex items-center space-x-1">
-              <Eye className="w-4 h-4" />
-              <span>{views}</span>
-            </div>
             <div className="flex items-center space-x-1">
               <MessageSquare className="w-4 h-4" />
               <span>{comments}</span>

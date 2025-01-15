@@ -43,7 +43,7 @@ export default function Viewer({username} : {username: string}) {
             <UserInformationCardComponent userInformation={publicUserProfile} />
           </div>
           {/* user post */}
-          <UserPost />
+          <UserPost username={username}/>
         </div>
       </div>
     </div>

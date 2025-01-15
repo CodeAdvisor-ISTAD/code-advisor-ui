@@ -44,4 +44,21 @@ const updateUserProfile = async function updateUserProfile(userProfile) {
   }
 }
 
-export { getOwnUserProfile, getUserByUsername, updateUserProfile };
+const uploadProfileImage = async function uploadProfileImage(fileImageUrl) {
+  try {
+    const response = await fetch("/users/api/v1/user_profiles/upload", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fileImageUrl),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error uploading profile image:", error);
+    throw error; // Rethrow for error handling
+  }
+}
+
+export { getOwnUserProfile, getUserByUsername, updateUserProfile, uploadProfileImage };
