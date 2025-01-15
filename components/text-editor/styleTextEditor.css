@@ -7,14 +7,14 @@
     font-family: "JetBrainsMono", monospace;
     margin: 1.5rem 0;
     padding: 0.75rem 1rem;
-    overflow-x: auto; /* Enable horizontal scrolling for code blocks */
 
 
     code {
+      width: 100%;
       background: none;
       font-size: 0.8rem;
       padding: 0;
-      white-space: pre-wrap; /* Prevent line breaks in code blocks */
+      overflow-x: auto;
 
     }
   }
@@ -23,7 +23,4 @@
 
 .tiptap {
   white-space: pre-wrap;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  max-width: 100%; /* Ensure the container doesn't exceed its parent's width */
-  padding: 1rem; /* Add some padding for better readability */
 }

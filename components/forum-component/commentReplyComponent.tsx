@@ -298,6 +298,14 @@ const UserProfile = ({ authorUsername, createdAt, lastModifedAt }) => {
     enabled: !!authorUsername,
   });
 
+  // Function to compare dates
+  const isLastModifiedNewer = () => {
+    if (!lastModifedAt || !createdAt) return false;
+    const lastModifiedDate = new Date(lastModifedAt);
+    const createdDate = new Date(createdAt);
+    return lastModifiedDate > createdDate;
+  };
+
   return (
     <div className="flex items-center gap-3">
       <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
@@ -313,7 +321,7 @@ const UserProfile = ({ authorUsername, createdAt, lastModifedAt }) => {
       <div>
         <div className="font-medium">{userData?.fullName || "Loading..."}</div>
         <div className="text-sm text-gray-500">
-          {lastModifedAt
+        {isLastModifiedNewer()
             ? `កាលបរិច្ឆេទកែប្រែ: ${formatDate(lastModifedAt)}`
             : `កាលបរិច្ឆេទបង្ហាញ: ${formatDate(createdAt)}`}
         </div>
