@@ -1,23 +1,32 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import UserActivity from "@/components/userprofile/user/achievement/userActivivity";
 import AwardCard from "./AwardCard";
 import { useFetchAchievementLevel } from "@/hooks/achievement";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "flowbite-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { PublicAchievementComponent } from "./PublicAchievementComponent";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 
-export default function AchievementLevelComponent(userId) {
-  const [achievement, setAchievement] = useState(null);
-  // const [error, setError] = useState(null);
-  console.log("AchievementLevelComponent", userId.username);
-  const { data, isLoading, error } = useFetchAchievementLevel(userId.userId);
-  console.log("useFetchAchievementLevel", data);
+interface AchievementLevelProps {
+
+  userInformation: any;
+
+  disableButton?: boolean;
+
+}
+
+export default function AchievementLevelComponent({ userInformation, disableButton }: AchievementLevelProps) {
+  const { data: authUser } = useQuery({
+    queryKey: ["authProfile"],
+    queryFn: () => fetchUserProfile(),
+  });
+
+  console.log("userInformation : ", userInformation);
+
+  const { data } = useFetchAchievementLevel(userInformation?.id);
   return (
     <Card className="xs:w-[450px] lg:w-full h-fit bg-white">
       <CardHeader>
@@ -35,7 +44,7 @@ export default function AchievementLevelComponent(userId) {
               បិទសមិទ្ធផល
             </Label>
             <Switch id="show-achievement" /> */}
-            <PublicAchievementComponent />
+            {!disableButton && <PublicAchievementComponent />}
           </div>
         </div>
         <p className="font-khFont text-muted-foreground">
@@ -44,13 +53,29 @@ export default function AchievementLevelComponent(userId) {
       </CardHeader>
 
       <CardContent>
-        <div className="flex items-center justify-center">
-          <AwardCard achievement={data} />
-        </div>
+        {authUser?.uuid === userInformation?.authorUuid ? (
+          <>
+            <div className="flex items-center justify-center">
+              <AwardCard achievement={data} />
+            </div>
 
-        <div className="mt-6">
-          <UserActivity achievement={data} />
-        </div>
+            <div className="mt-6">
+              <UserActivity achievement={data} />
+            </div>
+          </>
+        ) : data?.isPublish ? (
+          <>
+            <div className="flex items-center justify-center">
+              <AwardCard achievement={data} />
+            </div>
+
+            <div className="mt-6">
+              <UserActivity achievement={data} />
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </CardContent>
     </Card>
   );

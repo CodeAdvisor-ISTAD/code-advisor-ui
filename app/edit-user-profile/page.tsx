@@ -14,11 +14,15 @@ export default function EditUser() {
   // const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  const {data : ownUser} = useQuery({
+  const { data: ownUser } = useQuery({
     queryKey: ["profile"],
     queryFn: () => getOwnUserProfile(),
-  })
+  });
 
+  if (ownUser && !coverColor) {
+    // Only set initial cover color if it's not already set
+    setCoverColor(ownUser.coverColor || "");
+  }
 
   const handleColorChange = (color: string) => {
     setCoverColor(color);

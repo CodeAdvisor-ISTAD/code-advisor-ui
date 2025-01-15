@@ -67,7 +67,7 @@ export default function UserPost() {
           <Command className="border h-9 rounded-lg flex justify-center">
             <Input
               type="text"
-              placeholder="ស្វែងរកតាមចំណងជើង"
+              placeholder="ស្វែងរកទៅតាមចំណងជើង"
               className="h-9 px-4 text-sm border rounded-md w-full"
               value={searchQuery}
               onChange={handleSearch}

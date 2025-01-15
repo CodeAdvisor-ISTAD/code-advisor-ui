@@ -21,6 +21,7 @@ const getUserByUsername = async (username: string) => {
   }
 }
 
+
 // update user profile
 const updateUserProfile = async function updateUserProfile(userProfile) {
   try {

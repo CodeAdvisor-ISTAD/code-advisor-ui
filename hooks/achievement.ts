@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { UseFetchUserServiceProfile } from "./api-hook/user/user-service";
 import { useId } from "react";
 
 type AchievementLevel = {
@@ -13,6 +12,7 @@ type AchievementLevel = {
   commentTotal: number;
   interactionTotal: number;
   totalPoints: number;
+  isPublish: boolean;
 };
 
 // Fetch achievement level for a specific user

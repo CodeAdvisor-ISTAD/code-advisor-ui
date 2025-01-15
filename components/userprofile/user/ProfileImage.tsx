@@ -3,17 +3,8 @@
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import profilePlaceholder from "@/public/user-profile-image/place-holder-profile.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify"; // Assuming you are using react-toastify for notifications
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@radix-ui/react-hover-card";
 import { ImageUp } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 import BadgeComponent from "./badge/BadgeComponent";
 
 interface ProfileImageProps {
@@ -28,7 +19,6 @@ export default function ProfileImage({
   const [image, setImage] = useState<string>("null");
   const [tempImage, setTempImage] = useState<string | null>(null); // Temporary image for preview
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
-
 
   const uploadFile = async (file: File) => {
     try {
@@ -115,13 +105,15 @@ export default function ProfileImage({
   return (
     <div>
       <div className="flex flex-row absolute -bottom-28 left-8">
-        <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden bottom-2">
+        <div className="relative w-[200px] h-[200px] rounded-full bg-white overflow-hidden bottom-2">
           <Image
             src={
               tempImage ||
               (image !== "null"
-          ? image
-          : profileAuth?.profileImage || profileAuth?.profileImage || profilePlaceholder.src)
+                ? image
+                : profileAuth?.profileImage ||
+                  profileAuth?.profileImage ||
+                  profilePlaceholder.src)
             }
             alt="Profile"
             className="object-cover rounded-full border-4 border-gray-200 w-[200px] h-[200px]"
@@ -144,25 +136,24 @@ export default function ProfileImage({
             <ImageUp className="w-5 h-5 text-primary" />
           </button>
         )}
-        {/* Profile details section */}
-        <div className="flex items-center justify-between absolute -right-60 top-[105px]">
+        {/* Profile Name and Username */}
+        <div className="flex items-center justify-between absolute pl-56 top-[105px] w-[750px]">
           <div>
-            <div className="flex gap-3">
+            <div className="flex gap-2 flex-row">
               <h2 className="text-3xl font-bold">{profileAuth?.fullName}</h2>
-              <HoverCard>
+              {/* <HoverCard>
                 <HoverCardTrigger className="flex cursor-pointer items-center text-3xl">
                   ✨
                 </HoverCardTrigger>
                 <HoverCardContent className="text-sm text-gray-400">
                   ITE-Student
                 </HoverCardContent>
-              </HoverCard> */}
+              </HoverCard>  */}
               <BadgeComponent />
             </div>
-            <p className="text-sm text-muted-foreground">@{profileAuth?.username}</p>
-            <p className="text-sm text-muted-foreground font-khFont pt-1">
-              គាត់គឺជា Senior
-            </p> */}
+            <p className="text-lg text-muted-foreground">
+              @{profileAuth?.username}
+            </p>
           </div>
         </div>
       </div>

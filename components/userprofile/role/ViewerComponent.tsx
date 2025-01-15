@@ -18,6 +18,8 @@ export default function Viewer({username} : {username: string}) {
     queryFn: () => getUserByUsername(username)
   });
 
+
+
   return (
     <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">
       <div className="w-full xs:w-[500px] lg:w-[1252px] bg-white pb-4 rounded-lg">
@@ -34,7 +36,7 @@ export default function Viewer({username} : {username: string}) {
         <div className="flex flex-row space-x-2 ml-6">
           <div className="flex flex-col mt-[98px] gap-2">
             {/* achievement level card */}
-            <AchievementLevel />
+            <AchievementLevel userInformation={publicUserProfile} disableButton={true}/>
             {/* Bio card */}
             <Bio bio={""} />
             {/* user information card */}

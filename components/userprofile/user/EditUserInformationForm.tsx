@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Form,
   FormControl,
@@ -25,7 +25,10 @@ import {
 } from "@/components/ui/popover";
 import { ColorPicker } from "./colorPicker";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getOwnUserProfile, updateUserProfile } from "@/hooks/api-hook/user/user-service";
+import {
+  getOwnUserProfile,
+  updateUserProfile,
+} from "@/hooks/api-hook/user/user-service";
 
 interface EditUserInformationFormProps {
   onColorChange?: (color: string) => void;
@@ -35,10 +38,9 @@ interface EditUserInformationFormProps {
 export default function EditUserInformationForm(
   props: EditUserInformationFormProps
 ) {
-
   const queryClient = useQueryClient();
 
-  const { data : userInformation } = useQuery({
+  const { data: userInformation } = useQuery({
     queryKey: ["profile"],
     queryFn: getOwnUserProfile,
   }); // Fetch user data
@@ -47,14 +49,14 @@ export default function EditUserInformationForm(
 
   const router = useRouter();
   const [date, setDate] = React.useState<Date>();
-  const {mutate: updateUser, isSuccess} = useMutation({
+  const { mutate: updateUser, isSuccess } = useMutation({
     mutationFn: updateUserProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["profile"],
-      })
-    }
-  })
+      });
+    },
+  });
 
   type FieldName =
     | "givenName"
@@ -92,7 +94,7 @@ export default function EditUserInformationForm(
   async function onSubmit(data: any) {
     console.log("data : ", data);
     updateUser(data);
-    if(isSuccess){
+    if (isSuccess) {
       router.push(`/user-profile/${userInformation?.username}`);
     }
   }

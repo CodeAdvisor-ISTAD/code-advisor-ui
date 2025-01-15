@@ -49,7 +49,7 @@ export default function Owner() {
         <div className="flex flex-row space-x-2 ml-6">
           <div className="flex flex-col mt-[98px] gap-2">
             {/* achievement level card */}
-            <AchievementLevel userId={userInformation?.id} />
+            <AchievementLevel userInformation={userInformation}/>
             {/* Bio card */}
             <Bio bio={userInformation?.bio} />
             {/* user information card */}
