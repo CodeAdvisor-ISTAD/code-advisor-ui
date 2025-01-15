@@ -6,26 +6,17 @@ import UserInformationCardComponent from "@/components/userprofile/user/UserInfo
 import AchievementLevel from "@/components/userprofile/user/achievement/AchievementCard";
 import ProfileImage from "@/components/userprofile/user/ProfileImage";
 import { useRouter } from "next/navigation";
+import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Viewer({username} : {username: string}) {
   const [bgColor, setBgColor] = useState("#000040");
   const router = useRouter();
 
-  const handleEdit = () => {
-    router.push("/edituser");
-  };
-
-
-  useEffect(() => {
-    fetch(`users/api/v1/user_profiles/${username}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.coverColor) {
-          setBgColor(data.coverColor);
-        }
-      })
-      .catch((error) => console.error("Error fetching cover color:", error));
-  }, []);
+  const { data : publicUserProfile} = useQuery({
+    queryKey: ["publicUserProfile"],
+    queryFn: () => getUserByUsername(username)
+  });
 
   return (
     <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">
@@ -37,9 +28,7 @@ export default function Viewer({username} : {username: string}) {
             style={{ backgroundColor: bgColor }}
           >
             {/* profile image */}
-            <ProfileImage disableButton profileAuth={{
-              profileImage: ""
-            }} />
+            <ProfileImage disableButton profileAuth={publicUserProfile} />
           </div>
         </div>
         <div className="flex flex-row space-x-2 ml-6">
@@ -49,7 +38,7 @@ export default function Viewer({username} : {username: string}) {
             {/* Bio card */}
             <Bio bio={""} />
             {/* user information card */}
-            <UserInformationCardComponent />
+            <UserInformationCardComponent userInformation={publicUserProfile} />
           </div>
           {/* user post */}
           <UserPost />

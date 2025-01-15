@@ -30,11 +30,16 @@ import php from "highlight.js/lib/languages/php"
 import pgsql from "highlight.js/lib/languages/pgsql"
 
 import 'highlight.js/styles/github.css';
+import React, { forwardRef, useImperativeHandle } from "react";
 
 
-export default function RichTextEditor({ content, onChange }) {
+interface RichTextEditorProps {
+  content: string;
+  onChange: (html: string) => void;
+}
+
+const RichTextEditor = forwardRef<unknown, RichTextEditorProps>(({ content, onChange }, ref) => {
   const [htmlContent, setHtmlContent] = useState(content);
-
 
   const lowlights = createLowlight(common);
   lowlights.register("css", css);
@@ -43,9 +48,9 @@ export default function RichTextEditor({ content, onChange }) {
   lowlights.register("html", html);
   lowlights.register("java", java);
   lowlights.register("yaml", yaml);
-  lowlights.register("sql", sql)
-  lowlights.register("pgsql", pgsql)
-  lowlights.register("php", php)
+  lowlights.register("sql", sql);
+  lowlights.register("pgsql", pgsql);
+  lowlights.register("php", php);
 
   const editor = useEditor({
     extensions: [
@@ -84,17 +89,26 @@ export default function RichTextEditor({ content, onChange }) {
       },
     },
     onUpdate: ({ editor }) => {
-      console.log(editor.getHTML());
       const html = editor.getHTML();
-      onChange(editor.getHTML());
+      onChange(html);
       setHtmlContent(html);
     },
   });
 
+  useImperativeHandle(ref, () => ({
+    clearContent: () => {
+      if (editor) {
+        editor.commands.clearContent();
+      }
+    },
+  }));
+
   return (
     <div>
       <ToolBar editor={editor} />
-      <EditorContent editor={editor} style={{ zIndex: "0"}} />
+      <EditorContent editor={editor} style={{ zIndex: "0" }} />
     </div>
   );
-}
+});
+
+export default RichTextEditor;

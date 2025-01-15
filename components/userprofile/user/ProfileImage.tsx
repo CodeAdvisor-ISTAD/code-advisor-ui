@@ -3,7 +3,8 @@
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import profilePlaceholder from "@/public/user-profile-image/place-holder-profile.png";
-import { UseFetchUserServiceProfile } from "@/hooks/api-hook/user-service";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify"; // Assuming you are using react-toastify for notifications
 import {
   HoverCard,
@@ -17,21 +18,17 @@ import BadgeComponent from "./badge/BadgeComponent";
 
 interface ProfileImageProps {
   disableButton: boolean;
-  profileAuth: { profileImage: string }; // Adjust type based on your data
+  profileAuth: any;
 }
 
 export default function ProfileImage({
   disableButton,
   profileAuth,
 }: ProfileImageProps) {
-  const { data } = UseFetchUserServiceProfile();
   const [image, setImage] = useState<string>("null");
   const [tempImage, setTempImage] = useState<string | null>(null); // Temporary image for preview
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
-  const { refetch: refetchUserAuth } = useQuery({
-    queryKey: ["profile"],
-    queryFn: fetchUserProfile,
-  });
+
 
   const uploadFile = async (file: File) => {
     try {
@@ -107,7 +104,6 @@ export default function ProfileImage({
       setImage(tempImage); // Save the new image
       setShowSavePopup(false); // Hide the popup
       saveProfileImageUrl(tempImage); // Send the file URL to backend
-      refetchUserAuth();
     }
   };
 
@@ -124,10 +120,8 @@ export default function ProfileImage({
             src={
               tempImage ||
               (image !== "null"
-                ? image
-                : data?.profileImage ||
-                  profileAuth?.profileImage ||
-                  profilePlaceholder.src)
+          ? image
+          : profileAuth?.profileImage || profileAuth?.profileImage || profilePlaceholder.src)
             }
             alt="Profile"
             className="object-cover rounded-full border-4 border-gray-200 w-[200px] h-[200px]"
@@ -154,8 +148,8 @@ export default function ProfileImage({
         <div className="flex items-center justify-between absolute -right-60 top-[105px]">
           <div>
             <div className="flex gap-3">
-              <h2 className="text-3xl font-bold">{data?.fullName}</h2>
-              {/* <HoverCard>
+              <h2 className="text-3xl font-bold">{profileAuth?.fullName}</h2>
+              <HoverCard>
                 <HoverCardTrigger className="flex cursor-pointer items-center text-3xl">
                   ✨
                 </HoverCardTrigger>
@@ -165,8 +159,8 @@ export default function ProfileImage({
               </HoverCard> */}
               <BadgeComponent />
             </div>
-            <p className="text-lg text-muted-foreground">@{data?.username}</p>
-            {/* <p className="text-sm text-muted-foreground font-khFont pt-1">
+            <p className="text-sm text-muted-foreground">@{profileAuth?.username}</p>
+            <p className="text-sm text-muted-foreground font-khFont pt-1">
               គាត់គឺជា Senior
             </p> */}
           </div>

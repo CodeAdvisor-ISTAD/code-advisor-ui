@@ -181,7 +181,7 @@ const editAnswer = async function editAnswerOnForum(editAnswerData : EditAnswerT
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({editAnswerData}),
+        body: JSON.stringify(editAnswerData),
 
     });
     const data = await response.json();
@@ -194,4 +194,20 @@ const editAnswer = async function editAnswerOnForum(editAnswerData : EditAnswerT
     }
 }
 
-export { editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };
+const totalAnswersByQuestion = async function getTotalAnswersByQuestion(questionSlug: string) {
+    const response = await fetch(`/forums/api/v1/answers/${questionSlug}/total`);
+    const data = await response.json();
+
+    if(response.ok){
+        return data;
+    }else{
+        throw data;
+    }
+}
+
+// const voteAnswer = async function voteAnswerOnForum(voteAnswerData : VoteAnswerType) {
+
+// }
+
+
+export { totalAnswersByQuestion ,editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };

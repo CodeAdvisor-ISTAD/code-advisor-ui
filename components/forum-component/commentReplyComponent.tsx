@@ -15,6 +15,7 @@ import {
     unAcceptedAnswer,
     deleteAnswer,
     editAnswer,
+    totalAnswersByQuestion,
 } from "@/hooks/api-hook/forum/forum-api";
 import Preview from "../text-editor/preview";
 import { toast } from "react-hot-toast";
@@ -28,22 +29,33 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useUser } from "@/lib/context/userContext";
-import { getUserByUsername } from "@/hooks/api-hook/user-service";
+import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
+import formatDate from "@/lib/utils/formatDate";
 
 export default function CommentReplyComponent({ slug }: { slug: string }) {
-    const { setReplyTo } = useCommentContext();
+    const { setReplyTo, setMode, setAnswerUuid } = useCommentContext();
     const queryClient = useQueryClient();
     const { user } = useUser();
+    console.log(user);
 
     const handleReply = (answerUuid) => {
+        setMode("reply");
         setReplyTo(answerUuid);
         document
             .getElementById("editor")
             .scrollIntoView({ behavior: "smooth" });
     };
 
+    const handleEditReply = (answerUuid) => {
+        setMode("edit");
+        setAnswerUuid(answerUuid);
+        document
+            .getElementById("editor")
+            .scrollIntoView({ behavior: "smooth" });
+    }
+
     const { data: answer } = useQuery({
-        queryKey: ["answers"],
+        queryKey: ["allAnswers",slug],
         queryFn: () => getAllAnswersByQuestion(slug),
     });
 
@@ -51,7 +63,7 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
         mutationFn: acceptedAnswer,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["answers"],
+                queryKey: ["allAnswers"],
             });
             toast.success("អ្នកបានទទួលស្គាល់ថាចម្លើយនេះត្រឹមត្រូវ", {
                 duration: 4000,
@@ -71,7 +83,7 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
         mutationFn: unAcceptedAnswer,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["answers"],
+                queryKey: ["allAnswers"],
             });
             toast.success("អ្នកបានលុបការទទួលស្គាល់ចម្លើយនេះ", {
                 duration: 4000,
@@ -99,7 +111,10 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
         mutationFn: deleteAnswer,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["answers"],
+                queryKey: ["totalAnswers"],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["allAnswers"],
             });
             toast.success("អ្នកបានលុបចម្លើយនេះ", {
                 duration: 4000,
@@ -119,35 +134,21 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
         deleteAnswerForum(answerUuid);
     };
 
-    const {mutate : editAnswerOnForum} = useMutation({
-        mutationFn: editAnswer,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["answers"],
-            });
-            toast.success("អ្នកបានកែប្រែចម្លើយនេះជោគជ័យ", {
-                duration: 4000,
-            });
-        },
+    const { data: totalAnswer } = useQuery({
+        queryKey: ["totalAnswers", slug], // Unique key for all answers
+        queryFn: () => totalAnswersByQuestion(slug),
     })
-
-    // const handleEditAnswer = () => {
-    //     const editData : EditAnswerType = {
-    //         answerUuid: answerUuid,
-    //         content: "ចម្លើយថ្មី"
-    //     }
-    // }
 
     return (
         <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-bold mb-4">Answers</h2>
+            <h2 className="text-xl font-bold mb-4">{totalAnswer?.total} Answers</h2>
 
             {/* Main Comment */}
             <div className="space-y-4">
                 {answer?.content?.map((ans) => (
                     <div className="border rounded-lg p-4" key={ans.uuid}>
                         <div className="flex justify-between items-start mb-3">
-                        <UserProfile authorUsername={ans.authorUsername} createdAt={ans?.createdAt}/>
+                        <UserProfile authorUsername={ans.authorUsername} createdAt={ans?.createdAt} lastModifedAt={ans?.lastModifiedAt}/>
 
                             <button className="text-gray-500">
                                 <DropdownMenu>
@@ -215,7 +216,7 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
                                             handleReply(ans?.uuid as string)
                                         }
                                     >
-                                        Reply
+                                        ឆ្លើយតប
                                     </span>
                                 </button>
                             </div>
@@ -230,9 +231,7 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
                                 {/* First Reply */}
                                 <div className="mt-4">
                                     <div className="flex justify-between items-start mb-3">
-                                    <UserProfile authorUsername={reply?.authorUsername} createdAt={reply?.createdAt}/>
-
-
+                                    <UserProfile authorUsername={reply?.authorUsername} createdAt={reply?.createdAt} lastModifedAt={reply?.lastModifiedAt}/>
                                         <button className="text-gray-500">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
@@ -249,6 +248,18 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
                                                     >
                                                         <p className="text-red-500">
                                                             លុបការឆ្លើយ
+                                                        </p>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        
+                                                        onClick={() =>
+                                                            handleEditReply(
+                                                                reply?.uuid
+                                                            )
+                                                        }
+                                                    >
+                                                        <p className="text-green-500">
+                                                            កែប្រែចម្លើយ
                                                         </p>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem>
@@ -271,7 +282,7 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
 
 
 // Create a separate component for the user profile section
-const UserProfile = ({ authorUsername, createdAt }) => {
+const UserProfile = ({ authorUsername, createdAt, lastModifedAt }) => {
     const { data: userData } = useQuery({
         queryKey: ['user', authorUsername],
         queryFn: () => getUserByUsername(authorUsername),
@@ -292,7 +303,7 @@ const UserProfile = ({ authorUsername, createdAt }) => {
                     {userData?.fullName || "Loading..."}
                 </div>
                 <div className="text-sm text-gray-500">
-                {new Date(createdAt).toLocaleString()}
+                {lastModifedAt ? `កាលបរិច្ឆេទកែប្រែ: ${formatDate(lastModifedAt)}` : `កាលបរិច្ឆេទបង្ហាញ: ${formatDate(createdAt)}`}
                 </div>
             </div>
         </div>
