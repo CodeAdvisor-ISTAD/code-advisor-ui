@@ -205,9 +205,26 @@ const totalAnswersByQuestion = async function getTotalAnswersByQuestion(question
     }
 }
 
-// const voteAnswer = async function voteAnswerOnForum(voteAnswerData : VoteAnswerType) {
+const getQuestionByOwner = async function getQuestionByOwner(page : number, size: number) {
+    const response = await fetch(`/forums/api/v1/questions/owner?page=${page}&size=${size}`);
+    const data = await response.json();
 
-// }
+    if(response.ok){
+        return data;
+    }else{
+        throw data;
+    }
+}
 
+const getQuestionByAuthorName = async function getQuestionByAuthorName(authorName : string, page : number, size: number) {
+    const response = await fetch(`/forums/api/v1/questions/author/${authorName}?page=${page}&size=${size}`);
+    const data = await response.json();
 
-export { totalAnswersByQuestion ,editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };
+    if(response.ok){
+        return data;
+    }else{
+        throw data;
+    }
+}
+
+export { getQuestionByAuthorName,getQuestionByOwner ,totalAnswersByQuestion ,editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };

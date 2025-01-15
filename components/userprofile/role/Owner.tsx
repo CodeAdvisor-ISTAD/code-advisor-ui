@@ -57,7 +57,7 @@ export default function Owner() {
             <UserInformationCardComponent userInformation={userInformation} />
           </div>
           {/* user post */}
-          <UserPost />
+          <UserPost username={userInformation?.username}/>
         </div>
       </div>
     </div>

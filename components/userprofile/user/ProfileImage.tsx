@@ -13,8 +13,9 @@ import {
 } from "@radix-ui/react-hover-card";
 import { ImageUp } from "lucide-react"
 import {useRouter} from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
+import { uploadProfileImage } from "@/hooks/api-hook/user/user-service";
 
 
 interface ProfileImageProps {
@@ -26,9 +27,18 @@ export default function ProfileImage({
   disableButton,
   profileAuth,
 }: ProfileImageProps) {
+  const queryClient = useQueryClient();
   const [image, setImage] = useState<string>("null");
   const [tempImage, setTempImage] = useState<string | null>(null); // Temporary image for preview
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
+  const {mutate: updateUserProfile} = useMutation({
+    mutationFn: uploadProfileImage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["profile"]});
+      queryClient.invalidateQueries({queryKey: ["authProfile"]});
+
+    }
+  })
 
 
   const uploadFile = async (file: File) => {
@@ -64,31 +74,17 @@ export default function ProfileImage({
 
   console.log("upload file : " + uploadFile);
 
-  const saveProfileImageUrl = async (fileUrl: string) => {
+  const saveProfileImageUrl =  (fileUrl: string) => {
     const imageData = {
       imageUrl: fileUrl,
     };
 
-    console.log("image data : ", imageData);
-
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8168/users/api/v1/user_profiles/upload",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(imageData),
-        }
-      );
-
-      if (!response.ok) {
-        toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព។ សូមព្យាយាមម្តងទៀត");
-      } 
+      updateUserProfile(imageData);
+      toast.success("រូបភាពរបស់អ្នកត្រូវបានរក្សាទុកដោយជោគជ័យ");
     } catch (error) {
       console.error("Error saving profile image URL:", error);
-      toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព។ សូមព្យាយាមម្តងទៀត");
+      toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព សូមព្យាយាមម្តងទៀត");
     }
   };
 
