@@ -227,4 +227,22 @@ const getQuestionByAuthorName = async function getQuestionByAuthorName(authorNam
     }
 }
 
-export { getQuestionByAuthorName,getQuestionByOwner ,totalAnswersByQuestion ,editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };
+const voteAnwser = async function voteAnwserOnForum(answerUuid: string) {
+    const response = await fetch(`/forums/api/v1/votes/answer`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(answerUuid),
+    });
+    const data = await response.json();
+    
+    if (response.ok) {
+        return data;
+    } else {
+        // Throw the error data so it can be caught by onError
+        throw data;
+    }
+}
+
+export { voteAnwser ,getQuestionByAuthorName,getQuestionByOwner ,totalAnswersByQuestion ,editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };

@@ -38,7 +38,7 @@ export default function UserPost({ username }: { username: string }) {
   useEffect(() => {
     // Update filtered data whenever `forumData` changes
     if (forumData) {
-      setFilteredData(forumData.content);
+      setFilteredData(forumData?.content);
     }
   }, [forumData]);
 

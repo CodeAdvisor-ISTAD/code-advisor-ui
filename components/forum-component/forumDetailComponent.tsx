@@ -57,72 +57,154 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
         queryFn: () => getForumBySlug(slug),
     });
 
-    const { data: checkVoted } = useQuery({
-        queryKey: ["checkVote", slug],
-        queryFn: () => checkIsUpVoted(slug),
-        enabled: !!slug,
-    });
+    // Queries for initial data
+  const { data: checkVoted } = useQuery({
+    queryKey: ["checkVote", slug],
+    queryFn: () => checkIsUpVoted(slug),
+    enabled: !!slug,
+  });
 
-    const { data: totalUpVote } = useQuery({
-        queryKey: ["totalUpVotes", slug],
-        queryFn: () => totalUpVotes(slug),
-    });
+  const { data: totalUpVote } = useQuery({
+    queryKey: ["totalUpVotes", slug],
+    queryFn: () => totalUpVotes(slug),
+  });
 
-    const { data: totalDownVote } = useQuery({
-        queryKey: ["totalDownVotes", slug],
-        queryFn: () => totalDownVotes(slug),
-    });
+  const { data: totalDownVote } = useQuery({
+    queryKey: ["totalDownVotes", slug],
+    queryFn: () => totalDownVotes(slug),
+  });
 
-    const { mutate: upvoteMutation, isPending: upVotePending } = useMutation({
-        mutationFn: () => upVoteQuestion(slug),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["checkVote", slug] });
-            queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
-            queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
-        }
-    });
+  // Optimistic update helper functions
+  const updateVoteOptimistically = (type: 'upvote' | 'downvote', oldVoteStatus: { code: number } | undefined) => {
+    // Update check vote status
+    queryClient.setQueryData(["checkVote", slug], old => ({
+      ...(typeof old === 'object' && old !== null ? old : {}),
+      code: type === 'upvote' ? 200 : 409
+    }));
 
-    const { mutate: downvoteMutation, isPending: downVotePending } = useMutation({
-        mutationFn: () => downVoteQuestion(slug),
-        onMutate: async () => {
-            await queryClient.cancelQueries({
-                queryKey: ["vote", slug],
-            });
-            await queryClient.cancelQueries({
-                queryKey: ["votes", slug, "down"],
-            });
+    // Update vote counts
+    if (oldVoteStatus?.code === 200) {
+      // Was upvoted, now changing
+    queryClient.setQueryData(["totalUpVotes", slug], (old: { totalVotes: number } | undefined | unknown) => ({
+        ...(typeof old === 'object' && old !== null ? old : {}),
+        totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) - 1
+      }));
+    } else if (oldVoteStatus?.code === 409) {
+      // Was downvoted, now changing
+      queryClient.setQueryData(["totalDownVotes", slug], (old: { totalVotes: number } | undefined) => ({
+        ...(typeof old === 'object' && old !== null ? old : {}),
+        totalVotes: (old?.totalVotes ?? 0) - 1
+      }));
+    }
 
-            const previousVote = queryClient.getQueryData(["vote", slug]);
-            const previousDownVotes = (queryClient.getQueryData([
-                "votes",
-                slug,
-                "down",
-            ]) as { totalVotes: number }) || { totalVotes: 0 };
+    // Add new vote
+    if (type === 'upvote') {
+    queryClient.setQueryData(["totalUpVotes", slug], (old: { totalVotes: number } | undefined) => ({
+        ...(typeof old === 'object' && old !== null ? old : {}),
+        totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) + 1
+    }));
+    } else {
+      queryClient.setQueryData(["totalDownVotes", slug], (old: { totalVotes: number } | undefined | unknown) => ({
+        ...(typeof old === 'object' && old !== null ? old : {}),
+        totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) + 1
+      }));
+    }
+  };
 
-            // If already downvoted, we're removing the downvote
-            const voteChange =
-                (previousVote as { code: number })?.code === 409 ? -1 : 1;
+  // Enhanced mutations with optimistic updates
+  const { mutate: upvoteMutation, isPending: upVotePending } = useMutation({
+    mutationFn: () => upVoteQuestion(slug),
+    onMutate: async () => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["checkVote", slug] });
+      await queryClient.cancelQueries({ queryKey: ["totalUpVotes", slug] });
+      await queryClient.cancelQueries({ queryKey: ["totalDownVotes", slug] });
 
-            // Immediately update UI
-            queryClient.setQueryData(["vote", slug], {
-                code:
-                    (previousVote as { code: number })?.code === 409
-                        ? 200
-                        : 409,
-            });
+      // Save current state
+      const previousVoteStatus = queryClient.getQueryData<{ code: number }>(["checkVote", slug]);
 
-            queryClient.setQueryData(["votes", slug, "down"], {
-                totalVotes: previousDownVotes.totalVotes + voteChange,
-            });
+      // Perform optimistic update
+      updateVoteOptimistically('upvote', previousVoteStatus);
 
-            return { previousVote, previousDownVotes };
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["checkVote", slug] });
-            queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
-            queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
-        }
-    });
+      // Return context for rollback
+      return { previousVoteStatus };
+    },
+    onError: (err, variables, context) => {
+      // Rollback on error
+      if (context?.previousVoteStatus) {
+        queryClient.setQueryData(["checkVote", slug], context.previousVoteStatus);
+      }
+      queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
+      queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
+    },
+    onSettled: () => {
+      // Refetch to ensure consistency
+      queryClient.invalidateQueries({ queryKey: ["checkVote", slug] });
+      queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
+      queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
+    }
+  });
+
+  const { mutate: downvoteMutation, isPending: downVotePending } = useMutation({
+    mutationFn: () => downVoteQuestion(slug),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["checkVote", slug] });
+      await queryClient.cancelQueries({ queryKey: ["totalUpVotes", slug] });
+      await queryClient.cancelQueries({ queryKey: ["totalDownVotes", slug] });
+
+      const previousVoteStatus = queryClient.getQueryData<{ code: number }>(["checkVote", slug]);
+      
+      updateVoteOptimistically('downvote', previousVoteStatus);
+
+      return { previousVoteStatus };
+    },
+    onError: (err, variables, context) => {
+      if (context?.previousVoteStatus) {
+        queryClient.setQueryData(["checkVote", slug], context.previousVoteStatus);
+      }
+      queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
+      queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["checkVote", slug] });
+      queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
+      queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
+    }
+  });
+
+    // const { data: checkVoted } = useQuery({
+    //     queryKey: ["checkVote", slug],
+    //     queryFn: () => checkIsUpVoted(slug),
+    //     enabled: !!slug,
+    // });
+
+    // const { data: totalUpVote } = useQuery({
+    //     queryKey: ["totalUpVotes", slug],
+    //     queryFn: () => totalUpVotes(slug),
+    // });
+
+    // const { data: totalDownVote } = useQuery({
+    //     queryKey: ["totalDownVotes", slug],
+    //     queryFn: () => totalDownVotes(slug),
+    // });
+
+    // const { mutate: upvoteMutation, isPending: upVotePending } = useMutation({
+    //     mutationFn: () => upVoteQuestion(slug),
+    //     onSuccess: () => {
+    //         queryClient.invalidateQueries({ queryKey: ["checkVote", slug] });
+    //         queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
+    //         queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
+    //     }
+    // });
+
+    // const { mutate: downvoteMutation, isPending: downVotePending } = useMutation({
+    //     mutationFn: () => downVoteQuestion(slug),
+    //     onSuccess: () => {
+    //         queryClient.invalidateQueries({ queryKey: ["checkVote", slug] });
+    //         queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
+    //         queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
+    //     }
+    // });
 
     const getButtonColor = (expectedCode: number, actualCode: number) => {
         if (actualCode === 400) return "text-gray-400"; // Disabled/error state

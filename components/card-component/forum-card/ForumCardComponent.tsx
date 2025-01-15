@@ -23,6 +23,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
+import { totalAnswersByQuestion, totalUpVotes } from "@/hooks/api-hook/forum/forum-api";
 
 export function ForumCardComponent({
     forumCardData,
@@ -60,6 +61,15 @@ export function ForumCardComponent({
         queryFn: () => getUserByUsername(forumCardData?.author_username),
     });
 
+    const { data: totalUpVote } = useQuery({
+        queryKey: ["totalUpVotes", forumCardData.slug],
+        queryFn: () => totalUpVotes(forumCardData.slug),
+    });
+
+    const { data: totalAnswer } = useQuery({
+        queryKey: ["totalAnswers", forumCardData.slug], // Unique key for all answers
+        queryFn: () => totalAnswersByQuestion(forumCardData.slug),
+    })
     
 
     return (
@@ -119,23 +129,19 @@ export function ForumCardComponent({
                 <div className="flex flex-wrap gap-2">
                     {forumCardData?.tags.map((tag) => (
                         <span className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]" key={tag.id}>
-                            #{tag.name}
+                            #spring-boot
                         </span>
                     ))}
                 </div>
                 {/* Metrics Section */}
                 <div className="flex items-center space-x-4 text-gray-500 mr-5">
                     <div className="flex items-center space-x-1">
-                        <Eye className="w-4 h-4" />
-                        <span>123</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
                         <MessageSquare className="w-4 h-4" />
-                        <span>56</span>
+                        <span>{totalAnswer?.total}</span>
                     </div>
                     <div className="flex items-center space-x-1">
                         <ArrowUp className="w-4 h-4" />
-                        <span>1</span>
+                        <span>{totalUpVote?.totalVotes}</span>
                     </div>
                 </div>
             </div>

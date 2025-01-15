@@ -16,6 +16,7 @@ import {
     deleteAnswer,
     editAnswer,
     totalAnswersByQuestion,
+    voteAnwser,
 } from "@/hooks/api-hook/forum/forum-api";
 import Preview from "../text-editor/preview";
 import { toast } from "react-hot-toast";
@@ -137,6 +138,18 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
     const { data: totalAnswer } = useQuery({
         queryKey: ["totalAnswers", slug], // Unique key for all answers
         queryFn: () => totalAnswersByQuestion(slug),
+    })
+
+    const {mutate: upVoteAnswer} = useMutation({
+        mutationFn: voteAnwser,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["voteUpAnswer"],
+            });
+            toast.success("អ្នកបាន vote ចម្លើយនេះ", {
+                duration: 4000,
+            });
+        },
     })
 
     return (
