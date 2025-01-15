@@ -55,8 +55,9 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
 
   const { data: forum } = useQuery({
     queryKey: ["forum", slug],
-    queryFn: () => getForumBySlug(slug),
+    queryFn: () => getForumBySlug(slug),  
   });
+
 
   // Queries for initial data
   const { data: checkVoted } = useQuery({
