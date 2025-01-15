@@ -4,8 +4,9 @@ import { FormProvider, useForm } from "react-hook-form";
 // import ProfileImage from "@/components/userprofile/user/ProfileImage";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { fetchUserProfile } from "@/hooks/api-hook/user-service";
 import ProfileImage from "@/components/userprofile/user/ProfileImage";
+import { useQuery } from "@tanstack/react-query";
+import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
 
 export default function EditUser() {
   const methods = useForm();
@@ -13,27 +14,11 @@ export default function EditUser() {
   // const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  const [userInformation, setUserInformation] = useState(null);
-  const [errorv1, setErrorv1] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // user profile
-        const data = await fetchUserProfile();
-        console.log("data fetchUserProfile", data);
-        // user information
-        setUserInformation(data);
-        if (!coverColor) {
-          // Only set initial cover color if it's not already set
-          setCoverColor(data?.coverColor || "");
-        }
-      } catch (err) {
-        setErrorv1(err.message);
-      }
-    };
+  const {data : ownUser} = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => getOwnUserProfile(),
+  })
 
-    fetchData();
-  }, [fetchUserProfile]);
 
   const handleColorChange = (color: string) => {
     setCoverColor(color);
@@ -53,7 +38,7 @@ export default function EditUser() {
                 className="absolute top-2 right-2"
                 onChange={(e) => handleColorChange(e.target.value)}
               />
-              <ProfileImage profileAuth={null} disableButton={false} />
+              <ProfileImage profileAuth={ownUser} disableButton={false} />
             </div>
           </div>
           <div className="flex flex-row space-x-5 justify-center">

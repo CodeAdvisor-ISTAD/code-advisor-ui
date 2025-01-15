@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { UseFetchUserServiceProfile } from "./api-hook/user-service";
+import { UseFetchUserServiceProfile } from "./api-hook/user/user-service";
 import { useId } from "react";
 
 type AchievementLevel = {

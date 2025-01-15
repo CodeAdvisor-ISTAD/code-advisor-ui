@@ -26,7 +26,7 @@ export default function NavbarComponent() {
     //     getUser();
     // }, []);
     const { data: user } = useQuery({
-        queryKey: ["profile"],
+        queryKey: ["authProfile"],
         queryFn: fetchUserProfile,
     })
     const { setUser } = useUser();

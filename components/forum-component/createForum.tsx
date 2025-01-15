@@ -331,7 +331,7 @@ const CreateNewForum = () => {
                                                     )}
                                                     onChange={(
                                                         selectedOptions
-                                                    ) => {
+                                                    : any) => {
                                                         field.onChange(
                                                             selectedOptions.map(
                                                                 (option) =>

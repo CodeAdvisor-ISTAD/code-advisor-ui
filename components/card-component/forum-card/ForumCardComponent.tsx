@@ -22,7 +22,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getUserByUsername } from "@/hooks/api-hook/user-service";
+import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 
 export function ForumCardComponent({
     forumCardData,
@@ -71,7 +71,7 @@ export function ForumCardComponent({
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                     <Image
-                        src={userData?.profileImage || ""}
+                        src={userData?.profileImage || "https://cdn.vectorstock.com/i/1000v/66/13/default-avatar-profile-icon-social-media-user-vector-49816613.jpg"}
                         alt="User Avatar"
                         width={100}
                         height={100}
