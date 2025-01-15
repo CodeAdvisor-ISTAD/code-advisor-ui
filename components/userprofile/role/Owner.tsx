@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Bio from "@/components/userprofile/user/Bio";
 import UserPost from "@/components/userprofile/user/userPost";
 import UserInformationCardComponent from "@/components/userprofile/user/UserInformationCardComponent";
@@ -8,7 +8,6 @@ import AchievementLevel from "@/components/userprofile/user/achievement/Achievem
 import ProfileImage from "@/components/userprofile/user/ProfileImage";
 import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateButton";
 import { useRouter } from "next/navigation";
-import { UserRoundPen } from "lucide-react"
 import { useQuery } from "@tanstack/react-query";
 import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
 

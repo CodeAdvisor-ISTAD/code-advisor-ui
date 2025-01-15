@@ -1,5 +1,4 @@
-import { error } from "console";
-
+// fetch user profile
 const getOwnUserProfile = async function fetchUserServiceProfile() {
   const response = await fetch("/users/api/v1/user_profiles/me");
   const data = await response.json();
@@ -11,7 +10,7 @@ const getOwnUserProfile = async function fetchUserServiceProfile() {
   }
 }
 
-
+// viewer profile
 const getUserByUsername = async (username: string) => {
   try {
     const response = await fetch(`/users/api/v1/user_profiles/${username}`);
@@ -22,6 +21,7 @@ const getUserByUsername = async (username: string) => {
   }
 }
 
+// update user profile
 const updateUserProfile = async function updateUserProfile(userProfile) {
   try {
     const response = await fetch("/users/api/v1/user_profiles/me", {
