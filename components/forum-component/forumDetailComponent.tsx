@@ -41,6 +41,8 @@ import Preview from "../text-editor/preview";
 import { useCommentContext } from "@/lib/context/commentContext";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { toast } from "react-hot-toast";
+import { addBookmark } from "@/hooks/api-hook/user/bookmark";
+import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -53,6 +55,10 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   const editorRef = useRef(null);
   const { replyTo, mode, setMode, setReplyTo, answerUuid, replyContent } =
     useCommentContext();
+  const { data: user } = useQuery({
+          queryKey: ["authProfile"],
+          queryFn: fetchUserProfile,
+      })
 
   const { data: forum } = useQuery({
     queryKey: ["forum", slug],
@@ -289,6 +295,20 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     }
   };
 
+  const {mutate: addToBookmark} = useMutation({
+    mutationFn: addBookmark
+  })
+
+  const handleAddBookmark = (forumUuid : string) => {
+    const bookmarkData = {
+        forumUuid: forumUuid,
+    }
+
+    addToBookmark(bookmarkData)
+  }
+
+
+
   return (
     <div className="  ml-[264px] w-full">
       <TagComponent />
@@ -364,7 +384,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <MessageSquare className="w-6 h-6 text-gray-600" />
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-full">
+            <button className="p-2 hover:bg-gray-100 rounded-full" onClick={() => handleAddBookmark(forum?.uuid)}>
               <Bookmark className="w-6 h-6 text-gray-600" />
             </button>
             <button
