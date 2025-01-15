@@ -65,12 +65,14 @@ export default function NotificationsPage() {
     return () => {
       wsService.disconnect();
     };
-  }, []);
+  }, [user]);
+
+
 
   return (
-    <div className="mt-[68px] container max-w-4xl mx-auto p-4">
-      <h1 className="text-primary font-semibold text-3xl mb-4">
-        Notifications
+    <div className="mt-[68px] container max-w-4xl mx-auto p-4 min-h-screen">
+      <h1 className="text-primary font-semibold text-3xl mb-2">
+        ការជូនដំណឹង
       </h1>
       <NotificationList
         notifications={notifications}

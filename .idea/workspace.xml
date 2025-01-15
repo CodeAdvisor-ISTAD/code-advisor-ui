@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9bd93498-4ba0-4fef-871b-ad43ff1a02b4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/notification/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/notification/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/navbar/NavbarLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/navbar/NavbarLogin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/notification/NotificationDropdown.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/notification/NotificationItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/notification/NotificationItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/notification/NotificationList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/notification/NotificationList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/notification/Notifications.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/use-notifications-socket.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/use-websocket.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/api.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/notificationSlice.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/store.ts" beforeDir="false" />
-    </list>
+    <list default="true" id="9bd93498-4ba0-4fef-871b-ad43ff1a02b4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,7 +78,7 @@
       <workItem from="1734594768678" duration="50000" />
       <workItem from="1734594827673" duration="1206000" />
       <workItem from="1734600203974" duration="16000" />
-      <workItem from="1736846644808" duration="314000" />
+      <workItem from="1736846644808" duration="554000" />
     </task>
     <servers />
   </component>
