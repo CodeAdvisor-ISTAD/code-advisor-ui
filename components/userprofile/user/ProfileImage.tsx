@@ -10,11 +10,10 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@radix-ui/react-hover-card";
-import { ImageUp } from "lucide-react"
-import {useRouter} from "next/navigation";
+import { ImageUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
-
+import BadgeComponent from "./badge/BadgeComponent";
 
 interface ProfileImageProps {
   disableButton: boolean;
@@ -29,10 +28,10 @@ export default function ProfileImage({
   const [image, setImage] = useState<string>("null");
   const [tempImage, setTempImage] = useState<string | null>(null); // Temporary image for preview
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
-  const { refetch : refetchUserAuth, } = useQuery({
+  const { refetch: refetchUserAuth } = useQuery({
     queryKey: ["profile"],
     queryFn: fetchUserProfile,
-})
+  });
 
   const uploadFile = async (file: File) => {
     try {
@@ -88,7 +87,7 @@ export default function ProfileImage({
 
       if (!response.ok) {
         toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព។ សូមព្យាយាមម្តងទៀត");
-      } 
+      }
     } catch (error) {
       console.error("Error saving profile image URL:", error);
       toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព។ សូមព្យាយាមម្តងទៀត");
@@ -120,7 +119,7 @@ export default function ProfileImage({
   return (
     <div>
       <div className="flex flex-row absolute -bottom-28 left-8">
-        <div className="relative w-[200px] h-[200px] rounded-full bg-white overflow-hidden bottom-2">
+        <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden bottom-2">
           <Image
             src={
               tempImage ||
@@ -152,7 +151,7 @@ export default function ProfileImage({
           </button>
         )}
         {/* Profile details section */}
-        <div className="flex items-center justify-between absolute -right-80 top-[105px]">
+        <div className="flex items-center justify-between absolute -right-60 top-[105px]">
           <div>
             <div className="flex gap-3">
               <h2 className="text-3xl font-bold">{data?.fullName}</h2>
