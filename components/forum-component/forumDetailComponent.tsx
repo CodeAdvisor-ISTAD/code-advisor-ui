@@ -40,6 +40,7 @@ import {
 import Preview from "../text-editor/preview";
 import { useCommentContext } from "@/lib/context/commentContext";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
+import { toast } from "react-hot-toast";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -55,9 +56,8 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
 
   const { data: forum } = useQuery({
     queryKey: ["forum", slug],
-    queryFn: () => getForumBySlug(slug),  
+    queryFn: () => getForumBySlug(slug),
   });
-
 
   // Queries for initial data
   const { data: checkVoted } = useQuery({
@@ -276,6 +276,19 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     setMode(null);
   }
 
+  const handleShare = async () => {
+    try {
+      // Copy the current URL to the clipboard
+      await navigator.clipboard.writeText(window.location.href);
+      // Show a success toast
+      toast.success("អ្នកបានចម្លង url post នេះបានដោយជោគជ័យ");
+    } catch (error) {
+      // Handle errors (e.g., if the clipboard API is not supported)
+      console.error("Failed to copy URL:", error);
+      toast.error("Failed to copy URL");
+    }
+  };
+
   return (
     <div className="  ml-[264px] w-full">
       <TagComponent />
@@ -354,7 +367,10 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <Bookmark className="w-6 h-6 text-gray-600" />
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-full">
+            <button
+              className="p-2 hover:bg-gray-100 rounded-full"
+              onClick={handleShare}
+            >
               <Share2 className="w-6 h-6 text-gray-600" />
             </button>
           </div>

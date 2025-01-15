@@ -18,6 +18,10 @@ import {
   editAnswer,
   totalAnswersByQuestion,
   voteAnwser,
+  totalUpVotesAnswer,
+  checkUserIsVoteAnswer,
+  downVoteAnwser,
+  totalDownVotesAnswer,
 } from "@/hooks/api-hook/forum/forum-api";
 import Preview from "../text-editor/preview";
 import { toast } from "react-hot-toast";
@@ -36,7 +40,8 @@ import formatDate from "@/lib/utils/formatDate";
 import { useRouter } from "next/navigation";
 
 export default function CommentReplyComponent({ slug }: { slug: string }) {
-  const { setReplyTo, setMode, setAnswerUuid, setReplyContent } = useCommentContext();
+  const { setReplyTo, setMode, setAnswerUuid, setReplyContent } =
+    useCommentContext();
   const queryClient = useQueryClient();
   const { user } = useUser();
   const router = useRouter();
@@ -47,7 +52,7 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
     document.getElementById("editor").scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleEditReply = (answerUuid : string, replyContent: string) => {
+  const handleEditReply = (answerUuid: string, replyContent: string) => {
     setMode("edit");
     setAnswerUuid(answerUuid);
     setReplyContent(replyContent);
@@ -110,8 +115,8 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
   const handleReport = () => {
     if (!user) {
       router.push("/oauth2/authorization/code-advisor");
-    }else{
-        console.log("report clicked");
+    } else {
+      console.log("report clicked");
     }
   };
 
@@ -147,18 +152,6 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
     queryFn: () => totalAnswersByQuestion(slug),
   });
 
-  const { mutate: upVoteAnswer } = useMutation({
-    mutationFn: voteAnwser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["voteUpAnswer"],
-      });
-      toast.success("អ្នកបាន vote ចម្លើយនេះ", {
-        duration: 4000,
-      });
-    },
-  });
-
   return (
     <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
       <h2 className="text-xl font-bold mb-4">{totalAnswer?.total} Answers</h2>
@@ -166,124 +159,17 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
       {/* Main Comment */}
       <div className="space-y-4">
         {answer?.content?.map((ans) => (
-          <div className="border rounded-lg p-4" key={ans.uuid}>
-            <div className="flex justify-between items-start mb-3">
-              <UserProfile
-                authorUsername={ans.authorUsername}
-                createdAt={ans?.createdAt}
-                lastModifedAt={ans?.lastModifiedAt}
-              />
-
-              <button className="text-gray-500">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <MoreVertical className="w-5 h-5" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56">
-                    <DropdownMenuItem
-                      className={
-                        user?.uuid == ans?.authorUuid ? "block" : "hidden"
-                      }
-                      onClick={() => handleDeleteAnswer(ans?.uuid)}
-                    >
-                      <p className="text-red-500">លុបការឆ្លើយ</p>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>រាយការណ៍</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <Preview content={ans?.content} />
-              {/* {
-                           answer?.content?.map((content, index) => (
-                               <Preview key={index} content={content.content} />
-                           ))
-                       } */}
-
-              <div className="flex items-center gap-4 mt-4">
-                <div className="flex items-center">
-                  {ans?.isAccepted == true ? (
-                    <CircleCheck
-                      onClick={() => {
-                        handleUnAcceptAnswer(ans?.uuid);
-                      }}
-                      className="w-5 h-5 text-green-500  rounded-full cursor-pointer"
-                    />
-                  ) : (
-                    <CircleCheck
-                      onClick={() => handleAcceptAnswer(ans?.uuid)}
-                      className="w-5 h-5 text-gray-500  rounded-full cursor-pointer"
-                    />
-                  )}
-                  <div className="flex items-center mx-2">
-                    <ChevronUp className="w-5 h-5" />
-                    <span className="mx-1">50</span>
-                    <ChevronDown className="w-5 h-5" />
-                  </div>
-                </div>
-                <button className="text-gray-600 flex items-center gap-1">
-                  <MessageCircle className="w-5 h-5" />
-                  <span onClick={() => handleReply(ans?.uuid as string)}>
-                    ឆ្លើយតប
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            {/* Nested Comments */}
-            {ans?.replies?.map((reply) => (
-              <div
-                className="mt-4 space-y-4 ml-8 border-l-2 border-gray-200 pl-4"
-                key={reply.uuid}
-              >
-                {/* First Reply */}
-                <div className="mt-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <UserProfile
-                      authorUsername={reply?.authorUsername}
-                      createdAt={reply?.createdAt}
-                      lastModifedAt={reply?.lastModifiedAt}
-                    />
-                    <button className="text-gray-500">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <MoreVertical className="w-5 h-5" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56">
-                          <DropdownMenuItem
-                            className={
-                              user?.uuid == reply?.authorUuid
-                                ? "block"
-                                : "hidden"
-                            }
-                            onClick={() => handleDeleteAnswer(reply?.uuid)}
-                          >
-                            <p className="text-red-500">លុបការឆ្លើយ</p>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className={
-                              user?.uuid == reply?.authorUuid
-                                ? "block"
-                                : "hidden"
-                            }
-                            onClick={() => handleEditReply(reply?.uuid, reply?.content)}
-                          >
-                            <p className="text-green-500">កែប្រែចម្លើយ</p>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleReport()}>
-                            <p>រាយការណ៍</p>
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </button>
-                  </div>
-                  <Preview content={reply?.content} />
-                </div>
-              </div>
-            ))}
-          </div>
+          <AnswerItem
+            key={ans.uuid}
+            ans={ans}
+            user={user}
+            handleDeleteAnswer={handleDeleteAnswer}
+            handleUnAcceptAnswer={handleUnAcceptAnswer}
+            handleAcceptAnswer={handleAcceptAnswer}
+            handleReply={handleReply}
+            handleEditReply={handleEditReply}
+            handleReport={handleReport}
+          />
         ))}
       </div>
     </div>
@@ -321,11 +207,294 @@ const UserProfile = ({ authorUsername, createdAt, lastModifedAt }) => {
       <div>
         <div className="font-medium">{userData?.fullName || "Loading..."}</div>
         <div className="text-sm text-gray-500">
-        {isLastModifiedNewer()
+          {isLastModifiedNewer()
             ? `កាលបរិច្ឆេទកែប្រែ: ${formatDate(lastModifedAt)}`
             : `កាលបរិច្ឆេទបង្ហាញ: ${formatDate(createdAt)}`}
         </div>
       </div>
+    </div>
+  );
+};
+
+const AnswerItem = ({
+  ans,
+  user,
+  handleDeleteAnswer,
+  handleUnAcceptAnswer,
+  handleAcceptAnswer,
+  handleReply,
+  handleReport,
+  handleEditReply,
+}) => {
+  const queryClient = useQueryClient();
+
+  // Fetch total upvotes for this answer
+  const { data: totalUpVotes } = useQuery({
+    queryKey: ['totalUpVoteAnswer', ans.uuid],
+    queryFn: () => totalUpVotesAnswer(ans.uuid),
+  });
+
+  // Fetch total downvotes for this answer
+  const { data: totalDownVotes } = useQuery({
+    queryKey: ['totalDownVoteAnswer', ans.uuid],
+    queryFn: () => totalDownVotesAnswer(ans.uuid),
+  });
+
+  // Fetch the current vote status for this answer
+  const { data: checkVoteOnAnswer } = useQuery({
+    queryKey: ['checkVoteAnswer', ans.uuid],
+    queryFn: () => checkUserIsVoteAnswer(ans.uuid),
+  });
+
+  // Optimistic update helper function
+  const updateVoteOptimistically = (
+    type: 'upvote' | 'downvote',
+    oldVoteStatus: { code: number } | undefined
+  ) => {
+    // Update check vote status
+    queryClient.setQueryData(['checkVoteAnswer', ans.uuid], (old) => ({
+      ...(typeof old === 'object' && old !== null ? old : {}),
+      code: type === 'upvote' ? 200 : 409,
+    }));
+
+    // Update vote counts
+    if (oldVoteStatus?.code === 200) {
+      // Was upvoted, now changing
+      queryClient.setQueryData(
+        ['totalUpVoteAnswer', ans.uuid],
+        (old: { totalVotes: number } | undefined | unknown) => ({
+          ...(typeof old === 'object' && old !== null ? old : {}),
+          totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) - 1,
+        })
+      );
+    } else if (oldVoteStatus?.code === 409) {
+      // Was downvoted, now changing
+      queryClient.setQueryData(
+        ['totalDownVoteAnswer', ans.uuid],
+        (old: { totalVotes: number } | undefined) => ({
+          ...(typeof old === 'object' && old !== null ? old : {}),
+          totalVotes: (old?.totalVotes ?? 0) - 1,
+        })
+      );
+    }
+
+    // Add new vote
+    if (type === 'upvote') {
+      queryClient.setQueryData(
+        ['totalUpVoteAnswer', ans.uuid],
+        (old: { totalVotes: number } | undefined) => ({
+          ...(typeof old === 'object' && old !== null ? old : {}),
+          totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) + 1,
+        })
+      );
+    } else {
+      queryClient.setQueryData(
+        ['totalDownVoteAnswer', ans.uuid],
+        (old: { totalVotes: number } | undefined | unknown) => ({
+          ...(typeof old === 'object' && old !== null ? old : {}),
+          totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) + 1,
+        })
+      );
+    }
+  };
+
+  // Upvote mutation with optimistic updates
+  const { mutate: upVoteAnswer, isPending: upVotePending } = useMutation({
+    mutationFn: () => voteAnwser(ans.uuid),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['checkVoteAnswer', ans.uuid] });
+      await queryClient.cancelQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
+      await queryClient.cancelQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+
+      const previousVoteStatus = queryClient.getQueryData<{ code: number }>([
+        'checkVoteAnswer',
+        ans.uuid,
+      ]);
+
+      updateVoteOptimistically('upvote', previousVoteStatus);
+
+      return { previousVoteStatus };
+    },
+    onError: (err, variables, context) => {
+      if (context?.previousVoteStatus) {
+        queryClient.setQueryData(
+          ['checkVoteAnswer', ans.uuid],
+          context.previousVoteStatus
+        );
+      }
+      queryClient.invalidateQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['checkVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+    },
+  });
+
+  // Downvote mutation with optimistic updates
+  const { mutate: downVoteAnswer, isPending: downVotePending } = useMutation({
+    mutationFn: () => downVoteAnwser(ans.uuid),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['checkVoteAnswer', ans.uuid] });
+      await queryClient.cancelQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
+      await queryClient.cancelQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+
+      const previousVoteStatus = queryClient.getQueryData<{ code: number }>([
+        'checkVoteAnswer',
+        ans.uuid,
+      ]);
+
+      updateVoteOptimistically('downvote', previousVoteStatus);
+
+      return { previousVoteStatus };
+    },
+    onError: (err, variables, context) => {
+      if (context?.previousVoteStatus) {
+        queryClient.setQueryData(
+          ['checkVoteAnswer', ans.uuid],
+          context.previousVoteStatus
+        );
+      }
+      queryClient.invalidateQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['checkVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+    },
+  });
+
+  // Helper function to determine button color
+  const getButtonColor = (expectedCode: number, actualCode: number) => {
+    if (actualCode === 400) return 'text-gray-400'; // Disabled/error state
+    return actualCode === expectedCode ? 'text-green-500' : 'text-gray-600';
+  };
+
+  return (
+    <div className="border rounded-lg p-4" key={ans.uuid}>
+      <div className="flex justify-between items-start mb-3">
+        <UserProfile
+          authorUsername={ans.authorUsername}
+          createdAt={ans?.createdAt}
+          lastModifedAt={ans?.lastModifiedAt}
+        />
+
+        <button className="text-gray-500">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <MoreVertical className="w-5 h-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuItem
+                className={user?.uuid == ans?.authorUuid ? "block" : "hidden"}
+                onClick={() => handleDeleteAnswer(ans?.uuid)}
+              >
+                <p className="text-red-500">លុបការឆ្លើយ</p>
+              </DropdownMenuItem>
+              <DropdownMenuItem>រាយការណ៍</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </button>
+      </div>
+
+      <div className="space-y-3">
+        <Preview content={ans?.content} />
+
+        <div className="flex items-center gap-4 mt-4">
+          <div className="flex items-center">
+            {ans?.isAccepted == true ? (
+              <CircleCheck
+                onClick={() => handleUnAcceptAnswer(ans?.uuid)}
+                className="w-5 h-5 text-green-500 rounded-full cursor-pointer"
+              />
+            ) : (
+              <CircleCheck
+                onClick={() => handleAcceptAnswer(ans?.uuid)}
+                className="w-5 h-5 text-gray-500 rounded-full cursor-pointer"
+              />
+            )}
+            <div className="flex items-center mx-2">
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+                onClick={() => upVoteAnswer()}
+                disabled={downVotePending}
+              >
+                <ChevronUp
+                  className={`w-5 h-5 ${getButtonColor(200, checkVoteOnAnswer?.code)}`}
+                />
+              </button>
+              <span className="mx-1">{totalUpVotes?.totalVotes ?? 0}</span>
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+                onClick={() => downVoteAnswer()}
+                disabled={upVotePending}
+              >
+                <ChevronDown
+                  className={`w-5 h-5 ${getButtonColor(409, checkVoteOnAnswer?.code)}`}
+                />
+              </button>
+              <span className="mx-1">{totalDownVotes?.totalVotes ?? 0}</span>
+            </div>
+          </div>
+          <button className="text-gray-600 flex items-center gap-1">
+            <MessageCircle className="w-5 h-5" />
+            <span onClick={() => handleReply(ans?.uuid as string)}>
+              ឆ្លើយតប
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* Nested Comments */}
+      {ans?.replies?.map((reply) => (
+        <div
+          className="mt-4 space-y-4 ml-8 border-l-2 border-gray-200 pl-4"
+          key={reply.uuid}
+        >
+          <div className="mt-4">
+            <div className="flex justify-between items-start mb-3">
+              <UserProfile
+                authorUsername={reply?.authorUsername}
+                createdAt={reply?.createdAt}
+                lastModifedAt={reply?.lastModifiedAt}
+              />
+              <button className="text-gray-500">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <MoreVertical className="w-5 h-5" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuItem
+                      className={
+                        user?.uuid == reply?.authorUuid ? "block" : "hidden"
+                      }
+                      onClick={() => handleDeleteAnswer(reply?.uuid)}
+                    >
+                      <p className="text-red-500">លុបការឆ្លើយ</p>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className={
+                        user?.uuid == reply?.authorUuid ? "block" : "hidden"
+                      }
+                      onClick={() =>
+                        handleEditReply(reply?.uuid, reply?.content)
+                      }
+                    >
+                      <p className="text-green-500">កែប្រែចម្លើយ</p>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleReport()}>
+                      <p>រាយការណ៍</p>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </button>
+            </div>
+            <Preview content={reply?.content} />
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
