@@ -16,3 +16,15 @@ export const UseFetchForumTags = () => {
         queryFn: fetchForumTags
     })
 };
+
+const getTagsByQuestionUuid = async (questionUuid: string) => {
+    const response = await fetch(`/forums/api/v1/tags/question/${questionUuid}`);
+    const data = await response.json();
+    if(response.ok){     
+        return data;
+    }else{
+        return null;
+    }
+}
+
+export { getTagsByQuestionUuid };

@@ -18,7 +18,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import RichTextEditor from "@/components/text-editor/textEditor";
 import Preview from "@/components/text-editor/preview";
-import { UseFetchForumTags } from "@/hooks/api-hook/forum/use-tag";
+import { UseFetchForumTags } from "@/hooks/api-hook/forum/tags-api";
 import { useMutation } from "@tanstack/react-query";
 import { createForum } from "@/hooks/api-hook/forum/forum-api";
 import { useRouter } from "next/navigation";

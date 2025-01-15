@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { totalAnswersByQuestion, totalUpVotes } from "@/hooks/api-hook/forum/forum-api";
+import { getTagsByQuestionUuid } from "@/hooks/api-hook/forum/tags-api";
 
 export function ForumCardComponent({
     forumCardData,
@@ -69,6 +70,11 @@ export function ForumCardComponent({
     const { data: totalAnswer } = useQuery({
         queryKey: ["totalAnswers", forumCardData.slug], // Unique key for all answers
         queryFn: () => totalAnswersByQuestion(forumCardData.slug),
+    })
+
+    const {data : tags} = useQuery({
+        queryKey: ["tags", forumCardData.uuid],
+        queryFn: () => getTagsByQuestionUuid(forumCardData.uuid),
     })
     
 
@@ -127,9 +133,9 @@ export function ForumCardComponent({
             {/* Tags Section */}
             <div className="flex flex-wrap gap-2 mb-4 justify-between">
                 <div className="flex flex-wrap gap-2">
-                    {forumCardData?.tags.map((tag) => (
+                    {tags?.map((tag) => (
                         <span className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]" key={tag.id}>
-                            #spring-boot
+                            #{tag?.name}
                         </span>
                     ))}
                 </div>
