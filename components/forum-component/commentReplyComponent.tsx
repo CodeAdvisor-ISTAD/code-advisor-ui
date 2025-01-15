@@ -1,324 +1,323 @@
 /* eslint-disable react/no-unescaped-entities */
+"use client";
 import {
-    ChevronDown,
-    ChevronUp,
-    CircleCheck,
-    MessageCircle,
-    MoreVertical,
+  ChevronDown,
+  ChevronUp,
+  CircleCheck,
+  MessageCircle,
+  MoreVertical,
 } from "lucide-react";
 import React from "react";
 import { useCommentContext } from "@/lib/context/commentContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-    acceptedAnswer,
-    getAllAnswersByQuestion,
-    unAcceptedAnswer,
-    deleteAnswer,
-    editAnswer,
-    totalAnswersByQuestion,
-    voteAnwser,
+  acceptedAnswer,
+  getAllAnswersByQuestion,
+  unAcceptedAnswer,
+  deleteAnswer,
+  editAnswer,
+  totalAnswersByQuestion,
+  voteAnwser,
 } from "@/hooks/api-hook/forum/forum-api";
 import Preview from "../text-editor/preview";
 import { toast } from "react-hot-toast";
 import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useUser } from "@/lib/context/userContext";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import formatDate from "@/lib/utils/formatDate";
+import { useRouter } from "next/navigation";
 
 export default function CommentReplyComponent({ slug }: { slug: string }) {
-    const { setReplyTo, setMode, setAnswerUuid } = useCommentContext();
-    const queryClient = useQueryClient();
-    const { user } = useUser();
-    console.log(user);
+  const { setReplyTo, setMode, setAnswerUuid, setReplyContent } = useCommentContext();
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+  const router = useRouter();
 
-    const handleReply = (answerUuid) => {
-        setMode("reply");
-        setReplyTo(answerUuid);
-        document
-            .getElementById("editor")
-            .scrollIntoView({ behavior: "smooth" });
+  const handleReply = (answerUuid) => {
+    setMode("reply");
+    setReplyTo(answerUuid);
+    document.getElementById("editor").scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleEditReply = (answerUuid : string, replyContent: string) => {
+    setMode("edit");
+    setAnswerUuid(answerUuid);
+    setReplyContent(replyContent);
+    document.getElementById("editor").scrollIntoView({ behavior: "smooth" });
+  };
+
+  const { data: answer } = useQuery({
+    queryKey: ["allAnswers", slug],
+    queryFn: () => getAllAnswersByQuestion(slug),
+  });
+
+  const { mutate: acceptAnswer } = useMutation({
+    mutationFn: acceptedAnswer,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["allAnswers"],
+      });
+      toast.success("អ្នកបានទទួលស្គាល់ថាចម្លើយនេះត្រឹមត្រូវ", {
+        duration: 4000,
+      });
+    },
+    onError: (error: ErrorResponse, variables, context) => {
+      // Now you can access the error details
+      if (error.error.code === 403) {
+        toast.error("អ្នកមិនមានសិទ្ធិដើម្បីធ្វើការនេះទេ");
+      } else {
+        toast.error("Something went wrong");
+      }
+    },
+  });
+
+  const { mutate: unAccepted } = useMutation({
+    mutationFn: unAcceptedAnswer,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["allAnswers"],
+      });
+      toast.success("អ្នកបានលុបការទទួលស្គាល់ចម្លើយនេះ", {
+        duration: 4000,
+      });
+    },
+  });
+
+  const handleAcceptAnswer = (answerUuid: string) => {
+    const acceptedAnswerData = {
+      questionSlug: slug,
+      answerUuid: answerUuid,
     };
+    acceptAnswer(acceptedAnswerData);
+  };
 
-    const handleEditReply = (answerUuid) => {
-        setMode("edit");
-        setAnswerUuid(answerUuid);
-        document
-            .getElementById("editor")
-            .scrollIntoView({ behavior: "smooth" });
+  const handleUnAcceptAnswer = (answerUuid: string) => {
+    const acceptedAnswerData = {
+      questionSlug: slug,
+      answerUuid: answerUuid,
+    };
+    unAccepted(acceptedAnswerData);
+  };
+
+  const handleReport = () => {
+    if (!user) {
+      router.push("/oauth2/authorization/code-advisor");
+    }else{
+        console.log("report clicked");
     }
+  };
 
-    const { data: answer } = useQuery({
-        queryKey: ["allAnswers",slug],
-        queryFn: () => getAllAnswersByQuestion(slug),
-    });
+  const { mutate: deleteAnswerForum } = useMutation({
+    mutationFn: deleteAnswer,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["totalAnswers"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["allAnswers"],
+      });
+      toast.success("អ្នកបានលុបចម្លើយនេះ", {
+        duration: 4000,
+      });
+    },
+    onError: (error: ErrorResponse, variables, context) => {
+      // Now you can access the error details
+      if (error.error.code === 403) {
+        toast.error("អ្នកមិនមានសិទ្ធិដើម្បីធ្វើការនេះទេ");
+      } else {
+        toast.error("Something went wrong");
+      }
+    },
+  });
 
-    const { mutate: acceptAnswer } = useMutation({
-        mutationFn: acceptedAnswer,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["allAnswers"],
-            });
-            toast.success("អ្នកបានទទួលស្គាល់ថាចម្លើយនេះត្រឹមត្រូវ", {
-                duration: 4000,
-            });
-        },
-        onError: (error: ErrorResponse, variables, context) => {
-            // Now you can access the error details
-            if (error.error.code === 403) {
-                toast.error("អ្នកមិនមានសិទ្ធិដើម្បីធ្វើការនេះទេ");
-            } else {
-                toast.error("Something went wrong");
-            }
-        },
-    });
+  const handleDeleteAnswer = (answerUuid: string) => {
+    deleteAnswerForum(answerUuid);
+  };
 
-    const { mutate: unAccepted } = useMutation({
-        mutationFn: unAcceptedAnswer,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["allAnswers"],
-            });
-            toast.success("អ្នកបានលុបការទទួលស្គាល់ចម្លើយនេះ", {
-                duration: 4000,
-            });
-        },
-    });
+  const { data: totalAnswer } = useQuery({
+    queryKey: ["totalAnswers", slug], // Unique key for all answers
+    queryFn: () => totalAnswersByQuestion(slug),
+  });
 
-    const handleAcceptAnswer = (answerUuid: string) => {
-        const acceptedAnswerData = {
-            questionSlug: slug,
-            answerUuid: answerUuid,
-        };
-        acceptAnswer(acceptedAnswerData);
-    };
+  const { mutate: upVoteAnswer } = useMutation({
+    mutationFn: voteAnwser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["voteUpAnswer"],
+      });
+      toast.success("អ្នកបាន vote ចម្លើយនេះ", {
+        duration: 4000,
+      });
+    },
+  });
 
-    const handleUnAcceptAnswer = (answerUuid: string) => {
-        const acceptedAnswerData = {
-            questionSlug: slug,
-            answerUuid: answerUuid,
-        };
-        unAccepted(acceptedAnswerData);
-    };
+  return (
+    <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
+      <h2 className="text-xl font-bold mb-4">{totalAnswer?.total} Answers</h2>
 
-    const { mutate: deleteAnswerForum } = useMutation({
-        mutationFn: deleteAnswer,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["totalAnswers"],
-            });
-            queryClient.invalidateQueries({
-                queryKey: ["allAnswers"],
-            });
-            toast.success("អ្នកបានលុបចម្លើយនេះ", {
-                duration: 4000,
-            });
-        },
-        onError: (error: ErrorResponse, variables, context) => {
-            // Now you can access the error details
-            if (error.error.code === 403) {
-                toast.error("អ្នកមិនមានសិទ្ធិដើម្បីធ្វើការនេះទេ");
-            } else {
-                toast.error("Something went wrong");
-            }
-        },
-    });
+      {/* Main Comment */}
+      <div className="space-y-4">
+        {answer?.content?.map((ans) => (
+          <div className="border rounded-lg p-4" key={ans.uuid}>
+            <div className="flex justify-between items-start mb-3">
+              <UserProfile
+                authorUsername={ans.authorUsername}
+                createdAt={ans?.createdAt}
+                lastModifedAt={ans?.lastModifiedAt}
+              />
 
-    const handleDeleteAnswer = (answerUuid: string) => {
-        deleteAnswerForum(answerUuid);
-    };
+              <button className="text-gray-500">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <MoreVertical className="w-5 h-5" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuItem
+                      className={
+                        user?.uuid == ans?.authorUuid ? "block" : "hidden"
+                      }
+                      onClick={() => handleDeleteAnswer(ans?.uuid)}
+                    >
+                      <p className="text-red-500">លុបការឆ្លើយ</p>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>រាយការណ៍</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </button>
+            </div>
 
-    const { data: totalAnswer } = useQuery({
-        queryKey: ["totalAnswers", slug], // Unique key for all answers
-        queryFn: () => totalAnswersByQuestion(slug),
-    })
-
-    const {mutate: upVoteAnswer} = useMutation({
-        mutationFn: voteAnwser,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["voteUpAnswer"],
-            });
-            toast.success("អ្នកបាន vote ចម្លើយនេះ", {
-                duration: 4000,
-            });
-        },
-    })
-
-    return (
-        <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-bold mb-4">{totalAnswer?.total} Answers</h2>
-
-            {/* Main Comment */}
-            <div className="space-y-4">
-                {answer?.content?.map((ans) => (
-                    <div className="border rounded-lg p-4" key={ans.uuid}>
-                        <div className="flex justify-between items-start mb-3">
-                        <UserProfile authorUsername={ans.authorUsername} createdAt={ans?.createdAt} lastModifedAt={ans?.lastModifiedAt}/>
-
-                            <button className="text-gray-500">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <MoreVertical className="w-5 h-5" />
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="w-56">
-                                        <DropdownMenuItem
-                                            className={
-                                                user?.uuid == ans?.authorUuid
-                                                    ? "block"
-                                                    : "hidden"
-                                            }
-                                            onClick={() =>
-                                                handleDeleteAnswer(ans?.uuid)
-                                            }
-                                        >
-                                            <p className="text-red-500">
-                                                លុបការឆ្លើយ
-                                            </p>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                            រាយការណ៍
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </button>
-                        </div>
-
-                        <div className="space-y-3">
-                            <Preview content={ans?.content} />
-                            {/* {
+            <div className="space-y-3">
+              <Preview content={ans?.content} />
+              {/* {
                            answer?.content?.map((content, index) => (
                                <Preview key={index} content={content.content} />
                            ))
                        } */}
 
-                            <div className="flex items-center gap-4 mt-4">
-                                <div className="flex items-center">
-                                    {ans?.isAccepted == true ? (
-                                        <CircleCheck
-                                            onClick={() => {
-                                                handleUnAcceptAnswer(ans?.uuid);
-                                            }}
-                                            className="w-5 h-5 text-green-500  rounded-full cursor-pointer"
-                                        />
-                                    ) : (
-                                        <CircleCheck
-                                            onClick={() =>
-                                                handleAcceptAnswer(ans?.uuid)
-                                            }
-                                            className="w-5 h-5 text-gray-500  rounded-full cursor-pointer"
-                                        />
-                                    )}
-                                    <div className="flex items-center mx-2">
-                                        <ChevronUp className="w-5 h-5" />
-                                        <span className="mx-1">50</span>
-                                        <ChevronDown className="w-5 h-5" />
-                                    </div>
-                                </div>
-                                <button className="text-gray-600 flex items-center gap-1">
-                                    <MessageCircle className="w-5 h-5" />
-                                    <span
-                                        onClick={() =>
-                                            handleReply(ans?.uuid as string)
-                                        }
-                                    >
-                                        ឆ្លើយតប
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Nested Comments */}
-                        {ans?.replies?.map((reply) => (
-                            <div
-                                className="mt-4 space-y-4 ml-8 border-l-2 border-gray-200 pl-4"
-                                key={reply.uuid}
-                            >
-                                {/* First Reply */}
-                                <div className="mt-4">
-                                    <div className="flex justify-between items-start mb-3">
-                                    <UserProfile authorUsername={reply?.authorUsername} createdAt={reply?.createdAt} lastModifedAt={reply?.lastModifiedAt}/>
-                                        <button className="text-gray-500">
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <MoreVertical className="w-5 h-5" />
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent className="w-56">
-                                                    <DropdownMenuItem
-                                                        className={user?.uuid == reply?.authorUuid ? "block" : "hidden"}
-                                                        onClick={() =>
-                                                            handleDeleteAnswer(
-                                                                reply?.uuid
-                                                            )
-                                                        }
-                                                    >
-                                                        <p className="text-red-500">
-                                                            លុបការឆ្លើយ
-                                                        </p>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem
-                                                        
-                                                        onClick={() =>
-                                                            handleEditReply(
-                                                                reply?.uuid
-                                                            )
-                                                        }
-                                                    >
-                                                        <p className="text-green-500">
-                                                            កែប្រែចម្លើយ
-                                                        </p>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem>
-                                                        រាយការណ៍
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </button>
-                                    </div>
-                                    <Preview content={reply?.content} />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+              <div className="flex items-center gap-4 mt-4">
+                <div className="flex items-center">
+                  {ans?.isAccepted == true ? (
+                    <CircleCheck
+                      onClick={() => {
+                        handleUnAcceptAnswer(ans?.uuid);
+                      }}
+                      className="w-5 h-5 text-green-500  rounded-full cursor-pointer"
+                    />
+                  ) : (
+                    <CircleCheck
+                      onClick={() => handleAcceptAnswer(ans?.uuid)}
+                      className="w-5 h-5 text-gray-500  rounded-full cursor-pointer"
+                    />
+                  )}
+                  <div className="flex items-center mx-2">
+                    <ChevronUp className="w-5 h-5" />
+                    <span className="mx-1">50</span>
+                    <ChevronDown className="w-5 h-5" />
+                  </div>
+                </div>
+                <button className="text-gray-600 flex items-center gap-1">
+                  <MessageCircle className="w-5 h-5" />
+                  <span onClick={() => handleReply(ans?.uuid as string)}>
+                    ឆ្លើយតប
+                  </span>
+                </button>
+              </div>
             </div>
-        </div>
-    );
-}
 
+            {/* Nested Comments */}
+            {ans?.replies?.map((reply) => (
+              <div
+                className="mt-4 space-y-4 ml-8 border-l-2 border-gray-200 pl-4"
+                key={reply.uuid}
+              >
+                {/* First Reply */}
+                <div className="mt-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <UserProfile
+                      authorUsername={reply?.authorUsername}
+                      createdAt={reply?.createdAt}
+                      lastModifedAt={reply?.lastModifiedAt}
+                    />
+                    <button className="text-gray-500">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <MoreVertical className="w-5 h-5" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                          <DropdownMenuItem
+                            className={
+                              user?.uuid == reply?.authorUuid
+                                ? "block"
+                                : "hidden"
+                            }
+                            onClick={() => handleDeleteAnswer(reply?.uuid)}
+                          >
+                            <p className="text-red-500">លុបការឆ្លើយ</p>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className={
+                              user?.uuid == reply?.authorUuid
+                                ? "block"
+                                : "hidden"
+                            }
+                            onClick={() => handleEditReply(reply?.uuid, reply?.content)}
+                          >
+                            <p className="text-green-500">កែប្រែចម្លើយ</p>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleReport()}>
+                            <p>រាយការណ៍</p>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </button>
+                  </div>
+                  <Preview content={reply?.content} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // Create a separate component for the user profile section
 const UserProfile = ({ authorUsername, createdAt, lastModifedAt }) => {
-    const { data: userData } = useQuery({
-        queryKey: ['user', authorUsername],
-        queryFn: () => getUserByUsername(authorUsername),
-        enabled: !!authorUsername
-    });
+  const { data: userData } = useQuery({
+    queryKey: ["user", authorUsername],
+    queryFn: () => getUserByUsername(authorUsername),
+    enabled: !!authorUsername,
+  });
 
-    return (
-        <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                <img
-                    src={userData?.profileImage || "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"}
-                    alt={userData?.name || "User"}
-                    className="w-full h-full object-cover"
-                />
-            </div>
-            <div>
-                <div className="font-medium">
-                    {userData?.fullName || "Loading..."}
-                </div>
-                <div className="text-sm text-gray-500">
-                {lastModifedAt ? `កាលបរិច្ឆេទកែប្រែ: ${formatDate(lastModifedAt)}` : `កាលបរិច្ឆេទបង្ហាញ: ${formatDate(createdAt)}`}
-                </div>
-            </div>
+  return (
+    <div className="flex items-center gap-3">
+      <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+        <img
+          src={
+            userData?.profileImage ||
+            "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
+          }
+          alt={userData?.name || "User"}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div>
+        <div className="font-medium">{userData?.fullName || "Loading..."}</div>
+        <div className="text-sm text-gray-500">
+          {lastModifedAt
+            ? `កាលបរិច្ឆេទកែប្រែ: ${formatDate(lastModifedAt)}`
+            : `កាលបរិច្ឆេទបង្ហាញ: ${formatDate(createdAt)}`}
         </div>
-    );
+      </div>
+    </div>
+  );
 };
