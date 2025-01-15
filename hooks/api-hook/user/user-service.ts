@@ -24,7 +24,7 @@ const getUserByUsername = async (username: string) => {
 // update user profile
 const updateUserProfile = async function updateUserProfile(userProfile) {
   try {
-    const response = await fetch("/users/api/v1/user_profiles/me", {
+    const response = await fetch("/users/api/v1/user_profiles", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -12,35 +12,26 @@ import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 
 export default function NavbarComponent() {
     const route = useRouter();
-    // const [user, setUser] = useState(null);
-
-    // const getUser = async () => {
-    //     const response = await fetch("/profile");
-    //     const data = await response.json();
-    //     setUser(data);
-    // };
-
-    // console.log(user);
-
-    // useEffect(() => {
-    //     getUser();
-    // }, []);
+    
     const { data: user } = useQuery({
         queryKey: ["authProfile"],
         queryFn: fetchUserProfile,
     })
     const { setUser } = useUser();
 
+    console.log(user);
+
     useEffect(() => {
-        if (user) {
+        if (user != null) {
             setUser(user);
         }
     }, [user, setUser]);
 
-    return (
-        <>
-            {user === null ? (
-                <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
+    if(user){
+        return <NavbarLogin user={user} />
+    }else{
+        return <>
+        <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
                     {/* Logo */}
                     <section>
                         <Link href="/" aria-label="Go to home page">
@@ -100,9 +91,7 @@ export default function NavbarComponent() {
                         </Button>
                     </div>
                 </div>
-            ) : (
-                <NavbarLogin user={user} />
-            )}
-        </>
-    );
+                </>
+        
+    }
 }

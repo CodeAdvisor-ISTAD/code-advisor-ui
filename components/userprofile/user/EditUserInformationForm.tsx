@@ -38,7 +38,6 @@ export default function EditUserInformationForm(
 
   const queryClient = useQueryClient();
 
-
   const { data : userInformation } = useQuery({
     queryKey: ["profile"],
     queryFn: getOwnUserProfile,
@@ -48,7 +47,7 @@ export default function EditUserInformationForm(
 
   const router = useRouter();
   const [date, setDate] = React.useState<Date>();
-  const {mutate: updateUser} = useMutation({
+  const {mutate: updateUser, isSuccess} = useMutation({
     mutationFn: updateUserProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -71,52 +70,31 @@ export default function EditUserInformationForm(
     | "isDeleted"
     | "coverColor";
 
-
-    const form = useForm();
-    
-    useEffect(() => {
-      if (userInformation) {
-        form.reset({
-          fullName: userInformation.fullName,
-          familyName: userInformation.familyName,
-          givenName: userInformation.givenName || "",
-          gender: userInformation.gender || "",
-          phoneNumber: userInformation.phoneNumber || "",
-          bio: userInformation.bio || "",
-          workPlace: userInformation.workPlace || "",
-          pob: userInformation.pob || "",
-          school: userInformation.school || "",
-          jobPosition: userInformation.jobPosition || "",
-          dob: userInformation.dob || "",
-          isDeleted: userInformation.isDeleted || false,
-          coverColor: userInformation.coverColor || "",
-        });
-      }
-    }, [userInformation, form]);
+  const form = useForm({
+    defaultValues: {
+      fullName: userInformation?.fullName || "",
+      familyName: userInformation?.familyName || "",
+      givenName: userInformation?.givenName || "",
+      gender: userInformation?.gender || "",
+      phoneNumber: userInformation?.phoneNumber || "",
+      bio: userInformation?.bio || "",
+      workPlace: userInformation?.workPlace || "",
+      pob: userInformation?.pob || "",
+      school: userInformation?.school || "",
+      jobPosition: userInformation?.jobPosition || "",
+      dob: userInformation?.dob || "",
+      profileImage: userInformation?.profileImage || "",
+      isDeleted: userInformation?.isDeleted || false,
+      coverColor: userInformation?.coverColor || "",
+    },
+  });
 
   async function onSubmit(data: any) {
-    // try {
-    //   const response = await fetch("/users/api/v1/user_profiles", {
-    //     method: "PATCH",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({ ...data, profileImage }), // Include updated profileImage
-    //   });
-
-    //   if (!response.ok) {
-    //     const errorMessage = `HTTP error! status: ${response.status}, statusText: ${response.statusText}`;
-    //     throw new Error(errorMessage);
-    //   }
-
-    //   const result = await response.json();
-    //   console.log("User information updated successfully:", result);
-    //   router.push(`/user-profile/${result?.username}`);
-    // } catch (error) {
-    //   console.error("Error updating user information:", error);
-    // }
     console.log("data : ", data);
-    // updateUser(data);
+    updateUser(data);
+    if(isSuccess){
+      router.push(`/user-profile/${userInformation?.username}`);
+    }
   }
 
   const handleRedirect = () => {
@@ -149,11 +127,6 @@ export default function EditUserInformationForm(
                 key={name}
                 control={form.control}
                 name={name}
-                rules={
-                  name === ("fullName" as FieldName)
-                    ? { required: `${label} is required` }
-                    : {}
-                }
                 render={({ field }) => (
                   <FormItem className="pb-[20px]">
                     <div className="flex gap-1">
@@ -229,7 +202,6 @@ export default function EditUserInformationForm(
                   key={name}
                   control={form.control}
                   name={name}
-                  // rules={{ required: `${label} is required` }}
                   render={({ field }) => (
                     <FormItem className="pb-[20px]">
                       <div className="flex gap-1">
@@ -253,7 +225,6 @@ export default function EditUserInformationForm(
             <FormField
               control={form.control}
               name="bio"
-              // rules={{ required: "Bio is required" }}
               render={({ field }) => (
                 <FormItem className="flex flex-col bg-white w-[510px] justify-center items-center pb-[25px] pt-[25px] rounded-lg border">
                   <div className="w-[200px] h-[55px] pr-[450px] relative">
@@ -273,8 +244,7 @@ export default function EditUserInformationForm(
 
             <FormField
               control={form.control}
-              name="bio"
-              // rules={{ required: "Bio is required" }}
+              name="coverColor"
               render={({ field }) => (
                 <FormItem className="flex flex-col bg-white w-[510px] justify-center items-center pb-[25px] pt-[25px] rounded-lg border">
                   <div className="w-[200px] h-[55px] pr-[450px] relative">
@@ -283,15 +253,6 @@ export default function EditUserInformationForm(
                     </CardTitle>
                     <div className="w-[28px] h-[2.5px] left-[1px] top-[27px] absolute bg-[#f31260]"></div>
                   </div>
-                  {/* <ColorPicker
-                    onColorChange={(color) => {
-                      form.setValue("coverColor", color);
-                      if (props.onColorChange) {
-                        props.onColorChange(color);
-                      }
-                    }}
-                    initialColor={form.getValues("coverColor")}
-                  /> */}
                   <ColorPicker
                     onColorChange={(color) => {
                       form.setValue("coverColor", color);
