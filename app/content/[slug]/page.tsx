@@ -17,7 +17,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   });
 
 
-  if (isLoading) {
+  if (isLoading) { 
     return <div>Loading...</div>;
   }
 

@@ -90,7 +90,8 @@ export function CardList({ searchQuery }: CardListProps) {
       )
     : cards
 
-  const displayCards = searchQuery ? filteredCards : cards
+  // Slice the array to display only 4 cards
+  const displayCards = (searchQuery ? filteredCards : cards).slice(0, 6)
 
   return (
     <div className="">
@@ -109,4 +110,3 @@ export function CardList({ searchQuery }: CardListProps) {
     </div>
   )
 }
-

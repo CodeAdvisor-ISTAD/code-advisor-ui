@@ -1,32 +1,44 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import NavbarLogin from './NavbarLogin'
-import { UseFetchProfile } from '@/hooks/api-hook/auth/use-profile'
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useUser } from "@/lib/context/userContext";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
+import { NavbarLogin } from "./NavbarLogin";
 
 interface NavbarComponentProps {
-  onSearch: (query: string) => void
+  onSearch: (query: string) => void;
 }
 
 export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
-  const route = useRouter()
-  const [searchQuery, setSearchQuery] = useState('')
-  const { data: user } = UseFetchProfile()
+  const route = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data: user } = useQuery({
+    queryKey: ["profile"],
+    queryFn: fetchUserProfile,
+  });
+  const { setUser } = useUser();
+
+  useEffect(() => {
+    if (user) {
+      setUser(user);
+    }
+  }, [user, setUser]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuery = e.target.value
-    setSearchQuery(newQuery)
-    onSearch(newQuery)
-  }
+    const newQuery = e.target.value;
+    setSearchQuery(newQuery);
+    onSearch(newQuery);
+  };
 
   const handleLogoClick = () => {
-    setSearchQuery('')
-    onSearch('')
-  }
+    setSearchQuery('');
+    onSearch('');
+  };
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-white z-50">
@@ -45,7 +57,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
               <input
                 type="text"
                 placeholder="ស្វែងរក"
-                className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none"
                 value={searchQuery}
                 onChange={handleSearchChange}
               />
@@ -85,9 +97,9 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
           </div>
         </div>
       ) : (
-        <NavbarLogin user={user} />
+        // Pass the onSearch prop to NavbarLogin
+        <NavbarLogin user={user} onSearch={onSearch} />
       )}
     </div>
-  )
+  );
 }
-

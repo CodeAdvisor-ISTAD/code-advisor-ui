@@ -1,5 +1,5 @@
 "use client";
-import { Dropdown, DropdownItem, Navbar, NavbarBrand } from "flowbite-react";
+import { Dropdown, DropdownItem } from "flowbite-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,19 +13,35 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
 import { FiBell, FiEdit2 } from "react-icons/fi";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { UseFetchProfile } from "@/hooks/api-hook/user-service";
+import { useState } from "react";
 
+interface NavbarLoginProps {
+  user: any; // User data
+  onSearch: (query: string) => void; // Add onSearch prop
+}
 
-export function NavbarLogin({ user }: { user: any }) {
-    const route = useRouter();
+export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
+  const route = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = e.target.value;
+    setSearchQuery(newQuery);
+    onSearch(newQuery); // Pass the search query to the parent component
+  };
+
+  const handleLogoClick = () => {
+    setSearchQuery("");
+    onSearch(""); // Clear the search query
+  };
 
   return (
     <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
       {/* Logo */}
       <section>
-        <Link href="/" aria-label="Go to home page">
+        <Link href="/" aria-label="Go to home page" onClick={handleLogoClick}>
           <Image src="/logo1.png" alt="logo" width={100} height={100} />
         </Link>
       </section>
@@ -36,9 +52,19 @@ export function NavbarLogin({ user }: { user: any }) {
           <input
             type="text"
             placeholder="ស្វែងរក"
-            className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none "
+            className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                onSearch(searchQuery); // Trigger search on Enter key
+              }
+            }}
           />
-          <button className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px] ">
+          <button
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px]"
+            onClick={() => onSearch(searchQuery)} // Trigger search on button click
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -57,36 +83,31 @@ export function NavbarLogin({ user }: { user: any }) {
         </div>
       </div>
 
-            {/* Action Icons */}
-            <div className="flex items-center mx-8  ">
-                <div className=" bg-primary px-4  rounded-md text-white">
-                    {" "}
-                    {/* Button with Dropdown */}
-                    <Dropdown
-                        inline
-                        label={
-                            <div className="flex items-center space-x-2 bg-primary py-2 rounded-md text-white shadow hover:bg-primary-dark">
-                                <span className="text-sm font-medium">
-                                    បង្កើតថ្មី
-                                </span>
-                                <FiEdit2 className="text-white" />
-                            </div>
-                        }
-                    >
-                        <DropdownItem className="text-black">
-                            <span onClick={() => route.push("/content/new")}>
-                                បង្កើតអត្ថបទ
-                            </span>
-                        </DropdownItem>
-                        <DropdownItem className="text-black">
-                            <Link href="/forum/new">បង្កើត Forum</Link>
-                        </DropdownItem>
-                    </Dropdown>
-                </div>
+      {/* Action Icons */}
+      <div className="flex items-center mx-8">
+        <div className="bg-primary px-4 rounded-md text-white">
+          {/* Button with Dropdown */}
+          <Dropdown
+            inline
+            label={
+              <div className="flex items-center space-x-2 bg-primary py-2 rounded-md text-white shadow hover:bg-primary-dark">
+                <span className="text-sm font-medium">បង្កើតថ្មី</span>
+                <FiEdit2 className="text-white" />
+              </div>
+            }
+          >
+            <DropdownItem className="text-black">
+              <span onClick={() => route.push("/content/new")}>បង្កើតអត្ថបទ</span>
+            </DropdownItem>
+            <DropdownItem className="text-black">
+              <Link href="/forum/new">បង្កើត Forum</Link>
+            </DropdownItem>
+          </Dropdown>
+        </div>
 
         {/* Notification Icon */}
         <a href="/notification">
-          <button className="relative text-primary mx-8 ">
+          <button className="relative text-primary mx-8">
             <FiBell className="h-7 w-7" />
             <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-xs text-white"></span>
           </button>
@@ -101,52 +122,38 @@ export function NavbarLogin({ user }: { user: any }) {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
-            {/* <DropdownMenuLabel>
-            <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium">ប្រវត្តិរូប</p>
-              <p className="text-xs text-muted-foreground">name@example.com</p>
-            </div>
-          </DropdownMenuLabel> */}
             <DropdownMenuSeparator />
-
-                        <DropdownMenuGroup>
-                        <a href={`/user-profile/${user?.username}`}>
-                                <DropdownMenuItem>
-                                    <User className="mr-2 h-4 w-4" />
-                                    <span>ប្រវត្តិរូប</span>
-                                </DropdownMenuItem>
-                            </a>
-                            <DropdownMenuItem>
-                                <Settings className="mr-2 h-4 w-4" />
-                                <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <div className="flex w-full items-center justify-between">
-                                    <div className="flex items-center">
-                                        <Moon className="mr-2 h-4 w-4" />
-                                        <span>មុខងារងងឹត</span>
-                                    </div>
-                                    <Switch />
-                                </div>
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600">
-                            <LogOut className="mr-2 h-4 w-4" />
-                            {/* <span onClick={handleLogout}>ចាកចេញ</span> */}
-                            <span
-                                onClick={() =>
-                                    route.push("http://127.0.0.1:9090/logout")
-                                }
-                            >
-                                ចាកចេញ
-                            </span>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-        </div>
-    );
+            <DropdownMenuGroup>
+              <a href={`/user-profile/${user?.username}`}>
+                <DropdownMenuItem>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>ប្រវត្តិរូប</span>
+                </DropdownMenuItem>
+              </a>
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <div className="flex w-full items-center justify-between">
+                  <div className="flex items-center">
+                    <Moon className="mr-2 h-4 w-4" />
+                    <span>មុខងារងងឹត</span>
+                  </div>
+                  <Switch />
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-red-600">
+              <LogOut className="mr-2 h-4 w-4" />
+              <span onClick={() => route.push("http://127.0.0.1:9090/logout")}>
+                ចាកចេញ
+              </span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  );
 }
-
-export default NavbarLogin;

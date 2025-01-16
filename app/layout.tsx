@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+'use client'
 import localFont from "next/font/local";
 import "./globals.css";
-import NavbarComponent from "@/components/navbar/NavbarComponent";
+import NavbarComponent from "@/components/navbar/NavbarComponent"; // Import the NavbarComponent
 import Footer from "@/components/footer/Footer";
 import { roboto, koh_Santepheap } from "./fonts/fonts";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -16,18 +16,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en">
-            <body
-                className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
-            >
-                
-                <Provider>
-                  
-                    <SidebarProvider>
-                        <AppSidebar />
+  // Mock function for onSearch (replace with your actual search logic)
+  // const handleSearch = (query: string) => {
+  //   console.log("Search query:", query);
+  // };
 
-                <main className="w-full bg-background ">{children}</main>
+  return (
+    <html lang="en">
+      <body
+        className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
+      >
+        <UserProvider>
+          <CommentProvider>
+            <Provider>
+              {/* Add NavbarComponent here */}
+              {/* <NavbarComponent onSearch={handleSearch} /> */}
+
+              <SidebarProvider>
+                <AppSidebar />
+                <main className="w-full bg-background pt-[72px]">{children}</main>
               </SidebarProvider>
               <footer>
                 <Footer />

@@ -36,8 +36,8 @@ export function CardComponent({
     id,
 }: CardData) {
     return (
-        <a href={`/content/${id}`}>
-            <Card className="rounded-[5px]">
+        <a href={`/content/${slug}`}>
+            <Card className="rounded-[5px] ">
                 <CardHeader className="space-y-3">
                     <div className="space-y-3">
                         <h2 className="text-xl font-medium tracking-normal text-primary">

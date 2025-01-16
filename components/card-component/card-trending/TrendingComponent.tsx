@@ -48,8 +48,11 @@ export default function Recommendations({ type }: RecommendationProps) {
     fetchData();
   }, [type]);
 
+  // Slice the items array to only include the first 4 items
+  const displayedItems = items.slice(0, 4);
+
   return (
-    <Card className="rounded-[5px]">
+    <Card className="rounded-[5px] ">
       <div className="py-2">
         <CardHeader>
           <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary">
@@ -59,10 +62,11 @@ export default function Recommendations({ type }: RecommendationProps) {
         </CardHeader>
         <CardContent>
           <ul className="space-y-4">
-            {items.map((item) => (
+            {displayedItems.map((item) => (
               <li key={item.id} className="flex items-start gap-2">
                 <span className="mt-4 h-2 w-2 shrink-0 rounded-full bg-primary" />
-                <Link href={`/content/${item.id}`} className="text-primary p-[0.3rem] rounded-[2px]  hover:bg-gray-100">
+                <Link href={`/content/${item.id}`} className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer"
+>
                   {item.title}
                 </Link>
               </li>

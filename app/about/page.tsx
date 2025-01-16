@@ -32,7 +32,7 @@ export default function about() {
         <main className="overflow-hidden relative z-10">
           {/* Hero Section */}
 
-          <section className=" mt-40">
+          <section className=" mt-28">
             <AnimatedBackground />
             {/* Main Content */}
             <div className=" grid grid-cols-2 gap-12 items-center  ">
