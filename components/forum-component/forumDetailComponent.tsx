@@ -41,7 +41,7 @@ import Preview from "../text-editor/preview";
 import { useCommentContext } from "@/lib/context/commentContext";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { toast } from "react-hot-toast";
-import { addBookmark } from "@/hooks/api-hook/user/bookmark";
+import { addBookmark, checkBookmark } from "@/hooks/api-hook/user/bookmark";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 
 const formSchema = z.object({
@@ -296,16 +296,26 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   };
 
   const {mutate: addToBookmark} = useMutation({
-    mutationFn: addBookmark
+    mutationFn: addBookmark,
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({queryKey: ["bookmarks"]})
+      toast.success(
+        variables.isBookmarked ? "អ្នកបានកត់ចំណាំសំណួរនេះដោយជោគជ័យ" : "អ្នកបានលុបចំណាំសំណួរនេះដោយជោគជ័យ"
+      )
+    }
   })
 
   const handleAddBookmark = (forumUuid : string) => {
     const bookmarkData = {
-        forumUuid: forumUuid,
+        forumSlug: slug,
     }
-
     addToBookmark(bookmarkData)
   }
+
+  const {data:checkBookmarkForum} = useQuery({
+    queryKey: ["bookmarks"],
+    queryFn: () => checkBookmark(slug),
+  })
 
 
 
@@ -385,8 +395,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               <MessageSquare className="w-6 h-6 text-gray-600" />
             </button>
             <button className="p-2 hover:bg-gray-100 rounded-full" onClick={() => handleAddBookmark(forum?.uuid)}>
-              <Bookmark className="w-6 h-6 text-gray-600" />
-            </button>
+            <Bookmark className={`w-6 h-6 font-bold ${checkBookmarkForum ? 'text-yellow-500' : 'text-gray-600'}`} />            </button>
             <button
               className="p-2 hover:bg-gray-100 rounded-full"
               onClick={handleShare}
