@@ -345,7 +345,7 @@ const CreateNewContent = () => {
                           value={tags.filter((tag) =>
                             field.value?.includes(tag.value)
                           )}
-                          onChange={(selectedOptions) => {
+                          onChange={(selectedOptions: { value: string }[]) => {
                             field.onChange(
                               selectedOptions.map((option) => option.value)
                             );

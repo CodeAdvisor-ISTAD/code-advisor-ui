@@ -10,6 +10,8 @@ type CommentContextType = {
     setMode: React.Dispatch<React.SetStateAction<CommentMode>>;
     answerUuid: string;
     setAnswerUuid: React.Dispatch<React.SetStateAction<string>>;
+    replyContent: string;
+    setReplyContent: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const CommentContext = createContext<CommentContextType>({
@@ -19,16 +21,20 @@ const CommentContext = createContext<CommentContextType>({
     setMode: () => {},
     answerUuid: '',
     setAnswerUuid: () => {},
+    replyContent: '',
+    setReplyContent: () => {},
+
 });
 
 export const CommentProvider = ({ children }: { children: React.ReactNode }) => {
     const [replyTo, setReplyTo] = useState<any>(null);
     const [mode, setMode] = useState<CommentMode>(null);
     const [answerUuid, setAnswerUuid] = useState<string>('');
+    const [replyContent, setReplyContent] = useState<string>('');
     
 
     return (
-        <CommentContext.Provider value={{ replyTo, setReplyTo, mode, setMode, answerUuid, setAnswerUuid }}>
+        <CommentContext.Provider value={{ replyTo, setReplyTo, mode, setMode, answerUuid, setAnswerUuid, replyContent, setReplyContent }}>
             {children}
         </CommentContext.Provider>
     );

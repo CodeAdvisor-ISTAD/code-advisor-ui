@@ -32,7 +32,20 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setSearchQuery(newQuery);
-    onSearch(newQuery);
+
+    if (newQuery.trim() === "") {
+      onSearch(""); // Show all when search is cleared
+    }
+  };
+
+  const handleSearchSubmit = () => {
+    onSearch(searchQuery);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+    }
   };
 
   const handleLogoClick = () => {
@@ -60,14 +73,10 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
                 className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none"
                 value={searchQuery}
                 onChange={handleSearchChange}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    onSearch(searchQuery); // Trigger search on Enter key
-                  }
-                }}
+                onKeyPress={handleKeyPress}
               />
               <button className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px]"
-               onClick={() => onSearch(searchQuery)}
+               onClick={handleSearchSubmit}
                >
               
                 <svg

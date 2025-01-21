@@ -10,6 +10,7 @@ import Provider from "./_provider";
 import { Toaster } from "react-hot-toast";
 import { CommentProvider } from "@/lib/context/commentContext";
 import { UserProvider, useUser } from "@/lib/context/userContext";
+import HighlightInitializer from "@/components/text-editor/HighlightInitializer";
 
 
 export default function RootLayout({
@@ -17,22 +18,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Mock function for onSearch (replace with your actual search logic)
-  // const handleSearch = (query: string) => {
-  //   console.log("Search query:", query);
-  // };
+
+  // Implement the search handler function
+  const handleSearch = (query: string) => {
+    console.log("Search query:", query);
+    // Add logic to handle search, such as updating state or navigating
+  };
 
   return (
     <html lang="en">
       <body
         className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
       >
+        <HighlightInitializer />
         <UserProvider>
           <CommentProvider>
             <Provider>
-               <NavbarComponent onSearch={function (query: string): void {
-                throw new Error("Function not implemented.");
-              } }></NavbarComponent>
+              {/* Pass the search handler function to NavbarComponent */}
+              <NavbarComponent onSearch={handleSearch} />
             
               <SidebarProvider>
                 <AppSidebar />

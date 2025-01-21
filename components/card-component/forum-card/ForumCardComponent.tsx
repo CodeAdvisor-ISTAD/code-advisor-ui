@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/pop-over";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 
 interface ForumCardType {

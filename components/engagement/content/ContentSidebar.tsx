@@ -102,6 +102,7 @@ export function ContentSidebar({
                 <SidebarMenuItem>
                   <div className="mx-4 justify-self-end">
                     <ReactionButton
+                    
                       reactions={localReactions}
                       onReactionChange={handleReactionClick}
                     />
