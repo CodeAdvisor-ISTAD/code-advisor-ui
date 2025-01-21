@@ -11,8 +11,10 @@ import { getCommentsByContentId } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
+
 export default function Page({ params }: { params: { slug: string } }) {
   const [slug, setSlug] = useState<string | null>(null);
+  // const {user} = useUser()
 
   const contentId = "678378aecde7c858c76a0290"; // Example contentId, dynamically set as needed
   const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed

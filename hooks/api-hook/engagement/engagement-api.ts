@@ -1,9 +1,15 @@
 import axios from "axios";
 
+// no login
+const BASE_URL = "http://192.168.56.1:8086"
+// login 
+// const BASE_URL = "http://202.178.125.77:1168/"
+
+
 // fetch comment by contentId
 export const getComment = async (contentId: string) => {
   const response = await fetch(
-    `http://192.168.56.1:8086/api/v1/engagement/comments/content/${contentId}`
+    `${BASE_URL}/api/v1/engagement/comments/content/${contentId}`
   );
   if (response.ok) {
     const data = await response.json();
@@ -28,7 +34,7 @@ export const createComment = async (
 ) => {
   try {
     const response = await fetch(
-      `http://192.168.56.1:8086/api/v1/engagement/comments`,
+      `${BASE_URL}/api/v1/engagement/comments`,
       {
         method: "POST",
         headers: {
@@ -61,7 +67,7 @@ export const createComment = async (
 export const deleteComment = async (commentId: string) => {
   try {
     const response = await fetch(
-      `http://192.168.56.1:8086/api/v1/engagement/comments/${commentId}`,
+      `${BASE_URL}/api/v1/engagement/comments/${commentId}`,
       {
         method: "DELETE",
       }
@@ -88,7 +94,7 @@ export const editComment = async (
   updatedContent: { userId: string; contentId: string; body: string }
 ) => {
   const response = await fetch(
-    `http://192.168.56.1:8086/api/v1/engagement/comments/${commentId}`,
+    `${BASE_URL}/api/v1/engagement/comments/${commentId}`,
     {
       method: "PUT",
       headers: {
@@ -113,7 +119,7 @@ export const createReply = async (
   replyData: { userId: string; body: string }
 ) => {
   const response = await fetch(
-    `http://192.168.56.1:8086/api/v1/engagement/replies/${commentId}`,
+    `${BASE_URL}/api/v1/engagement/replies/${commentId}`,
     {
       method: "POST",
       headers: {
@@ -141,7 +147,7 @@ export const editReply = async (
 ) => {
   try {
     const response = await axios.put(
-      `http://192.168.56.1:8086/api/v1/engagement/replies/${replyId}`,
+      `${BASE_URL}/api/v1/engagement/replies/${replyId}`,
       replyData
     );
     return response.data; // Return the updated reply data
@@ -155,7 +161,7 @@ export const editReply = async (
 export const deleteReply = async (replyId: string) => {
   try {
     const response = await fetch(
-      `http://192.168.56.1:8086/api/v1/engagement/replies/${replyId}`,
+      `${BASE_URL}/api/v1/engagement/replies/${replyId}`,
       {
         method: "DELETE",
       }
@@ -197,7 +203,7 @@ export const deleteReply = async (replyId: string) => {
 // };
 
 export const handleReaction = async (contentId, userId, reactionType, ownerId, slug) => {
-  const endpoint = `http://192.168.56.1:8086/api/v1/reactions/content/${contentId}`;
+  const endpoint = `${BASE_URL}/api/v1/reactions/content/${contentId}`;
   const payload = {
     contentId,
     userId,
@@ -219,7 +225,7 @@ export const handleReaction = async (contentId, userId, reactionType, ownerId, s
 
 // get reaction
 export const getReaction = async (contentId) => {
-  const endpoint = `http://192.168.56.1:8086/api/v1/reactions/content/${contentId}`;
+  const endpoint = `${BASE_URL}/api/v1/reactions/content/${contentId}`;
 
   try {
     const response = await axios.get(endpoint, {
@@ -235,7 +241,7 @@ export const getReaction = async (contentId) => {
 export const getReactionsByContentId = async (contentId: string) => {
   try {
     const response = await fetch(
-      `http://192.168.56.1:8086/api/v1/reactions/content/${contentId}`
+      `${BASE_URL}/api/v1/reactions/content/${contentId}`
     );
 
     if (!response.ok) {
@@ -259,7 +265,7 @@ export const getReactionsByContentId = async (contentId: string) => {
 export const deleteReaction = async (contentId: string): Promise<void> => {
   try {
     // Make DELETE request to remove the reaction for the given contentId
-    const url = `http://192.168.56.1:8086/api/v1/reactions/${contentId}`;
+    const url = `${BASE_URL}/api/v1/reactions/${contentId}`;
     await axios.delete(url);
 
     console.log(`Reaction with contentId ${contentId} has been deleted.`);
@@ -271,7 +277,7 @@ export const deleteReaction = async (contentId: string): Promise<void> => {
 
 export const getUserReaction = async (contentId: string, userId: string) => {
   try {
-    const response = await axios.get(`http://192.168.56.1:8086/api/v1/reactions/${contentId}/user/${userId}`);
+    const response = await axios.get(`${BASE_URL}/api/v1/reactions/${contentId}/user/${userId}`);
     return response.data.reaction; // This should be the reaction type like "love", "fire", or "like"
   } catch (error) {
     console.error("Error fetching user reaction:", error);
@@ -291,7 +297,7 @@ export const createReport = async (report: {
   url?: string; // Optional field for the report URL
 }) => {
   try {
-    const response = await fetch(`http://192.168.56.1:8086/api/v1/reports`, {
+    const response = await fetch(`${BASE_URL}/api/v1/reports`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
