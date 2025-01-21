@@ -13,8 +13,3 @@ services:
       - GENERATE_SOURCEMAP=false
     networks:
       - code-advisors-network
-
-networks:
-  default:
-    external:
-      name: code-advisors-network
