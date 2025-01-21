@@ -43,7 +43,7 @@ export function NavbarLogin({ user }: { user: any }) {
 
         console.log("User UUID: ", userUuid);
 
-        const wsService = new WebSocketService('http://localhost:8084/ws', userUuid);
+        const wsService = new WebSocketService('http://127.0.0.1:8168/notifications/ws', userUuid);
 
         wsService.onNotification((notification) => {
             setNotifications((prev) => [notification, ...prev]);
