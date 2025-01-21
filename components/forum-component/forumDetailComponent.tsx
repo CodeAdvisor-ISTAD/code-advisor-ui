@@ -41,7 +41,11 @@ import Preview from "../text-editor/preview";
 import { useCommentContext } from "@/lib/context/commentContext";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { toast } from "react-hot-toast";
-import { addBookmark, checkBookmark } from "@/hooks/api-hook/user/bookmark";
+import {
+  addBookmark,
+  checkBookmarkStatus,
+  unBookmarkForum,
+} from "@/hooks/api-hook/user/bookmark";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 
 const formSchema = z.object({
@@ -56,9 +60,9 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   const { replyTo, mode, setMode, setReplyTo, answerUuid, replyContent } =
     useCommentContext();
   const { data: user } = useQuery({
-          queryKey: ["authProfile"],
-          queryFn: fetchUserProfile,
-      })
+    queryKey: ["authProfile"],
+    queryFn: fetchUserProfile,
+  });
 
   const { data: forum } = useQuery({
     queryKey: ["forum", slug],
@@ -295,29 +299,13 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     }
   };
 
-  const {mutate: addToBookmark} = useMutation({
-    mutationFn: addBookmark,
-    onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({queryKey: ["bookmarks"]})
-      toast.success(
-        variables.isBookmarked ? "អ្នកបានកត់ចំណាំសំណួរនេះដោយជោគជ័យ" : "អ្នកបានលុបចំណាំសំណួរនេះដោយជោគជ័យ"
-      )
-    }
-  })
-
-  const handleAddBookmark = (forumUuid : string) => {
-    const bookmarkData = {
-        forumSlug: slug,
-    }
-    addToBookmark(bookmarkData)
-  }
-
-  const {data:checkBookmarkForum} = useQuery({
-    queryKey: ["bookmarks"],
-    queryFn: () => checkBookmark(slug),
-  })
+  const { data: checkStatus, isLoading: isCheckingStatus } = useQuery({
+    queryKey: ["bookmarks", slug],
+    queryFn: () => checkBookmarkStatus(slug), // You'll need to implement this
+  });
 
 
+  const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
     <div className="  ml-[264px] w-full">
@@ -394,8 +382,17 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             <button className="p-2 hover:bg-gray-100 rounded-full">
               <MessageSquare className="w-6 h-6 text-gray-600" />
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-full" onClick={() => handleAddBookmark(forum?.uuid)}>
-            <Bookmark className={`w-6 h-6 font-bold ${checkBookmarkForum ? 'text-yellow-500' : 'text-gray-600'}`} />            </button>
+            <button
+              className="p-2 hover:bg-gray-100 rounded-full"
+              onClick={toggleBookmark}
+              disabled={isLoading || isCheckingStatus}
+            >
+              <Bookmark
+                className={`w-6 h-6 font-bold ${
+                  checkStatus?.bookmarked ? "text-yellow-500" : "text-gray-600"
+                }`}
+              />
+            </button>
             <button
               className="p-2 hover:bg-gray-100 rounded-full"
               onClick={handleShare}
@@ -412,7 +409,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-primary text-xl font-bold​ ​">
+                <FormLabel className="text-primary text-xl font-bold">
                   ការឆ្លើយតបរបស់អ្នក
                 </FormLabel>
                 <FormDescription className="text-sm">
@@ -476,4 +473,54 @@ const UserProfile = ({ authorUsername, createdAt }) => {
       </div>
     </div>
   );
+};
+
+// First, define the type for the bookmark response
+type BookmarkResponse = {
+  id: string;
+  authorUuid: string;
+  forumSlug: string;
+  contentSlug: string;
+  isBookmarked: boolean;
+  isDeleted: boolean;
+  createdAt: string;
+};
+
+const useBookmarkMutations = (slug: string) => {
+  const queryClient = useQueryClient();
+
+  const unBookmarkMutation = useMutation({
+    mutationFn: unBookmarkForum,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bookmarks"] });
+    },
+  });
+
+  const bookmarkMutation = useMutation({
+    mutationFn: addBookmark,
+    onSuccess: (data: BookmarkResponse) => {
+      queryClient.invalidateQueries({ queryKey: ["bookmarks"] });
+    },
+    onError: (error: any) => {
+      // If bookmark already exists (409), try to unbookmark
+      if (error.error.code === 409) {
+        unBookmarkMutation.mutate(slug);
+      }
+    },
+  });
+
+  const toggleBookmark = () => {
+    const bookmark = {
+      forumSlug: slug,
+    };
+
+    bookmarkMutation.mutate(bookmark);
+  };
+
+  return {
+    toggleBookmark,
+    isLoading: bookmarkMutation.isPending || unBookmarkMutation.isPending,
+    isError: bookmarkMutation.isError || unBookmarkMutation.isError,
+    error: bookmarkMutation.error || unBookmarkMutation.error,
+  };
 };

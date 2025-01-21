@@ -21,16 +21,22 @@ import {
 } from "@/components/ui/pop-over";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { totalAnswersByQuestion, totalUpVotes } from "@/hooks/api-hook/forum/forum-api";
 import { getTagsByQuestionUuid } from "@/hooks/api-hook/forum/tags-api";
+import { useState } from "react";
+import { createHistory } from "@/hooks/api-hook/user/history";
 
 export function ForumCardComponent({
     forumCardData,
 }: {
     forumCardData: ForumCardType;
 }) {
+
+    const [clicked, setClicked] = useState(false); // State to track if the card is clicked
+    const router = useRouter();
+
     const actions = [
         {
             icon: <Bookmark className="w-4 h-4" />,
@@ -49,13 +55,40 @@ export function ForumCardComponent({
         },
     ];
 
-    const router = useRouter();
+    // Define the mutation for creating history
+    const { mutate: submitHistory } = useMutation({
+        mutationKey: ["history"],
+        mutationFn: (forumSlug: any) => createHistory(forumSlug), // Replace with your actual API call
+        onSuccess: () => {
+            console.log("History submitted successfully");
+        },
+        onError: (error) => {
+            console.error("Error submitting history:", error);
+        },
+    });
 
     const handleNavigate = (slug: string) => {
-        router.push(`/forum/${slug}`);
-    };
+        if (!clicked) {
+            setClicked(true); // Set clicked to true to prevent multiple clicks
 
-    console.log(" forumCardData : ", forumCardData);
+            // Navigate to the forum page immediately
+            router.push(`/forum/${slug}`);
+
+            // Submit history after 3 seconds
+            setTimeout(() => {
+                // Simulate API call to add history
+                console.log("Submitting history for:", forumCardData.slug);
+
+                const data = {
+                    forumSlug: forumCardData.slug
+                }
+                
+                submitHistory(data);
+                // Replace the console.log with your actual API call
+                // Example: addHistory(forumCardData.slug);
+            }, 7000); // Delay of 7 seconds
+        }
+    };
 
     const { data: userData } = useQuery({
         queryKey: ['user'],
@@ -81,7 +114,7 @@ export function ForumCardComponent({
     return (
         <div
             className=" bg-white rounded-[5px] shadow-sm p-6 cursor-pointer"
-            onClick={() => handleNavigate(forumCardData.slug)}
+            onClick={() => handleNavigate(forumCardData?.slug)}
         >
             {/* Header Section */}
             <div className="flex items-center justify-between mb-4">

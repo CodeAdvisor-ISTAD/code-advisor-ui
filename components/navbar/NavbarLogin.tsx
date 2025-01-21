@@ -15,7 +15,6 @@ import Image from "next/image";
 import { FiBell, FiEdit2 } from "react-icons/fi";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { UseFetchProfile } from "@/hooks/api-hook/user/user-service";
 
 
 export function NavbarLogin({ user }: { user: any }) {

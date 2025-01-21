@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/selectContent";
 import { FaFire, FaHeart, FaRegHeart, FaThumbsUp } from "react-icons/fa";
-import { Reactions } from "@/types/engagement";
+
 
 interface ReactionButtonProps {
   reactions: Reactions; // Reactions state
@@ -62,7 +62,7 @@ export function ReactionButton({
           <SelectItem
             value={"love"}
             className="w-10"
-            onClick={() => handleReactionClick("love")}
+            onClick={() => handleReactionClick("loveCount")}
           >
             <FaHeart className="text-2xl text-pink-700" />
           </SelectItem>
@@ -70,7 +70,7 @@ export function ReactionButton({
           <SelectItem
             value={"fire"}
             className="w-10"
-            onClick={() => handleReactionClick("fire")}
+            onClick={() => handleReactionClick("fireCount")}
           >
             <FaFire className="text-2xl text-red-500" />
           </SelectItem>
@@ -78,7 +78,7 @@ export function ReactionButton({
           <SelectItem
             value={"like"}
             className="w-10"
-            onClick={() => handleReactionClick("like")}
+            onClick={() => handleReactionClick("likeCount")}
           >
             <FaThumbsUp className="text-2xl text-blue-500" />
           </SelectItem>

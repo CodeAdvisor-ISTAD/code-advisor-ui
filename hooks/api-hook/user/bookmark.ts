@@ -6,25 +6,10 @@ const addBookmark = async function createBookmaerk(bookmark) {
     },
     body: JSON.stringify(bookmark),
   });
-  if (response.ok) {
-    const data = await response.json();
-    return data;
-  } else {
-    return null;
-  }
-};
-
-const checkBookmark = async function checkBookmark(
-  forumSlug: string 
-) {
-  const response = await fetch(
-    `/users/api/v1/bookmarks/check-bookmark?forumSlug=${forumSlug}`,
-    {
-      method: "GET",
-    }
-  );
   const data = await response.json();
-
+  if(data.status === 409){
+    unBookmarkForum(bookmark?.forumSlug);
+  }
   if (response.ok) {
     return data;
   } else {
@@ -32,4 +17,28 @@ const checkBookmark = async function checkBookmark(
   }
 };
 
-export { addBookmark, checkBookmark };
+
+const unBookmarkForum = async function unBookmarkForum(forumSlug: string) {
+  const response = await fetch(`/users/api/v1/bookmarks/unBookmark?forumSlug=${forumSlug}`, {
+    method: "GET",
+  });
+  const data = await response.json();
+
+  if (response.ok) {
+    return data;
+  } else {
+    throw data;
+  }
+}
+
+const checkBookmarkStatus = async (forumSlug: string) => {
+  try {
+    const response = await fetch(`/users/api/v1/bookmarks/status?forumSlug=${forumSlug}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return false;
+  }
+};
+
+export { addBookmark , unBookmarkForum, checkBookmarkStatus };

@@ -17,12 +17,9 @@ const Preview: React.FC<PreviewProps> = React.memo(({ content }) => {
     if (containerRef.current) {
       // Find all <pre><code> blocks inside the container
       const codeBlocks = containerRef.current.querySelectorAll("pre code");
-      console.log("codeBlocks", codeBlocks);
-
       // Apply syntax highlighting to each block
       codeBlocks.forEach((block) => {
         (window as any).hljs.highlightElement(block);
-        console.log("block", block);
       });
     }
   };

@@ -7,9 +7,7 @@ import hljs from "highlight.js";
 const HighlightInitializer = () => {
   useEffect(() => {
     // Initialize highlight.js
-    
     (window as any).hljs = hljs;
-    console.log("highlight.js initialized");
   }, []);
 
   return null; // This component doesn't render anything
