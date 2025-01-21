@@ -13,3 +13,8 @@ services:
       - GENERATE_SOURCEMAP=false
     networks:
       - code-advisors-network
+
+
+networks:
+  code-advisors-network:
+    external: true
