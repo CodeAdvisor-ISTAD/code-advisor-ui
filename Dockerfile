@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:latest AS builder
+FROM node:22.13.0-alpine3.20 AS builder
 
 RUN apk add --no-cache libc6-compat
 
@@ -19,7 +19,7 @@ RUN npm i --force
 RUN npm run build
 
 # Multi-stage build process
-FROM node:latest
+FROM node:22.13.0-alpine3.20
 
 # update and install latest dependencies, add dumb-init package
 # add a non-root user
