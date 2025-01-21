@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -55,6 +55,8 @@ export default function EditUserInformationForm(
       queryClient.invalidateQueries({
         queryKey: ["profile"],
       });
+      // Redirect immediately after successful update
+      router.push(`/user-profile/${userInformation?.username}`);
     },
   });
 
@@ -88,17 +90,13 @@ export default function EditUserInformationForm(
       profileImage: userInformation?.profileImage || "",
       isDeleted: userInformation?.isDeleted || false,
       coverColor: userInformation?.coverColor || "",
+      
     },
   });
-
   async function onSubmit(data: any) {
-    console.log("data : ", data);
+    console.log("data: ", data);
     updateUser(data);
-    if (isSuccess) {
-      router.push(`/user-profile/${userInformation?.username}`);
-    }
   }
-
   const handleRedirect = () => {
     router.push(`/user-profile/${userInformation?.username}`);
   };

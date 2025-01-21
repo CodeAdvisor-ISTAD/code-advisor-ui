@@ -4,12 +4,15 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Bookmark } from 'lucide-react'
 import Image from "next/image"
 
+
 interface ArticleCardProps {
-  title: string
-  description: string
-  tags: string[]
-  thumbnail: string
-  isBookmarked: boolean
+  id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  tags1: string;
+  image: string;
+  created_date: string;
   onToggleBookmark: () => void
 }
 
@@ -17,8 +20,10 @@ export function ArticleCard({
   title,
   description,
   tags,
-  thumbnail,
-  isBookmarked,
+  tags1,
+  image,
+  created_date,
+  id,
   onToggleBookmark
 }: ArticleCardProps) {
   return (
@@ -26,7 +31,7 @@ export function ArticleCard({
       <CardContent className="p-6 space-y-4">
         <div className="aspect-video relative overflow-hidden">
           <Image
-            src={thumbnail}
+            src={image}
             alt={title}
             fill
             className="object-cover"
@@ -49,7 +54,7 @@ export function ArticleCard({
           className="absolute bottom-4 right-2 text-yellow-500 hover:text-yellow-600 bg-white/80 hover:bg-white z-10"
           onClick={onToggleBookmark}
         >
-          <Bookmark className="h-5 w-5" fill={isBookmarked ? "currentColor" : "none"} />
+          <Bookmark className="h-5 w-5" fill={Bookmark ? "currentColor" : "none"} />
         </Button>
       </CardContent>
     </Card>

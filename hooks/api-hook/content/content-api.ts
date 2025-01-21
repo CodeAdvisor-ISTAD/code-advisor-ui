@@ -34,4 +34,35 @@ const getAllForums = async function fetchAllForums() {
     }
 }
 
-export { createContent, getContent, getAllForums };
+// get content by author uuid
+const getContentByAuthorUuid = async function getContentByAuthorUuid(
+    authorUuid: string,
+    page: number,
+    size: number
+  ) {
+    const response = await fetch(
+      `/contents//api/v1/contents/author/${authorUuid}?page=${page}&size=${size}`
+    );
+    const data = await response.json();
+  
+    if (response.ok) {
+      return data;
+    } else {
+      throw data;
+    }
+  };
+
+// get bookmarked content
+const getBookmarkedContent = async function getBookmarkedContent() {
+    const response = await fetch(`/users/api/v1/bookmarks`);
+    const data = await response.json();
+  
+    if (response.ok) {
+      return data;
+    } else {
+      throw data;
+    }
+    
+}
+  
+export { createContent, getContent, getAllForums, getContentByAuthorUuid, getBookmarkedContent };

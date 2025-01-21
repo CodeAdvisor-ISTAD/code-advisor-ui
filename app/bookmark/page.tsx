@@ -1,143 +1,137 @@
-'use client'
+"use client";
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BookmarkCard } from "@/components/card-component/bookmark/bookmark-card"
-import { ArticleCard } from "@/components/card-component/bookmark/article-card"
+import { useEffect, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BookmarkCard } from "@/components/card-component/bookmark/bookmark-card";
+import { ArticleCard } from "@/components/card-component/bookmark/article-card";
+import { useQuery } from "@tanstack/react-query";
+import { getBookmarkedContent } from "@/hooks/api-hook/content/content-api";
+import { getContentByAuthorUuid } from "@/hooks/api-hook/content/content-api";
 
-const mockArticles = [
-  {
-    id: 1,
-    title: "Top 5 JavaScript Features You're Not Using Enough",
-    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
-    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
-  },
-  {
-    id: 2,
-    title: "Docker Tutorial: Master Docker from Scratch",
-    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
-    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
-  },
-  {
-    id: 3,
-    title: "Docker Tutorial: Master Docker from Scratch",
-    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
-    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
-  },
-  {
-    id: 4,
-    title: "Docker Tutorial: Master Docker from Scratch",
-    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
-    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
-  },
-  {
-    id: 5,
-    title: "Top 5 JavaScript Features You're Not Using Enough",
-    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
-    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
-  },
-  {
-    id: 6,
-    title: "Top 5 JavaScript Features You're Not Using Enough",
-    description: "In this blog post we'll learn about Dependency Injection (DI) and how to use it. We can do this using constructor and setter injection. Also...",
-    image: "https://images.shiksha.com/mediadata/images/articles/1706432309php43BZoB.jpeg",
-    tags: ["java", "javascript", "programming"],
-    isBookmarked: true
-  },
-  // Add more mock articles as needed
-]
+export default function BookmarkPage({ authorUuid }: { authorUuid: string }) {
+  const [articles, setArticles] = useState<any[]>([]);
+  const [forumPosts, setForumPosts] = useState<any[]>([]);
+  const [filteredContentData, setFilteredContentData] = useState<any[]>([]);
 
-const mockForumPosts = [
-  {
-    id: 1,
-    author: {
-      name: "Linuxoid",
-      avatar: "/placeholder.svg"
-    },
-    title: "What is a difference between Java and JavaScript?",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bibendum vitae etiam lectus amet enim.",
-    tags: ["java", "javascript", "programming"],
-    metrics: {
-      views: 125,
-      likes: 15,
-      comments: 155
-    },
-    timeAgo: "25 min ago",
-    isBookmarked: true
-  },
-  // Add more mock forum posts as needed
-]
+  // Fetch bookmarked content
+  const { data: contentBookmark } = useQuery({
+    queryKey: ["ContentBookmark"],
+    queryFn: () => getBookmarkedContent(),
+  });
 
-export default function BookmarkPage() {
-  const [articles, setArticles] = useState(mockArticles)
-  const [forumPosts, setForumPosts] = useState(mockForumPosts)
+  // Fetch content by author UUID
+  const { data: contentData } = useQuery({
+    queryKey: ["ContentOwner"],
+    queryFn: () => getContentByAuthorUuid(authorUuid, 0, 10),
+  });
+
+  // Combine and filter articles that are bookmarked
+  useEffect(() => {
+    if (contentData) {
+      setFilteredContentData(contentData.content);
+    }
+    if (contentBookmark && contentData) {
+      const bookmarkedArticles = contentData.filter((content: any) =>
+        contentBookmark.some(
+          (bookmark: any) =>
+            bookmark.id === content.id && bookmark.type === "article"
+        )
+      );
+      setArticles(bookmarkedArticles);
+
+      const bookmarkedForumPosts = contentData.filter((content: any) =>
+        contentBookmark.some(
+          (bookmark: any) =>
+            bookmark.id === content.id && bookmark.type === "forum"
+        )
+      );
+      setForumPosts(bookmarkedForumPosts);
+    }
+  }, [contentBookmark, contentData]);
 
   const handleToggleArticleBookmark = (id: number) => {
-    setArticles(articles.map(article => 
-      article.id === id ? { ...article, isBookmarked: !article.isBookmarked } : article
-    ))
-  }
+    setArticles((prevArticles) =>
+      prevArticles.map((article) =>
+        article.id === id
+          ? { ...article, isBookmarked: !article.isBookmarked }
+          : article
+      )
+    );
+  };
 
   const handleToggleForumPostBookmark = (id: number) => {
-    setForumPosts(forumPosts.map(post => 
-      post.id === id ? { ...post, isBookmarked: !post.isBookmarked } : post
-    ))
-  }
+    setForumPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === id ? { ...post, isBookmarked: !post.isBookmarked } : post
+      )
+    );
+  };
 
   return (
-    <div className="container mx-auto max-w-5xl ml-[364px] mb-5 mt-[76px]">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold md:text-xl text-primary">Bookmark</h1>
-        
-        <Tabs defaultValue="article" className="w-full">
-          <TabsList className="w-full sm:w-auto">
-            <TabsTrigger value="article" className="text-primary flex-1 sm:flex-none">Article</TabsTrigger>
-            <TabsTrigger value="forum" className="text-primary flex-1 sm:flex-none">Forum</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="article">
-            <div className="grid gap-2 sm:grid-cols-3">
-              {articles.map((article) => (
-                <ArticleCard
-                  key={article.id}
-                  title={article.title}
-                  description={article.description}
-                  tags={article.tags}
-                  thumbnail={article.image}
-                  isBookmarked={article.isBookmarked}
-                  onToggleBookmark={() => handleToggleArticleBookmark(article.id)}
-                />
-              ))}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="forum" className="space-y-4 h-screen">
-            {forumPosts.map((post) => (
+    <><div className="container mx-auto max-w-5xl ml-[364px] mb-5 mt-[76px] h-screen"></div><div className="space-y-2">
+      <h1 className="text-2xl font-bold md:text-xl text-primary">
+        កំណត់ចំណាំ
+      </h1>
+
+      <Tabs defaultValue="article" className="w-full">
+        <TabsList className="w-full sm:w-auto">
+          <TabsTrigger
+            value="article"
+            className="text-primary flex-1 sm:flex-none"
+          >
+            មាតិកា
+          </TabsTrigger>
+          <TabsTrigger
+            value="forum"
+            className="text-primary flex-1 sm:flex-none"
+          >
+            សំណួរ-ចម្លើយ
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="article">
+          {contentBookmark && contentData ? (
+            articles.length > 0 ? (
+              <div className="grid gap-2 sm:grid-cols-3">
+                {articles.map((article) => (
+                  <ArticleCard
+                    key={article.id}
+                    id={article.authorUuid}
+                    title={article.title}
+                    description={article.description}
+                    tags={article.tags}
+                    image={article.thumbnail}
+                    onToggleBookmark={() => handleToggleArticleBookmark(article.id)}
+                    tags1={""}
+                    created_date={article.created_date} />
+                ))}
+              </div>
+            ) : (
+              <p>No bookmarked articles found.</p>
+            )
+          ) : (
+            <p>Loading...</p>
+          )}
+        </TabsContent>
+
+        <TabsContent value="forum" className="space-y-4 h-screen">
+          {forumPosts.length > 0 ? (
+            forumPosts.map((post) => (
               <BookmarkCard
                 key={post.id}
-                author={post.author}
+                id={post.id}
                 title={post.title}
                 description={post.description}
                 tags={post.tags}
-                metrics={post.metrics}
-                timeAgo={post.timeAgo}
-                isBookmarked={post.isBookmarked}
-                onToggleBookmark={() => handleToggleForumPostBookmark(post.id)}
-              />
-            ))}
-          </TabsContent>
-        </Tabs>
-      </div>
-    </div>
-  )
+                image={post.thumbnail}
+                tags1={""}
+                created_date={""} />
+            ))
+          ) : (
+            <p>No bookmarked forum posts found.</p>
+          )}
+        </TabsContent>
+      </Tabs>
+    </div></>
+  );
 }

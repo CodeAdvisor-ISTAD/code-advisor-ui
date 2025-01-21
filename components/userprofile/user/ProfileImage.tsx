@@ -14,6 +14,7 @@ import {useRouter} from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 import { uploadProfileImage } from "@/hooks/api-hook/user/user-service";
+import BadgeComponent from "./badge/BadgeComponent";
 
 
 interface ProfileImageProps {
@@ -109,8 +110,8 @@ export default function ProfileImage({
 
   return (
     <div>
-      <div className="flex flex-row absolute -bottom-28 left-8">
-        <div className="relative w-[200px] h-[200px] rounded-full bg-white overflow-hidden bottom-2">
+      <div className="flex flex-row absolute lg:-bottom-28 -bottom-20 left-8">
+        <div className="relative lg:w-[200px] lg:h-[200px] w-[125px] h-[125px] rounded-full bg-white overflow-hidden bottom-2">
           <Image
             src={
               tempImage ||
@@ -121,7 +122,7 @@ export default function ProfileImage({
                   profilePlaceholder.src)
             }
             alt="Profile"
-            className="object-cover rounded-full border-4 border-gray-200 w-[200px] h-[200px]"
+            className="object-cover rounded-full border-4 border-gray-200 lg:w-[200px] lg:h-[200px] w-[100px] h-[100px]"
             fill
           />
           <input
@@ -135,17 +136,17 @@ export default function ProfileImage({
         {!disableButton && (
           <button
             type="button"
-            className="absolute bottom-3 left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-200 text-white rounded-full hover:bg-gray-300 transition-colors duration-300"
+            className="absolute lg:bottom-3 lg:left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-200 text-white rounded-full hover:bg-gray-300 transition-colors duration-300"
             onClick={() => document.getElementById("avatarInput")?.click()}
           >
             <ImageUp className="w-5 h-5 text-primary" />
           </button>
         )}
         {/* Profile Name and Username */}
-        <div className="flex items-center justify-between absolute pl-56 top-[105px] w-[750px]">
+        <div className="flex items-center justify-between absolute lg:pl-56 pl-[150px] lg:top-[105px] top-[60px] w-[400px] lg:w-[750px]">
           <div>
-            <div className="flex gap-2 flex-row">
-              <h2 className="text-3xl font-bold">{profileAuth?.fullName}</h2>
+            <div className="flex gap-2 flex-row w-full mx-auto">
+              <h2 className="lg:text-3xl text-xl font-bold">{profileAuth?.fullName}</h2>
               {/* <HoverCard>
                 <HoverCardTrigger className="flex cursor-pointer items-center text-3xl">
                   ✨
@@ -156,7 +157,7 @@ export default function ProfileImage({
               </HoverCard>  */}
               <BadgeComponent />
             </div>
-            <p className="text-lg text-muted-foreground">
+            <p className="lg:text-lg text-xs text-muted-foreground">
               @{profileAuth?.username}
             </p>
           </div>

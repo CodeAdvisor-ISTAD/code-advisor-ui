@@ -205,7 +205,7 @@ const totalAnswersByQuestion = async function getTotalAnswersByQuestion(question
     }
 }
 
-const getQuestionByOwner = async function getQuestionByOwner(page : number, size: number) {
+const getQuestionByOwner = async function getQuestionByOwner(username: string, page: number, size: number) {
     const response = await fetch(`/forums/api/v1/questions/owner?page=${page}&size=${size}`);
     const data = await response.json();
 
@@ -216,6 +216,7 @@ const getQuestionByOwner = async function getQuestionByOwner(page : number, size
     }
 }
 
+// get question by author name
 const getQuestionByAuthorName = async function getQuestionByAuthorName(authorName : string, page : number, size: number) {
     const response = await fetch(`/forums/api/v1/questions/author/${authorName}?page=${page}&size=${size}`);
     const data = await response.json();

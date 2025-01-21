@@ -16,7 +16,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     queryFn: () => getContent(slug.toString()),
   });
 
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -26,8 +25,6 @@ export default function Page({ params }: { params: { slug: string } }) {
   }
 
   console.log(data.content);
-
-
 
   return (
     <main className="flex mx-auto mt-[80px] pb-4 bg-gray-100 w-full px-[100px]">
@@ -47,8 +44,16 @@ export default function Page({ params }: { params: { slug: string } }) {
         communityEngagement={data?.communityEngagement}
         content={data?.content}
         createdAt={data?.createdDate}
+        slug={""}
+        keywords={""}
+        isDraft={false}
+        isArchived={false}
+        isDeleted={false}
       />
-      <CommentSection id={slug} comment={data?.comment} />
+      <CommentSection
+        id={Array.isArray(slug) ? slug[0] : slug}
+        comment={data?.comment}
+      />
       <PrismLoader />
     </main>
   );

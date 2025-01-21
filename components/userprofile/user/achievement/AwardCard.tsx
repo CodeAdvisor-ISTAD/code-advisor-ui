@@ -31,7 +31,7 @@ export default function AwardCard(achievement){
   // console.log("achievementData", achievementData);
 
   return (
-    <Card className="p-6 flex items-center justify-between xs:w-[400px] lg:w-[450px]">
+    <Card className="p-6 flex items-center justify-between w-full">
       <div className="flex flex-col items-center gap-1">
         <span className="text-5xl font-bold">
           {convertToKhmerNumerals(achievement?.achievement?.totalPoints ? achievement?.achievement?.totalPoints : 0)}

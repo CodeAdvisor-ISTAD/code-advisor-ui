@@ -49,13 +49,13 @@ export default function UserActivityPoints(achievement) {
 
   return (
     <div className="w-full max-w-3xl space-y-4 justify-center items-center flex flex-col">
-      <div className="flex items-center w-[400px] justify-center">
+      <div className="flex items-center lg:w-[375px] w-[325px] justify-center">
         {dataBlocks.map(
           ({ component: Component, number, text, color }, index) => (
             <React.Fragment key={index}>
               <Component number={arabicToKhmer(number)} text={text} />
               {color && (
-                <div className="flex lg:w-full xs:w-16 items-center">
+                <div className="flex w-full items-center">
                   <div className={`h-1 w-full ${color} rounded-sm`}></div>
                 </div>
               )}

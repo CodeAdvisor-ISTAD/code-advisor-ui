@@ -7,16 +7,20 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface CardData {
   id: string;
+  authorUuid: string;
   title: string;
   description: string;
   tags: string;
   tags1: string;
   image: string;
   created_date: string;
+  slug: string;
 }
 
-export function BookmarkCard({
+export function AuthorCardComponent({
   title,
+  slug,
+  authorUuid,
   description,
   tags,
   tags1,
@@ -25,8 +29,8 @@ export function BookmarkCard({
   id,
 }: CardData) {
   return (
-    <a href={`/content/${id}`}>
-      <Card className="bg-white rounded-[5px] w-[680px]">
+    <a href={`/content/${slug}`}>
+      <Card className="bg-white rounded-[5px] w-full">
         <div className="flex flex-col justify-between">
           <CardContent className="pt-4 flex flex-row justify-between">
             <div className="">

@@ -28,10 +28,10 @@ export default function AchievementLevelComponent({ userInformation, disableButt
 
   const { data } = useFetchAchievementLevel(userInformation?.id);
   return (
-    <Card className="xs:w-[450px] lg:w-full h-fit bg-white">
+    <Card className="w-full h-fit bg-white mb-2">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <div className="w-[73px] h-[40px] relative">
+          <div className="w-full h-[40px] relative">
             <div className="left-0 top-0 absolute text-center text-2xl font-bold">
               សមិទ្ធផល
             </div>

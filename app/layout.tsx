@@ -16,7 +16,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <body
@@ -33,9 +32,7 @@ export default function RootLayout({
 
                 <main className="w-full bg-background ">{children}</main>
               </SidebarProvider>
-              <footer>
-                <Footer />
-              </footer>
+              <footer><Footer /></footer>
               <Toaster />
             </Provider>
           </CommentProvider>

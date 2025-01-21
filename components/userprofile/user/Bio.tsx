@@ -12,8 +12,8 @@ export default function Bio(userInformation: BioProps) {
   const user = userInformation;
   return (
     <div>
-      <Card className="xs:w-[450px] lg:w-[510px] h-[151px] p-6 rounded-lg bg-white">
-        <div className="w-[57px] h-[55px] relative">
+      <Card className="w-full mb-2 h-[151px] p-6 rounded-lg bg-white">
+        <div className="w-full h-[55px] relative">
           <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">
             ប្រវត្តិរូប
           </CardTitle>

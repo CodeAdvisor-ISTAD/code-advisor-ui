@@ -27,7 +27,7 @@ export default function BadgeComponent() {
   return (
     <div>
       <HoverCard>
-        <HoverCardTrigger className="flex cursor-pointer items-center pb-2 h-10 w-10">
+        <HoverCardTrigger className="flex cursor-pointer items-center pb-2 lg:h-10 lg:w-10 h-7 w-7">
           {badge?.badgeImage ? (
             <img src={badge.badgeImage} alt="badge" />
           ) : (
