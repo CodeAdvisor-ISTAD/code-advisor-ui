@@ -3,7 +3,7 @@ import EditUserInformationForm from "@/components/userprofile/user/EditUserInfor
 import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import ProfileImage from "@/components/userprofile/user/ProfileImage";
+import ProfileImage from "@/components/userprofile/user/ProfileImageComponent";
 import { useQuery } from "@tanstack/react-query";
 import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
 

@@ -5,7 +5,7 @@ import {
   DataBlockPink,
   DataBlockPurple,
   DataBlockYellow,
-} from "@/components/userprofile/user/achievement/UserDatapoint";
+} from "@/components/userprofile/achievement/UserDatapoint";
 import { arabicToKhmer } from "@/lib/information";
 
 export default function UserActivityPoints(achievement) {

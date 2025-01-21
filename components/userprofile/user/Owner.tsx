@@ -2,14 +2,15 @@
 
 import React from "react";
 import Bio from "@/components/userprofile/user/Bio";
-import UserPost from "@/components/userprofile/user/userPost";
+import UserPost from "@/components/userprofile/user/OwnerPostComponent";
 import UserInformationCardComponent from "@/components/userprofile/user/UserInformationCardComponent";
-import AchievementLevel from "@/components/userprofile/user/achievement/AchievementCard";
-import ProfileImage from "@/components/userprofile/user/ProfileImage";
+import ProfileImage from "@/components/userprofile/user/ProfileImageComponent";
 import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateButton";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
+import OwnerPost from "@/components/userprofile/user/OwnerPostComponent";
+import AchievementLevelComponent from "../achievement/AchievementCard";
 
 export default function Owner() {
   const router = useRouter();
@@ -50,7 +51,7 @@ export default function Owner() {
         <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-2 lg:px-6 px-1">
           <div className="col-span-5 lg:mt-[98px] mt-14 gap-2 mb-2">
             {/* achievement level card */}
-            <AchievementLevel userInformation={userInformation} />
+            <AchievementLevelComponent userInformation={userInformation} />
             {/* Bio card */}
             <Bio bio={userInformation?.bio} />
             {/* user information card */}
@@ -58,7 +59,7 @@ export default function Owner() {
           </div>
           {/* user post */}
           <div className="col-span-7">
-            <UserPost
+            <OwnerPost
               username={userInformation?.username}
               authorUuid={userInformation?.authorUuid}
             />

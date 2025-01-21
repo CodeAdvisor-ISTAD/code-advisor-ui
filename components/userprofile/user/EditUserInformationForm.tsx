@@ -23,7 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ColorPicker } from "./colorPicker";
+import { ColorPicker } from "./colorPickerComponent";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getOwnUserProfile,
@@ -90,7 +90,6 @@ export default function EditUserInformationForm(
       profileImage: userInformation?.profileImage || "",
       isDeleted: userInformation?.isDeleted || false,
       coverColor: userInformation?.coverColor || "",
-      
     },
   });
   async function onSubmit(data: any) {

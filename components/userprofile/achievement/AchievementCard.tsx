@@ -3,12 +3,13 @@
 import React from "react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import UserActivity from "@/components/userprofile/user/achievement/userActivivity";
 import AwardCard from "./AwardCard";
 import { useFetchAchievementLevel } from "@/hooks/achievement";
 import { PublicAchievementComponent } from "./PublicAchievementComponent";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
+import { User } from "lucide-react";
+import UserActivityPoints from "./userActivivity";
 
 interface AchievementLevelProps {
 
@@ -60,7 +61,7 @@ export default function AchievementLevelComponent({ userInformation, disableButt
             </div>
 
             <div className="mt-6">
-              <UserActivity achievement={data} />
+              <UserActivityPoints achievement={data} />
             </div>
           </>
         ) : data?.isPublish ? (
@@ -70,7 +71,7 @@ export default function AchievementLevelComponent({ userInformation, disableButt
             </div>
 
             <div className="mt-6">
-              <UserActivity achievement={data} />
+              <UserActivityPoints achievement={data} />
             </div>
           </>
         ) : (

@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import Bio from "@/components/userprofile/user/Bio";
-import UserPost from "@/components/userprofile/user/userPost";
+import UserPost from "@/components/userprofile/user/OwnerPostComponent";
 import UserInformationCardComponent from "@/components/userprofile/user/UserInformationCardComponent";
-import AchievementLevel from "@/components/userprofile/user/achievement/AchievementCard";
-import ProfileImage from "@/components/userprofile/user/ProfileImage";
+import ProfileImage from "@/components/userprofile/user/ProfileImageComponent";
 import { useRouter } from "next/navigation";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { useQuery } from "@tanstack/react-query";
+import AchievementLevelComponent from "../achievement/AchievementCard";
+import ViewerPost from "./ViewerPostComponent";
 
 export default function Viewer({ username }: { username: string }) {
   const [bgColor, setBgColor] = useState("#000040");
@@ -34,7 +35,7 @@ export default function Viewer({ username }: { username: string }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 px-6">
           <div className="col-span-5 mt-[98px] gap-2 mb-2">
             {/* achievement level card */}
-            <AchievementLevel
+            <AchievementLevelComponent
               userInformation={publicUserProfile}
               disableButton={true}
             />
@@ -45,7 +46,7 @@ export default function Viewer({ username }: { username: string }) {
           </div>
           {/* user post */}
           <div className="col-span-7">
-            <UserPost username={username} authorUuid={""} />
+            <ViewerPost username={username} authorUuid={""} />
           </div>
         </div>
       </div>

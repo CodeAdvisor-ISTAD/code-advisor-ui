@@ -14,7 +14,7 @@ import {useRouter} from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 import { uploadProfileImage } from "@/hooks/api-hook/user/user-service";
-import BadgeComponent from "./badge/BadgeComponent";
+import BadgeComponent from "../badge/BadgeComponent";
 
 
 interface ProfileImageProps {

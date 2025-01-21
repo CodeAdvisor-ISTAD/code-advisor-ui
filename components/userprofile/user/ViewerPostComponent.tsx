@@ -16,7 +16,6 @@ import {
 import { Command } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { CardForumComponent } from "@/components/forum-component/CardForumComponent";
-import EmptyCard from "./OwnerEmptyCardComponent";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import {
   getQuestionByAuthorName,
@@ -24,13 +23,10 @@ import {
   totalUpVotes,
 } from "@/hooks/api-hook/forum/forum-api";
 import { AuthorCardComponent } from "@/components/content-component/AuthorCardComponent";
-import { create } from "domain";
 import { getContentByAuthorUuid } from "@/hooks/api-hook/content/content-api";
-import OwnerEmptyCard from "./OwnerEmptyCardComponent";
-import Viewer from "../role/ViewerComponent";
 import ViewerEmptyCard from "./ViewerEmptyCardComponent";
 
-export default function UserPost({
+export default function ViewerPost({
   username,
   authorUuid,
 }: {
@@ -167,7 +163,7 @@ export default function UserPost({
                 />
               ))
             ) : (
-              <><OwnerEmptyCard /><ViewerEmptyCard /></>
+                <ViewerEmptyCard />
             )}
           </div>
         </TabsContent>
@@ -195,10 +191,11 @@ export default function UserPost({
                       hour12: true,
                     })
                     .replace(",", " :")
-                    .replace(/\b(am|pm)\b/g, (match) => match.toUpperCase())} />
+                    .replace(/\b(am|pm)\b/g, (match) => match.toUpperCase())}
+                />
               ))
             ) : (
-              <EmptyCard />
+                <ViewerEmptyCard />
             )}
           </div>
         </TabsContent>
