@@ -65,9 +65,9 @@ export function BookmarkCard({
 
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="bg-primary/10 hover:bg-primary/20">
-                {tag}
-              </Badge>
+              <Badge key={tag} variant="outline" className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white">
+              {tag}
+            </Badge>
             ))}
           </div>
 

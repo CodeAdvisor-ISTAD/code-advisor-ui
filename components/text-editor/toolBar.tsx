@@ -1,5 +1,5 @@
 "use client";
-import { icons, List } from "lucide-react";
+import { List } from "lucide-react";
 import { Toggle } from "../ui/toggle";
 import {
     Heading1,
@@ -18,13 +18,101 @@ import {
 import { ListOrdered } from "lucide-react";
 
 import { Editor } from "@tiptap/react";
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "flowbite-react";
+import { useRef, useState } from "react";
+import { z } from "zod";
+import { ImageUrlDialog } from "./imageUrlDialog";
+
+// Zod Schema for file validation
+const fileSchema = z
+    .object({
+        name: z.string(),
+        size: z.number().max(5 * 1024 * 1024, "File must be less than 5MB"),
+        type: z.enum(["image/png", "image/jpeg", "image/jpg", "image/webp"]),
+    })
+    .strict();
 
 export default function ToolBar({ editor }: { editor: Editor }) {
+    const [uploading, setUploading] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement | null>(null); // Add a ref for the file input
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     if (!editor) return null;
-    const addImage = () => {
-        const url = window.prompt("URL");
-        if (url) {
-            editor.chain().focus().setImage({ src: url }).run();
+    // const handleAddImageFromUrl = () => {
+    //     const url = window.prompt("URL");
+    //     if (url) {
+    //         editor
+    //             .chain()
+    //             .focus()
+    //             .insertContent(`<img src="${url}" alt="Image" />`)
+    //             .run();
+    //     }
+    //     setIsModalOpen(false); // Close the modal after inserting the image
+    // };
+
+    const handleUploadImage = async (file: File) => {
+        try {
+            // Validate file with Zod
+            const parsedFile = fileSchema.parse({
+                name: file.name,
+                size: file.size,
+                type: file.type,
+            });
+
+            setUploading(true);
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            // Replace with your upload endpoint
+            const response = await fetch(
+                "http://167.172.78.79:8090/api/v1/files/upload?file",
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to upload image");
+            }
+
+            const data = await response.json();
+            const imageUrl = data.file_url; // Assume the server returns the uploaded image URL
+            editor
+                .chain()
+                .focus()
+                .insertContent(`<img src="${imageUrl}" alt="Image" />`)
+                .run();
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                alert(`Validation failed: ${error.errors[0].message}`);
+            } else {
+                console.error("Image upload failed:", error);
+                alert("Image upload failed. Please try again.");
+            }
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            handleUploadImage(file);
+        }
+    };
+
+    const openFilePicker = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click(); // Programmatically trigger the file input
         }
     };
 
@@ -90,32 +178,73 @@ export default function ToolBar({ editor }: { editor: Editor }) {
         {
             icon: <Code className="size-4" />,
             onClick: () => editor.chain().focus().toggleCodeBlock().run(),
-            preesed: editor.isActive('codeBlock'),
+            preesed: editor.isActive("codeBlock"),
         },
         {
             icon: <Highlighter className="size-4" />,
             onClick: () => editor.chain().focus().toggleHighlight().run(),
             preesed: editor.isActive("highlight"),
         },
+
         {
             icon: <Upload className="size-4" />,
-            onClick: () => addImage(),
-            preesed: editor.isActive("image"),
+            onClick: null, // Dropdown will handle the onClick
+            dropdown: true, // Mark this option as a dropdown
+            preesed: editor.isActive("highlight"),
         },
     ];
 
     return (
-        <div className="border rounded-md p-1.5 mb-1 bg-slate-50 space-x-1  top-10 z-50">
+        <div className="border rounded-md p-1.5 mb-1 bg-slate-50 space-x-1 top-10 z-50">
             {Options.map((option, i) => (
-                <Toggle
-                    key={i}
-                    size="sm"
-                    pressed={option.preesed}
-                    onPressedChange={option.onClick}
-                >
-                    {option.icon}
-                </Toggle>
+                <div key={i} className="inline-block">
+                    {option.dropdown ? (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className="bg-primary">{option.icon}</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem
+                                    onSelect={(e) => e.preventDefault()}
+                                >
+                                    <ImageUrlDialog
+                                        onInsert={(url) => {
+                                            editor
+                                                .chain()
+                                                .focus()
+                                                .insertContent(
+                                                    `<img src="${url}" alt="Image" />`
+                                                )
+                                                .run();
+                                        }}
+                                    />
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onSelect={openFilePicker}>
+                                    ជ្រើសរើសរូបភាព
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    ) : (
+                        <Toggle
+                            size="sm"
+                            pressed={option.preesed}
+                            onPressedChange={option.onClick}
+                        >
+                            {option.icon}
+                        </Toggle>
+                    )}
+                </div>
             ))}
+            {/* Hidden file input for selecting images */}
+            <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileInputChange}
+                disabled={uploading}
+            />
         </div>
     );
 }

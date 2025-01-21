@@ -20,7 +20,7 @@ export default async function Page({
           <h2 className="text-secondary font-bold text-[20px] py-3">
             # {name}
           </h2>
-          <p className="text-sm pb-3 space-y-2">
+          <p className="text-[14px] pb-3 space-y-2">
             ការរៀបចំ, គ្រប់គ្រង,
             និងរក្សាទុកទិន្នន័យសម្រាប់ការចូលប្រើនិងគ្រប់គ្រងបានយ៉ាងមានប្រសិទ្ធភាព។
             អ្នកអានអាចសិក្សាពីរចនាសម្ព័ន្ធទិន្នន័យសាមញ្ញៗដូចជា អារេ,

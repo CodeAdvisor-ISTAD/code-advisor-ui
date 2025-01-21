@@ -1,9 +1,6 @@
 "use client";
 
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import {
   ChevronUp,
   ChevronDown,
@@ -12,7 +9,7 @@ import {
   Trash,
 } from "lucide-react";
 import { TbMessageReport } from "react-icons/tb";
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -21,7 +18,6 @@ import {
   CardFooter,
 } from "../../ui/card";
 import { Textarea } from "../../ui/textarea";
-import { Collapsible, CollapsibleContent } from "@radix-ui/react-collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,48 +28,178 @@ import {
 import { FaRegComment } from "react-icons/fa";
 import { Profile } from "../Profile";
 import { Comment } from "@/types/engagement";
+import { createComment, deleteComment, editComment, createReply, deleteReply, editReply } from "@/hooks/api-hook/engagement/engagement-api";
 
 interface Content {
   comment: Comment[];
   contentId?: string;
+  slug?: string;
+  ownerId?: string;
+  userId?: string;
 }
 
-export function CommentList({ comment = [], contentId }: Content) {
+export function CommentList({ comment = [], contentId, slug, ownerId, userId }: Content) {
   const [comments, setComments] = React.useState<Comment[]>(comment);
   const [newComment, setNewComment] = React.useState("");
   const [replyingTo, setReplyingTo] = React.useState<string | null>(null);
   const [editingComment, setEditingComment] = React.useState<string | null>(
     null
   );
+  const [editingReply, setEditingReply] = useState<string | null>(null);
+  const [replyEditContent, setReplyEditContent] = useState<string>("");
+  const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = React.useState("CurrentUser");
   const [editContent, setEditContent] = React.useState("");
   const [expandedComments, setExpandedComments] = React.useState<string[]>([]);
 
-  const handleSubmit = (parentId: string | null = null) => {
+  const handleSubmit = async (parentId: string | null = null) => {
+    // const contentId = "678378aecde7c858c76a0290"; // Example contentId, dynamically set as needed
+    // const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
+    // const ownerId = "b3ee9ec3-be2f-401d-89fc-6f3956efcfc4";
+    // const slug = "spring-boot-jpa"
+    // spring-boot-jpa
+  
     if (newComment.trim()) {
-      const comment: Comment = {
-        id: Date.now().toString(), // Ensuring it's a string as per the updated type
-        // author: { username, avatarUrl: "/placeholder.svg?height=40&width=40" },
-        body: newComment.trim(),
-        createdAt: new Date(),
-        updateAt: new Date(),
-        isReport: false,
-        replies: [],
-        parentId: parentId || null,
-      };
-
-      if (parentId === null) {
-        setComments([comment, ...comments]);
-      } else {
-        setComments(addReply(comments, parentId, comment));
-        setExpandedComments([...expandedComments, parentId]);
+      try {
+        // Pass dynamic contentId, userId, and body to createComment
+        const createdComment = await createComment(contentId, {
+          userId: userId,
+          body: newComment.trim(),
+          parentId: parentId,
+          ownerId: ownerId,
+          slug: slug
+        });
+  
+        // Handle the created comment (add to state)
+        if (parentId === null) {
+          setComments([createdComment, ...comments]); // Add new top-level comment
+        } else {
+          setComments(addReply(comments, parentId, createdComment)); // Add reply
+          setExpandedComments([...expandedComments, parentId]);
+        }
+  
+        // Reset the comment input and replying state
+        setNewComment(""); // Clear the input field
+        setReplyingTo(null); // Reset replying state
+      } catch (error) {
+        console.error("Error submitting comment:", error);
       }
-
-      setNewComment("");
-      setReplyingTo(null);
     }
   };
 
+  // const handleDelete = async (commentId: string) => {
+  //   try {
+  //     const success = await deleteComment(commentId);
+  
+  //     if (success) {
+  //       // Update state to reflect the deletion of the comment
+  //       setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
+  //       console.log(`Comment with ID ${commentId} was deleted successfully.`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to delete comment:", error);
+  //   }
+  // };
+
+  const handleDelete = async (id: string, parentId: string | null = null) => {
+    try {
+      let success = false;
+  
+      // If parentId is null, it's a comment, otherwise it's a reply
+      if (parentId === null) {
+        success = await deleteComment(id);
+        console.log("Comment222222222222222222222222222")
+      } else {
+        success = await deleteReply(id);
+        console.log("Reply11111111111111111111111111111")
+      }
+  
+      if (success) {
+        // If it's a comment, remove it from top-level comments
+        if (parentId === null) {
+          setComments((prevComments) => prevComments.filter((comment) => comment.id !== id));
+        } else {
+          // If it's a reply, remove it from the parent's replies
+          setComments((prevComments) =>
+            prevComments.map((comment) => {
+              if (comment.id === parentId) {
+                const updatedReplies = comment.replies.filter((reply) => reply.id !== id);
+                return { ...comment, replies: updatedReplies };
+              }
+              return comment;
+            })
+          );
+        }
+        console.log(`Item with ID ${id} was deleted successfully.`);
+      }
+    } catch (error) {
+      console.error("Failed to delete item:", error);
+    }
+  };
+
+
+  const handleSaveEdit = async (commentId: string) => {
+    const contentId = "67815231083dc108c96fd929"; // Example contentId, dynamically set as needed
+    const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
+
+    try {
+      // Prepare the updated comment data
+      const updatedComment = {
+        userId: userId,
+        contentId: contentId,
+        body: editContent, // The updated body/content of the comment
+      };
+  
+      // Call the API to edit the comment
+      const result = await editComment(commentId, updatedComment);
+  
+      // Update the state with the edited comment
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId ? result : comment
+        )
+      );
+  
+      // Clear the editing state
+      setEditingComment(null);
+      setEditContent("");
+    } catch (error) {
+      console.error("Failed to update comment:", error);
+    }
+  };
+
+  const handleEdit = (commentId: string, currentContent: string) => {
+    setEditingComment(commentId);
+    setEditContent(currentContent);
+  };
+
+  const handleReplySubmit = async (parentId: string) => {
+    const userId = "6783b16f1b533f163cd7460d"; // Replace with the actual userId
+    const body = newComment.trim(); // Assuming newComment holds the reply body
+  
+    if (body) {
+      try {
+        const replyData = {
+          userId: userId,
+          body: body,
+        };
+  
+        const createdReply = await createReply(parentId, replyData);
+  
+        // Add the created reply to the comment's replies
+        setComments((prevComments) =>
+          addReply(prevComments, parentId, createdReply)
+        );
+  
+        // Clear the reply input
+        setNewComment("");
+        setReplyingTo(null);
+      } catch (error) {
+        console.error("Error submitting reply:", error);
+      }
+    }
+  };
+  
   const addReply = (
     comments: Comment[],
     parentId: string,
@@ -81,8 +207,11 @@ export function CommentList({ comment = [], contentId }: Content) {
   ): Comment[] => {
     return comments.map((comment) => {
       if (comment.id === parentId) {
-        return { ...comment, replies: [newReply, ...comment.replies] };
-      } else if (comment.replies.length > 0) {
+        const updatedReplies = Array.isArray(comment.replies)
+          ? [newReply, ...comment.replies]
+          : [newReply];
+        return { ...comment, replies: updatedReplies };
+      } else if (Array.isArray(comment.replies) && comment.replies.length > 0) {
         return {
           ...comment,
           replies: addReply(comment.replies, parentId, newReply),
@@ -90,7 +219,71 @@ export function CommentList({ comment = [], contentId }: Content) {
       }
       return comment;
     });
+  }; 
+
+  const handleDeleteReply = async (replyId: string, parentId: string) => {
+    try {
+      const success = await deleteReply(replyId); // Call delete API for the reply
+  
+      if (success) {
+        // Update state to remove the deleted reply from the parent comment's replies
+        setComments((prevComments) =>
+          prevComments.map((comment) => {
+            if (comment.id === parentId) {
+              const updatedReplies = comment.replies.filter((reply) => reply.id !== replyId);
+              return { ...comment, replies: updatedReplies }; // Remove the reply from replies array
+            }
+            return comment;
+          })
+        );
+        console.log(`Reply with ID ${replyId} was deleted successfully.`);
+      }
+    } catch (error) {
+      console.error("Failed to delete reply:", error);
+    }
   };
+  
+  const handleSaveEditReply = async (replyId: string, parentId: string) => {
+    const contentId = "678378aecde7c858c76a0290"; // Example contentId, dynamically set as needed
+    const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
+  
+    try {
+      // Prepare the updated reply data
+      const updatedReply = {
+        userId: userId,
+        contentId: contentId,
+        body: editContent, // The updated body/content of the reply
+      };
+  
+      // Call the API to edit the reply
+      const result = await editReply(replyId, updatedReply);
+  
+      // Update the state with the edited reply inside the parent comment's replies array
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === parentId
+            ? {
+                ...comment,
+                replies: comment.replies.map((reply) =>
+                  reply.id === replyId ? result : reply // Update the specific reply
+                ),
+              }
+            : comment
+        )
+      );
+  
+      // Clear the editing state
+      setEditingReply(null);
+      setEditContent("");
+    } catch (error) {
+      console.error("Failed to update reply:", error);
+    }
+  };
+
+  const handleEditReply = (replyId: string, currentContent: string, parentId: string) => {
+    setEditingReply(replyId); // Set the reply being edited
+    setEditContent(currentContent); // Set the current content of the reply
+  };   
 
   const handleDismiss = () => {
     setNewComment("");
@@ -105,67 +298,26 @@ export function CommentList({ comment = [], contentId }: Content) {
     );
   };
 
-  const handleEdit = (commentId: string, body: string) => {
-    setEditingComment(commentId);
-    setEditContent(body);
-  };
-
-  const handleDelete = (commentId: string) => {
-    setComments(deleteComment(comments, commentId));
-  };
-
-  const deleteComment = (comments: Comment[], commentId: string): Comment[] => {
-    return comments.filter((comment) => {
-      if (comment.id === commentId) {
-        return false;
-      }
-      if (comment.replies.length > 0) {
-        comment.replies = deleteComment(comment.replies, commentId);
-      }
-      return true;
-    });
-  };
-
-  const handleSaveEdit = (commentId: string) => {
-    setComments(editComment(comments, commentId, editContent));
-    setEditingComment(null);
-    setEditContent("");
-  };
-
-  const editComment = (
-    comments: Comment[],
-    commentId: string,
-    newContent: string
-  ): Comment[] => {
-    return comments.map((comment) => {
-      if (comment.id === commentId) {
-        return { ...comment, body: newContent, updateAt: new Date() };
-      }
-      if (comment.replies.length > 0) {
-        return {
-          ...comment,
-          replies: editComment(comment.replies, commentId, newContent),
-        };
-      }
-      return comment;
-    });
-  };
-
-  // Function to count all comments and replies
   const getTotalComments = (comments: Comment[]): number => {
     let total = 0;
+
     const countReplies = (comments: Comment[]): void => {
+      if (!comments) return; // Return early if comments is null or undefined
       total += comments.length;
+
       comments.forEach((comment) => {
-        if (comment.replies.length > 0) {
+        // Ensure comment.replies is an array before accessing it
+        if (Array.isArray(comment.replies) && comment.replies.length > 0) {
           countReplies(comment.replies); // Recursively count replies
         }
       });
     };
+
     countReplies(comments);
     return total;
   };
 
+  // render comment
   const renderComment = (
     comment: Comment,
     border: boolean = true,
@@ -183,7 +335,7 @@ export function CommentList({ comment = [], contentId }: Content) {
         <Profile
           key={comment.id}
           imageUrl={comment.author?.image}
-          postDate={comment.createdAt.toLocaleDateString()}
+          // postDate={comment.createdAt.toLocaleDateString()}
           username={comment.author?.userName}
         />
         <DropdownMenu>
@@ -201,14 +353,16 @@ export function CommentList({ comment = [], contentId }: Content) {
                 <Pencil className="mr-2 h-4 w-4" />
                 <span>កែរ</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDelete(comment.id)}>
+              <DropdownMenuItem onClick={() => handleDelete(comment.id, comment.parentId || null)}>
                 <Trash className="mr-2 h-4 w-4" />
                 <span>លុប</span>
               </DropdownMenuItem>
 
               <DropdownMenuItem>
                 <TbMessageReport className="mr-2 h-4 w-4" />
-                <a href={`/report/comment/${contentId}/${comment.id}`}>រាយការណ៍</a>
+                <a href={`/report/comment/${contentId}/${comment.id}`}>
+                  រាយការណ៍
+                </a>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
@@ -252,20 +406,20 @@ export function CommentList({ comment = [], contentId }: Content) {
           <FaRegComment className="mr-2 h-4 w-4​" />
           <span className="text-sm">ឆ្លើយតប</span>
         </Button>
-        {comment.replies.length > 0 && (
+        {Array.isArray(comment.replies) && comment.replies.length > 0 && (
           <Button
             variant="ghost"
             size="sm"
             onClick={() => toggleExpanded(comment.id)}
           >
             {expandedComments.includes(comment.id) ? (
-              <ChevronUp className="mr-2 h-4 w-4​ " />
+              <ChevronUp className="mr-2 h-4 w-4" />
             ) : (
               <ChevronDown className="mr-2 h-4 w-4" />
             )}
             <span className="text-sm">
-            {comment.replies.length}{" "}
-            {comment.replies.length === 1 ? "ឆ្លើយតប" : "ឆ្លើយតប"}
+              {comment.replies.length}{" "}
+              {comment.replies.length === 1 ? "ឆ្លើយតប" : "ឆ្លើយតប"}
             </span>
           </Button>
         )}
@@ -276,7 +430,7 @@ export function CommentList({ comment = [], contentId }: Content) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(comment.id); // Pass parent comment id when submitting a reply
+              handleReplySubmit(comment.id); // Pass parent comment id when submitting a reply
             }}
             className="space-y-4"
           >
