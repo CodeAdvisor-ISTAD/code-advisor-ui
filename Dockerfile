@@ -1,7 +1,7 @@
 # Use an official Node.js runtime as a parent image
 FROM node:latest AS builder
 
-# RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat
 
 # Set the working directory to /app
 WORKDIR /app
