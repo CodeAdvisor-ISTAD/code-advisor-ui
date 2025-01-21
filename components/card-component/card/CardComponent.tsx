@@ -4,6 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Preview from "@/components/text-editor/preview";
 
 interface CardData {
   id: string;
@@ -43,7 +44,9 @@ export function CardComponent({
             <h2 className="text-xl font-medium tracking-normal text-primary">
               {title}
             </h2>
-            <p className="text-slate-500 text-[16px] line-clamp-2">{content}</p>
+            <p className="text-slate-500 text-[16px] line-clamp-2">
+              <Preview content={content} />
+            </p>
           </div>
 
           <div className="max-h-20 overflow-y-auto">
