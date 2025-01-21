@@ -1,27 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
 
-
-
-export const fetchUserProfileAuthMe = async () => {
-  try {
-    const response = await fetch("/identity/api/v1/auth/me");
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-    throw error; // Rethrow for error handling
-  }
-};
 
 export async function fetchUserProfile() {
         const response = await fetch("/identity/api/v1/auth/me");
+        const data = await response.json();
+        alert(data)
+
         if(response.ok){
-            const data = await response.json();
             return data;
         }else{
-            return null;
+            throw data; 
         }
 }
 

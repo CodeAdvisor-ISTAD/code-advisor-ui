@@ -3,7 +3,6 @@
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import profilePlaceholder from "@/public/user-profile-image/place-holder-profile.png";
-import { UseFetchUserServiceProfile } from "@/hooks/api-hook/user-service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify"; // Assuming you are using react-toastify for notifications
@@ -14,27 +13,33 @@ import {
 } from "@radix-ui/react-hover-card";
 import { ImageUp } from "lucide-react"
 import {useRouter} from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
+import { uploadProfileImage } from "@/hooks/api-hook/user/user-service";
 
 
 interface ProfileImageProps {
   disableButton: boolean;
-  profileAuth: { profileImage: string }; // Adjust type based on your data
+  profileAuth: any;
 }
 
 export default function ProfileImage({
   disableButton,
   profileAuth,
 }: ProfileImageProps) {
-  const { data } = UseFetchUserServiceProfile();
+  const queryClient = useQueryClient();
   const [image, setImage] = useState<string>("null");
   const [tempImage, setTempImage] = useState<string | null>(null); // Temporary image for preview
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
-  const { refetch : refetchUserAuth, } = useQuery({
-    queryKey: ["profile"],
-    queryFn: fetchUserProfile,
-})
+  const {mutate: updateUserProfile} = useMutation({
+    mutationFn: uploadProfileImage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["profile"]});
+      queryClient.invalidateQueries({queryKey: ["authProfile"]});
+
+    }
+  })
+
 
   const uploadFile = async (file: File) => {
     try {
@@ -69,31 +74,17 @@ export default function ProfileImage({
 
   console.log("upload file : " + uploadFile);
 
-  const saveProfileImageUrl = async (fileUrl: string) => {
+  const saveProfileImageUrl =  (fileUrl: string) => {
     const imageData = {
       imageUrl: fileUrl,
     };
 
-    console.log("image data : ", imageData);
-
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8168/users/api/v1/user_profiles/upload",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(imageData),
-        }
-      );
-
-      if (!response.ok) {
-        toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព។ សូមព្យាយាមម្តងទៀត");
-      } 
+      updateUserProfile(imageData);
+      toast.success("រូបភាពរបស់អ្នកត្រូវបានរក្សាទុកដោយជោគជ័យ");
     } catch (error) {
       console.error("Error saving profile image URL:", error);
-      toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព។ សូមព្យាយាមម្តងទៀត");
+      toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព សូមព្យាយាមម្តងទៀត");
     }
   };
 
@@ -110,7 +101,6 @@ export default function ProfileImage({
       setImage(tempImage); // Save the new image
       setShowSavePopup(false); // Hide the popup
       saveProfileImageUrl(tempImage); // Send the file URL to backend
-      refetchUserAuth();
     }
   };
 
@@ -128,7 +118,7 @@ export default function ProfileImage({
               tempImage ||
               (image !== "null"
           ? image
-          : data?.profileImage || profileAuth?.profileImage || profilePlaceholder.src)
+          : profileAuth?.profileImage || profileAuth?.profileImage || profilePlaceholder.src)
             }
             alt="Profile"
             className="object-cover rounded-full border-4 border-gray-200 w-[200px] h-[200px]"
@@ -155,7 +145,7 @@ export default function ProfileImage({
         <div className="flex items-center justify-between absolute -right-80 top-[105px]">
           <div>
             <div className="flex gap-3">
-              <h2 className="text-3xl font-bold">{data?.fullName}</h2>
+              <h2 className="text-3xl font-bold">{profileAuth?.fullName}</h2>
               <HoverCard>
                 <HoverCardTrigger className="flex cursor-pointer items-center text-3xl">
                   ✨
@@ -165,7 +155,7 @@ export default function ProfileImage({
                 </HoverCardContent>
               </HoverCard>
             </div>
-            <p className="text-sm text-muted-foreground">@{data?.username}</p>
+            <p className="text-sm text-muted-foreground">@{profileAuth?.username}</p>
             <p className="text-sm text-muted-foreground font-khFont pt-1">
               គាត់គឺជា Senior
             </p>

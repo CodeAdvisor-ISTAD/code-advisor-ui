@@ -1,7 +1,7 @@
 'use client'
 import localFont from "next/font/local";
 import "./globals.css";
-import NavbarComponent from "@/components/navbar/NavbarComponent"; // Import the NavbarComponent
+import NavbarComponent from "@/components/navbar/NavbarComponent"; 
 import Footer from "@/components/footer/Footer";
 import { roboto, koh_Santepheap } from "./fonts/fonts";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -10,6 +10,7 @@ import Provider from "./_provider";
 import { Toaster } from "react-hot-toast";
 import { CommentProvider } from "@/lib/context/commentContext";
 import { UserProvider, useUser } from "@/lib/context/userContext";
+
 
 export default function RootLayout({
   children,
@@ -29,12 +30,13 @@ export default function RootLayout({
         <UserProvider>
           <CommentProvider>
             <Provider>
-              {/* Add NavbarComponent here */}
-              {/* <NavbarComponent onSearch={handleSearch} /> */}
-
+               <NavbarComponent onSearch={function (query: string): void {
+                throw new Error("Function not implemented.");
+              } }></NavbarComponent>
+            
               <SidebarProvider>
                 <AppSidebar />
-                <main className="w-full bg-background pt-[72px]">{children}</main>
+                <main className="w-full bg-background ">{children}</main>
               </SidebarProvider>
               <footer>
                 <Footer />

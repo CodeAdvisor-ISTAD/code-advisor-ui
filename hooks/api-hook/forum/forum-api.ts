@@ -181,7 +181,7 @@ const editAnswer = async function editAnswerOnForum(editAnswerData : EditAnswerT
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({editAnswerData}),
+        body: JSON.stringify(editAnswerData),
 
     });
     const data = await response.json();
@@ -194,4 +194,37 @@ const editAnswer = async function editAnswerOnForum(editAnswerData : EditAnswerT
     }
 }
 
-export { editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };
+const totalAnswersByQuestion = async function getTotalAnswersByQuestion(questionSlug: string) {
+    const response = await fetch(`/forums/api/v1/answers/${questionSlug}/total`);
+    const data = await response.json();
+
+    if(response.ok){
+        return data;
+    }else{
+        throw data;
+    }
+}
+
+const getQuestionByOwner = async function getQuestionByOwner(page : number, size: number) {
+    const response = await fetch(`/forums/api/v1/questions/owner?page=${page}&size=${size}`);
+    const data = await response.json();
+
+    if(response.ok){
+        return data;
+    }else{
+        throw data;
+    }
+}
+
+const getQuestionByAuthorName = async function getQuestionByAuthorName(authorName : string, page : number, size: number) {
+    const response = await fetch(`/forums/api/v1/questions/author/${authorName}?page=${page}&size=${size}`);
+    const data = await response.json();
+
+    if(response.ok){
+        return data;
+    }else{
+        throw data;
+    }
+}
+
+export { getQuestionByAuthorName,getQuestionByOwner ,totalAnswersByQuestion ,editAnswer ,deleteAnswer,acceptedAnswer , unAcceptedAnswer ,getAllAnswersByQuestion, createForum, getForumBySlug, getAllForums, checkIsUpVoted, upVoteQuestion, downVoteQuestion, totalDownVotes, totalUpVotes, commentOnForum };

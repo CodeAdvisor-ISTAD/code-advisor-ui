@@ -8,7 +8,7 @@ import {
     MessageSquare,
     Share2,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TagComponent from "../tag/tagComponent";
 import RichTextEditor from "../text-editor/textEditor";
 import {
@@ -35,10 +35,11 @@ import {
     downVoteQuestion,
     commentOnForum,
     getAllAnswersByQuestion,
+    editAnswer,
 } from "@/hooks/api-hook/forum/forum-api";
 import Preview from "../text-editor/preview";
 import { useCommentContext } from "@/lib/context/commentContext";
-import { getUserByUsername } from "@/hooks/api-hook/user-service";
+import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 
 const formSchema = z.object({
     content: z.string().min(10, {
@@ -48,6 +49,8 @@ const formSchema = z.object({
 
 export default function ForumDetailComponent({ slug }: { slug: string }) {
     const queryClient = useQueryClient();
+    const editorRef = useRef(null);
+
 
     const { data: forum } = useQuery({
         queryKey: ["forum", slug],
@@ -55,74 +58,31 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     });
 
     const { data: checkVoted } = useQuery({
-        queryKey: ["vote", slug],
+        queryKey: ["checkVote", slug],
         queryFn: () => checkIsUpVoted(slug),
         enabled: !!slug,
     });
 
     const { data: totalUpVote } = useQuery({
-        queryKey: ["votes", slug, "up"],
+        queryKey: ["totalUpVotes", slug],
         queryFn: () => totalUpVotes(slug),
     });
 
     const { data: totalDownVote } = useQuery({
-        queryKey: ["votes", slug, "down"],
+        queryKey: ["totalDownVotes", slug],
         queryFn: () => totalDownVotes(slug),
     });
 
-    const upvoteMutation = useMutation({
+    const { mutate: upvoteMutation, isPending: upVotePending } = useMutation({
         mutationFn: () => upVoteQuestion(slug),
-        onMutate: async () => {
-            // Cancel outgoing refetches to avoid overwriting our optimistic update
-            await queryClient.cancelQueries({
-                queryKey: ["vote", slug],
-            });
-            await queryClient.cancelQueries({
-                queryKey: ["votes", slug, "up"],
-            });
-
-            // Get current values
-            const previousVote = queryClient.getQueryData(["vote", slug]);
-            const previousUpVotes = (queryClient.getQueryData([
-                "votes",
-                slug,
-                "up",
-            ]) as { totalVotes: number }) || { totalVotes: 0 };
-
-            // If already upvoted, we're removing the upvote
-            const voteChange =
-                (previousVote as { code: number })?.code === 200 ? -1 : 1;
-
-            // Immediately update UI
-            queryClient.setQueryData(["vote", slug], {
-                code:
-                    (previousVote as { code: number })?.code === 200
-                        ? 409
-                        : 200,
-            });
-
-            queryClient.setQueryData(["votes", slug, "up"], {
-                totalVotes: previousUpVotes.totalVotes + voteChange,
-            });
-
-            return { previousVote, previousUpVotes };
-        },
-        onError: (err, variables, context) => {
-            // On error, roll back to previous values
-            queryClient.setQueryData(["vote", slug], context.previousVote);
-            queryClient.setQueryData(
-                ["votes", slug, "up"],
-                context.previousUpVotes
-            );
-        },
-        onSettled: () => {
-            // After mutation finishes (success or error), refresh data from server
-            queryClient.invalidateQueries({ queryKey: ["vote", slug] });
-            queryClient.invalidateQueries({ queryKey: ["votes", slug] });
-        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["checkVote", slug] });
+            queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
+            queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
+        }
     });
 
-    const downvoteMutation = useMutation({
+    const { mutate: downvoteMutation, isPending: downVotePending } = useMutation({
         mutationFn: () => downVoteQuestion(slug),
         onMutate: async () => {
             await queryClient.cancelQueries({
@@ -157,17 +117,11 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
 
             return { previousVote, previousDownVotes };
         },
-        onError: (err, variables, context) => {
-            queryClient.setQueryData(["vote", slug], context.previousVote);
-            queryClient.setQueryData(
-                ["votes", slug, "down"],
-                context.previousDownVotes
-            );
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ["vote", slug] });
-            queryClient.invalidateQueries({ queryKey: ["votes", slug] });
-        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["checkVote", slug] });
+            queryClient.invalidateQueries({ queryKey: ["totalDownVotes", slug] });
+            queryClient.invalidateQueries({ queryKey: ["totalUpVotes", slug] });
+        }
     });
 
     const getButtonColor = (expectedCode: number, actualCode: number) => {
@@ -182,34 +136,62 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
         },
     });
 
-    const { replyTo, setReplyTo } = useCommentContext();
+    const { replyTo, mode, setMode, setReplyTo, answerUuid } = useCommentContext();
 
     const { mutate: createComment } = useMutation({
         mutationFn: commentOnForum,
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["answers"],
-            });
+            queryClient.invalidateQueries({ queryKey: ["totalAnswers", slug] });
+            queryClient.invalidateQueries({ queryKey: ["allAnswers", slug] });
+
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        const createAnswer: CreateComment = {
-            questionSlug: slug,
-            answerUuid: null,
-            slug: slug + "-answer" + Date.now(),
-            content: values?.content,
-        };
-        if (replyTo !== null) {
-            createAnswer.answerUuid = replyTo;
+    const { mutate: editComment} = useMutation({
+        mutationFn : editAnswer,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["totalAnswers", slug] });
+            queryClient.invalidateQueries({ queryKey: ["allAnswers", slug] });
         }
-        createComment(createAnswer);
+    })
+
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        if (mode === "reply") {
+            // Handle reply logic
+            const createAnswer: CreateComment = {
+                questionSlug: slug,
+                answerUuid: replyTo, // Set the UUID of the comment being replied to
+                slug: slug + "-answer-" + Date.now(), // Generate a unique slug
+                content: values.content,
+            };
+            createComment(createAnswer);
+        } else if (mode === "edit") {
+            // Handle edit logic
+            const editAnswerPayload: EditAnswerType = {
+                answerUuid: answerUuid, // Set the UUID of the comment being edited
+                content: values.content,
+            };
+            editComment(editAnswerPayload);
+        } else {
+            // Handle default case (e.g., creating a new top-level comment)
+            const createAnswer: CreateComment = {
+                questionSlug: slug,
+                answerUuid: null, // No parent comment
+                slug: slug + "-answer-" + Date.now(), // Generate a unique slug
+                content: values.content,
+            };
+            createComment(createAnswer);
+        }
+    
+        if (editorRef.current) {
+            editorRef.current.clearContent();
+          }
+        // Reset the context state after submission
+        setReplyTo(null);
+        setMode(null);
     }
 
-    const {data: user} = useQuery({
-        queryKey: ["owner"],
-        queryFn: () => getUserByUsername(forum?.authorUsername),
-    })
+
 
 
     return (
@@ -218,23 +200,9 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             <div className="p-4 bg-white rounded-[5px] shadow-sm">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                            <img
-                                src={user?.profileImage}
-                                alt="Profile"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                        <div>
-                            <div className="font-medium">{user?.fullName}</div>
-                            <div className="text-gray-500 text-sm">@{user?.username}</div>
-                            <div className="text-sm text-gray-500">
-                                {/* 12-Nov-2024 1:38PM */}
-                                {new Date(forum?.createdAt).toLocaleString()}
-                            </div>
-                        </div>
-                    </div>
+                    <UserProfile
+                        authorUsername={forum?.authorUsername}
+                        createdAt={forum?.createdAt} />
                     <button className="text-gray-500 hover:text-gray-700">
                         <div className="w-6 h-6">•••</div>
                     </button>
@@ -274,8 +242,8 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
                     <div className="flex items-center">
                         <button
                             className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
-                            onClick={() => upvoteMutation.mutate()}
-                            disabled={checkVoted?.code === 400}
+                            onClick={() => upvoteMutation()}
+                            disabled={downVotePending}
                         >
                             <CircleArrowUp
                                 className={`w-6 h-6 ${getButtonColor(
@@ -289,8 +257,8 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
                         </span>
                         <button
                             className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
-                            onClick={() => downvoteMutation.mutate()}
-                            disabled={checkVoted?.code === 400}
+                            onClick={() => downvoteMutation()}
+                            disabled={upVotePending}
                         >
                             <CircleArrowDown
                                 className={`w-6 h-6 ${getButtonColor(
@@ -332,6 +300,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
                                 </FormDescription>
                                 <FormControl>
                                     <RichTextEditor
+                                    ref={editorRef}
                                         content={field.value}
                                         onChange={(value: any) => {
                                             field.onChange(value);
@@ -359,3 +328,33 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
         </div>
     );
 }
+
+
+// Create a separate component for the user profile section
+const UserProfile = ({ authorUsername, createdAt }) => {
+    const { data: userData } = useQuery({
+        queryKey: ['user', authorUsername],
+        queryFn: () => getUserByUsername(authorUsername),
+        enabled: !!authorUsername
+    });
+
+    return (
+        <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                <img
+                    src={userData?.profileImage || "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"}
+                    alt={userData?.name || "User"}
+                    className="w-full h-full object-cover"
+                />
+            </div>
+            <div>
+                <div className="font-medium">
+                    {userData?.fullName || "Loading..."}
+                </div>
+                <div className="text-sm text-gray-500">
+                    {new Date(createdAt).toLocaleString()}
+                </div>
+            </div>
+        </div>
+    );
+};

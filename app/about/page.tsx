@@ -17,7 +17,7 @@ import {
 import TeamSection from "@/components/card-component/card/MemberComponent";
 import AnimatedBackground from "@/components/card-component/card/AnimatedBackground";
 
-export default function about() {
+export default function About() {
   React.useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -27,23 +27,22 @@ export default function about() {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden ">
+    <div className="relative min-h-screen overflow-hidden">
       <div className="relative z-10">
         <main className="overflow-hidden relative z-10">
           {/* Hero Section */}
-
-          <section className=" mt-28">
+          <section className="mt-40">
             <AnimatedBackground />
             {/* Main Content */}
-            <div className=" grid grid-cols-2 gap-12 items-center  ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 gap-12 items-center">
               {/* Text Section */}
               <div className="space-y-8" data-aos="fade-right">
                 <div className="flex items-center gap-4">
-                  <h1 className="text-4xl ml-28 font-extrabold text-secondary">
+                  <h1 className="text-3xl md:text-4xl lg:text-4xl 2xl:text-4xl ml-4 md:ml-28 lg:ml-28 2xl:ml-28 font-extrabold text-secondary">
                     អំពី​​​ CodeAdvisors
                   </h1>
                 </div>
-                <p className="text-lg ml-28  text-gray-700">
+                <p className="text-base md:text-lg lg:text-lg 2xl:text-lg ml-4 md:ml-28 lg:ml-28 2xl:ml-28 text-gray-700">
                   CodeAdvisors ផ្តល់ជូនពិតជាមួយនឹង Developers
                   តាមរយៈការរៀបចាក់ការជំនាញ វិជ្ជាជីវៈថ្មីៗ
                   និងបង្កើតនូវការទំនាក់ទំនងល្អៗជាមួយគ្នាបន្ថែមទៀត។
@@ -52,7 +51,7 @@ export default function about() {
 
               {/* Image Section */}
               <motion.div
-                className="relative h-[300px] md:h-[400px] lg:h-[450px] mr-20"
+                className="relative h-[200px] md:h-[300px] lg:h-[400px] 2xl:h-[450px] mr-4 md:mr-20 lg:mr-20 2xl:mr-20"
                 initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
@@ -71,7 +70,7 @@ export default function about() {
                   whileHover={{
                     scale: 1.05,
                     rotate: [0, -2, 2, -2, 0],
-                    transition: { duration: 0.5},
+                    transition: { duration: 0.5 },
                   }}
                   whileTap={{ scale: 3, rotate: 0 }}
                 >
@@ -87,22 +86,23 @@ export default function about() {
           </section>
 
           {/* Features Section */}
-          <section className="mt-[100px]  bg-white border border-gray-100">
-            <div className="grid grid-cols-1 md:grid-cols-3 mb-10">
+          <section className="mt-[100px] bg-white border border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 mb-10">
               {/* Goal Feature */}
-              <div className="text-center mx-28  " data-aos="fade-up">
+              <div className="text-center mx-4 md:mx-28 lg:mx-28 2xl:mx-28" data-aos="fade-up">
                 <div className="flex justify-center">
                   <Image
                     src="/2.png"
                     alt="Code Advisors Logo"
-                    width={200}
-                    height={200}
+                    width={150}
+                    height={150}
+                    className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 2xl:w-48 2xl:h-48"
                   />
                 </div>
-                <h3 className="text-[24px]  font-semibold text-primary">
+                <h3 className="text-xl md:text-2xl lg:text-2xl 2xl:text-2xl font-semibold text-primary">
                   បេសកម្ម
                 </h3>
-                <p className="text-gray-600 flex justify-center text-[18px]">
+                <p className="text-gray-600 text-sm md:text-base lg:text-base 2xl:text-base">
                   ផ្តល់វិធីសាស្រ្តក្នុងការចែករំលែក ចំណេះដឹង ការដោះស្រាយបញ្ហា
                   និងអភិវឌ្ឍន៍ចំណេះដឹង។
                 </p>
@@ -110,7 +110,7 @@ export default function about() {
 
               {/* Meaning Feature */}
               <div
-                className="text-center mx-28"
+                className="text-center mx-4 md:mx-28 lg:mx-28 2xl:mx-28"
                 data-aos="fade-up"
                 data-aos-delay="100"
               >
@@ -118,14 +118,15 @@ export default function about() {
                   <Image
                     src="/1.png"
                     alt="Code Advisors Logo"
-                    width={200}
-                    height={200}
+                    width={150}
+                    height={150}
+                    className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 2xl:w-48 2xl:h-48"
                   />
                 </div>
-                <h3 className="text-[24px] font-semibold text-primary">
+                <h3 className="text-xl md:text-2xl lg:text-2xl 2xl:text-2xl font-semibold text-primary">
                   ចក្ខុវិស័យ
                 </h3>
-                <p className="text-gray-600 flex justify-center text-[18px]">
+                <p className="text-gray-600 text-sm md:text-base lg:text-base 2xl:text-base">
                   ផ្តល់ឱកាសឲ្យ Developers សិក្សាស្វែងយល់ សហការណ៍
                   និងបង្កើនការច្នៃប្រឌិត។
                 </p>
@@ -133,7 +134,7 @@ export default function about() {
 
               {/* Quality Feature */}
               <div
-                className="text-center mx-28"
+                className="text-center mx-4 md:mx-28 lg:mx-28 2xl:mx-28"
                 data-aos="fade-up"
                 data-aos-delay="200"
               >
@@ -141,14 +142,15 @@ export default function about() {
                   <Image
                     src="/3.png"
                     alt="Code Advisors Logo"
-                    width={200}
-                    height={200}
+                    width={150}
+                    height={150}
+                    className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 2xl:w-48 2xl:h-48"
                   />
                 </div>
-                <h3 className="text-[24px] font-semibold text-primary">
+                <h3 className="text-xl md:text-2xl lg:text-2xl 2xl:text-2xl font-semibold text-primary">
                   គុណតម្លៃ
                 </h3>
-                <p className="text-gray-600 flex justify-center text-[18px]">
+                <p className="text-gray-600 text-sm md:text-base lg:text-base 2xl:text-base">
                   ការសហការណ៍ ការដោះស្រាយបញ្ហា
                   ការចែករំលែកចំណេះដឹង​និងបង្កើនការអភិវឌ្ឍន៍។
                 </p>
@@ -157,10 +159,10 @@ export default function about() {
           </section>
 
           {/* About Section */}
-          <section className="container  bg-white mt-20 border border-gray-100 ">
-            <div className="grid grid-cols-1 md:grid-cols-2 items-center ">
+          <section className="container bg-white mt-20 border border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 items-center">
               <div
-                className="h-[300px] md:h-[350px] lg:h-[400px]"
+                className="h-[200px] md:h-[300px] lg:h-[350px] 2xl:h-[400px]"
                 data-aos="fade-right"
               >
                 <Image
@@ -170,11 +172,11 @@ export default function about() {
                   className="object-contain"
                 />
               </div>
-              <div className=" mr-56" data-aos="fade-left">
-                <h2 className="text-3xl font-bold text-red-600">
+              <div className="mr-4 md:mr-56 lg:mr-56 2xl:mr-56" data-aos="fade-left">
+                <h2 className="text-2xl md:text-3xl lg:text-3xl 2xl:text-3xl font-bold text-red-600">
                   តើពួកយើងជានរណា?
                 </h2>
-                <p className="text-lg mt-2 text-gray-600">
+                <p className="text-sm md:text-base lg:text-base 2xl:text-base mt-2 text-gray-600">
                   CodeAdvisors គឺជាវេទិកាមួយដែលត្រូវបានអភិវឌ្ឍឡើងដោយនិស្សិត
                   Spring Microservices នៅ ISTAD។ វេបសាយមួយនេះជួយ Developers
                   ក្នុងការ សិក្សាស្វែងយល់ ចែករំលែកចំណេះដឹង និងសហការណ៍គ្នា
@@ -185,12 +187,12 @@ export default function about() {
           </section>
 
           {/* Learning Path Section */}
-          <section className="text-white mt-20 border border-gray-100  bg-white">
+          <section className="text-white mt-20 border border-gray-100 bg-white">
             <div className="">
-              <h2 className="text-center text-3xl font-bold text-secondary py-7">
+              <h2 className="text-center text-2xl md:text-3xl lg:text-3xl 2xl:text-3xl font-bold text-secondary py-7">
                 ការផ្តល់ពិន្ទុទៅតាមសកម្មភាព
               </h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 mx-52 items-center mb-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 mx-4 md:mx-52 lg:mx-52 2xl:mx-52 items-center mb-10">
                 <div className="space-y-6">
                   {[
                     {
@@ -225,20 +227,22 @@ export default function about() {
                       data-aos="fade-up"
                       data-aos-delay={index * 100}
                     >
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center border border-secondary">
+                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 2xl:w-12 2xl:h-12 rounded-full bg-primary flex items-center justify-center border border-secondary">
                         {item.icon}
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-primary">
+                        <h3 className="text-base md:text-lg lg:text-lg 2xl:text-lg font-semibold text-primary">
                           {item.title}
                         </h3>
-                        <p className="text-black">{item.text}</p>
+                        <p className="text-sm md:text-base lg:text-base 2xl:text-base text-black">
+                          {item.text}
+                        </p>
                       </div>
                     </div>
                   ))}
                 </div>
                 <div
-                  className="relative h-[300px] md:h-[350px] lg:h-[400px] mb-10"
+                  className="relative h-[200px] md:h-[300px] lg:h-[350px] 2xl:h-[400px] mb-10"
                   data-aos="fade-left"
                 >
                   <Image
@@ -251,23 +255,24 @@ export default function about() {
               </div>
             </div>
           </section>
+
           {/* Team Section */}
           <TeamSection />
 
           {/* About Section */}
-          <div className="p-8 ">
-            <section className="mx-36 rounded-sm  bg-white ">
-              <div className="grid md:grid-cols-2  items-center">
+          <div className="p-8">
+            <section className="mx-4 md:mx-36 lg:mx-36 2xl:mx-36 rounded-sm bg-white">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 items-center">
                 <div
-                  className="relative w-[500px] h-[380px] ml-30"
+                  className="relative w-full h-[200px] md:h-[300px] lg:h-[350px] 2xl:h-[380px]"
                   data-aos="fade-right"
                   data-aos-delay="100"
                 >
                   <div className="p-4">
                     <Card className="border-none">
-                      <CardContent className="p-6 ">
+                      <CardContent className="p-6">
                         {/* Map Container */}
-                        <div className="h-[300px]">
+                        <div className="h-[150px] md:h-[200px] lg:h-[250px] 2xl:h-[300px]">
                           <iframe
                             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d8516.35648407093!2d104.898482!3d11.579958536233953!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310951e96d257a6f%3A0x6b66703c5fc0c7cc!2sScience%20and%20Technology%20Advanced%20Development%20Co.%2C%20Ltd.!5e1!3m2!1sen!2skh!4v1734921321450!5m2!1sen!2skh"
                             className="w-full h-full rounded-sm"
@@ -286,21 +291,21 @@ export default function about() {
                   data-aos-delay="200"
                 >
                   <h2
-                    className="text-4xl font-extrabold text-secondary"
+                    className="text-2xl md:text-3xl lg:text-4xl 2xl:text-4xl font-extrabold text-secondary"
                     data-aos="fade-up"
                     data-aos-delay="300"
                   >
                     ទំនាក់ទំនង
                   </h2>
                   <p
-                    className="text-lg text-gray-700 leading-relaxed"
+                    className="text-sm md:text-base lg:text-base 2xl:text-base text-gray-700 leading-relaxed"
                     data-aos="fade-up"
                     data-aos-delay="400"
                   >
                     CodeAdvisors ទទួលនូវរាល់មតិទាំងឡាយពីអ្នកប្រើប្រាស់
                     ជាទីស្រលាញ់​របស់ពួកយើង
                   </p>
-                  <ul className="space-y-6 text-gray-700 text-lg">
+                  <ul className="space-y-6 text-gray-700 text-sm md:text-base lg:text-base 2xl:text-base">
                     <li
                       data-aos="fade-up"
                       data-aos-delay="500"
@@ -308,7 +313,7 @@ export default function about() {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 mr-2 text-secondary"
+                        className="h-5 w-5 md:h-6 md:w-6 lg:h-6 lg:w-6 2xl:h-6 2xl:w-6 mr-2 text-secondary"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -323,7 +328,7 @@ export default function about() {
                       <span className="font-semibold mr-2">អុីម៉ែល:</span>{" "}
                       <a
                         href="/info.istad@gmail.com"
-                        className=" hover:text-primary"
+                        className="hover:text-primary"
                       >
                         istad.tk@edu.kh
                       </a>
@@ -335,7 +340,7 @@ export default function about() {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 mr-2 text-secondary"
+                        className="h-5 w-5 md:h-6 md:w-6 lg:h-6 lg:w-6 2xl:h-6 2xl:w-6 mr-2 text-secondary"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -350,7 +355,7 @@ export default function about() {
                       <span className="font-semibold mr-2">លេខទូរស័ព្ទ:</span>{" "}
                       <a
                         href="tel:+855123456789"
-                        className=" hover:text-primary"
+                        className="hover:text-primary"
                       >
                         +855 123 456 789
                       </a>
@@ -362,7 +367,7 @@ export default function about() {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 mr-2 text-secondary"
+                        className="h-5 w-5 md:h-6 md:w-6 lg:h-6 lg:w-6 2xl:h-6 2xl:w-6 mr-2 text-secondary"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -385,7 +390,7 @@ export default function about() {
                         href="https://maps.app.goo.gl/HRN4hrCyrAqTdZzP6"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className=" hover:text-primary"
+                        className="hover:text-primary"
                       >
                         Street 562,Sangkat Boeung Kak I,Khan Toul Kork,Phnom
                         Penh

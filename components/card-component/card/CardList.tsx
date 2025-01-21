@@ -29,6 +29,7 @@ interface CardListProps {
   searchQuery: string
 }
 
+
 export function CardList({ searchQuery }: CardListProps) {
   const [cards, setCards] = React.useState<CardData[]>([])
   const [loading, setLoading] = React.useState<boolean>(true)
@@ -73,13 +74,13 @@ export function CardList({ searchQuery }: CardListProps) {
     fetchData()
   }, [])
 
-  if (loading) {
-    return <div className="text-center py-4">Loading...</div>
-  }
+  // if (loading) {
+  //   return <div className="text-center py-4">Loading...</div>
+  // }
 
-  if (error) {
-    return <div className="text-center py-4 text-red-500">Error: {error}</div>
-  }
+  // if (error) {
+  //   return <div className="text-center py-4 text-red-500">Error: {error}</div>
+  // }
 
   const filteredCards = searchQuery
     ? cards.filter(
@@ -91,15 +92,12 @@ export function CardList({ searchQuery }: CardListProps) {
     : cards
 
   // Slice the array to display only 4 cards
-  const displayCards = (searchQuery ? filteredCards : cards).slice(0, 6)
+  const displayCards = (searchQuery ? filteredCards : cards).slice(0, 10)
 
   return (
     <div className="">
-      {/* <h2 className="text-2xl font-bold mb-4">
-        {searchQuery ? 'Search Results' : 'All Content'}
-      </h2> */}
       {displayCards.length === 0 ? (
-        <p className="text-center py-4">No results found.</p>
+        <p className=""></p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
           {displayCards.map((card) => (

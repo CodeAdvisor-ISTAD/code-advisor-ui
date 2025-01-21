@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface RecommendationProps {
   type: "Latest" | "Trending";
+  item?: string[]; // Add this line to accept the `item` prop
 }
 
 interface ContentItem {
@@ -12,41 +13,51 @@ interface ContentItem {
   title: string;
 }
 
-export default function Recommendations({ type }: RecommendationProps) {
+export default function Recommendations({ type, item }: RecommendationProps) {
   const [items, setItems] = useState<ContentItem[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      let url = "";
-      if (type === "Latest") {
-        url = "http://167.172.78.79:9200/content-service.contents/_search?q=isDeleted:false AND isDraft:false&sort=created_date:desc&size=10&pretty";
-      } else if (type === "Trending") {
-        url = "http://167.172.78.79:9200/content-service.contents/_search?q=isDeleted:false AND isDraft:false AND tags:java&size=10&pretty";
-      }
-
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    if (item) {
+      // If `item` is provided, map it to the expected format
+      const mappedItems = item.map((title, index) => ({
+        id: `item-${index}`,
+        title,
+      }));
+      setItems(mappedItems);
+    } else {
+      // Otherwise, fetch data as usual
+      const fetchData = async () => {
+        let url = "";
+        if (type === "Latest") {
+          url = "http://167.172.78.79:9200/content-service.contents/_search?q=isDeleted:false AND isDraft:false&sort=created_date:desc&size=10&pretty";
+        } else if (type === "Trending") {
+          url = "http://167.172.78.79:9200/content-service.contents/_search?q=isDeleted:false AND isDraft:false AND tags:java&size=10&pretty";
         }
-        const data = await response.json();
 
-        if (data && data.hits && data.hits.hits) {
-          const items = data.hits.hits.map((hit: { _id: string; _source: ContentItem }) => ({
-            id: hit._id,
-            title: hit._source.title,
-          }));
-          setItems(items);
-        } else {
-          console.error("Unexpected API response structure:", data);
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+
+          if (data && data.hits && data.hits.hits) {
+            const items = data.hits.hits.map((hit: { _id: string; _source: ContentItem }) => ({
+              id: hit._id,
+              title: hit._source.title,
+            }));
+            setItems(items);
+          } else {
+            console.error("Unexpected API response structure:", data);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+      };
 
-    fetchData();
-  }, [type]);
+      fetchData();
+    }
+  }, [type, item]); // Add `item` to the dependency array
 
   // Slice the items array to only include the first 4 items
   const displayedItems = items.slice(0, 4);
@@ -65,8 +76,7 @@ export default function Recommendations({ type }: RecommendationProps) {
             {displayedItems.map((item) => (
               <li key={item.id} className="flex items-start gap-2">
                 <span className="mt-4 h-2 w-2 shrink-0 rounded-full bg-primary" />
-                <Link href={`/content/${item.id}`} className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer"
->
+                <Link href={`/content/${item.id}`} className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer">
                   {item.title}
                 </Link>
               </li>

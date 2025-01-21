@@ -1,20 +1,34 @@
-// CommentContext.jsx
 "use client";
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useState, useContext } from 'react';
 
-const CommentContext = createContext<{
+type CommentMode = 'edit' | 'reply' | null;
+
+type CommentContextType = {
     replyTo: any;
     setReplyTo: React.Dispatch<React.SetStateAction<any>>;
-}>({
+    mode: CommentMode;
+    setMode: React.Dispatch<React.SetStateAction<CommentMode>>;
+    answerUuid: string;
+    setAnswerUuid: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const CommentContext = createContext<CommentContextType>({
     replyTo: null,
-    setReplyTo: () => {}
+    setReplyTo: () => {},
+    mode: null,
+    setMode: () => {},
+    answerUuid: '',
+    setAnswerUuid: () => {},
 });
 
-export const CommentProvider = ({ children }) => {
-    const [replyTo, setReplyTo] = useState(null);
+export const CommentProvider = ({ children }: { children: React.ReactNode }) => {
+    const [replyTo, setReplyTo] = useState<any>(null);
+    const [mode, setMode] = useState<CommentMode>(null);
+    const [answerUuid, setAnswerUuid] = useState<string>('');
+    
 
     return (
-        <CommentContext.Provider value={{ replyTo, setReplyTo }}>
+        <CommentContext.Provider value={{ replyTo, setReplyTo, mode, setMode, answerUuid, setAnswerUuid }}>
             {children}
         </CommentContext.Provider>
     );

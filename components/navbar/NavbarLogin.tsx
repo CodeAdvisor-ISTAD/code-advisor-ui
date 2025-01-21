@@ -1,5 +1,14 @@
 "use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { FiBell, FiEdit2 } from "react-icons/fi";
 import { Dropdown, DropdownItem } from "flowbite-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
+import { LogOut, Moon, Settings, User } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,40 +17,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, Moon, Settings, User } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Switch } from "@/components/ui/switch";
-import Image from "next/image";
-import { FiBell, FiEdit2 } from "react-icons/fi";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useState } from "react";
 
 interface NavbarLoginProps {
-  user: any; // User data
-  onSearch: (query: string) => void; // Add onSearch prop
+  user: any;
+  onSearch: (query: string) => void;
 }
 
 export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
-  const route = useRouter();
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setSearchQuery(newQuery);
-    onSearch(newQuery); // Pass the search query to the parent component
+
+    if (newQuery.trim() === "") {
+      onSearch(""); // Show all when search is cleared
+    }
   };
 
-  const handleLogoClick = () => {
-    setSearchQuery("");
-    onSearch(""); // Clear the search query
+  const handleSearchSubmit = () => {
+    onSearch(searchQuery);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+    }
   };
 
   return (
     <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
       {/* Logo */}
       <section>
-        <Link href="/" aria-label="Go to home page" onClick={handleLogoClick}>
+        <Link href="/" aria-label="Go to home page">
           <Image src="/logo1.png" alt="logo" width={100} height={100} />
         </Link>
       </section>
@@ -55,15 +64,11 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
             className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none"
             value={searchQuery}
             onChange={handleSearchChange}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                onSearch(searchQuery); // Trigger search on Enter key
-              }
-            }}
+            onKeyPress={handleKeyPress}
           />
           <button
             className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px]"
-            onClick={() => onSearch(searchQuery)} // Trigger search on button click
+            onClick={handleSearchSubmit}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +91,6 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
       {/* Action Icons */}
       <div className="flex items-center mx-8">
         <div className="bg-primary px-4 rounded-md text-white">
-          {/* Button with Dropdown */}
           <Dropdown
             inline
             label={
@@ -97,7 +101,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
             }
           >
             <DropdownItem className="text-black">
-              <span onClick={() => route.push("/content/new")}>បង្កើតអត្ថបទ</span>
+              <span onClick={() => router.push("/content/new")}>បង្កើតអត្ថបទ</span>
             </DropdownItem>
             <DropdownItem className="text-black">
               <Link href="/forum/new">បង្កើត Forum</Link>
@@ -105,20 +109,17 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
           </Dropdown>
         </div>
 
-        {/* Notification Icon */}
         <a href="/notification">
           <button className="relative text-primary mx-8">
             <FiBell className="h-7 w-7" />
-            <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-xs text-white"></span>
           </button>
         </a>
 
-        {/* User Avatar */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="h-8 w-8 cursor-pointer">
               <AvatarImage src={user?.profileImage} alt="User avatar" />
-              <AvatarFallback></AvatarFallback>
+              <AvatarFallback />
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
@@ -147,9 +148,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-600">
               <LogOut className="mr-2 h-4 w-4" />
-              <span onClick={() => route.push("http://127.0.0.1:9090/logout")}>
-                ចាកចេញ
-              </span>
+              <span onClick={() => router.push("http://127.0.0.1:9090/logout")}>ចាកចេញ</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
