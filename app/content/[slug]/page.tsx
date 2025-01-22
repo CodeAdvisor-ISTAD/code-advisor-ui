@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [slug, setSlug] = useState<string | null>(null);
   // const {user} = useUser()
 
-  const contentId = "678378aecde7c858c76a0290"; // Example contentId, dynamically set as needed
+  const contentId = "678e11c0a7224545320e8fcd"; // Example contentId, dynamically set as needed
   const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
   const ownerId = "b3ee9ec3-be2f-401d-89fc-6f3956efcfc4";
   // const slug = "spring-boot-jpa"

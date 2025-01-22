@@ -279,11 +279,19 @@ export const getUserReaction = async (contentId: string, userId: string) => {
   try {
     const response = await axios.get(`${BASE_URL}/api/v1/reactions/${contentId}/user/${userId}`);
     return response.data.reaction; // This should be the reaction type like "love", "fire", or "like"
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response && error.response.status === 404) {
+      // If the status code is 404, return a default value of 0
+      console.warn("No reaction data found. Defaulting to 0.");
+      return 0;
+    }
+
+    // Re-throw any other errors
     console.error("Error fetching user reaction:", error);
     throw error;
   }
 };
+
 
 // report
 export const createReport = async (report: {
@@ -316,3 +324,18 @@ export const createReport = async (report: {
   }
 };
 
+interface ShareContent {
+  userId: string;
+  contentId: string;
+  sharePlatform: string;
+}
+
+export const shareContent = async (shareData: ShareContent) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/v1/reports/shareContent`, shareData);
+    return response.data;
+  } catch (error) {
+    console.error("Error sharing content:", error);
+    throw new Error("Failed to share content");
+  }
+};
