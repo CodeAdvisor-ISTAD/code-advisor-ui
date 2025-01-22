@@ -97,7 +97,8 @@ export function CardList({ searchQuery }: CardListProps) {
   return (
     <div className="">
       {displayCards.length === 0 ? (
-        <p className=""></p>
+              <p className="text-center py-4 text-gray-500">No results found</p>
+
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
           {displayCards.map((card) => (

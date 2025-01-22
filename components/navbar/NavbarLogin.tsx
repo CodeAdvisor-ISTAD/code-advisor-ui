@@ -37,7 +37,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
   };
 
   const handleSearchSubmit = () => {
-    onSearch(searchQuery);
+    router.push(`/all-content?query=${encodeURIComponent(searchQuery)}`);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

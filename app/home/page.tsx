@@ -25,9 +25,9 @@ export default function Home() {
 
       <div className="ml-[264px] w-[710px]">
         <CardList searchQuery={searchQuery} />
-        <div className="pt-2">
+        {/* <div className="pt-2">
           <ForumList searchQuery={searchQuery}></ForumList>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col ml-2 gap-2 right-[90px] w-[340px]">

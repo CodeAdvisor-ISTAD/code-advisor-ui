@@ -22,7 +22,7 @@ export default function Page() {
             {/* Forum Detail Component */}
             <ForumDetailComponent slug={forumSlug as string} />
             <div className="flex flex-col ml-2 gap-2 ">
-                <TrendingComponent type="Latest" items={latest} />
+                <TrendingComponent type="Latest" item={latest} />
                 <ISTADCard />
             </div>
         </main>
