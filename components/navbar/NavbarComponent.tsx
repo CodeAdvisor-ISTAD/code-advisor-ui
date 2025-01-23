@@ -1,5 +1,4 @@
 'use client';
-
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ interface NavbarComponentProps {
 
 export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
   const route = useRouter();
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const { data: user } = useQuery({
     queryKey: ["profile"],
@@ -39,8 +39,9 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
   };
 
   const handleSearchSubmit = () => {
-    onSearch(searchQuery);
+    router.push(`/all-content?query=${encodeURIComponent(searchQuery)}`);
   };
+
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
