@@ -13,6 +13,8 @@ import { Notification, NotificationActions, NotificationType } from "@/types/not
 import { useState } from 'react';
 import { useUser } from "@/lib/context/userContext";
 import Image from "next/image";
+import { useQuery } from '@tanstack/react-query';
+import { findUserProfileByUuid } from '@/hooks/api-hook/user/user-service';
 
 interface NotificationItemProps {
   notification: Notification;
@@ -49,7 +51,10 @@ const getNotificationIcon = (type: NotificationType) => {
 export function NotificationItem({ notification, actions }: NotificationItemProps) {
   const [isRead, setIsRead] = useState(notification.read);
   const router = useRouter();
-  const { user } = useUser();
+  const {data : user} = useQuery({
+    queryFn: () => findUserProfileByUuid(notification.senderId),
+    queryKey: ['userNotification', notification.senderId],
+  })
 
   const profileImage = user?.profileImage || placeholderProfile;
   const username = user?.username || 'Unknown';
