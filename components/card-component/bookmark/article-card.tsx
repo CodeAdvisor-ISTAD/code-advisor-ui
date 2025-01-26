@@ -1,63 +1,87 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Bookmark } from 'lucide-react'
-import Image from "next/image"
+"use client";
 
+import * as React from "react";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
-interface ArticleCardProps {
-  id: string;
+interface CardData {
   title: string;
   description: string;
-  tags: string[];
+  tags: string;
   tags1: string;
-  image: string;
-  created_date: string;
-  onToggleBookmark: () => void
+  thumbnail: string;
+  createdDate: string;
+  slug: string;
 }
 
-export function ArticleCard({
+export function ArticleCardBookmark({
   title,
+  slug,
   description,
   tags,
   tags1,
-  image,
-  created_date,
-  id,
-  onToggleBookmark
-}: ArticleCardProps) {
+  thumbnail,
+  createdDate,
+}: CardData) {
   return (
-    <Card className="h-full relative rounded-sm border-gray-100 ">
-      <CardContent className="p-6 space-y-4">
-        <div className="aspect-video relative overflow-hidden">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover"
-          />
+    <a href={`/content/${slug}`}>
+      <Card className="bg-white rounded-[5px] w-full">
+        <div className="flex flex-col justify-between">
+          <CardContent className="pt-4 flex flex-row justify-between">
+            <div className="">
+              <div className="space-y-3 p-0">
+                <h1 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">
+                  {title}
+                </h1>
+                <p className="text-slate-500 text-sm line-clamp-2 ">
+                  {description}
+                </p>
+              </div>
+              <div className="max-h-20 overflow-y-auto ">
+                <div className="flex flex-wrap gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
+                  >
+                    #{tags}
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
+                  >
+                    #{tags1}
+                  </Badge>
+                </div>
+              </div>
+                <div className="pt-4 text-sm text-gray-500">
+                {new Date(createdDate)
+                  .toLocaleDateString("en-GB", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                  })
+                  .replace(",", " :")
+                  .replace(/\b(am|pm)\b/g, (match) => match.toUpperCase())}
+                </div>
+            </div>
+            {thumbnail && title && (
+              <div className="relative h-[100px] w-[150px] overflow-hidden">
+                <Image
+                  src={thumbnail}
+                  alt={title}
+                  fill
+                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+                  sizes="(max-width: 250px) 0vw, 1200px"
+                />
+              </div>
+            )}
+          </CardContent>
         </div>
-        <div className="space-y-2">
-          <h3 className="text-xl font-medium tracking-tight text-primary line-clamp-2">{title}</h3>
-          <p className="text-slate-500 text-sm line-clamp-2">{description}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute bottom-4 right-2 text-yellow-500 hover:text-yellow-600 bg-white/80 hover:bg-white z-10"
-          onClick={onToggleBookmark}
-        >
-          <Bookmark className="h-5 w-5" fill={Bookmark ? "currentColor" : "none"} />
-        </Button>
-      </CardContent>
-    </Card>
-  )
+      </Card>
+    </a>
+  );
 }
-

@@ -6,7 +6,7 @@ const getOwnUserProfile = async function fetchUserServiceProfile() {
   if (response.ok) {
     return data;
   } else {
-    throw data
+    throw data;
   }
 }
 
@@ -14,7 +14,14 @@ const getOwnUserProfile = async function fetchUserServiceProfile() {
 const getUserByUsername = async (username: string) => {
   try {
     const response = await fetch(`/users/api/v1/user_profiles/${username}`);
-    return await response.json();
+    const data = await response.json();
+
+    if (response.ok) {
+      return data;
+    } else {
+      console.error("Error fetching user profile:", data);
+      return data;
+    }
   } catch (error) {
     console.error("Error fetching user profile:", error);
     throw error; // Rethrow for error handling
@@ -61,4 +68,15 @@ const uploadProfileImage = async function uploadProfileImage(fileImageUrl) {
   }
 }
 
-export { getOwnUserProfile, getUserByUsername, updateUserProfile, uploadProfileImage };
+const findAllUsers = async function fetchAllUsers() {
+  const response = await fetch("/api/v1/user_profiles");
+  const data = await response.json();
+
+  if (response.ok) {
+    return data;
+  } else {
+    throw data;
+  }
+}
+
+export { getOwnUserProfile, getUserByUsername, updateUserProfile, uploadProfileImage, findAllUsers };

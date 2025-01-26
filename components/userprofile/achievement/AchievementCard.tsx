@@ -25,8 +25,6 @@ export default function AchievementLevelComponent({ userInformation, disableButt
     queryFn: () => fetchUserProfile(),
   });
 
-  console.log("userInformation : ", userInformation);
-
   const { data } = useFetchAchievementLevel(userInformation?.id);
   return (
     <Card className="w-full h-fit bg-white mb-2">

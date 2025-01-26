@@ -9,7 +9,7 @@ export class WebSocketService {
   private subscriptionCallback: ((notification: Notification) => void) | null = null;
   private userId: string;
 
-  constructor(wsUrl: string = 'http://localhost:8888/ws', userId: string) {
+  constructor(wsUrl: string = 'http://127.0.0.1:8168/notifications/ws', userId: string) {
     this.wsUrl = wsUrl;
     this.userId = userId;
 

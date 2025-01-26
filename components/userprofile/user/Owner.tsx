@@ -24,8 +24,6 @@ export default function Owner() {
     queryFn: getOwnUserProfile,
   }); // Fetch the user profile
 
-  console.log("userInformation : ", userInformation);
-
   return (
     <div className=" max-w-7xl dark:bg-gray-900 lg:p-4 p-1 mx-auto">
       <div className="w-full bg-white pb-4 rounded-lg">
@@ -33,7 +31,7 @@ export default function Owner() {
           {/* cover */}
           <div
             className="cover w-full lg:h-[200px] h-[175px] rounded-[5px] relative"
-            style={{ backgroundColor: userInformation?.coverColor }}
+            style={{ backgroundColor: userInformation?.coverColor || "#000040" }}
           >
             {/* profile image */}
             <ProfileImage disableButton profileAuth={userInformation} />

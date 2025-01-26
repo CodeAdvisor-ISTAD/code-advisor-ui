@@ -10,7 +10,6 @@ import {
 } from "@/components/userprofile/table";
 
 export default function UserInformationCardComponent(userInformation) {
-  console.log("userInformation", userInformation);
   const user = userInformation.userInformation || staticUserProfile;
 
   return (

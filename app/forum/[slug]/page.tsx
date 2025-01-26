@@ -4,27 +4,33 @@ import TrendingComponent from "@/components/card-component/card-trending/Trendin
 import ForumDetailComponent from "@/components/forum-component/forumDetailComponent";
 import React, { useEffect, useState } from "react";
 import Preview from "@/components/text-editor/preview";
-import { usePathname,useParams } from "next/navigation";
-
+import { usePathname, useParams } from "next/navigation";
 
 const latest = [
-    "Advanced CSS techniques for modern web design",
-    "Learn Tailwind CSS for responsive layouts",
-    "Master React state management with Redux",
+  "Advanced CSS techniques for modern web design",
+  "Learn Tailwind CSS for responsive layouts",
+  "Master React state management with Redux",
 ];
 
-// If you're fetching data, make this async
-export default function Page() {
-    const { slug: forumSlug } = useParams();
+export type ParamProps = {
+  params: Promise<{ slug: any }>;
+};
 
-    return (
-        <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
-            {/* Forum Detail Component */}
-            <ForumDetailComponent slug={forumSlug as string} />
-            <div className="flex flex-col ml-2 gap-2 ">
-                <TrendingComponent type="Latest" items={latest} />
-                <ISTADCard />
-            </div>
-        </main>
-    );
+// If you're fetching data, make this async
+export default async function Page({ params }: ParamProps) {
+  // const { slug: forumSlug } = useParams();
+  const { slug } = await params;
+
+    console.table("forum slug : ", slug);
+
+  return (
+    <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
+      {/* Forum Detail Component */}
+      <ForumDetailComponent slug={slug} />
+      <div className="flex flex-col ml-2 gap-2 ">
+        <TrendingComponent type="Latest" items={latest} />
+        <ISTADCard />
+      </div>
+    </main>
+  );
 }

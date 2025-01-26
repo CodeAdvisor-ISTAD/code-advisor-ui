@@ -9,6 +9,7 @@ import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { useQuery } from "@tanstack/react-query";
 import AchievementLevelComponent from "../achievement/AchievementCard";
 import ViewerPost from "./ViewerPostComponent";
+import { log } from "console";
 
 export default function Viewer({ username }: { username: string }) {
   const [bgColor, setBgColor] = useState("#000040");
@@ -18,6 +19,10 @@ export default function Viewer({ username }: { username: string }) {
     queryKey: ["publicUserProfile"],
     queryFn: () => getUserByUsername(username),
   });
+
+  if (publicUserProfile === undefined) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">

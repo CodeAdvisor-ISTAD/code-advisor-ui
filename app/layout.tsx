@@ -10,6 +10,7 @@ import Provider from "./_provider";
 import { Toaster } from "react-hot-toast";
 import { CommentProvider } from "@/lib/context/commentContext";
 import { UserProvider, useUser } from "@/lib/context/userContext";
+import HighlightInitializer from "@/components/text-editor/HighlightInitializer";
 
 export default function RootLayout({
   children,
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
       >
+        <HighlightInitializer />
         <UserProvider>
           <CommentProvider>
             <Provider>

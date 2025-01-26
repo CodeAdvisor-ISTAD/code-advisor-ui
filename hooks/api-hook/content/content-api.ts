@@ -41,7 +41,7 @@ const getContentByAuthorUuid = async function getContentByAuthorUuid(
     size: number
   ) {
     const response = await fetch(
-      `/contents//api/v1/contents/author/${authorUuid}?page=${page}&size=${size}`
+      `/contents/api/v1/contents/author/${authorUuid}?page=${page}&size=${size}`
     );
     const data = await response.json();
   
@@ -52,17 +52,21 @@ const getContentByAuthorUuid = async function getContentByAuthorUuid(
     }
   };
 
-// get bookmarked content
-const getBookmarkedContent = async function getBookmarkedContent() {
-    const response = await fetch(`/users/api/v1/bookmarks`);
-    const data = await response.json();
+// get all content
+const getAllContent = async function getAllContent(
+  page: number,
+  size: number
+) {
+  const response = await fetch(
+    `/contents/api/v1/contents/all?page=${page}&size=${size}`
+  );
+  const data = await response.json();
+
+  if (response.ok) {
+    return data;
+  } else {
+    throw data;
+  }
+};
   
-    if (response.ok) {
-      return data;
-    } else {
-      throw data;
-    }
-    
-}
-  
-export { createContent, getContent, getAllForums, getContentByAuthorUuid, getBookmarkedContent };
+export { createContent, getContent, getAllForums, getContentByAuthorUuid, getAllContent };

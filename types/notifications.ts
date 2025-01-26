@@ -9,7 +9,13 @@ export type NotificationData = {
   export enum NotificationType {
     LIKE = 'LIKE',
     COMMENT = 'COMMENT',
-    REPLY = 'REPLY'
+    REPLY = 'REPLY',
+    VOTE = 'VOTE',
+    ACCEPT = 'ACCEPT',
+    CREATE = 'CREATE',
+    REPORT = 'REPORT',
+    ANSWER = 'ANSWER',
+    QUESTION = 'QUESTION'
   }
   
   export type Notification = {

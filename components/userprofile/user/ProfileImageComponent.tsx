@@ -3,109 +3,82 @@
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import profilePlaceholder from "@/public/user-profile-image/place-holder-profile.png";
-import { toast } from "react-toastify"; // Assuming you are using react-toastify for notifications
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@radix-ui/react-hover-card";
-import { ImageUp } from "lucide-react"
-import {useRouter} from "next/navigation";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ImageUp } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadProfileImage } from "@/hooks/api-hook/user/user-service";
 import BadgeComponent from "../badge/BadgeComponent";
-
+import { koh_Santepheap } from "@/app/fonts/fonts";
 
 interface ProfileImageProps {
   disableButton: boolean;
   profileAuth: any;
 }
 
-export default function ProfileImage({
-  disableButton,
-  profileAuth,
-}: ProfileImageProps) {
+export default function ProfileImage({ disableButton, profileAuth }: ProfileImageProps) {
   const queryClient = useQueryClient();
   const [image, setImage] = useState<string>("null");
-  const [tempImage, setTempImage] = useState<string | null>(null); // Temporary image for preview
+  const [tempImage, setTempImage] = useState<string | null>(null);
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
-  const {mutate: updateUserProfile} = useMutation({
+
+  const { mutate: updateUserProfile } = useMutation({
     mutationFn: uploadProfileImage,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["profile"]});
-      queryClient.invalidateQueries({queryKey: ["authProfile"]});
-
-    }
-  })
-
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["authProfile"] });
+      toast.success("រូបភាពរបស់អ្នកត្រូវបានរក្សាទុកដោយជោគជ័យ");
+    },
+    onError: () => {
+      toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព សូមព្យាយាមម្តងទៀត");
+    },
+  });
 
   const uploadFile = async (file: File) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch(
-        "http://167.172.78.79:8090/api/v1/files/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        toast.error("បរាជ័យក្នុងការផ្ទុករូបភាព សូមព្យាយាមម្តងទៀត");
-        setImage(profilePlaceholder.src);
-        return;
-      }
+      const response = await fetch("https://media.panda.engineer/api/v1/files/upload?file", {
+        method: "POST",
+        body: formData,
+      });
 
       const result = await response.json();
       setTempImage(result.file_url);
-      setShowSavePopup(true); // Show the save popup
-      return result.file_url; // Assuming the API returns the file URL
+      setShowSavePopup(true);
+      return result.file_url;
     } catch (error) {
-      console.error("Error uploading file:", error);
-      toast.error("បរាជ័យក្នុងការផ្ទុករូបភាព សូមព្យាយាមម្តងទៀត");
       setImage(profilePlaceholder.src);
-      throw error;
+      return null;
     }
   };
 
-  console.log("upload file : " + uploadFile);
-
-  const saveProfileImageUrl =  (fileUrl: string) => {
-    const imageData = {
-      imageUrl: fileUrl,
-    };
-
-    try {
-      updateUserProfile(imageData);
-      toast.success("រូបភាពរបស់អ្នកត្រូវបានរក្សាទុកដោយជោគជ័យ");
-    } catch (error) {
-      console.error("Error saving profile image URL:", error);
-      toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព សូមព្យាយាមម្តងទៀត");
-    }
+  const saveProfileImageUrl = async (fileUrl: string) => {
+    updateUserProfile({ imageUrl: fileUrl });
   };
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      await uploadFile(file);
+      const uploadedImageUrl = await uploadFile(file);
+      if (!uploadedImageUrl) {
+        // Handle error if needed
+      }
     }
   };
 
   const handleSave = () => {
-    console.log("temp image : " + tempImage);
     if (tempImage) {
-      setImage(tempImage); // Save the new image
-      setShowSavePopup(false); // Hide the popup
-      saveProfileImageUrl(tempImage); // Send the file URL to backend
+      setImage(tempImage);
+      setShowSavePopup(false);
+      saveProfileImageUrl(tempImage);
     }
   };
 
   const handleCancel = () => {
-    setTempImage(null); // Discard the temporary image
-    setShowSavePopup(false); // Hide the popup
+    setTempImage(null);
+    setShowSavePopup(false);
   };
 
   return (
@@ -113,14 +86,7 @@ export default function ProfileImage({
       <div className="flex flex-row absolute lg:-bottom-28 -bottom-20 left-8">
         <div className="relative lg:w-[200px] lg:h-[200px] w-[125px] h-[125px] rounded-full bg-white overflow-hidden bottom-2">
           <Image
-            src={
-              tempImage ||
-              (image !== "null"
-                ? image
-                : profileAuth?.profileImage ||
-                  profileAuth?.profileImage ||
-                  profilePlaceholder.src)
-            }
+            src={tempImage || (image !== "null" ? image : profileAuth?.profileImage || profilePlaceholder.src)}
             alt="Profile"
             className="object-cover rounded-full border-4 border-gray-200 lg:w-[200px] lg:h-[200px] w-[100px] h-[100px]"
             fill
@@ -142,35 +108,20 @@ export default function ProfileImage({
             <ImageUp className="w-5 h-5 text-primary" />
           </button>
         )}
-        {/* Profile Name and Username */}
         <div className="flex items-center justify-between absolute lg:pl-56 pl-[150px] lg:top-[105px] top-[60px] w-[400px] lg:w-[750px]">
           <div>
             <div className="flex gap-2 flex-row w-full mx-auto">
               <h2 className="lg:text-3xl text-xl font-bold">{profileAuth?.fullName}</h2>
-              {/* <HoverCard>
-                <HoverCardTrigger className="flex cursor-pointer items-center text-3xl">
-                  ✨
-                </HoverCardTrigger>
-                <HoverCardContent className="text-sm text-gray-400">
-                  ITE-Student
-                </HoverCardContent>
-              </HoverCard>  */}
               <BadgeComponent />
             </div>
-            <p className="lg:text-lg text-xs text-muted-foreground">
-              @{profileAuth?.username}
-            </p>
+            <p className="lg:text-lg text-xs text-muted-foreground">@{profileAuth?.username}</p>
           </div>
         </div>
       </div>
-
-      {/* Save Popup */}
       {showSavePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 max-w-sm w-full rounded-xl shadow-lg transform transition-all duration-300 ease-in-out scale-100">
-            <h3 className="text-xl font-semibold mb-6 text-center text-gray-700">
-              ផ្លាស់ប្តូររូបភាពរបស់អ្នក
-            </h3>
+            <h3 className="text-xl font-semibold mb-6 text-center text-gray-700">ផ្លាស់ប្តូររូបភាពរបស់អ្នក</h3>
             <div className="flex justify-center mb-6">
               <Image
                 src={tempImage || ""}

@@ -31,7 +31,7 @@ export default function BadgeComponent() {
           {badge?.badgeImage ? (
             <img src={badge.badgeImage} alt="badge" />
           ) : (
-            <></>
+            <>🌟</>
           )}
         </HoverCardTrigger>
         <HoverCardContent className="text-sm text-gray-400 bg-gray-50 p-2 rounded-sm">

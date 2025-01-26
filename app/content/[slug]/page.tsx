@@ -5,15 +5,18 @@ import { ContentSidebar } from "@/components/engagement/content/ContentSidebar";
 import PrismLoader from "@/components/text-editor/prismLoader";
 import { getContent } from "@/hooks/api-hook/content/content-api";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-export default function Page({ params }: { params: { slug: string } }) {
-  const { slug } = useParams();
+export type ParamProps = {
+  params: Promise<{ slug: any }>;
+};
+
+export default async function Page({ params }: ParamProps) {
+  const { slug } = await params;
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["contentDetails", slug],
-    queryFn: () => getContent(slug.toString()),
+    queryFn: () => getContent(slug),
   });
 
   if (isLoading) {
@@ -30,7 +33,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     <main className="flex mx-auto mt-[80px] pb-4 bg-gray-100 w-full px-[100px]">
       <div className="w-full fixed">
         <ContentSidebar
-          contentId={slug.toString()}
+          contentId={slug}
           bookmark={data?.bookmark ?? 0}
           comment={data?.comment}
           reactions={data?.communityEngagement}

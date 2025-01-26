@@ -9,17 +9,15 @@ interface CardData {
   id: string;
   title: string;
   description: string;
-  tags: string;
-  tags1: string;
+  // tags: string;
   image: string;
   created_date: string;
 }
 
-export function BookmarkCard({
+export function BookmarkForumCard({
   title,
   description,
-  tags,
-  tags1,
+  // tags,
   image,
   created_date,
   id,
@@ -40,18 +38,13 @@ export function BookmarkCard({
               </div>
               <div className="max-h-20 overflow-y-auto ">
                 <div className="flex flex-wrap gap-2">
-                  <Badge
+                  {/* <Badge
                     variant="outline"
                     className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
                   >
                     #{tags}
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
-                  >
-                    #{tags1}
-                  </Badge>
+                  </Badge> */}
+                  
                 </div>
               </div>
               <div className="pt-4 text-sm text-gray-500">{created_date}</div>

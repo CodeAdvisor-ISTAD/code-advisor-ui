@@ -18,6 +18,9 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Popover,
   PopoverContent,
@@ -45,8 +48,6 @@ export default function EditUserInformationForm(
     queryFn: getOwnUserProfile,
   }); // Fetch user data
 
-  console.log("userInformation : ", userInformation);
-
   const router = useRouter();
   const [date, setDate] = React.useState<Date>();
   const { mutate: updateUser, isSuccess } = useMutation({
@@ -55,8 +56,12 @@ export default function EditUserInformationForm(
       queryClient.invalidateQueries({
         queryKey: ["profile"],
       });
+      toast.success("ព័ត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ");
       // Redirect immediately after successful update
       router.push(`/user-profile/${userInformation?.username}`);
+    },
+    onError: () => {
+      toast.error("បរាជ័យក្នុងការរក្សាទុកព័ត៌មាន សូមព្យាយាមម្ដងទៀត");
     },
   });
 
@@ -103,6 +108,7 @@ export default function EditUserInformationForm(
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <ToastContainer />
         <div className="flex justify-center gap-[15px]">
           <div className="flex flex-col bg-white w-[510px] h-full items-center pb-[25px] pt-[25px] rounded-lg border">
             <div className="w-[200px] h-[55px] pr-[450px] relative">
