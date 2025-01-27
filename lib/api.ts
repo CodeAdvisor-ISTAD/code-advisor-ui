@@ -60,7 +60,7 @@ const comments: Comment[] = [
 // Mock API functions to simulate backend calls
 const contents: Content[] = [
   {
-    id: "1",
+    slug: "1",
     title: "Introduction to React",
     description: "Learn the basics of React and how to build modern web applications.",
     cover: "https://i.pinimg.com/736x/06/98/6a/06986a1609bd2fcbd8cb047c789738d0.jpg",
@@ -73,7 +73,7 @@ const contents: Content[] = [
     bookmark: 10 // The number of total bookmarks for this content
   },
   {
-    id: "2",
+    slug: "2",
     title: "Advanced TypeScript Techniques",
     description: "Dive deep into TypeScript and learn advanced concepts and patterns.",
     cover: "https://i.pinimg.com/236x/64/05/58/640558ee5bd3a60a62aea4d1911cbe3b.jpg",
@@ -96,7 +96,7 @@ export async function getContents(): Promise<Content[]> {
 // Get a specific content by id
 export async function getContentById(contentId: string): Promise<Content | undefined> {
   // Find and return the content with the matching id
-  return contents.find(content => content.id === contentId);
+  return contents.find(content => content.slug === contentId);
 }
 
 
