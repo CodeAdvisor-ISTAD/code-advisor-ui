@@ -18,18 +18,18 @@ import Link from "next/link";
 import { Notification } from "@/types/notifications";
 import { WebSocketService } from "@/lib/websocket";
 import { useEffect, useState } from "react";
-import { fetchNotifications } from "@/lib/api";
-import { useUser } from "@/lib/context/userContext";
+import { fetchNotifications } from '@/lib/api';
+import {useUser} from "@/lib/context/userContext";
+import { useSearch } from "@/lib/context/SearchContext";
 
 export function NavbarLogin({ user }: { user: any }) {
-  const route = useRouter();
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [lastCheckedTime, setLastCheckedTime] = useState<number>(
-    typeof window !== "undefined"
-      ? Number(localStorage.getItem("lastNotificationCheck") || "0")
-      : 0
-  );
+    const route = useRouter();
+    const { searchValue, setSearchValue } = useSearch();
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [unreadCount, setUnreadCount] = useState<number>(0);
+    const [lastCheckedTime, setLastCheckedTime] = useState<number>(
+        typeof window !== 'undefined' ? Number(localStorage.getItem('lastNotificationCheck') || '0') : 0
+    );
 
   const [userUuid, setUserUuid] = useState(user?.uuid || "");
 
@@ -101,32 +101,33 @@ export function NavbarLogin({ user }: { user: any }) {
         </Link>
       </section>
 
-      {/* Search Bar */}
-      <div className="flex flex-1 justify-center">
-        <div className="relative w-[800px]">
-          <input
-            type="text"
-            placeholder="ស្វែងរក"
-            className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none"
-          />
-          <button className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-5 h-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-4.35-4.35m2.85-6.15a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+            {/* Search Bar */}
+            <div className="flex flex-1 justify-center">
+                <div className="relative w-[800px]">
+                    <input               
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        type="text"
+                        placeholder="ស្វែងរក"
+                        className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none"
+                    />
+                    <button className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px]">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 21l-4.35-4.35m2.85-6.15a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                        </svg>
+                    </button>
+                </div>
+            </div>
 
       {/* Action Icons */}
       <div className="flex items-center mx-8">
@@ -164,51 +165,49 @@ export function NavbarLogin({ user }: { user: any }) {
           )}
         </button>
 
-        {/* User Avatar */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar className="h-8 w-8 cursor-pointer">
-              <AvatarImage src={user?.profileImage} alt="User avatar" />
-              <AvatarFallback></AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end">
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <a href={`/user-profile/${user?.username}`}>
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>ប្រវត្តិរូប</span>
-                </DropdownMenuItem>
-              </a>
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex w-full items-center justify-between">
-                  <div className="flex items-center">
-                    <Moon className="mr-2 h-4 w-4" />
-                    <span>មុខងារងងឹត</span>
-                  </div>
-                  <Switch />
-                </div>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">
-              <LogOut className="mr-2 h-4 w-4" />
-              <span
-                onClick={() => route.push("http://127.0.0.1:9090/logout")}
-              >
-                ចាកចេញ
-              </span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </div>
-  );
+                {/* User Avatar */}
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Avatar className="h-8 w-8 cursor-pointer">
+                            <AvatarImage src={user?.profileImage} alt="User avatar"/>
+                            <AvatarFallback></AvatarFallback>
+                        </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56" align="end">
+                        <DropdownMenuSeparator/>
+                        <DropdownMenuGroup>
+                        <a href={`/user-profile/${user?.username}`}>
+                                <DropdownMenuItem>
+                                    <User className="mr-2 h-4 w-4"/>
+                                    <span>ប្រវត្តិរូប</span>
+                                </DropdownMenuItem>
+                            </a>
+                            <DropdownMenuItem>
+                                <Settings className="mr-2 h-4 w-4"/>
+                                <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex items-center">
+                                        <Moon className="mr-2 h-4 w-4"/>
+                                        <span>មុខងារងងឹត</span>
+                                    </div>
+                                    <Switch/>
+                                </div>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator/>
+                        <DropdownMenuItem className="text-red-600">
+                            <LogOut className="mr-2 h-4 w-4"/>
+                            <span onClick={() => route.push("http://127.0.0.1:9090/logout")}>
+                                ចាកចេញ
+                            </span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+        </div>
+    );
 }
 
 export default NavbarLogin;

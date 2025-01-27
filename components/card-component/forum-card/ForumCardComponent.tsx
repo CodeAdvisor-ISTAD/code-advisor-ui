@@ -67,6 +67,7 @@ export function ForumCardComponent({
         },
     });
 
+    // submit history for forum
     const handleNavigate = (slug: string) => {
         if (!clicked) {
             setClicked(true); // Set clicked to true to prevent multiple clicks
@@ -86,7 +87,7 @@ export function ForumCardComponent({
                 submitHistory(data);
                 // Replace the console.log with your actual API call
                 // Example: addHistory(forumCardData.slug);
-            }, 7000); // Delay of 7 seconds
+            }, 5000); // Delay of 7 seconds
         }
     };
 

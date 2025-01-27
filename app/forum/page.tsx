@@ -2,6 +2,7 @@
 import ISTADCard from "@/components/card-component/card-trending/Card-Istad";
 import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
 import ForumCardList from "@/components/card-component/forum-card/ForumCardList";
+import { useSearch } from "@/lib/context/SearchContext";
 import React from "react";
 
 
