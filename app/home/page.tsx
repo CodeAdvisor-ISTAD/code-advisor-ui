@@ -23,7 +23,7 @@ export default function Home() {
     <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
       <NavbarComponent onSearch={handleSearch} />
 
-      <div className="ml-[264px] w-[710px]">
+      <div className="ml-[264px] w-[710px] ">
         <CardList searchQuery={searchQuery} />
         {/* <div className="pt-2">
           <ForumList searchQuery={searchQuery}></ForumList>
