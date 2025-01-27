@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">
           {/* Partner Logos */}
           <div className="md:col-span-1 lg:col-span-1 2xl:col-span-1">
-            <h3 className="mb-4 text-lg font-semibold">អ្នកឧបត្ថម្ភដោយ</h3>
+            <h3 className="mb-4 text-lg font-semibold">ឧបត្ថម្ភដោយ</h3>
             <div className="flex flex-col gap-8">
               <div className="flex items-center gap-4">
                 <Image
@@ -52,11 +52,11 @@ export default function Footer() {
               <Link href="/about" className="hover:underline">
                 អំពីពួកយើង
               </Link>
-              <Link href="#" className="hover:underline">
+              <Link href="/all-content" className="hover:underline">
                 អត្ថបទ
               </Link>
-              <Link href="#" className="hover:underline">
-                ការពិភាក្សា
+              <Link href="/forum" className="hover:underline">
+                ពិភាក្សា
               </Link>
             </nav>
           </div>
@@ -65,10 +65,10 @@ export default function Footer() {
           <div className="md:col-span-1 lg:col-span-1 2xl:col-span-1">
             <h3 className="mb-4 text-lg font-semibold">ច្បាប់</h3>
             <nav className="flex flex-col space-y-2">
-              <Link href="#" className="hover:underline">
+              <Link href="" className="hover:underline">
                 លក្ខខណ្ឌប្រើប្រាស់
               </Link>
-              <Link href="#" className="hover:underline">
+              <Link href="/policy" className="hover:underline">
                 គោលការណ៍ភាពឯកជន
               </Link>
             </nav>

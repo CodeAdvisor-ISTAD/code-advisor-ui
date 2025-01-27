@@ -260,8 +260,8 @@ export default function About() {
           <TeamSection />
 
           {/* About Section */}
-          <div className="p-8">
-            <section className="mx-4 md:mx-36 lg:mx-36 2xl:mx-36 rounded-sm bg-white">
+          <div className="w-full rounded-sm bg-white">
+            <section className="mx-4 md:mx-36 lg:mx-36 2xl:mx-36 mb-16">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 items-center">
                 <div
                   className="relative w-full h-[200px] md:h-[300px] lg:h-[350px] 2xl:h-[380px]"

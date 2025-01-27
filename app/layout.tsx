@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 import localFont from "next/font/local";
 import "./globals.css";
 import NavbarComponent from "@/components/navbar/NavbarComponent"; 
@@ -39,9 +39,9 @@ export default function RootLayout({
             
               <SidebarProvider>
                 <AppSidebar />
-                <main className="w-full bg-background ">{children}</main>
+                <main className="w-full bg-background  ">{children}</main>
               </SidebarProvider>
-              <footer>
+              <footer  className="relative z-10">
                 <Footer />
               </footer>
               <Toaster />
