@@ -63,27 +63,27 @@ export default function Recommendations({ type, item }: RecommendationProps) {
   const displayedItems = items.slice(0, 4);
 
   return (
-    <Card className="rounded-[5px] ">
-      <div className="py-2">
-        <CardHeader>
-          <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary">
-            <Star className="h-6 w-6 fill-red-500 text-red-500" />
-            {type}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-4">
-            {displayedItems.map((item) => (
-              <li key={item.id} className="flex items-start gap-2">
-                <span className="mt-4 h-2 w-2 shrink-0 rounded-full bg-primary" />
-                <Link href={`/content/${item.id}`} className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer">
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </div>
-    </Card>
+      <Card className="rounded-[5px] ">
+        <div className="py-2">
+          <CardHeader>
+            <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary">
+              <Star className="h-6 w-6 fill-red-500 text-red-500" />
+              {type}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-4">
+              {displayedItems.map((item) => (
+                  <li key={item.id} className="flex items-start gap-2">
+                    <span className="mt-4 h-2 w-2 shrink-0 rounded-full bg-primary" />
+                    <Link href={`/content/${item.id}`} className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer">
+                      {item.title}
+                    </Link>
+                  </li>
+              ))}
+            </ul>
+          </CardContent>
+        </div>
+      </Card>
   );
 }

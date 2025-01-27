@@ -18,7 +18,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const { data: user } = useQuery({
-    queryKey: ["profile"],
+    queryKey: ["authProfile"],
     queryFn: fetchUserProfile,
   });
   const { setUser } = useUser();
@@ -79,7 +79,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
               <button className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px]"
                onClick={handleSearchSubmit}
                >
-              
+
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

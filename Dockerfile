@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:18-alpine AS builder
+FROM node:22.13.0-alpine3.20 AS builder
 
 RUN apk add --no-cache libc6-compat
 
@@ -19,7 +19,7 @@ RUN npm i --force
 RUN npm run build
 
 # Multi-stage build process
-FROM node:18-alpine
+FROM node:22.13.0-alpine3.20
 
 # update and install latest dependencies, add dumb-init package
 # add a non-root user
@@ -41,7 +41,7 @@ USER nextuser
 
 EXPOSE 3000
 
-ENV HOST=0.0.0.0 PORT=3000 NODE_ENV=production
+ENV HOST=0.0.0.0 PORT=3000 
 
 # Start the application
 CMD ["dumb-init","node","server.js"]

@@ -171,7 +171,7 @@ export async function deleteComment(commentId: string): Promise<void> {
 
 // for notification
 import type { Notification } from '@/types/notifications';
-const API_BASE_URL = 'http://localhost:8888/api/v1';
+const API_BASE_URL = 'http://127.0.0.1:8168/notifications/api/v1';
 
 export const fetchNotifications = async (userId: string): Promise<Notification[]> => {
   const response = await fetch(`${API_BASE_URL}/notifications/${userId}`);
@@ -184,34 +184,17 @@ export const markAsRead = async (id: string, status: boolean): Promise<void> => 
   });
 };
 
+export const markAllNotificationsAsRead = async (userId: string): Promise<void> => {
+  await fetch(`${API_BASE_URL}/notifications/${userId}/mark-all-read`, {
+    method: 'PUT',
+  });
+};
+
 
 export const removeNotification = async (id: string): Promise<void> => {
   await fetch(`${API_BASE_URL}/notifications/${id}`, {
     method: 'DELETE',
   });
 };
-
-
-// for fetching user profile
-export async function getUserProfile(senderId: string) {
-  try {
-    // Replace this with your actual API endpoint or database query
-    const response = await fetch(`/api/users/${senderId}`);
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch user profile');
-    }
-
-    const userProfile = await response.json();
-
-    return {
-      name: userProfile.name,
-      profile: userProfile.profilePicture, // or whatever field represents the profile
-    };
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
-    return null;
-  }
-}
 
 

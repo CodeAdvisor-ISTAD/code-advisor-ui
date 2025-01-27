@@ -60,4 +60,14 @@ const uploadProfileImage = async function uploadProfileImage(fileImageUrl) {
   }
 }
 
-export { getOwnUserProfile, getUserByUsername, updateUserProfile, uploadProfileImage };
+const findUserProfileByUuid = async function findUserProfileByUuid(uuid : string) {
+  try {
+    const response = await fetch(`/users/api/v1/user_profiles/${uuid}/profile`);
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    throw error; // Rethrow for error handling
+  }
+}
+
+export { getOwnUserProfile, getUserByUsername, updateUserProfile, uploadProfileImage, findUserProfileByUuid };
