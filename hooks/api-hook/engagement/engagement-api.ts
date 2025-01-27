@@ -1,10 +1,10 @@
 import axios from "axios";
 
+// const BASE_URL = " http://localhost:3000"
 // no login
 const BASE_URL = "http://192.168.56.1:8086"
 // login 
-// const BASE_URL = "http://202.178.125.77:1168/"
-
+// const BASE_URL = "http://202.178.125.77:1168"
 
 // fetch comment by contentId
 export const getComment = async (contentId: string) => {
@@ -96,7 +96,7 @@ export const editComment = async (
   const response = await fetch(
     `${BASE_URL}/api/v1/engagement/comments/${commentId}`,
     {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -223,20 +223,20 @@ export const handleReaction = async (contentId, userId, reactionType, ownerId, s
   }
 };
 
-// get reaction
-export const getReaction = async (contentId) => {
-  const endpoint = `${BASE_URL}/api/v1/reactions/content/${contentId}`;
+// // get reaction
+// export const getReaction = async (contentId) => {
+//   const endpoint = `${BASE_URL}/api/v1/reactions/content/${contentId}`;
 
-  try {
-    const response = await axios.get(endpoint, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return response.data; // Assumes the API response contains the reactions data.
-  } catch (error) {
-    console.error(`Error fetching reactions for contentId ${contentId}:`, error);
-    throw error;
-  }
-};
+//   try {
+//     const response = await axios.get(endpoint, {
+//       headers: { "Content-Type": "application/json" },
+//     });
+//     return response.data; // Assumes the API response contains the reactions data.
+//   } catch (error) {
+//     console.error(`Error fetching reactions for contentId ${contentId}:`, error);
+//     throw error;
+//   }
+// };
 
 export const getReactionsByContentId = async (contentId: string) => {
   try {
