@@ -27,10 +27,9 @@ export default function OwnerEmptyCard() {
       {/* <Button className="font-khFont ml-[300px] text-center mt-4 text-gray-100">
         បង្កើតថ្មី
       </Button> */}
-      <div className="flex items-center justify-center mx-8 pt-6">
-        <div className=" bg-primary px-4 rounded-md text-white">
-          {" "}
-          {/* Button with Dropdown */}
+      {/* Action Icons */}
+      <div className="flex items-center mx-8">
+        <div className="bg-primary px-4 rounded-md text-white">
           <Dropdown
             inline
             label={
@@ -46,7 +45,8 @@ export default function OwnerEmptyCard() {
               </span>
             </DropdownItem>
             <DropdownItem className="text-black">
-              <Link href="/forum/new">បង្កើត Forum</Link>
+            <span onClick={() => route.push("/forum/new")}>បង្កើត Forum</span>
+              {/* <a href="/forum/new">បង្កើត Forum</a> */}
             </DropdownItem>
           </Dropdown>
         </div>

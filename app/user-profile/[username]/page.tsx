@@ -12,7 +12,6 @@ import React, { useState } from "react";
 import {useRouter} from "next/navigation";
 
 const UserProfile = () => {
-  const [username, setUsername] = useState("");
   const params = useParams();
   const paramName = params?.username; // Access the username parameter
   const router = useRouter();
@@ -20,6 +19,8 @@ const UserProfile = () => {
     queryKey: ["profile"],
     queryFn: getOwnUserProfile,
   }); // Fetch the user profile
+
+  console.log("profile:", params?.username);
 
   const { data: user, error } = useQuery({
     queryKey: ["profile-viewer"],

@@ -39,12 +39,7 @@ export default function OwnerPost({
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [filteredContentData, setFilteredContentData] = useState<any[]>([]);
-
-  // Fetch data from CardsData
-  // const { forumData, loading, error } = CardsData();
-
-  console.log("username : ", username);
-  console.log("userId : ", authorUuid);
+  const [selectedFilter, setSelectedFilter] = useState("4"); // Default to "All"
 
   const { data: forumData } = useQuery({
     queryKey: ["ForumOwner"],
@@ -56,64 +51,76 @@ export default function OwnerPost({
     queryFn: () => getContentByAuthorUuid(authorUuid, 0, 10),
   });
 
-  console.log("contentData : ", contentData);
-
-  // useEffect(() => {
-  //   if (forumData && contentData) {
-  //     setFilteredData([...forumData.content, ...contentData]);
-  //   }
-  // }, [forumData, contentData]); // Add forumData and contentData to the dependency arraye
+  const filterDataByDate = (data: any[], dateField: string) => {
+    const currentDate = new Date();
+    switch (selectedFilter) {
+      case "1": // Last 7 days
+        return data.filter((item) => {
+          const itemDate = new Date(item[dateField]);
+          return currentDate.getTime() - itemDate.getTime() <= 7 * 24 * 60 * 60 * 1000;
+        });
+      case "2": // Last 1 month
+        return data.filter((item) => {
+          const itemDate = new Date(item[dateField]);
+          return currentDate.getTime() - itemDate.getTime() <= 30 * 24 * 60 * 60 * 1000;
+        });
+      case "3": // Last 6 months
+        return data.filter((item) => {
+          const itemDate = new Date(item[dateField]);
+          return currentDate.getTime() - itemDate.getTime() <= 6 * 30 * 24 * 60 * 60 * 1000;
+        });
+      case "4": // All
+      default:
+        return data;
+    }
+  };
 
   useEffect(() => {
-    // Update filtered data whenever `forumData` changes
     if (forumData) {
-      setFilteredData(forumData.content);
+      const filteredForums = filterDataByDate(forumData.content, "createdAt");
+      setFilteredData(filteredForums);
     }
 
     if (contentData) {
-      setFilteredContentData(contentData.content);
+      const filteredContent = filterDataByDate(contentData.content, "createdDate");
+      setFilteredContentData(filteredContent);
     }
-  }, [forumData, contentData]);
+  }, [forumData, contentData, selectedFilter]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
 
-    // Filter forum data by title
+    // Filter forum data by title and date
     if (forumData?.content) {
-      const filteredForums = forumData.content.filter((card: any) =>
+      const filteredForums = filterDataByDate(forumData.content, "createdAt").filter((card: any) =>
         card.title.toLowerCase().includes(query)
       );
       setFilteredData(filteredForums);
     }
 
-    // Filter content data by title
+    // Filter content data by title and date
     if (contentData?.content) {
-      const filteredContent = contentData.content.filter((content: any) =>
+      const filteredContent = filterDataByDate(contentData.content, "createdDate").filter((content: any) =>
         content.title.toLowerCase().includes(query)
       );
       setFilteredContentData(filteredContent);
     }
   };
 
-  // Use useQueries to fetch upvotes for each forum post
   const upvoteQueries = useQueries({
     queries: (filteredData ?? []).map((forum) => ({
       queryKey: ["totalUpVotes", forum.slug],
       queryFn: () => totalUpVotes(forum.slug),
-      enabled: !!forum.slug, // Only run query if we have a slug
+      enabled: !!forum.slug,
     })),
   });
 
-  //   const { data: totalAnswer } = useQuery({
-  //     queryKey: ["totalAnswers", slug], // Unique key for all answers
-  //     queryFn: () => totalAnswersByQuestion(slug),
-  // })
   const totalAnswer = useQueries({
     queries: (filteredData ?? []).map((forum) => ({
       queryKey: ["totalAnswers", forum.slug],
       queryFn: () => totalAnswersByQuestion(forum.slug),
-      enabled: !!forum.slug, // Only run query if we have a slug
+      enabled: !!forum.slug,
     })),
   });
 
@@ -124,8 +131,8 @@ export default function OwnerPost({
           <TabsTrigger value="forum">សំនួររបស់អ្នក</TabsTrigger>
           <TabsTrigger value="content">មាតិការបស់អ្នក</TabsTrigger>
         </TabsList>
-        <div className="flex space-x-2  pt-1 pb-0.5">
-          <Command className=" border h-9 rounded-lg">
+        <div className="flex space-x-2 pt-1 pb-0.5">
+          <Command className="border h-9 rounded-lg">
             <Input
               type="text"
               placeholder="ស្វែងរកទៅតាមចំណងជើង"
@@ -134,8 +141,8 @@ export default function OwnerPost({
               onChange={handleSearch}
             />
           </Command>
-          <Select>
-            <SelectTrigger className=" text-start h-9 bg-white rounded-lg w-[250px]">
+          <Select onValueChange={(value) => setSelectedFilter(value)}>
+            <SelectTrigger className="text-start h-9 bg-white rounded-lg w-[250px]">
               <SelectValue placeholder="កាលបរិច្ឆេទ" />
             </SelectTrigger>
             <SelectContent>
@@ -153,7 +160,7 @@ export default function OwnerPost({
             {filteredData && filteredData.length > 0 ? (
               filteredData.map((card: any, index: number) => (
                 <CardForumComponent
-                  key={card.id}
+                  key={`${card.id}-${index}`}
                   slug={card.slug}
                   timestamp={card.createdAt}
                   title={card.title}
@@ -166,7 +173,7 @@ export default function OwnerPost({
                 />
               ))
             ) : (
-                <OwnerEmptyCard />
+              <OwnerEmptyCard />
             )}
           </div>
         </TabsContent>

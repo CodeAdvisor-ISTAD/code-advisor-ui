@@ -69,7 +69,7 @@ export { addBookmark , unBookmarkForum, checkBookmarkStatus };
 
 // fetch content bookmark 
 const fetchContentBookmark = async function fetchContentBookmark() {
-  const response = await fetch(`/users/api/v1/bookmarks/content`);
+  const response = await fetch(`/users/api/v1/bookmarks`);
   const data = await response.json();
 
   if (response.ok) {
@@ -78,6 +78,31 @@ const fetchContentBookmark = async function fetchContentBookmark() {
     throw data;
   }
 }
+// fetch question data 
+const fetchForumBookmark = async function fetchForumBookmark() {
+  const response = await fetch(`/users/api/v1/bookmarks/forum`);
+  const data = await response.json();
+
+  if (response.ok) {
+    return data;
+  } else {
+    throw data;
+  }
+}
+
+// get bookmark question
+// const getForumBookmark = async function getForumBookmark(slug: string, page: number, size: number) {
+//   const response = await fetch(`/contents/api/v1/contents/slug/${slug}?page=${page}&size=${size}`);
+//   const data = await response.json();
+
+//   if (response.ok) {
+//     return data;
+//   } else {
+//     throw data;
+//   }
+// }
+
+// get bookmark content
 const getBookmarkContent = async function getBookmarkContent(slug: string, page: number, size: number) {
   const response = await fetch(`/contents/api/v1/contents/slug/${slug}?page=${page}&size=${size}`);
   const data = await response.json();
@@ -88,4 +113,4 @@ const getBookmarkContent = async function getBookmarkContent(slug: string, page:
     throw data;
   }
 }
-export { fetchContentBookmark, getBookmarkContent, addContentBookmark };
+export { fetchContentBookmark, getBookmarkContent, addContentBookmark, fetchForumBookmark };
