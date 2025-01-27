@@ -20,9 +20,11 @@ import { WebSocketService } from '@/lib/websocket';
 import { useEffect, useState } from "react";
 import { fetchNotifications } from '@/lib/api';
 import {useUser} from "@/lib/context/userContext";
+import { useSearch } from "@/lib/context/SearchContext";
 
 export function NavbarLogin({ user }: { user: any }) {
     const route = useRouter();
+    const { searchValue, setSearchValue } = useSearch();
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [unreadCount, setUnreadCount] = useState<number>(0);
     const [lastCheckedTime, setLastCheckedTime] = useState<number>(
@@ -105,7 +107,8 @@ export function NavbarLogin({ user }: { user: any }) {
             {/* Search Bar */}
             <div className="flex flex-1 justify-center">
                 <div className="relative w-[800px]">
-                    <input
+                    <input               
+                        onChange={(e) => setSearchValue(e.target.value)}
                         type="text"
                         placeholder="ស្វែងរក"
                         className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none"

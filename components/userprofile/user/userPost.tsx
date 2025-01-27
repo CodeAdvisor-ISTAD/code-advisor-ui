@@ -110,7 +110,7 @@ export default function UserPost({ username }: { username: string }) {
           </Select>
         </div>
         <TabsContent value="forum">
-          <div className="grid grid-cols-1 w-[680px] gap-2 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 w-[680px] gap-2 max-w-7xl mx-auto" >
             {filteredData && filteredData.length > 0 ? (
               filteredData.map((card: any, index: number) => (
                 <CardForumComponent
