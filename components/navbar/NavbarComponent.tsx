@@ -55,7 +55,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
   };
 
   if(user) {
-    // return <NavbarLogin user={user} onSearch={onSearch} />
+    return <NavbarLogin user={user} onSearch={onSearch} />
   }else{
     return (
       <>
