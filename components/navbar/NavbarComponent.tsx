@@ -54,10 +54,12 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
     onSearch('');
   };
 
-  return (
-    <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
-      {user == null ? (
-        <div className="flex items-center px-4 justify-between h-[72px] mx-auto max-w-7xl">
+  if(user) {
+    // return <NavbarLogin user={user} onSearch={onSearch} />
+  }else{
+    return (
+      <>
+        <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
           {/* Logo */}
           <section>
             <Link href="/" aria-label="Go to home page" onClick={handleLogoClick}>
@@ -114,9 +116,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
             </Button>
           </div>
         </div>
-      ) : (
-        <NavbarLogin user={user} onSearch={onSearch} />
-      )}
-    </div>
-  );
+      </>
+    )
+  }
 }

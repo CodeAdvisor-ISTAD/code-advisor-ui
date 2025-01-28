@@ -35,8 +35,10 @@ export default function RootLayout({
           <CommentProvider>
             <Provider>
               {/* Pass the search handler function to NavbarComponent */}
+             
+              <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
               <NavbarComponent onSearch={handleSearch} />
-            
+              </header>
               <SidebarProvider>
                 <AppSidebar />
                 <main className="w-full bg-background  ">{children}</main>
