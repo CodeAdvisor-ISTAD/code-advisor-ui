@@ -57,17 +57,26 @@ export default function OwnerPost({
       case "1": // Last 7 days
         return data.filter((item) => {
           const itemDate = new Date(item[dateField]);
-          return currentDate.getTime() - itemDate.getTime() <= 7 * 24 * 60 * 60 * 1000;
+          return (
+            currentDate.getTime() - itemDate.getTime() <=
+            7 * 24 * 60 * 60 * 1000
+          );
         });
       case "2": // Last 1 month
         return data.filter((item) => {
           const itemDate = new Date(item[dateField]);
-          return currentDate.getTime() - itemDate.getTime() <= 30 * 24 * 60 * 60 * 1000;
+          return (
+            currentDate.getTime() - itemDate.getTime() <=
+            30 * 24 * 60 * 60 * 1000
+          );
         });
       case "3": // Last 6 months
         return data.filter((item) => {
           const itemDate = new Date(item[dateField]);
-          return currentDate.getTime() - itemDate.getTime() <= 6 * 30 * 24 * 60 * 60 * 1000;
+          return (
+            currentDate.getTime() - itemDate.getTime() <=
+            6 * 30 * 24 * 60 * 60 * 1000
+          );
         });
       case "4": // All
       default:
@@ -82,7 +91,10 @@ export default function OwnerPost({
     }
 
     if (contentData) {
-      const filteredContent = filterDataByDate(contentData.content, "createdDate");
+      const filteredContent = filterDataByDate(
+        contentData.content,
+        "createdDate"
+      );
       setFilteredContentData(filteredContent);
     }
   }, [forumData, contentData, selectedFilter]);
@@ -93,17 +105,19 @@ export default function OwnerPost({
 
     // Filter forum data by title and date
     if (forumData?.content) {
-      const filteredForums = filterDataByDate(forumData.content, "createdAt").filter((card: any) =>
-        card.title.toLowerCase().includes(query)
-      );
+      const filteredForums = filterDataByDate(
+        forumData.content,
+        "createdAt"
+      ).filter((card: any) => card.title.toLowerCase().includes(query));
       setFilteredData(filteredForums);
     }
 
     // Filter content data by title and date
     if (contentData?.content) {
-      const filteredContent = filterDataByDate(contentData.content, "createdDate").filter((content: any) =>
-        content.title.toLowerCase().includes(query)
-      );
+      const filteredContent = filterDataByDate(
+        contentData.content,
+        "createdDate"
+      ).filter((content: any) => content.title.toLowerCase().includes(query));
       setFilteredContentData(filteredContent);
     }
   };
