@@ -62,7 +62,7 @@ export interface ContentDetailProps {
   onReply: (commentId: string, replyText: string) => void;
 }
 
-export type ReportReason = 'spam' | 'harassment' | 'inappropriate' | 'other';
+export type ReportReason = "spam" | "harassment" | "inappropriate" | "other";
 
 export interface Report {
   id: string;
@@ -70,4 +70,16 @@ export interface Report {
   details?: string;
   reportedBy: string;
   createdAt: string;
+}
+// fetch achievement level
+interface achievementresponse {
+  id: string;
+  userId: string;
+  username: string;
+  currentLevel: string;
+  share_content_total: number;
+  ask_question_total: number;
+  answer_question_total: number;
+  comment_total: number;
+  interaction_total: number;
 }

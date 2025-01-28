@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import Bio from "@/components/userprofile/user/Bio";
 import UserPost from "@/components/userprofile/user/userPost";
 import UserInformationCardComponent from "@/components/userprofile/user/UserInformationCardComponent";
@@ -7,38 +8,36 @@ import AchievementLevel from "@/components/userprofile/user/achievement/Achievem
 import ProfileImage from "@/components/userprofile/user/ProfileImage";
 import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateButton";
 import { useRouter } from "next/navigation";
+import { UserRoundPen } from "lucide-react"
+import { useQuery } from "@tanstack/react-query";
+import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
 
-export default function User() {
-  const [bgColor, setBgColor] = useState("#000040");
+export default function Owner() {
+
   const router = useRouter();
 
   const handleEdit = () => {
-    router.push("/edituser");
+    router.push("/edit-user-profile");
   };
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/v1/edit_user_profiles/ZAZA")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.coverColor) {
-          setBgColor(data.coverColor);
-        }
-      })
-      .catch((error) => console.error("Error fetching cover color:", error));
-  }, []);
+  const { data: userInformation } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getOwnUserProfile
+  });// Fetch the user profile
 
   return (
     <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">
-      <div className="w-[1252px] bg-white pb-4 rounded-lg">
+      <div className="w-full xs:w-[500px] lg:w-[1252px] bg-white pb-4 rounded-lg">
         <div className="flex justify-center mb-8">
           {/* cover */}
           <div
-            className="cover w-[1252px] h-[200px] rounded-[5px] flex justify-center relative"
-            style={{ backgroundColor: bgColor }}
+            className="cover xs:w-[500px] lg:w-[1252px] h-[200px] rounded-[5px] flex justify-center relative"
+            style={{ backgroundColor: userInformation?.coverColor }}
           >
             {/* profile image */}
-            <ProfileImage disableButton />
-            <div className="absolute space-x-5 top-[230px] right-7">
+            <ProfileImage disableButton profileAuth={userInformation}/>
+            
+            <div className="absolute space-x-5 top-[230px] right-7 ">
               <SaveUserUpdateButton
                 disabledCancel={false}
                 disabledSave={false}
@@ -51,14 +50,14 @@ export default function User() {
         <div className="flex flex-row space-x-2 ml-6">
           <div className="flex flex-col mt-[98px] gap-2">
             {/* achievement level card */}
-            <AchievementLevel />
+            <AchievementLevel userId={userInformation?.id} />
             {/* Bio card */}
-            <Bio />
+            <Bio bio={userInformation?.bio} />
             {/* user information card */}
-            <UserInformationCardComponent />
+            <UserInformationCardComponent userInformation={userInformation} />
           </div>
           {/* user post */}
-          <UserPost />
+          <UserPost username={userInformation?.username}/>
         </div>
       </div>
     </div>

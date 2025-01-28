@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Profile } from "../Profile";
 // import { Author, Content } from "@/types/engagement";
+// import { Author, Content } from "@/types/engagement";
 import { Badge } from "@/components/ui/badge";
 import { FaHeart, FaFire, FaThumbsUp } from "react-icons/fa";
 import Preview from "@/components/text-editor/preview";
@@ -55,19 +56,22 @@ export function ContentSection({
               <div className="flex gap-2">
                 <FaHeart className="text-2xl text-pink-700" />
                 <span>{communityEngagement?.loveCount}</span>
+                <span>{communityEngagement?.loveCount}</span>
               </div>
               <div className="flex gap-2">
                 <FaFire className="text-2xl text-red-500" />
+                <span>{communityEngagement?.fireCount}</span>
                 <span>{communityEngagement?.fireCount}</span>
               </div>
               <div className="flex gap-2">
                 <FaThumbsUp className="text-2xl text-blue-500" />
                 <span>{communityEngagement?.likeCount}</span>
+                <span>{communityEngagement?.likeCount}</span>
               </div>
             </div>
 
             <div className="pt-4">
-            {/* <div className="space-y-4">
+            <div className="space-y-4">
               <p>
                 Web development is constantly evolving, with new technologies
                 and frameworks emerging regularly. In this post, we'll explore
@@ -99,20 +103,20 @@ export function ContentSection({
                 alt="Web Development Trends"
                 className="w-[70%] h-auto rounded-[5px] mx-auto py-8"
               />
-            </div> */}
-              {/* <Profile
+            </div>
+              <Profile
                 imageUrl={authorUuid}
                 username={authorUuid}
                 postDate="23 Jan 21"
-                postDate={formattedDate}
-              /> */}
+                // postDate={formattedDate}
+              />
             </div>
           </CardHeader>
           {/* <div className="p-6 pt-0">
             <Preview content={content} />
           </div> */}
-          {/* 
-          <CardContent>{
+          
+          {/* <CardContent>{
             
             content}</CardContent> */}
         </div>

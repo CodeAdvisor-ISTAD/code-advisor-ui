@@ -13,6 +13,7 @@ export interface UserInformation {
   phoneNumber?: string; // Optional field
   address?: string;
   dob: string;
+  profileImage?: string;
 }
 
 // Custom hook to fetch counts from the API
@@ -33,3 +34,16 @@ export interface ForumCardData {
   title: string;
   content: string;
 }
+
+export type UserData = {
+  username: string;
+  uuid: string;
+  email: string;
+  profileImage: string;
+  fullName: string;
+};
+
+export type UserContextType = {
+  user: UserData | null;
+  setUser: (userData: UserData | null) => void;
+};

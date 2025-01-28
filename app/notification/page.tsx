@@ -7,12 +7,12 @@ import { NotificationList } from "@/components/notification/NotificationList";
 import { markAsRead, removeNotification } from "@/lib/api";
 import type { Notification } from "@/types/notifications";
 import NotificationStatic from "@/components/notification/NotificationStatic";
+import {useUser} from "@/lib/context/userContext";
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [userId, setUserId] = useState<string>("");
-
-  console.log("Notification log", notifications);
+  const {user} = useUser();
 
   const handleMarkAsRead = useCallback(async (id: string, status: boolean) => {
     try {
@@ -42,11 +42,12 @@ export default function NotificationsPage() {
   }, []);
 
   useEffect(() => {
-    const currentUserId = "receiver"; // Replace with actual user ID retrieval method
+    const currentUserId = user?.uuid;// Replace with actual user ID retrieval method
+    // console.log("Current user ID:", currentUserId);
     setUserId(currentUserId);
 
     const wsService = new WebSocketService(
-      "http://localhost:8888/ws",
+      "http://127.0.0.1:8168/notifications/ws",
       currentUserId
     );
 
@@ -64,12 +65,14 @@ export default function NotificationsPage() {
     return () => {
       wsService.disconnect();
     };
-  }, []);
+  }, [user]);
+
+
 
   return (
-    <div className="container max-w-4xl mx-auto p-4">
-      <h1 className="text-primary font-semibold text-3xl mb-4">
-        Notifications
+    <div className="mt-[68px] container max-w-4xl mx-auto p-4 min-h-screen">
+      <h1 className="text-primary font-semibold text-3xl mb-2">
+        ការជូនដំណឹង
       </h1>
       <NotificationList
         notifications={notifications}

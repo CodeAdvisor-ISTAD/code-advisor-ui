@@ -18,18 +18,27 @@ import { Input } from "@/components/ui/input";
 import { CardForumComponent } from "@/components/userprofile/user/CardForumComponent";
 import { CardsData } from "@/lib/userProfile/information";
 import EmptyCard from "./EmptyCardComponent";
+import { useQueries, useQuery } from "@tanstack/react-query";
+import { getQuestionByAuthorName, getQuestionByOwner, totalAnswersByQuestion, totalUpVotes } from "@/hooks/api-hook/forum/forum-api";
 
-export default function UserPost() {
+export default function UserPost({ username }: { username: string }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState<any[]>([]);
 
   // Fetch data from CardsData
-  const { forumData, loading, error } = CardsData();
+  // const { forumData, loading, error } = CardsData();
+
+  console.log("username : ", username);
+
+  const {data: forumData} = useQuery({
+    queryKey: ["ForumOwner"],
+    queryFn: () => getQuestionByAuthorName(username,0,10),
+  })
 
   useEffect(() => {
     // Update filtered data whenever `forumData` changes
     if (forumData) {
-      setFilteredData(forumData);
+      setFilteredData(forumData?.content);
     }
   }, [forumData]);
 
@@ -48,20 +57,33 @@ export default function UserPost() {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // Use useQueries to fetch upvotes for each forum post
+  const upvoteQueries = useQueries({
+    queries: (filteredData ?? []).map((forum) => ({
+      queryKey: ["totalUpVotes", forum.slug],
+      queryFn: () => totalUpVotes(forum.slug),
+      enabled: !!forum.slug, // Only run query if we have a slug
+    })),
+  });
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+//   const { data: totalAnswer } = useQuery({
+//     queryKey: ["totalAnswers", slug], // Unique key for all answers
+//     queryFn: () => totalAnswersByQuestion(slug),
+// })
+  const totalAnswer = useQueries({
+    queries: (filteredData ?? []).map((forum) => ({
+      queryKey: ["totalAnswers", forum.slug],
+      queryFn: () => totalAnswersByQuestion(forum.slug),
+      enabled: !!forum.slug, // Only run query if we have a slug
+    })),
+  });
 
   return (
     <div className="mt-[95px]">
-      <Tabs defaultValue="account" className="w-[400px]">
+      <Tabs defaultValue="forum" className="w-[400px]">
         <TabsList>
-          <TabsTrigger value="account">មាតិការបស់អ្នក</TabsTrigger>
-          <TabsTrigger value="password">សំនួររបស់អ្នក</TabsTrigger>
+          <TabsTrigger value="forum">សំនួររបស់អ្នក</TabsTrigger>
+          <TabsTrigger value="content">មាតិការបស់អ្នក</TabsTrigger>
         </TabsList>
         <div className="flex items-center w-[680px] space-x-3 pt-1 pb-0.5">
         <Command className="border h-9 rounded-lg flex justify-center">
@@ -87,26 +109,27 @@ export default function UserPost() {
             </SelectContent>
           </Select>
         </div>
-        <TabsContent value="account">
-          <div className="grid grid-cols-1 w-[680px] gap-2 max-w-7xl mx-auto">
-          {filteredData && filteredData.length > 0 ? (
-        filteredData.map((card: any) => (
-          <CardForumComponent
-            key={card.id}
-            timestamp={card.timestamp}
-            title={card.title}
-            content={card.content}
-            views={card.views}
-            comments={card.comments}
-            upvotes={card.upvotes}
-          />
-        ))
-      ) : (
-        <EmptyCard />
-      )}
+        <TabsContent value="forum">
+          <div className="grid grid-cols-1 w-[680px] gap-2 max-w-7xl mx-auto" >
+            {filteredData && filteredData.length > 0 ? (
+              filteredData.map((card: any, index: number) => (
+                <CardForumComponent
+                  key={card.id}
+                  slug={card.slug}
+                  timestamp={card.createdAt}
+                  title={card.title}
+                  content={card.description}
+                  views={card.views}
+                  comments={totalAnswer[index]?.data?.total ?? card.comments}
+                  upvotes={upvoteQueries[index]?.data?.totalVotes ?? card.upvotes}
+                />
+              ))
+            ) : (
+              <EmptyCard />
+            )}
           </div>
         </TabsContent>
-        <TabsContent value="password">
+        <TabsContent value="content">
           <EmptyCard />
         </TabsContent>
       </Tabs>

@@ -4,6 +4,10 @@ import TrendingComponent from "@/components/card-component/card-trending/Trendin
 import ForumDetailComponent from "@/components/forum-component/forumDetailComponent";
 import React, { useEffect, useState } from "react";
 import Preview from "@/components/text-editor/preview";
+import { usePathname,useParams } from "next/navigation";
+
+import React, { useEffect, useState } from "react";
+import Preview from "@/components/text-editor/preview";
 
 
 const latest = [
@@ -13,6 +17,9 @@ const latest = [
 ];
 
 // If you're fetching data, make this async
+export default function Page() {
+    const { slug: forumSlug } = useParams();
+
 export default function ForumDetailPage({
     params,
 }: {
@@ -31,6 +38,7 @@ export default function ForumDetailPage({
     return (
         <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
             {/* Forum Detail Component */}
+            <ForumDetailComponent slug={forumSlug as string} />
             <ForumDetailComponent slug={params?.slug}/>
             <div className="flex flex-col ml-2 gap-2 ">
                 <TrendingComponent type="Latest" items={latest} />

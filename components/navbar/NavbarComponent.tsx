@@ -5,29 +5,33 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import NavbarLogin from "./NavbarLogin";
-import { UseFetchProfile } from "@/hooks/api-hook/auth/use-profile";
+import { useUser } from "@/lib/context/userContext";
+import { UserData } from "@/types/user";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 
 export default function NavbarComponent() {
     const route = useRouter();
-    // const [user, setUser] = useState(null);
+    
+    const { data: user } = useQuery({
+        queryKey: ["authProfile"],
+        queryFn: fetchUserProfile,
+    })
+    const { setUser } = useUser();
 
-    // const getUser = async () => {
-    //     const response = await fetch("/profile");
-    //     const data = await response.json();
-    //     setUser(data);
-    // };
+    console.log(user);
 
-    // console.log(user);
+    useEffect(() => {
+        if (user != null) {
+            setUser(user);
+        }
+    }, [user, setUser]);
 
-    // useEffect(() => {
-    //     getUser();
-    // }, []);
-    const { data: user } = UseFetchProfile();
-
-    return (
-        <>
-            {user === null ? (
-                <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
+    if(user){
+        return <NavbarLogin user={user} />
+    }else{
+        return <>
+        <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
                     {/* Logo */}
                     <section>
                         <Link href="/" aria-label="Go to home page">
@@ -79,7 +83,7 @@ export default function NavbarComponent() {
                         </Button>
                         <Button
                             onClick={() =>
-                                route.push("http://127.0.0.1:9090/register")
+                                route.push("http://202.178.125.77:9090/register")
                             }
                             className="m-[8px] text-white bg-primary rounded-[5px]"
                         >
@@ -87,9 +91,7 @@ export default function NavbarComponent() {
                         </Button>
                     </div>
                 </div>
-            ) : (
-                <NavbarLogin user={user} />
-            )}
-        </>
-    );
+                </>
+        
+    }
 }

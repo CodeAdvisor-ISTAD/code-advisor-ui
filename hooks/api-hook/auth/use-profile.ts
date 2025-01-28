@@ -1,18 +1,13 @@
-import { useQuery } from "@tanstack/react-query"
 
-async function fetchUserProfile() {
+
+export async function fetchUserProfile() {
         const response = await fetch("/identity/api/v1/auth/me");
+        const data = await response.json();
+
         if(response.ok){
-            const data = await response.json();
             return data;
         }else{
-            return null;
+            throw data; 
         }
 }
 
-export const UseFetchProfile = () => {
-    return useQuery({
-        queryKey: ["userProfile"],
-        queryFn: fetchUserProfile
-    })
-};

@@ -9,17 +9,21 @@ import { getContent } from "@/hooks/api-hook/content/content-api";
 import { getComment } from "@/hooks/api-hook/engagement/engagement-api";
 import { getCommentsByContentId } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
-import { use } from 'react';
+import { use } from "react";
 
-export default function Page({ params }: { params: Promise<{ slug: string }> }) {
+export default function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const resolvedParams = use(params); // Unwrap the params Promise
   const slug = resolvedParams.slug;
 
   console.log("Slug here: ", slug);
 
-  const contentId = "6795c8a465314844e79028dd"; // Example contentId, dynamically set as needed
-  const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
-  const ownerId = "424c64c0-efae-4798-8a50-7017f6c5533f";
+  // const contentId = "6795c8a465314844e79028dd"; // Example contentId, dynamically set as needed
+  // const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
+  // const ownerId = "424c64c0-efae-4798-8a50-7017f6c5533f";
 
   // Fetch content details using React Query
   const { data, isError } = useQuery({
@@ -28,8 +32,8 @@ export default function Page({ params }: { params: Promise<{ slug: string }> }) 
     enabled: !!slug, // Ensure query only runs when slug exists
   });
 
-  console.log("Here is the content fetch from content service: ", data)
-  console.log("Here is the slug: ", slug)
+  console.log("Here is the content fetch from content service: ", data);
+  console.log("Here is the slug: ", slug);
 
   // Fetch comments by contentId
   const {
@@ -37,8 +41,8 @@ export default function Page({ params }: { params: Promise<{ slug: string }> }) 
     isLoading: isCommentsLoading,
     isError: isCommentsError,
   } = useQuery({
-    queryKey: ["comments", contentId], // Use unique key for comments
-    queryFn: () => getComment(contentId), // Call the imported function
+    queryKey: ["comments", data.contentId], // Use unique key for comments
+    queryFn: () => getComment(data.contentId), // Call the imported function
   });
 
   return (
@@ -46,10 +50,10 @@ export default function Page({ params }: { params: Promise<{ slug: string }> }) 
       <div className="w-full fixed">
         <ContentSidebar
           comment={comments} // Replace with your comments data
-          bookmark={42} // Replace with your bookmark count
-          contentId={contentId} // Pass the contentId
-          userId={userId}
-          ownerId={ownerId}
+          bookmark={0} // Replace with your bookmark count
+          contentId={data.contentId} // Pass the contentId
+          userId={data.userId}
+          ownerId={data.ownerId}
           slug={slug}
         />
       </div>
@@ -66,11 +70,14 @@ export default function Page({ params }: { params: Promise<{ slug: string }> }) 
         isArchived={false}
         isDeleted={false}
       />
-      {isCommentsLoading ? (
-        <p>Loading comments...</p>
-      ) : (
-        <CommentSection comment={comments} contentId={contentId} ownerId={ownerId} slug={slug} userId={userId} />
-      )}
+      <CommentSection
+        comment={comments}
+        contentId={data?.contentId}
+        ownerId={data?.ownerId}
+        slug={slug}
+        userId={data?.userId}
+      />
+
       <PrismLoader />
     </main>
   );

@@ -8,34 +8,43 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import Provider from "./_provider";
 import { Toaster } from "react-hot-toast";
+import { CommentProvider } from "@/lib/context/commentContext";
+import { UserProvider, useUser } from "@/lib/context/userContext";
+import HighlightInitializer from "@/components/text-editor/HighlightInitializer";
+import { SearchProvider } from "@/lib/context/SearchContext";
 
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en">
-            <body
-                className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
-            >
-                <Provider>
-                    <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
-                        <NavbarComponent />
-                    </header>
-                    <SidebarProvider>
-                        <AppSidebar />
+  return (
+    <html lang="en">
+      <body
+        className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
+      >
+        <HighlightInitializer />
+        <SearchProvider>
+        <UserProvider>
+          <CommentProvider>
+            <Provider>
+              <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
+                <NavbarComponent />
+              </header>
+              <SidebarProvider>
+                <AppSidebar />
 
-                        <main className="w-full bg-background ">
-                            {children}
-                        </main>
-                    </SidebarProvider>
-                    <footer>
-                        <Footer />
-                    </footer>
-                    <Toaster />
-                </Provider>
-            </body>
-        </html>
-    );
+                <main className="w-full bg-background ">{children}</main>
+              </SidebarProvider>
+              <footer>
+                <Footer />
+              </footer>
+              <Toaster />
+            </Provider>
+          </CommentProvider>
+        </UserProvider>
+        </SearchProvider>
+      </body>
+    </html>
+  );
 }

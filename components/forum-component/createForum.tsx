@@ -18,7 +18,11 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import RichTextEditor from "@/components/text-editor/textEditor";
 import Preview from "@/components/text-editor/preview";
+<<<<<<< HEAD
 import { UseFetchForumTags } from "@/hooks/api-hook/forum/use-tag";
+=======
+import { UseFetchForumTags } from "@/hooks/api-hook/forum/tags-api";
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 import { useMutation } from "@tanstack/react-query";
 import { createForum } from "@/hooks/api-hook/forum/forum-api";
 import { useRouter } from "next/navigation";
@@ -45,6 +49,13 @@ const formSchema = z.object({
     expectedAnswers: z.string().min(10, {
         message: "ចំណងជើងត្រូវមានយ៉ាងហោចណាស់ 10 តួអក្សរ",
     }),
+<<<<<<< HEAD
+=======
+    description: z.string().min(10, {
+        message: "ការពិពណ៌នាសំណួរត្រូវមានយ៉ាងហោចណាស់ 10 តួអក្សរ",
+    }),
+    isDrafted: z.boolean().optional(),
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -53,7 +64,11 @@ const CreateNewForum = () => {
     const router = useRouter();
     const [slug, setSlug] = useState("");
 
+<<<<<<< HEAD
     const { data, isLoading, isError, error } = UseFetchForumTags();
+=======
+    const { data, isError } = UseFetchForumTags();
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 
     const { mutate } = useMutation({
         mutationFn: createForum,
@@ -61,6 +76,7 @@ const CreateNewForum = () => {
             return { slug };
         },
         onSuccess: (data, variables, context) => {
+<<<<<<< HEAD
             toast.success("សំណួររបស់អ្នកបានបោះពុម្ភផ្សាយដោយជោគជ័យ");
 
             router.push(`/forum/${variables.slug}`);
@@ -71,6 +87,29 @@ const CreateNewForum = () => {
         toast.loading("កំពុងដំណើរការ...");
     }
 
+=======
+            // Show success message
+            toast.success(
+                variables.isDrafted
+                    ? "សំណួររបស់អ្នកត្រូវបានរក្សាទុកជាព្រាង"
+                    : "សំណួររបស់អ្នកបានបោះពុម្ភផ្សាយដោយជោគជ័យ"
+            );
+
+            // Redirect only if it's not a draft
+            if (!variables.isDrafted) {
+                router.push(`/forum/${variables.slug}`);
+            }
+        },
+        onError: (error, variables, context) => {
+
+            // Show error message
+            console.log("error : ", error);
+
+            toast.error("មានបញ្ហាកើតឡើងនៅពេលបោះពុម្ភផ្សាយសំណួរ");
+        },
+    });
+
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
     // Transform the data into the desired format (if needed)
     const transformedTags: TagOption[] =
         data?.map((tag: { name: string }) => ({
@@ -100,6 +139,11 @@ const CreateNewForum = () => {
             tag: [],
             introduction: "",
             expectedAnswers: "",
+<<<<<<< HEAD
+=======
+            description: "",
+            isDrafted: false,
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
         },
     });
 
@@ -108,7 +152,11 @@ const CreateNewForum = () => {
     };
 
     // 2. Define a submit handler.
+<<<<<<< HEAD
     function onSubmit(values: z.infer<typeof formSchema>) {
+=======
+    function onSubmit(values: z.infer<typeof formSchema>, isDrafted: boolean) {
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
         const forumData: CreateForumType = {
             title: values.title,
             slug: values.slug,
@@ -116,7 +164,12 @@ const CreateNewForum = () => {
             tagName: values.tag,
             introduction: values.introduction,
             expectedAnswers: values.expectedAnswers,
+<<<<<<< HEAD
             isDrafted: false,
+=======
+            description: values.description,
+            isDrafted: isDrafted,
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
         };
 
         // 3. Call the mutation function with the form data.
@@ -136,7 +189,13 @@ const CreateNewForum = () => {
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <Form {...form}>
                             <form
+<<<<<<< HEAD
                                 onSubmit={form.handleSubmit(onSubmit)}
+=======
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                 className="space-y-6"
                             >
                                 {/* Title */}
@@ -186,6 +245,32 @@ const CreateNewForum = () => {
                                     )}
                                 />
 
+<<<<<<< HEAD
+=======
+                                {/* Description */}
+                                <FormField
+                                    control={form.control}
+                                    name="description"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-primary text-xl font-bold">
+                                                ពត័មានបន្ថែម
+                                            </FormLabel>
+                                            <FormDescription className="text-sm">
+                                                បញ្ចូលពត័មានបន្ថែមសម្រាប់ពញ្ហាដែលអ្នកបានជួបប្រទះ
+                                            </FormDescription>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="ឧទាហរណ៍:  ការរៀបចំ, គ្រប់គ្រង, និងរក្សាទុកទិន្នន័យ "
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                 {/* Text Editor */}
                                 <FormField
                                     control={form.control}
@@ -288,7 +373,11 @@ const CreateNewForum = () => {
                                                     )}
                                                     onChange={(
                                                         selectedOptions
+<<<<<<< HEAD
                                                     ) => {
+=======
+                                                    : any) => {
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                                         field.onChange(
                                                             selectedOptions.map(
                                                                 (option) =>
@@ -307,12 +396,29 @@ const CreateNewForum = () => {
                                 <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
                                     <Button
                                         type="submit"
+<<<<<<< HEAD
+=======
+                                        onClick={() =>
+                                            form.handleSubmit((data) =>
+                                                onSubmit(data, false)
+                                            )()
+                                        }
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                         className="w-full sm:w-auto text-white"
                                     >
                                         បោះពុម្ភផ្សាយ
                                     </Button>
                                     <Button
+<<<<<<< HEAD
                                         type="button"
+=======
+                                        onClick={() =>
+                                            form.handleSubmit((values) =>
+                                                onSubmit(values, true)
+                                            )()
+                                        }
+                                        type="submit"
+>>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                         variant="outline"
                                         className="w-full sm:w-auto text-primary"
                                     >

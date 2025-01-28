@@ -120,19 +120,19 @@ export function AppSidebar() {
 
   if (
     pathname === "/content/new" ||
-    pathname === "/user" ||
-    pathname ==="/edituser" ||
+    pathname === "/user-profile" ||
+    pathname.startsWith("/user-profile/") ||
+    pathname === "/edit-user-profile" ||
     (pathname.startsWith("/content") && !pathname.includes("/content/tags")) ||
-    pathname ==="/about" ||
+    pathname === "/about" ||
     pathname.startsWith("/report") ||
     pathname === "/notification" ||
     pathname === "/forum/new" 
-  ) {
+    ) {
     return;
   }
 
   return (
-    
     <Sidebar className="ml-[100px]  h-auto">
       <SidebarHeader className="p-4 ">
         <h2 className="text-lg font-semibold">CodeAdvisor</h2>
@@ -190,6 +190,4 @@ export function AppSidebar() {
       </SidebarContent>
     </Sidebar>
   );
-  
-  
 }

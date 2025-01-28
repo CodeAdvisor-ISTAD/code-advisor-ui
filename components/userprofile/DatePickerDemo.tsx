@@ -14,6 +14,7 @@ import {
 
 export function DatePickerDemo() {
   const [date, setDate] = React.useState<Date>()
+  console.log(date, "date")
 
   return (
     <Popover>

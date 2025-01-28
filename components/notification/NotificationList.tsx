@@ -22,19 +22,6 @@ export function NotificationList({ notifications, actions }: NotificationListPro
         <p className="text-center text-gray-500 text-xl">No notifications available</p>
       )}
     </div>
-
-    // <ScrollArea className="h-screen">
-    //   <div className="space-y-1">
-    //     {notifications.map((notification) => (
-    //       <NotificationItem
-    //         key={notification.id}
-    //         notification={notification}
-    //         actions={actions}
-    //       />
-    //     ))}
-    //   </div>
-    // </ScrollArea>
-
   )
 }
 
