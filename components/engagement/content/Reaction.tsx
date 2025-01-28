@@ -18,10 +18,32 @@ import {
   handleReaction,
 } from "@/hooks/api-hook/engagement/engagement-api";
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export function ReactionButton({onReactionChange, contentId, ownerId, slug, userId}) {
+
+
   const [selectedReaction, setSelectedReaction] = useState(null);
   const [open, setOpen] = useState(false); // Manually control dropdown open/close state
+
+  const { mutate } = useMutation({
+    mutationFn: ({ contentId, userId, type, reactionType, ownerId, slug }) => 
+      handleReaction(contentId, userId, type,reactionType, ownerId, slug),
+    onMutate: () => {
+      // Optional: Do something before the mutation
+    },
+    onSuccess: (data, variables, context) => {
+      toast.success("អ្នកបាន");
+      // Optional: Do something on success
+    },
+    onError: (error, variables, context) => {
+      toast.error("បរាជ័យ");
+      console.error(error)
+      // Optional: Do something on error
+    }
+  });
+  
 
   // Fetch the user's reaction from localStorage or backend when the component mounts
   useEffect(() => {
@@ -49,19 +71,24 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
     fetchUserReaction();
   }, [contentId, userId]);
 
-  const handleReactionClick = (reactionType: keyof Reactions) => {
-    if (selectedReaction === reactionType) {
-      // If already selected, deselect and decrease count
-      setSelectedReaction(null);
-      onReactionChange(reactionType, -1);
-    } else {
-      // If a new reaction, update the count for new reaction and reset the old one
-      if (selectedReaction) {
-        onReactionChange(selectedReaction, -1);
-      }
-      setSelectedReaction(reactionType);
-      onReactionChange(reactionType, 1);
-    }
+  // const handleReactionClick = (reactionType: keyof Reactions) => {
+  //   if (selectedReaction === reactionType) {
+  //     // If already selected, deselect and decrease count
+  //     setSelectedReaction(null);
+  //     onReactionChange(reactionType, -1);
+  //     mutate({ contentId, userId, reactionType, ownerId, slug });
+  //   } else {
+  //     // If a new reaction, update the count for new reaction and reset the old one
+  //     if (selectedReaction) {
+  //       onReactionChange(selectedReaction, -1);
+  //     }
+  //     setSelectedReaction(reactionType);
+  //     onReactionChange(reactionType, 1);
+  //   }
+  // };
+
+  const handleReactionClick = (reactionType) => {
+    mutate({ contentId, userId, type: 'REACTION' , reactionType, ownerId, slug });
   };
 
   return (
