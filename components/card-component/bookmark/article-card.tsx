@@ -13,6 +13,9 @@ interface CardData {
   thumbnail: string;
   createdDate: string;
   slug: string;
+  onBookmark?: () => void;
+  onRemove?: () => void;
+  onShare?: () => void;
 }
 
 export function ArticleCardBookmark({
@@ -23,6 +26,9 @@ export function ArticleCardBookmark({
   tags1,
   thumbnail,
   createdDate,
+  onBookmark,
+  onRemove, 
+  onShare
 }: CardData) {
   return (
     <a href={`/content/${slug}`}>

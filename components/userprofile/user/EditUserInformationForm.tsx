@@ -107,9 +107,9 @@ export default function EditUserInformationForm(
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="lg:space-y-6 space-y-2 mx-2">
         <ToastContainer />
-        <div className="flex justify-center gap-[15px]">
+        <div className="w-full flex lg:flex-row flex-col justify-center gap-[15px] ">
           <div className="flex flex-col bg-white w-[510px] h-full items-center pb-[25px] pt-[25px] rounded-lg border">
             <div className="w-[200px] h-[55px] pr-[450px] relative">
               <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">

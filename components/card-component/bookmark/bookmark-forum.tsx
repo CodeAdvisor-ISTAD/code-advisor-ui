@@ -27,7 +27,7 @@ export function BookmarkForumCard({
   title,
   content,
   slug,
-    tags,
+  tags,
   views,
   comments,
   upvotes,
@@ -35,43 +35,45 @@ export function BookmarkForumCard({
   createdAt: string;
   title: string;
   content: string;
-    tags: string[];
+  tags: string[];
   views: number;
   comments: number;
   upvotes: number;
   slug: string;
 }) {
   const router = useRouter();
-  const actions = [
-    {
-      icon: <Bookmark className="w-4 h-4" />,
-      label: "កត់ចំណាំ",
-      action: () => console.log("New File"),
-    },
-    {
-      icon: <File className="w-4 h-4" />,
-      label: "រាយការណ៍",
-      action: () => console.log("Upload Image"),
-    },
-    {
-      icon: <Share2Icon className="w-4 h-4" />,
-      label: "ចែករំលែក",
-      action: () => console.log("Edit Colors"),
-    },
-  ];
+  // const actions = [
+  //   {
+  //     icon: <Bookmark className="w-4 h-4" />,
+  //     label: "កត់ចំណាំ",
+  //     action: () => console.log("New File"),
+  //   },
+  //   {
+  //     icon: <File className="w-4 h-4" />,
+  //     label: "រាយការណ៍",
+  //     action: () => console.log("Upload Image"),
+  //   },
+  //   {
+  //     icon: <Share2Icon className="w-4 h-4" />,
+  //     label: "ចែករំលែក",
+  //     action: () => console.log("Edit Colors"),
+  //   },
+  // ];
 
   return (
     <div
       className="cursor-pointer"
       onClick={() => router.push(`/forum/${slug}`)}
     >
-      <div className=" bg-white rounded-[5px] w-full p-4 ">
+      <div className=" bg-white rounded-[5px] w-full p-4 ring-1 ring-gray-200">
         {/* Content Section */}
         <div className="mb-4">
           <div className="flex justify-between">
-            <h2 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">{title}</h2>
+            <h2 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">
+              {title}
+            </h2>
             <div className=" flex justify-end text-gray-500 hover:text-gray-700">
-              <PopoverRoot>
+              {/* <PopoverRoot>
                 <PopoverTrigger className="border-none ">
                   <MoreVertical className="w-5 h-5 " />
                 </PopoverTrigger>
@@ -85,39 +87,36 @@ export function BookmarkForumCard({
                     ))}
                   </PopoverBody>
                 </PopoverContent>
-              </PopoverRoot>
+              </PopoverRoot> */}
             </div>
           </div>
           <p className="text-gray-700 mb-4">{content}</p>
         </div>
         <div className="max-h-20 overflow-y-auto ">
-                <div className="flex flex-wrap gap-2">
-                  <Badge
-                    className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
-                  >
-                    #{tags}
-                  </Badge>
-                  
-                </div>
-              </div>
+          <div className="flex flex-wrap gap-2">
+            <Badge className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white ">
+              #{tags}
+            </Badge>
+          </div>
+        </div>
 
         {/* Tags Section */}
         <div className="flex flex-wrap gap-2 mb-4 justify-between">
           <div className="pt-4 text-sm text-gray-500">
-          {new Date(createdAt)
-            .toLocaleDateString("en-GB", {
-              year: "numeric",
-              month: "short",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            })
-            .replace(",", " :")
-            .replace(/\b(am|pm)\b/g, (match) => match.toUpperCase())}
+            {new Date(createdAt)
+              .toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })
+              .replace(",", " :")
+              .replace(/\b(am|pm)\b/g, (match) => match.toUpperCase())}
           </div>
           {/* Metrics Section */}
-          <div className="flex items-center space-x-4 text-gray-500 mr-2">
+          {/* <div className="flex items-center space-x-4 text-gray-500 mr-2">
             <div className="flex items-center space-x-1">
               <MessageSquare className="w-4 h-4" />
               <span>{comments}</span>
@@ -126,7 +125,7 @@ export function BookmarkForumCard({
               <ArrowUp className="w-4 h-4" />
               <span>{upvotes}</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

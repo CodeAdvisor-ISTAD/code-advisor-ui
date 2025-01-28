@@ -27,7 +27,19 @@ export default async function Page({ params }: ParamProps) {
     return <div>Something went wrong while fetching content.</div>;
   }
 
-  console.log(data.content);
+  // Derive contentCardData from the fetched data
+  const contentCardData = {
+    slug: data?.slug, // Ensure this matches the structure of your data
+    thumbnail: data?.thumbnail,
+    title: data?.title,
+    tags: data?.tags,
+    authorUuid: data?.authorUuid,
+    communityEngagement: data?.communityEngagement,
+    content: data?.content,
+    createdAt: data?.createdDate,
+  };
+
+  console.log(contentCardData);
 
   return (
     <main className="flex mx-auto mt-[80px] pb-4 bg-gray-100 w-full px-[100px]">
@@ -40,18 +52,14 @@ export default async function Page({ params }: ParamProps) {
         />
       </div>
       <ContentSection
-        thumbnail={data?.thumbnail}
-        title={data?.title}
-        tags={data?.tags}
-        authorUuid={data?.authorUuid}
-        communityEngagement={data?.communityEngagement}
-        content={data?.content}
-        createdAt={data?.createdDate}
-        slug={""}
-        keywords={""}
-        isDraft={false}
-        isArchived={false}
-        isDeleted={false}
+        thumbnail={contentCardData.thumbnail}
+        title={contentCardData.title}
+        tags={contentCardData.tags}
+        authorUuid={contentCardData.authorUuid}
+        communityEngagement={contentCardData.communityEngagement}
+        content={contentCardData.content}
+        createdAt={contentCardData.createdAt}
+        slug={contentCardData.slug} // Pass the slug from contentCardData
       />
       <CommentSection
         id={Array.isArray(slug) ? slug[0] : slug}

@@ -6,12 +6,14 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { getHistory, getHistoryData } from "@/hooks/api-hook/user/history";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { HistoryItem } from "@/lib/reading";
 import { ForumHistoryCard } from "@/components/card-component/history-card/forumHistoryCard";
 import { getBookmarkContent } from "@/hooks/api-hook/user/bookmark";
 import { ContentHistoryCard } from "@/components/card-component/history-card/contentHistoryCard";
 import LoadingPage from "../loading";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 // Function to group history items by createdAt
 function groupByDate(items: HistoryItem[]) {
@@ -28,7 +30,25 @@ function groupByDate(items: HistoryItem[]) {
   return groups;
 }
 
+// Function to disable a history item via API
+const disableHistoryItem = async (id: string) => {
+  try {
+    const response = await fetch(`/users/api/v1/history/${id}/disable`, {
+      method: "PATCH",
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error disabling history item:", error);
+    throw error;
+  }
+};
+
 export default function ReadingHistoryPage() {
+  const queryClient = useQueryClient();
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  // Fetch history data
   const { data: historyData, isLoading } = useQuery({
     queryKey: ["historyData"],
     queryFn: () => getHistory(),
@@ -63,20 +83,40 @@ export default function ReadingHistoryPage() {
     enabled: !!historySlugs?.length,
   });
 
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  // Handle remove action
+  const handleRemove = async (id: string) => {
+    try {
+      await disableHistoryItem(id);
+      console.log("History item disabled:", id);
 
-  const handleBookmark = (id: number) => {
-    console.log("Bookmark:", id);
+      // Refetch history data to update the UI
+      queryClient.invalidateQueries({ queryKey: ["historyData"] });
+    } catch (error) {
+      console.error("Failed to disable history item:", error);
+    }
   };
 
-  const handleRemove = (id: number) => {
-    console.log("Remove:", id);
+  // Handle share action
+  const handleShare = async (id: string) => {
+    try {
+      const item = historyData.find((item: any) => item.id === id);
+      const slug = item?.forumSlug || item?.contentSlug;
+      if (!slug) {
+        throw new Error("Slug not found");
+      }
+      const url = `${window.location.origin}/${item.forumSlug ? 'forum' : 'content'}/${slug}`;
+      // Copy the specific URL to the clipboard
+      await navigator.clipboard.writeText(url);
+      // Show a success toast
+      toast.success("អ្នកបានចម្លង url post នេះបានដោយជោគជ័យ");
+    } catch (error) {
+      // Handle errors (e.g., if the clipboard API is not supported)
+      console.error("Failed to copy URL:", error);
+      toast.error("Failed to copy URL");
+    }
   };
 
-  const handleShare = (id: number) => {
-    console.log("Share:", id);
-  };
-
+  // Handle tag click
   const handleTagClick = (tagId: string) => {
     setSelectedTags((prev) =>
       prev.includes(tagId)
@@ -85,6 +125,7 @@ export default function ReadingHistoryPage() {
     );
   };
 
+  // Handle clear history
   const handleClearHistory = () => {
     setSelectedTags([]);
   };
@@ -113,11 +154,6 @@ export default function ReadingHistoryPage() {
           </TabsContent>
 
           <TabsContent value="reading" className="space-y-6 ml-1">
-            {/* <Input
-              type="search"
-              placeholder="Search reading history"
-              className="max-w-4xl border-gray-300"
-            /> */}
             {isLoading ? (
               <LoadingPage />
             ) : (
@@ -143,26 +179,29 @@ export default function ReadingHistoryPage() {
                           <ForumHistoryCard
                             key={item.id}
                             upvotes={Number(item?.upvotes)}
-                            onBookmark={() => handleBookmark(item.id)}
-                            onRemove={() => handleRemove(item.id)}
+                            onRemove={() => handleRemove(item.id)} // Pass the handleRemove function
                             onShare={() => handleShare(item.id)}
-                            createdAt={item?.createdAt} // Use createdAt
+                            createdAt={item?.createdAt}
                             title={item?.slug}
                             content={item?.content}
-                            slug={item?.forumSlug || item?.contentSlug} // Use contentSlug
-                            
-                            tags={""} // comments={item?.comments}
+                            slug={item?.forumSlug || item?.contentSlug}
+                            tags={""}
                           />
                           {matchingContent && (
-                            <ContentHistoryCard
+                            <ForumHistoryCard
                               key={matchingContent.id}
+                              upvotes={Number(matchingContent?.upvotes)}
+                              onRemove={() =>
+                                handleRemove(matchingContent.id) // Pass the handleRemove function
+                              }
+                              onShare={() =>
+                                handleShare(matchingContent.id)
+                              }
+                              createdAt={matchingContent?.createdAt}
                               title={matchingContent?.slug}
-                              description={matchingContent?.description}
-                              tags={matchingContent?.tags}
-                              tags1={matchingContent?.tags1}
-                              thumbnail={matchingContent?.thumbnail}
-                              createdDate={matchingContent?.createdAt} // Use createdAt
+                              content={matchingContent?.content}
                               slug={matchingContent?.slug}
+                              tags={""}
                             />
                           )}
                         </>

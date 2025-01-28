@@ -1,9 +1,28 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Profile } from "../Profile";
-// import { Author, Content } from "@/types/engagement";
 import { Badge } from "@/components/ui/badge";
 import { FaHeart, FaFire, FaThumbsUp } from "react-icons/fa";
 import Preview from "@/components/text-editor/preview";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { createHistory } from "@/hooks/api-hook/user/history";
+
+// Define the ContentDetails interface
+interface ContentDetails {
+  thumbnail: string;
+  title: string;
+  tags?: string[];
+  content: string;
+  authorUuid: string;
+  communityEngagement: {
+    loveCount: number;
+    fireCount: number;
+    likeCount: number;
+  };
+  createdAt: string;
+  slug: string; // Add slug for navigation
+}
 
 const formatDate = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -20,21 +39,58 @@ const formatDate = (dateString: string) => {
 };
 
 export function ContentSection({
-  thumbnail: thumbnail,
-  title: title,
-  tags: tags,
-  content: content,
-  authorUuid: authorUuid,
-  communityEngagement: communityEngagement,
-  createdAt: createdAt,
+  thumbnail,
+  title,
+  tags,
+  content,
+  authorUuid,
+  communityEngagement,
+  createdAt,
+  slug, // Destructure slug from props
 }: ContentDetails) {
   const formattedDate = formatDate(createdAt);
+  const [clicked, setClicked] = useState(false); // State to track clicks
+  const router = useRouter(); // Initialize the router
+
+  // Define the mutation for creating history
+  // const { mutate: submitHistory } = useMutation({
+  //   mutationKey: ["history"],
+  //   mutationFn: (data: { forumSlug: string }) => createHistory(data.forumSlug), // Replace with your actual API call
+  //   onSuccess: () => {
+  //     console.log("History submitted successfully");
+  //   },
+  //   onError: (error) => {
+  //     console.error("Error submitting history:", error);
+  //   },
+  // });
+
+  // // Submit history for forum
+  // const handleNavigate = (slug: string) => {
+  //   if (!clicked) {
+  //     setClicked(true); // Set clicked to true to prevent multiple clicks
+
+  //     // Navigate to the forum page immediately
+  //     router.push(`/forum/${slug}`);
+
+  //     // Submit history after 5 seconds
+  //     setTimeout(() => {
+  //       console.log("Submitting history for:", slug);
+
+  //       const data = {
+  //         forumSlug: slug,
+  //       };
+
+  //       submitHistory(data);
+  //     }, 5000); // Delay of 5 seconds
+  //   }
+  // };
 
   return (
     <div className="no-scrollbar overflow-x-hidden">
-      <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar w-[100%%]">
+      <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar w-full">
         <img
           src={thumbnail}
+          alt={title} // Add alt text for accessibility
           className="w-full h-80 object-cover rounded-t-[5px]"
         />
         <div className="mx-20">
@@ -70,7 +126,6 @@ export function ContentSection({
               <Profile
                 imageUrl={authorUuid}
                 username={authorUuid}
-                // postDate="23 Jan 21"
                 postDate={formattedDate}
               />
             </div>
@@ -78,10 +133,6 @@ export function ContentSection({
           <div className="p-6 pt-0">
             <Preview content={content} />
           </div>
-          {/* 
-          <CardContent>{
-            
-            content}</CardContent> */}
         </div>
       </Card>
     </div>

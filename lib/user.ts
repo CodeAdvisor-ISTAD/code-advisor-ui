@@ -6,8 +6,8 @@ export interface badge  {
 }
 
 
-export async function fetchBadge() {
-    const response = await fetch("/users/api/v1/achievement_badges/ITE");
+export async function fetchBadge(badge: any) {
+    const response = await fetch("/users/api/v1/achievement_badges/CodeAdvisors' developer");
     if(response.ok){
         const data = await response.json();
         return data;

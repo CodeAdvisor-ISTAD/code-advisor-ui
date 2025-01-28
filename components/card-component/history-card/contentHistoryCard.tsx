@@ -32,7 +32,7 @@ export function ContentHistoryCard({
             <div className="">
               <div className="space-y-3 p-0">
                 <h1 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">
-                  {slug}
+                  {title}
                 </h1>
                 <p className="text-slate-500 text-sm line-clamp-2 ">
                   {description}

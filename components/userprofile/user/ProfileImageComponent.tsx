@@ -102,7 +102,7 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
         {!disableButton && (
           <button
             type="button"
-            className="absolute lg:bottom-3 lg:left-36 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-200 text-white rounded-full hover:bg-gray-300 transition-colors duration-300"
+            className="absolute lg:bottom-3 lg:left-36 bottom-3 left-20 cursor-pointer h-8 w-8 flex items-center justify-center bg-gray-200 text-white rounded-full hover:bg-gray-300 transition-colors duration-300"
             onClick={() => document.getElementById("avatarInput")?.click()}
           >
             <ImageUp className="w-5 h-5 text-primary" />

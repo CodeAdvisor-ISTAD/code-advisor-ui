@@ -48,11 +48,11 @@ export function ForumHistoryCard({
   onShare,
 }: HistoryCardProps) {
   const actions = [
-    {
-      label: "Bookmark",
-      icon: <BookmarkIcon />,
-      action: onBookmark,
-    },
+    // {
+    //   label: "Bookmark",
+    //   icon: <BookmarkIcon />,
+    //   action: onBookmark,
+    // },
     {
       label: "Remove",
       icon: <TrashIcon />,
@@ -66,10 +66,8 @@ export function ForumHistoryCard({
   ];
 
   return (
-    <div
-      className="cursor-pointer"
-      onClick={() => router.push(`/forum/${slug}`)}
-    >
+    // <a href={`/forum/${slug}`} >
+    <div>
       <div className=" bg-white rounded-[5px] w-full p-4 ring-1 ring-gray-200">
         {/* Content Section */}
         <div className="mb-4">
@@ -97,17 +95,17 @@ export function ForumHistoryCard({
           </div>
           {/* <p className="text-gray-700 mb-4">{content}</p> */}
         </div>
-        
+
         {/* <div className="max-h-20 overflow-y-auto ">
-                <div className="flex flex-wrap gap-2">
-                  <Badge
-                    className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
-                  >
-                    #{tags}
-                  </Badge>
-                  
-                </div>
-              </div> */}
+          <div className="flex flex-wrap gap-2">
+            <Badge
+            className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
+            >
+            #{tags}
+            </Badge>
+            
+          </div>
+          </div> */}
 
         {/* Tags Section */}
         <div className="flex flex-wrap gap-2 mb-4 justify-between">
@@ -128,5 +126,6 @@ export function ForumHistoryCard({
         </div>
       </div>
     </div>
+    // </a>
   );
 }
