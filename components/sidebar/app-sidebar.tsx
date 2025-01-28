@@ -127,7 +127,9 @@ export function AppSidebar() {
     pathname === "/about" ||
     pathname.startsWith("/report") ||
     pathname === "/notification" ||
-    pathname === "/forum/new" 
+    pathname === "/forum/new" ||
+    pathname === "/all-content" ||
+      pathname === "/policy"
     ) {
     return;
   }

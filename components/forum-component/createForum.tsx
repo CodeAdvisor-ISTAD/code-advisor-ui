@@ -331,7 +331,7 @@ const CreateNewForum = () => {
                                                     )}
                                                     onChange={(
                                                         selectedOptions
-                                                    : any) => {
+                                                        : any) => {
                                                         field.onChange(
                                                             selectedOptions.map(
                                                                 (option) =>
@@ -398,7 +398,7 @@ const CreateNewForum = () => {
                                 <Preview
                                     content={cleanContent(
                                         form.watch("introduction") ||
-                                            "បញ្ហាដែលអ្នកបានជួបប្រទះ"
+                                        "បញ្ហាដែលអ្នកបានជួបប្រទះ"
                                     )}
                                 />
                             </div>
@@ -411,7 +411,7 @@ const CreateNewForum = () => {
                                 <Preview
                                     content={cleanContent(
                                         form.watch("expectedAnswers") ||
-                                            "ចម្លើយដែលអ្នកចង់បាន"
+                                        "ចម្លើយដែលអ្នកចង់បាន"
                                     )}
                                 />
                             </div>

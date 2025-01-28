@@ -1,37 +1,51 @@
 "use client";
 
 import * as React from "react";
-
 import {
-    MoreVertical,
-    Eye,
-    MessageSquare,
-    ArrowUp,
-    Bookmark,
-    File,
-    Share2Icon,
+  MoreVertical,
+  Eye,
+  MessageSquare,
+  ArrowUp,
+  Bookmark,
+  File,
+  Share2Icon,
 } from "lucide-react";
 import Image from "next/image";
 import {
-    PopoverBody,
-    PopoverButton,
-    PopoverContent,
-    PopoverRoot,
-    PopoverTrigger,
+  PopoverBody,
+  PopoverButton,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTrigger,
 } from "@/components/ui/pop-over";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { totalAnswersByQuestion, totalUpVotes } from "@/hooks/api-hook/forum/forum-api";
 import { getTagsByQuestionUuid } from "@/hooks/api-hook/forum/tags-api";
-import { useState } from "react";
 import { createHistory } from "@/hooks/api-hook/user/history";
+import { useState } from "react";
+
+interface ForumCardType {
+    uuid: string;
+    slug: string;
+    author_uuid: string;
+    author_username: string;
+    title: string;
+    description: string | null;
+    expectedAnswers: string;
+    tags: TagsType[];
+    isDrafted: boolean;
+    isArchived: boolean;
+    isDeleted: boolean;
+    createdAt: string;
+    updatedAt: string | null;
+}
 
 export function ForumCardComponent({
-    forumCardData,
+  forumCardData,
 }: {
-    forumCardData: ForumCardType;
+  forumCardData: ForumCardType;
 }) {
 
     const [clicked, setClicked] = useState(false); // State to track if the card is clicked
