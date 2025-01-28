@@ -32,8 +32,7 @@ export default function Page({
     enabled: !!slug, // Ensure query only runs when slug exists
   });
 
-  console.log("Here is the content fetch from content service: ", data);
-  console.log("Here is the slug: ", slug);
+  console.log("Content ID: ", data?.id);
 
   // Fetch comments by contentId
   const {
@@ -58,6 +57,7 @@ export default function Page({
         />
       </div>
       <ContentSection
+        
         thumbnail={data?.thumbnail}
         title={data?.title}
         tags={data?.tags}

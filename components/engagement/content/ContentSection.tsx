@@ -72,7 +72,7 @@ export function ContentSection({
 
             <div className="pt-4">
             <div className="space-y-4">
-              <p>
+              {/* <p>
                 Web development is constantly evolving, with new technologies
                 and frameworks emerging regularly. In this post, we'll explore
                 some of the latest trends and what they mean for developers.
@@ -102,7 +102,8 @@ export function ContentSection({
                 src="https://i.pinimg.com/736x/7e/e8/c8/7ee8c8e0e5817cee41a89a1316a3050f.jpg"
                 alt="Web Development Trends"
                 className="w-[70%] h-auto rounded-[5px] mx-auto py-8"
-              />
+              /> */}
+              <Preview content={description}/>
             </div>
               <Profile
                 imageUrl={authorUuid}
