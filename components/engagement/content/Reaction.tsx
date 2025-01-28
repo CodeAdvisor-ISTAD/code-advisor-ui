@@ -27,22 +27,22 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
   const [selectedReaction, setSelectedReaction] = useState(null);
   const [open, setOpen] = useState(false); // Manually control dropdown open/close state
 
-  const { mutate } = useMutation({
-    mutationFn: ({ contentId, userId, type, reactionType, ownerId, slug }) => 
-      handleReaction(contentId, userId, type,reactionType, ownerId, slug),
-    onMutate: () => {
-      // Optional: Do something before the mutation
-    },
-    onSuccess: (data, variables, context) => {
-      toast.success("អ្នកបាន");
-      // Optional: Do something on success
-    },
-    onError: (error, variables, context) => {
-      toast.error("បរាជ័យ");
-      console.error(error)
-      // Optional: Do something on error
-    }
-  });
+  // const { mutate } = useMutation({
+  //   mutationFn: ({ contentId, userId, type, reactionType, ownerId, slug }) => 
+  //     handleReaction(contentId, userId, type,reactionType, ownerId, slug),
+  //   onMutate: () => {
+  //     // Optional: Do something before the mutation
+  //   },
+  //   onSuccess: (data, variables, context) => {
+  //     toast.success("អ្នកបាន");
+  //     // Optional: Do something on success
+  //   },
+  //   onError: (error, variables, context) => {
+  //     toast.error("បរាជ័យ");
+  //     console.error(error)
+  //     // Optional: Do something on error
+  //   }
+  // });
   
 
   // Fetch the user's reaction from localStorage or backend when the component mounts
@@ -87,9 +87,9 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
   //   }
   // };
 
-  const handleReactionClick = (reactionType) => {
-    mutate({ contentId, userId, type: 'REACTION' , reactionType, ownerId, slug });
-  };
+  // const handleReactionClick = (reactionType) => {
+  //   mutate({ contentId, userId, type: 'REACTION' , reactionType, ownerId, slug });
+  // };
 
   return (
     <Select open={open} onOpenChange={setOpen}>
@@ -107,7 +107,7 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
             className="w-10"
             onMouseDown={(e) => {
               e.preventDefault(); // Prevent the dropdown from closing
-              handleReactionClick("love");
+              // handleReactionClick("love");
             }}
           >
             <FaHeart className="text-2xl text-pink-700" />
@@ -118,7 +118,7 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
             className="w-10"
             onMouseDown={(e) => {
               e.preventDefault();
-              handleReactionClick("fire");
+              // handleReactionClick("fire");
             }}
           >
             <FaFire className="text-2xl text-red-500" />
@@ -129,7 +129,7 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
             className="w-10"
             onMouseDown={(e) => {
               e.preventDefault();
-              handleReactionClick("like");
+              // handleReactionClick("like");
             }}
           >
             <FaThumbsUp className="text-2xl text-blue-500" />

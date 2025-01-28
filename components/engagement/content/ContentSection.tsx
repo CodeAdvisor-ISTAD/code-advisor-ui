@@ -103,7 +103,7 @@ export function ContentSection({
                 alt="Web Development Trends"
                 className="w-[70%] h-auto rounded-[5px] mx-auto py-8"
               /> */}
-              <Preview content={description}/>
+              <Preview content={description as string}/>
             </div>
               <Profile
                 imageUrl={authorUuid}

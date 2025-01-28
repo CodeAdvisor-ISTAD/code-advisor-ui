@@ -7,7 +7,6 @@ import { ContentSidebar } from "@/components/engagement/content/ContentSidebar";
 import PrismLoader from "@/components/text-editor/prismLoader";
 import { getContent } from "@/hooks/api-hook/content/content-api";
 import { getComment } from "@/hooks/api-hook/engagement/engagement-api";
-import { getCommentsByContentId } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { use } from "react";
 
