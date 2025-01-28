@@ -5,8 +5,7 @@ import { Author, Content, Reactions, Comment } from "@/types/engagement";
 const authors: Author[] = [
   {
     id: "a1",
-    userName: "John Doe",
-    image: "https://i.pinimg.com/736x/7c/00/3f/7c003f765d1cec42ae00100084b94daf.jpg"
+    userName: "John Doe",    image: "https://i.pinimg.com/736x/7c/00/3f/7c003f765d1cec42ae00100084b94daf.jpg"
   },
   {
     id: "a2",
@@ -60,10 +59,10 @@ const comments: Comment[] = [
 // Mock API functions to simulate backend calls
 const contents: Content[] = [
   {
-    slug: "1",
+    id: "1",
     title: "Introduction to React",
     description: "Learn the basics of React and how to build modern web applications.",
-    cover: "https://i.pinimg.com/736x/06/98/6a/06986a1609bd2fcbd8cb047c789738d0.jpg",
+    cover: "https://i.pinimg.com/736x/b3/ba/35/b3ba35122f1b364eb13131343c94dc67.jpg",
     author: authors[0],
     tags: ["React", "JavaScript", "Web Development"],
     createdAt: "2023-05-15T10:00:00Z",
@@ -73,7 +72,7 @@ const contents: Content[] = [
     bookmark: 10 // The number of total bookmarks for this content
   },
   {
-    slug: "2",
+    id: "2",
     title: "Advanced TypeScript Techniques",
     description: "Dive deep into TypeScript and learn advanced concepts and patterns.",
     cover: "https://i.pinimg.com/236x/64/05/58/640558ee5bd3a60a62aea4d1911cbe3b.jpg",
@@ -96,7 +95,7 @@ export async function getContents(): Promise<Content[]> {
 // Get a specific content by id
 export async function getContentById(contentId: string): Promise<Content | undefined> {
   // Find and return the content with the matching id
-  return contents.find(content => content.slug === contentId);
+  return contents.find(content => content.id === contentId);
 }
 
 
@@ -167,51 +166,3 @@ export async function deleteComment(commentId: string): Promise<void> {
     throw new Error('Failed to delete comment');
   }
 }
-
-
-// for notification
-import type { Notification } from '@/types/notifications';
-const API_BASE_URL = 'http://localhost:8888/api/v1';
-
-export const fetchNotifications = async (userId: string): Promise<Notification[]> => {
-  const response = await fetch(`${API_BASE_URL}/notifications/${userId}`);
-  return response.json();
-};
-
-export const markAsRead = async (id: string, status: boolean): Promise<void> => {
-  await fetch(`${API_BASE_URL}/notifications/${id}/status?read=${status}`, {
-    method: 'PUT',
-  });
-};
-
-
-export const removeNotification = async (id: string): Promise<void> => {
-  await fetch(`${API_BASE_URL}/notifications/${id}`, {
-    method: 'DELETE',
-  });
-};
-
-
-// for fetching user profile
-export async function getUserProfile(senderId: string) {
-  try {
-    // Replace this with your actual API endpoint or database query
-    const response = await fetch(`/api/users/${senderId}`);
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch user profile');
-    }
-
-    const userProfile = await response.json();
-
-    return {
-      name: userProfile.name,
-      profile: userProfile.profilePicture, // or whatever field represents the profile
-    };
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
-    return null;
-  }
-}
-
-
