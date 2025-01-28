@@ -11,7 +11,6 @@ import { Toaster } from "react-hot-toast";
 import { CommentProvider } from "@/lib/context/commentContext";
 import { UserProvider, useUser } from "@/lib/context/userContext";
 import HighlightInitializer from "@/components/text-editor/HighlightInitializer";
-import { SearchProvider } from "@/lib/context/SearchContext";
 
 
 export default function RootLayout({
@@ -32,7 +31,6 @@ export default function RootLayout({
         className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
       >
         <HighlightInitializer />
-        <SearchProvider>
         <UserProvider>
           <CommentProvider>
             <Provider>
@@ -50,7 +48,6 @@ export default function RootLayout({
             </Provider>
           </CommentProvider>
         </UserProvider>
-        </SearchProvider>
       </body>
     </html>
   );

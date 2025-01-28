@@ -1,10 +1,10 @@
 import axios from "axios";
 
+// const BASE_URL = " http://localhost:3000"
 // no login
-const BASE_URL = "http://192.168.56.1:8086"
+const BASE_URL = "/ces"
 // login 
-// const BASE_URL = "http://202.178.125.77:1168/"
-
+// const BASE_URL = "http://202.178.125.77:1168"
 
 // fetch comment by contentId
 export const getComment = async (contentId: string) => {
@@ -96,7 +96,7 @@ export const editComment = async (
   const response = await fetch(
     `${BASE_URL}/api/v1/engagement/comments/${commentId}`,
     {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -223,20 +223,20 @@ export const handleReaction = async (contentId, userId, reactionType, ownerId, s
   }
 };
 
-// get reaction
-export const getReaction = async (contentId) => {
-  const endpoint = `${BASE_URL}/api/v1/reactions/content/${contentId}`;
+// // get reaction
+// export const getReaction = async (contentId) => {
+//   const endpoint = `${BASE_URL}/api/v1/reactions/content/${contentId}`;
 
-  try {
-    const response = await axios.get(endpoint, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return response.data; // Assumes the API response contains the reactions data.
-  } catch (error) {
-    console.error(`Error fetching reactions for contentId ${contentId}:`, error);
-    throw error;
-  }
-};
+//   try {
+//     const response = await axios.get(endpoint, {
+//       headers: { "Content-Type": "application/json" },
+//     });
+//     return response.data; // Assumes the API response contains the reactions data.
+//   } catch (error) {
+//     console.error(`Error fetching reactions for contentId ${contentId}:`, error);
+//     throw error;
+//   }
+// };
 
 export const getReactionsByContentId = async (contentId: string) => {
   try {
@@ -279,11 +279,19 @@ export const getUserReaction = async (contentId: string, userId: string) => {
   try {
     const response = await axios.get(`${BASE_URL}/api/v1/reactions/${contentId}/user/${userId}`);
     return response.data.reaction; // This should be the reaction type like "love", "fire", or "like"
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response && error.response.status === 404) {
+      // If the status code is 404, return a default value of 0
+      console.warn("No reaction data found. Defaulting to 0.");
+      return 0;
+    }
+
+    // Re-throw any other errors
     console.error("Error fetching user reaction:", error);
     throw error;
   }
 };
+
 
 // report
 export const createReport = async (report: {
@@ -316,3 +324,18 @@ export const createReport = async (report: {
   }
 };
 
+interface ShareContent {
+  userId: string;
+  contentId: string;
+  sharePlatform: string;
+}
+
+export const shareContent = async (shareData: ShareContent) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/v1/reports/shareContent`, shareData);
+    return response.data;
+  } catch (error) {
+    console.error("Error sharing content:", error);
+    throw new Error("Failed to share content");
+  }
+};

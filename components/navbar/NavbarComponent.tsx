@@ -56,7 +56,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-white z-50">
-      {user === null ? (
+      {user == null ? (
         <div className="flex items-center px-4 justify-between h-[72px] mx-auto max-w-7xl">
           {/* Logo */}
           <section>

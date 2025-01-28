@@ -93,10 +93,8 @@ export default function ToolBar({ editor }: { editor: Editor }) {
                 .run();
         } catch (error) {
             if (error instanceof z.ZodError) {
-                alert(`Validation failed: ${error.errors[0].message}`);
             } else {
                 console.error("Image upload failed:", error);
-                alert("Image upload failed. Please try again.");
             }
         } finally {
             setUploading(false);
