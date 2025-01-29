@@ -73,7 +73,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
     console.log("User UUID: ", userUuid);
 
     const wsService = new WebSocketService(
-      "/notifications/ws",
+      "http://202.178.125.77:1084/ws",
       userUuid
     );
 
@@ -84,15 +84,6 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
         setUnreadCount((prev) => prev + 1);
       }
     });
-    wsService.onNotification((notification) => {
-      setNotifications((prev) => [notification, ...prev]);
-      const notificationTime = new Date(notification.createdAt).getTime();
-      if (notificationTime > lastCheckedTime) {
-        setUnreadCount((prev) => prev + 1);
-      }
-    });
-
-    wsService.connect();
     wsService.connect();
 
     const loadInitialNotifications = async () => {
@@ -112,7 +103,6 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
       }
     };
 
-    loadInitialNotifications();
     loadInitialNotifications();
 
     return () => {
@@ -210,18 +200,6 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
             </span>
           )}
         </button>
-        {/* Notification Icon */}
-        <button
-          className="relative text-primary mx-8"
-          onClick={handleNotificationClick}
-        >
-          <FiBell className="h-7 w-7" />
-          {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-4 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-              {unreadCount > 9 ? "9+" : unreadCount}
-            </span>
-          )}
-        </button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -256,7 +234,9 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-600">
               <LogOut className="mr-2 h-4 w-4" />
-              <span onClick={() => router.push("http://127.0.0.1:9090/logout")}>
+              <span
+                onClick={() => router.push("http://202.178.125.77:9090/logout")}
+              >
                 ចាកចេញ
               </span>
             </DropdownMenuItem>
@@ -265,4 +245,4 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
       </div>
     </div>
   );
-} 
+}

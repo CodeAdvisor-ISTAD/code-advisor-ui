@@ -47,7 +47,7 @@ export default function NotificationsPage() {
     setUserId(currentUserId);
 
     const wsService = new WebSocketService(
-      "/notifications/ws",
+      "http://202.178.125.77:1084/ws",
       currentUserId
     );
 
