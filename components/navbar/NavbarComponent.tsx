@@ -109,7 +109,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
               Login
             </Button>
             <Button
-              onClick={() => route.push('http://127.0.0.1:9090/register')}
+              onClick={() => route.push('http://202.178.125.77/:9090/register')}
               className="m-[8px] text-white bg-primary rounded-[5px] hover:bg-primary-dark transition-colors"
             >
               Register
