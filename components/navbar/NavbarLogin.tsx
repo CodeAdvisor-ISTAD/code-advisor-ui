@@ -84,7 +84,15 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
         setUnreadCount((prev) => prev + 1);
       }
     });
+    wsService.onNotification((notification) => {
+      setNotifications((prev) => [notification, ...prev]);
+      const notificationTime = new Date(notification.createdAt).getTime();
+      if (notificationTime > lastCheckedTime) {
+        setUnreadCount((prev) => prev + 1);
+      }
+    });
 
+    wsService.connect();
     wsService.connect();
 
     const loadInitialNotifications = async () => {
@@ -104,6 +112,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
       }
     };
 
+    loadInitialNotifications();
     loadInitialNotifications();
 
     return () => {
@@ -189,6 +198,18 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
           </Dropdown>
         </div>
 
+        {/* Notification Icon */}
+        <button
+          className="relative text-primary mx-8"
+          onClick={handleNotificationClick}
+        >
+          <FiBell className="h-7 w-7" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 flex h-4 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
+        </button>
         {/* Notification Icon */}
         <button
           className="relative text-primary mx-8"

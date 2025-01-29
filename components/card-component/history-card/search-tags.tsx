@@ -1,10 +1,9 @@
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
-import { SearchTag } from "@/lib/reading"
 import Footer from "@/components/footer/Footer"
 
 interface SearchTagsProps {
-  tags: SearchTag[]
+  tags: any
   selectedTags: string[]
   onTagClick: (tagId: string) => void
 }

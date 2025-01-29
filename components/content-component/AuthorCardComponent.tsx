@@ -3,32 +3,30 @@
 import * as React from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface CardData {
+  id: string;
+  authorUuid: string;
   title: string;
   description: string;
   tags: string;
   tags1: string;
-  thumbnail: string;
-  createdDate: string;
+  image: string;
+  created_date: string;
   slug: string;
-  onBookmark?: () => void;
-  onRemove?: () => void;
-  onShare?: () => void;
 }
 
-export function ArticleCardBookmark({
+export function AuthorCardComponent({
   title,
   slug,
+  authorUuid,
   description,
   tags,
   tags1,
-  thumbnail,
-  createdDate,
-  onBookmark,
-  onRemove, 
-  onShare
+  image,
+  created_date,
+  id,
 }: CardData) {
   return (
     <a href={`/content/${slug}`}>
@@ -60,31 +58,17 @@ export function ArticleCardBookmark({
                   </Badge>
                 </div>
               </div>
-                <div className="pt-4 text-sm text-gray-500">
-                {new Date(createdDate)
-                  .toLocaleDateString("en-GB", {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                  })
-                  .replace(",", " :")
-                  .replace(/\b(am|pm)\b/g, (match) => match.toUpperCase())}
-                </div>
+              <div className="pt-4 text-sm text-gray-500">{created_date}</div>
             </div>
-            {thumbnail && title && (
-              <div className="relative h-[100px] w-[150px] overflow-hidden">
-                <Image
-                  src={thumbnail}
-                  alt={title}
-                  fill
-                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
-                  sizes="(max-width: 250px) 0vw, 1200px"
-                />
-              </div>
-            )}
+            <div className="relative h-[100px] w-[150px] overflow-hidden">
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+                sizes="(max-width: 250px) 0vw, 1200px"
+              />
+            </div>
           </CardContent>
         </div>
       </Card>

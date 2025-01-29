@@ -43,9 +43,7 @@ export default function RootLayout({
                 <AppSidebar />
                 <main className="w-full bg-background  ">{children}</main>
               </SidebarProvider>
-              <footer  className="relative z-10">
-                <Footer />
-              </footer>
+              <footer><Footer /></footer>
               <Toaster />
             </Provider>
           </CommentProvider>

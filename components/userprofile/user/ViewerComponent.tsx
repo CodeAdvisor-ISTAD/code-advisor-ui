@@ -1,22 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
 import Bio from "@/components/userprofile/user/Bio";
-import UserPost from "@/components/userprofile/user/userPost";
+import UserPost from "@/components/userprofile/user/OwnerPostComponent";
 import UserInformationCardComponent from "@/components/userprofile/user/UserInformationCardComponent";
-import AchievementLevel from "@/components/userprofile/user/achievement/AchievementCard";
-import ProfileImage from "@/components/userprofile/user/ProfileImage";
+import ProfileImage from "@/components/userprofile/user/ProfileImageComponent";
 import { useRouter } from "next/navigation";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { useQuery } from "@tanstack/react-query";
+import AchievementLevelComponent from "../achievement/AchievementCard";
+import ViewerPost from "./ViewerPostComponent";
+import { log } from "console";
 
-export default function Viewer({username} : {username: string}) {
+export default function Viewer({ username }: { username: string }) {
   const [bgColor, setBgColor] = useState("#000040");
   const router = useRouter();
 
-  const { data : publicUserProfile} = useQuery({
+  const { data: publicUserProfile } = useQuery({
     queryKey: ["publicUserProfile"],
-    queryFn: () => getUserByUsername(username)
+    queryFn: () => getUserByUsername(username),
   });
+
+  if (publicUserProfile === undefined) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">
@@ -31,17 +37,22 @@ export default function Viewer({username} : {username: string}) {
             <ProfileImage disableButton profileAuth={publicUserProfile} />
           </div>
         </div>
-        <div className="flex flex-row space-x-2 ml-6">
-          <div className="flex flex-col mt-[98px] gap-2">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 px-6">
+          <div className="col-span-5 mt-[98px] gap-2 mb-2">
             {/* achievement level card */}
-            <AchievementLevel />
+            <AchievementLevelComponent
+              userInformation={publicUserProfile}
+              disableButton={true}
+            />
             {/* Bio card */}
             <Bio bio={""} />
             {/* user information card */}
             <UserInformationCardComponent userInformation={publicUserProfile} />
           </div>
           {/* user post */}
-          <UserPost username={username}/>
+          <div className="col-span-7">
+            <ViewerPost username={username} authorUuid={""} />
+          </div>
         </div>
       </div>
     </div>

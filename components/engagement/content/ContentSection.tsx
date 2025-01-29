@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Profile } from "../Profile";
 // import { Author, Content } from "@/types/engagement";
 // import { Author, Content } from "@/types/engagement";
@@ -33,9 +33,10 @@ export function ContentSection({
   const formattedDate = formatDate(createdAt);
   return (
     <div className="no-scrollbar overflow-x-hidden">
-      <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar w-[100%%]">
+      <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar w-full">
         <img
           src={thumbnail}
+          alt={title} // Add alt text for accessibility
           className="w-full h-80 object-cover rounded-t-[5px]"
         />
         <div className="mx-20">
