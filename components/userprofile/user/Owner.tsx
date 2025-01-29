@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
 import OwnerPost from "@/components/userprofile/user/OwnerPostComponent";
-import AchievementLevelComponent from "../achievement/AchievementCard";
+// import AchievementLevelComponent from "../achievement/AchievementCard";
+import AchievementLevelComponent from "@/components/userprofile/achievement/AchievementCard"
 
 export default function Owner() {
   const router = useRouter();
