@@ -13,7 +13,7 @@ import verifyExpertAward from "@/public/award-images/Verify Expert.png";
 import topContributorAward from "@/public/award-images/Top Contributor.png";
 import mentorAward from "@/public/award-images/Mentor.png";
 import expertAward from "@/public/award-images/Expert.png";
-import seniorAward from "@/public/award-images/senior.png";
+import seniorAward from "@/public/award-images/Senior.png";
 import contributorAward from "@/public/award-images/Contributor.png";
 import learnerAward from "@/public/award-images/learner.png";
 function determineLevel(achievement) {

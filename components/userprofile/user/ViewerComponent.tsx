@@ -7,7 +7,8 @@ import ProfileImage from "@/components/userprofile/user/ProfileImageComponent";
 import { useRouter } from "next/navigation";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { useQuery } from "@tanstack/react-query";
-import AchievementLevelComponent from "../achievement/AchievementCard";
+// import AchievementLevelComponent from "../achievement/AchievementCard";
+import AchievementLevelComponent from "@/components/userprofile/achievement/AchievementCard"
 import ViewerPost from "./ViewerPostComponent";
 import { log } from "console";
 
