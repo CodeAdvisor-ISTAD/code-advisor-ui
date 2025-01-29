@@ -41,7 +41,7 @@ export function CardComponent({
       <Card className="rounded-[5px] w-[350px] h-[480px] flex flex-col ">
         <CardHeader className="space-y-3">
           <div className="space-y-3">
-            <h2 className="text-xl font-medium tracking-normal text-primary">
+            <h2 className="text-xl font-medium tracking-normal text-primary line-clamp-2">
               {title}
             </h2>
             <p className="text-slate-500 text-[16px] line-clamp-2">
