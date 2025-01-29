@@ -104,7 +104,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
               <span onClick={() => router.push("/content/new")}>បង្កើតអត្ថបទ</span>
             </DropdownItem>
             <DropdownItem className="text-black">
-              <Link href="/forum/new">បង្កើត Forum</Link>
+              <Link href="/forum/new">បង្កើតពិភាក្សា</Link>
             </DropdownItem>
           </Dropdown>
         </div>
