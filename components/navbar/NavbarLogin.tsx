@@ -73,7 +73,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
     console.log("User UUID: ", userUuid);
 
     const wsService = new WebSocketService(
-      "/notifications/ws",
+      "http://202.178.125.77:1084/ws",
       userUuid
     );
 
@@ -210,7 +210,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
             </span>
           )}
         </button>
-        {/* Notification Icon */}
+        {/* Notification Icon
         <button
           className="relative text-primary mx-8"
           onClick={handleNotificationClick}
@@ -221,7 +221,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
               {unreadCount > 9 ? "9+" : unreadCount}
             </span>
           )}
-        </button>
+        </button> */}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
