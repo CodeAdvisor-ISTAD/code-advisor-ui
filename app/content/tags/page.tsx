@@ -76,7 +76,7 @@ const TechAndKeywordList: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto w-[800px] mt-[80px] my-[25px]">
+    <div className="container mx-auto  mt-[80px] my-[25px]">
       <div className="bg-white rounded-md shadow-md h-[53px] flex items-center px-4 mb-2">
         <p className="text-secondary font-bold text-[20px]">ស្លាក #</p>
       </div>
