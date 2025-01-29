@@ -16,6 +16,7 @@ interface ProfileImageProps {
   profileAuth: any;
 }
 
+
 export default function ProfileImage({ disableButton, profileAuth }: ProfileImageProps) {
   const queryClient = useQueryClient();
   const [image, setImage] = useState<string>("null");
@@ -112,7 +113,7 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
           <div>
             <div className="flex gap-2 flex-row w-full mx-auto">
               <h2 className="lg:text-3xl text-xl font-bold">{profileAuth?.fullName}</h2>
-              <BadgeComponent />
+              <BadgeComponent userId={profileAuth?.id} />
             </div>
             <p className="lg:text-lg text-xs text-muted-foreground">@{profileAuth?.username}</p>
           </div>
