@@ -2,9 +2,9 @@
 
 // Types for Reaction
 export interface Reactions {
-  like: number;
-  love: number;
-  fire: number;
+  likeCount: number;
+  loveCount: number;
+  fireCount: number;
 }
 
 // Type for Author Profile
@@ -14,19 +14,34 @@ export interface Author {
   image: string;
 }
 
+export interface ReactionRequest {
+  contentId: string;
+  type: string;
+  userId: string;
+  reactionType: string;
+  ownerId: string;
+  slug: string;
+}
+
+
 // Type for Content
 export interface Content {
-  id?: string;
+  contentId?: string;
+  slug?: string;
   title?: string;
   description?: React.ReactNode;
-  cover?: string;
-  author?: Author;
+  thumbnail?: string;
+  authorUuid?: string;
   tags?: string[];
   createdAt?: string;
   reactions?: Reactions;
   comment?: Comment[];
   isBookmark?: boolean;
   bookmark?: number;
+  keywords?: string;
+  isDraft?: boolean;
+  isArchived?: boolean;
+  isDeleted?: boolean
 }
 
 // Type for Comment

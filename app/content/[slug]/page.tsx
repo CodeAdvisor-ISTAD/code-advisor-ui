@@ -1,70 +1,82 @@
 "use client";
+
+import ErrorComponent from "@/app/error";
 import { CommentSection } from "@/components/engagement/comment/CommentSection";
 import { ContentSection } from "@/components/engagement/content/ContentSection";
 import { ContentSidebar } from "@/components/engagement/content/ContentSidebar";
 import PrismLoader from "@/components/text-editor/prismLoader";
 import { getContent } from "@/hooks/api-hook/content/content-api";
+import { getComment } from "@/hooks/api-hook/engagement/engagement-api";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import { use } from "react";
 
-export type ParamProps = {
-  params: Promise<{ slug: any }>;
-};
+export default function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = use(params); // Unwrap the params Promise
+  const slug = resolvedParams.slug;
 
-export default async function Page({ params }: ParamProps) {
-  const { slug } = await params;
+  console.log("Slug here: ", slug);
 
-  const { data, isLoading, isError } = useQuery({
+  // const contentId = "6795c8a465314844e79028dd"; // Example contentId, dynamically set as needed
+  // const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
+  // const ownerId = "424c64c0-efae-4798-8a50-7017f6c5533f";
+
+  // Fetch content details using React Query
+  const { data, isError } = useQuery({
     queryKey: ["contentDetails", slug],
     queryFn: () => getContent(slug),
+    enabled: !!slug, // Ensure query only runs when slug exists
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  console.log("Content ID: ", data?.id);
 
-  if (isError) {
-    return <div>Something went wrong while fetching content.</div>;
-  }
-
-  // Derive contentCardData from the fetched data
-  const contentCardData = {
-    slug: data?.slug, // Ensure this matches the structure of your data
-    thumbnail: data?.thumbnail,
-    title: data?.title,
-    tags: data?.tags,
-    authorUuid: data?.authorUuid,
-    communityEngagement: data?.communityEngagement,
-    content: data?.content,
-    createdAt: data?.createdDate,
-  };
-
-  console.log(contentCardData);
+  // Fetch comments by contentId
+  const {
+    data: comments,
+    isLoading: isCommentsLoading,
+    isError: isCommentsError,
+  } = useQuery({
+    queryKey: ["comments", data?.contentId], // Use unique key for comments
+    queryFn: () => getComment(data?.contentId), // Call the imported function
+  });
 
   return (
     <main className="flex mx-auto mt-[80px] pb-4 bg-gray-100 w-full px-[100px]">
       <div className="w-full fixed">
         <ContentSidebar
-          contentId={slug}
-          bookmark={data?.bookmark ?? 0}
-          comment={data?.comment}
-          reactions={data?.communityEngagement}
+          comment={comments} // Replace with your comments data
+          bookmark={0} // Replace with your bookmark count
+          contentId={data?.contentId} // Pass the contentId
+          userId={data?.userId}
+          ownerId={data?.ownerId}
+          slug={slug}
         />
       </div>
       <ContentSection
-        thumbnail={contentCardData.thumbnail}
-        title={contentCardData.title}
-        tags={contentCardData.tags}
-        authorUuid={contentCardData.authorUuid}
-        communityEngagement={contentCardData.communityEngagement}
-        content={contentCardData.content}
-        createdAt={contentCardData.createdAt}
-        slug={contentCardData.slug} // Pass the slug from contentCardData
+        
+        thumbnail={data?.thumbnail}
+        title={data?.title}
+        tags={data?.tags}
+        reactions={data?.communityEngagement}
+        description={data?.content}
+        createdAt={data?.createdDate}
+        slug={data?.slug} // Ensure you pass the correct slug
+        keywords={data?.keywords ?? ""} // Pass your actual keywords if needed
+        isDraft={false}
+        isArchived={false}
+        isDeleted={false}
       />
       <CommentSection
-        id={Array.isArray(slug) ? slug[0] : slug}
-        comment={data?.comment}
+        comment={comments}
+        contentId={data?.contentId}
+        ownerId={data?.ownerId}
+        slug={slug}
+        userId={data?.userId}
       />
+
       <PrismLoader />
     </main>
   );

@@ -46,7 +46,7 @@ export default function OwnerPost({
     queryFn: () => getQuestionByAuthorName(username, 0, 10),
   });
 
-  const { data: contentData } = useQuery({
+  const { data: contentData, refetch : refetchDataContent } = useQuery({
     queryKey: ["ContentOwner"],
     queryFn: () => getContentByAuthorUuid(authorUuid, 0, 10),
   });
@@ -145,7 +145,7 @@ export default function OwnerPost({
       <Tabs defaultValue="forum">
         <TabsList>
           <TabsTrigger value="forum">សំនួររបស់អ្នក</TabsTrigger>
-          <TabsTrigger value="content">មាតិការបស់អ្នក</TabsTrigger>
+          <TabsTrigger value="content" onClick={() => {refetchDataContent()}}>មាតិការបស់អ្នក</TabsTrigger>
         </TabsList>
         <div className="flex space-x-2 pt-1 pb-0.5">
           <Command className="border h-9 rounded-lg">

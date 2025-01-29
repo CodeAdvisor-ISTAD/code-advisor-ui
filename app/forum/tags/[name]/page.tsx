@@ -29,7 +29,7 @@ export default async function Page({
           </p>
         </div>
         <div className="flex mb-9">
-          <CardList></CardList>
+          <CardList searchQuery={""}></CardList>
         </div>
       </div>
     </>

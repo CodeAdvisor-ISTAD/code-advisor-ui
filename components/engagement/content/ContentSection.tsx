@@ -1,28 +1,11 @@
 import { Card, CardHeader } from "@/components/ui/card";
 import { Profile } from "../Profile";
+// import { Author, Content } from "@/types/engagement";
+// import { Author, Content } from "@/types/engagement";
 import { Badge } from "@/components/ui/badge";
 import { FaHeart, FaFire, FaThumbsUp } from "react-icons/fa";
 import Preview from "@/components/text-editor/preview";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { createHistory } from "@/hooks/api-hook/user/history";
-
-// Define the ContentDetails interface
-interface ContentDetails {
-  thumbnail: string;
-  title: string;
-  tags?: string[];
-  content: string;
-  authorUuid: string;
-  communityEngagement: {
-    loveCount: number;
-    fireCount: number;
-    likeCount: number;
-  };
-  createdAt: string;
-  slug: string; // Add slug for navigation
-}
+import { Content } from "@/types/engagement";
 
 const formatDate = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -39,52 +22,15 @@ const formatDate = (dateString: string) => {
 };
 
 export function ContentSection({
-  thumbnail,
-  title,
-  tags,
-  content,
-  authorUuid,
-  communityEngagement,
-  createdAt,
-  slug, // Destructure slug from props
-}: ContentDetails) {
+  thumbnail: thumbnail,
+  title: title,
+  tags: tags,
+  description: description,
+  authorUuid: authorUuid,
+  reactions: communityEngagement,
+  createdAt: createdAt,
+}: Content) {
   const formattedDate = formatDate(createdAt);
-  const [clicked, setClicked] = useState(false); // State to track clicks
-  const router = useRouter(); // Initialize the router
-
-  // Define the mutation for creating history
-  // const { mutate: submitHistory } = useMutation({
-  //   mutationKey: ["history"],
-  //   mutationFn: (data: { forumSlug: string }) => createHistory(data.forumSlug), // Replace with your actual API call
-  //   onSuccess: () => {
-  //     console.log("History submitted successfully");
-  //   },
-  //   onError: (error) => {
-  //     console.error("Error submitting history:", error);
-  //   },
-  // });
-
-  // // Submit history for forum
-  // const handleNavigate = (slug: string) => {
-  //   if (!clicked) {
-  //     setClicked(true); // Set clicked to true to prevent multiple clicks
-
-  //     // Navigate to the forum page immediately
-  //     router.push(`/forum/${slug}`);
-
-  //     // Submit history after 5 seconds
-  //     setTimeout(() => {
-  //       console.log("Submitting history for:", slug);
-
-  //       const data = {
-  //         forumSlug: slug,
-  //       };
-
-  //       submitHistory(data);
-  //     }, 5000); // Delay of 5 seconds
-  //   }
-  // };
-
   return (
     <div className="no-scrollbar overflow-x-hidden">
       <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar w-full">
@@ -111,28 +57,70 @@ export function ContentSection({
               <div className="flex gap-2">
                 <FaHeart className="text-2xl text-pink-700" />
                 <span>{communityEngagement?.loveCount}</span>
+                <span>{communityEngagement?.loveCount}</span>
               </div>
               <div className="flex gap-2">
                 <FaFire className="text-2xl text-red-500" />
+                <span>{communityEngagement?.fireCount}</span>
                 <span>{communityEngagement?.fireCount}</span>
               </div>
               <div className="flex gap-2">
                 <FaThumbsUp className="text-2xl text-blue-500" />
                 <span>{communityEngagement?.likeCount}</span>
+                <span>{communityEngagement?.likeCount}</span>
               </div>
             </div>
 
             <div className="pt-4">
+            <div className="space-y-4">
+              {/* <p>
+                Web development is constantly evolving, with new technologies
+                and frameworks emerging regularly. In this post, we'll explore
+                some of the latest trends and what they mean for developers.
+              </p>
+              <h2 className="text-xl font-semibold">Key Trends</h2>
+              <ul className="list-disc pl-6">
+                <li>Serverless architectures</li>
+                <li>JAMstack and static site generators</li>
+                <li>Progressive Web Apps (PWAs)</li>
+              </ul>
+              <img
+                src="https://i.pinimg.com/736x/75/b2/ba/75b2ba0cb7998890338fff3bfb3d1f3c.jpg"
+                alt="Web Development Trends"
+                className="w-[70%] h-auto rounded-[5px] mx-auto py-8"
+              />
+              <h2 className="text-xl font-semibold">Impact on Developers</h2>
+              <ol className="list-decimal pl-6">
+                <li>Increased focus on frontend skills</li>
+                <li>Growing importance of API design</li>
+                <li>Need for continuous learning and adaptation</li>
+              </ol>
+              <p>
+                As these trends continue to shape the industry, developers must
+                stay informed and adapt their skills accordingly.
+              </p>
+              <img
+                src="https://i.pinimg.com/736x/7e/e8/c8/7ee8c8e0e5817cee41a89a1316a3050f.jpg"
+                alt="Web Development Trends"
+                className="w-[70%] h-auto rounded-[5px] mx-auto py-8"
+              /> */}
+              <Preview content={description as string}/>
+            </div>
               <Profile
                 imageUrl={authorUuid}
                 username={authorUuid}
-                postDate={formattedDate}
+                postDate="23 Jan 21"
+                // postDate={formattedDate}
               />
             </div>
           </CardHeader>
-          <div className="p-6 pt-0">
+          {/* <div className="p-6 pt-0">
             <Preview content={content} />
-          </div>
+          </div> */}
+          
+          {/* <CardContent>{
+            
+            content}</CardContent> */}
         </div>
       </Card>
     </div>

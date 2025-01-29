@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+ 'use client'
 import localFont from "next/font/local";
 import "./globals.css";
-import NavbarComponent from "@/components/navbar/NavbarComponent";
+import NavbarComponent from "@/components/navbar/NavbarComponent"; 
 import Footer from "@/components/footer/Footer";
 import { roboto, koh_Santepheap } from "./fonts/fonts";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -11,37 +11,43 @@ import { Toaster } from "react-hot-toast";
 import { CommentProvider } from "@/lib/context/commentContext";
 import { UserProvider, useUser } from "@/lib/context/userContext";
 import HighlightInitializer from "@/components/text-editor/HighlightInitializer";
-import { SearchProvider } from "@/lib/context/SearchContext";
+
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  // Implement the search handler function
+  const handleSearch = (query: string) => {
+    console.log("Search query:", query);
+    // Add logic to handle search, such as updating state or navigating
+  };
+
   return (
     <html lang="en">
       <body
         className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
       >
         <HighlightInitializer />
-        <SearchProvider>
         <UserProvider>
           <CommentProvider>
             <Provider>
+              {/* Pass the search handler function to NavbarComponent */}
+             
               <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
-                <NavbarComponent />
+              <NavbarComponent onSearch={handleSearch} />
               </header>
               <SidebarProvider>
                 <AppSidebar />
-
-                <main className="w-full bg-background ">{children}</main>
+                <main className="w-full bg-background  ">{children}</main>
               </SidebarProvider>
               <footer><Footer /></footer>
               <Toaster />
             </Provider>
           </CommentProvider>
         </UserProvider>
-        </SearchProvider>
       </body>
     </html>
   );

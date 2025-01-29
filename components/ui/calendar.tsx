@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker, CaptionProps } from "react-day-picker"
+import { DayPicker } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -15,65 +15,8 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
-  const [month, setMonth] = React.useState(new Date()) // Manage month state locally
-
-  const CustomCaption = ({ displayMonth }: CaptionProps) => {
-    const months = Array.from({ length: 12 }, (_, i) =>
-      new Date(0, i).toLocaleString("default", { month: "long" })
-    )
-
-    const startYear = 1900 // Start year of the dropdown
-    const currentYear = new Date().getFullYear()
-    // const endYear = currentYear + 5 // Optional, adjust as needed for future years
-    const endYear = currentYear
-    const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
-
-    const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const newMonth = parseInt(event.target.value, 10)
-      const newDate = new Date(displayMonth)
-      newDate.setMonth(newMonth)
-      setMonth(newDate)
-    }
-
-    const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const newYear = parseInt(event.target.value, 10)
-      const newDate = new Date(displayMonth)
-      newDate.setFullYear(newYear)
-      setMonth(newDate)
-    }
-
-    return (
-      <div className="flex justify-center items-center space-x-2">
-        <select
-          className="text-sm font-medium"
-          value={displayMonth.getMonth()}
-          onChange={handleMonthChange}
-        >
-          {months.map((month, index) => (
-            <option key={index} value={index}>
-              {month}
-            </option>
-          ))}
-        </select>
-        <select
-          className="text-sm font-medium"
-          value={displayMonth.getFullYear()}
-          onChange={handleYearChange}
-        >
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
-      </div>
-    )
-  }
-
   return (
     <DayPicker
-      month={month} // Use the controlled month state
-      onMonthChange={setMonth} // Update month when navigated
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
@@ -106,8 +49,8 @@ function Calendar({
         day_range_start: "day-range-start",
         day_range_end: "day-range-end",
         day_selected:
-          "ring-1 ring-primary text-primary-foreground  hover:text-primary-foreground ",
-        day_today: "bg-blue-200 text-accent-foreground",
+          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+        day_today: "bg-accent text-accent-foreground",
         day_outside:
           "day-outside text-muted-foreground aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
         day_disabled: "text-muted-foreground opacity-50",
@@ -123,13 +66,11 @@ function Calendar({
         IconRight: ({ className, ...props }) => (
           <ChevronRight className={cn("h-4 w-4", className)} {...props} />
         ),
-        Caption: (props) => <CustomCaption {...props} />,
       }}
       {...props}
     />
   )
 }
-
 Calendar.displayName = "Calendar"
 
 export { Calendar }

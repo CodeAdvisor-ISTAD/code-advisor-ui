@@ -50,6 +50,7 @@ import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 import { TagsSkeleton } from "./skeleton/TagsSkeleton";
 import { RichTextEditorSkeleton } from "./skeleton/RichTextEditorSkeleton";
 import { UserProfileSkeleton } from "./skeleton/UserProfileSkeleton";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -478,9 +479,10 @@ const UserProfile = ({ authorUsername, createdAt }) => {
     queryFn: () => getUserByUsername(authorUsername),
     enabled: !!authorUsername,
   });
+  const router = useRouter();
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push(`/user-profile/${authorUsername}`)}>
       <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
           src={
