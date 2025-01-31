@@ -57,6 +57,8 @@ export default function NotificationsPage() {
 
     wsService.connect();
 
+    console.log("REALTIME NOTIFICATION: ", notifications);
+
     // Fetch initial notifications
     wsService.fetchInitialNotifications("desc").then((initialNotifications) => {
       setNotifications(initialNotifications);

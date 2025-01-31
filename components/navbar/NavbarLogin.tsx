@@ -23,6 +23,7 @@ import { WebSocketService } from "@/lib/websocket";
 import { useEffect } from "react";
 import { fetchNotifications } from "@/lib/api";
 import { useUser } from "@/lib/context/userContext";
+import { count } from "console";
 
 interface NavbarLoginProps {
   user: any;
@@ -122,6 +123,8 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
 
     router.push("/notification");
   };
+
+  console.log("REALTIME COUNT NUMBER: ", unreadCount);
 
   return (
     <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
