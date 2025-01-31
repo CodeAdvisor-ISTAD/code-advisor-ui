@@ -170,7 +170,7 @@
 
 // // for notification
 import type { Notification } from '@/types/notifications';
-const API_BASE_URL = 'http://202.178.125.77:1084/api/v1';
+const API_BASE_URL = '/notifications/api/v1';
 
 export const fetchNotifications = async (userId: string): Promise<Notification[]> => {
   const response = await fetch(`${API_BASE_URL}/notifications/${userId}`);

@@ -73,7 +73,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
     console.log("User UUID: ", userUuid);
 
     const wsService = new WebSocketService(
-      "http://202.178.125.77:1084/ws",
+      "/notifications/ws",
       userUuid
     );
 
