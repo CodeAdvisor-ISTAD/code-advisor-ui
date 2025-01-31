@@ -69,7 +69,7 @@ export default function Recommendations({ type, item }: RecommendationProps) {
   return (
       <Card className="rounded-[5px]">
         <div className="">
-          <CardHeader className="pb-2">
+          <CardHeader className="">
             <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary">
               <Star className="h-6 w-6 fill-red-500 text-red-500" />
               {type}
