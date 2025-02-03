@@ -103,7 +103,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
           {/* Action Buttons */}
           <div className="flex h-[50px]">
             <Button
-              onClick={() => route.push('/oauth2/authorization/code-advisor')}
+              onClick={() => route.push('/oauth2/authorization/code-advisor-prod')}
               className="m-[8px] text-white bg-primary rounded-[5px] hover:bg-primary-dark transition-colors"
             >
               Login
