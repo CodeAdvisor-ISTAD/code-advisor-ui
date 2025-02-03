@@ -20,7 +20,7 @@ export default function EditUser() {
   useEffect(() => {
     if (ownUser && !coverColor) {
       // Only set initial cover color if it's not already set
-      setCoverColor(ownUser.coverColor || "");
+      setCoverColor(ownUser.coverColor || "#000040");
     }
   }, [ownUser, coverColor]);
 
@@ -30,12 +30,12 @@ export default function EditUser() {
 
   return (
     <FormProvider {...methods}>
-      <div className="flex justify-centermin-h-screen justify-center dark:bg-gray-900  p-4">
-        <div className="w-[1252px] bg-white pb-4 rounded-lg">
+      <div className="max-w-7xl flex min-h-screen items-center dark:bg-gray-900 mx-auto">
+        <div className="w-full bg-white rounded-lg">
           <div className="flex justify-center mb-8">
             <div
-              className="cover w-[1252px] h-[200px] rounded-[5px] flex justify-center relative"
-              style={{ backgroundColor: coverColor }}
+              className="cover w-full lg:h-[200px] h-[175px] rounded-[5px] relative"
+              style={{ backgroundColor: coverColor || "#000040" }}
             >
               <input
                 type="color"
@@ -47,7 +47,7 @@ export default function EditUser() {
             </div>
           </div>
           <div className="flex flex-row space-x-5 justify-center">
-            <div className="flex flex-row justify-center mt-[125px] gap-[15px]">
+            <div className="flex flex-row justify-center lg:mt-[125px] mt-[60px] gap-[15px]">
               <EditUserInformationForm onColorChange={handleColorChange} />
             </div>
           </div>

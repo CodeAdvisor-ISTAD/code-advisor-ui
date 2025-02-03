@@ -25,11 +25,11 @@ export default function BadgeComponent({ userId }: { userId: string }) {
           {badgeData?.badgeImage ? (
             <img src={badgeData?.badgeImage} alt="badge" />
           ) : (
-            <div className="text-3xl">🏵️</div>
+            <div className="lg:text-3xl text-xl">🏵️</div>
           )}
         </HoverCardTrigger>
         <HoverCardContent className="text-sm text-gray-400 bg-gray-50 p-2 rounded-sm">
-          {badgeData?.badgeName || "GUEST"}
+          {badgeData?.badgeName || "user"}
         </HoverCardContent>
       </HoverCard>
     </div>

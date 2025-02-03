@@ -107,15 +107,18 @@ export default function EditUserInformationForm(
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="lg:space-y-6 space-y-2 mx-2">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="lg:space-y-6 space-y-1 mx-2 "
+      >
         <ToastContainer />
-        <div className="w-full flex lg:flex-row flex-col justify-center gap-[15px] ">
-          <div className="flex flex-col bg-white w-[510px] h-full items-center pb-[25px] pt-[25px] rounded-lg border">
-            <div className="w-[200px] h-[55px] pr-[450px] relative">
-              <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">
+        <div className="w-full grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px] ">
+          <div className="flex flex-col bg-white w-full h-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+            <div className=" h-[55px] w-full relative">
+              <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg ">
                 កែប្រែព័ត៌មានអំពីអ្នក
               </CardTitle>
-              <div className="w-[28px] h-[2.5px] left-[1px] top-[27px] absolute bg-[#f31260]"></div>
+              <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
             </div>
             {(
               [
@@ -133,13 +136,13 @@ export default function EditUserInformationForm(
                 control={form.control}
                 name={name}
                 render={({ field }) => (
-                  <FormItem className="pb-[20px]">
+                  <FormItem className="lg:pb-[20px] pb-[25px] w-full">
                     <div className="flex gap-1">
-                      <FormLabel className="font-khFont text-base font-bold">
+                      <FormLabel className="font-khFont lg:text-base text-xs font-bold">
                         {label}
                       </FormLabel>
                       {name === ("fullName" as FieldName) && (
-                        <p className="text-red-600">*</p>
+                        <p className="text-red-600 lg:text-base text-xs">*</p>
                       )}
                     </div>
                     <FormControl>
@@ -149,7 +152,7 @@ export default function EditUserInformationForm(
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-[450px] pl-3 justify-start text-left font-normal bg-white ring-black focus:ring-1",
+                                "w-full pl-3 justify-start text-left font-normal bg-white ring-black focus:ring-1",
                                 !date && "text-muted-foreground"
                               )}
                             >
@@ -165,6 +168,7 @@ export default function EditUserInformationForm(
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0">
                             <Calendar
+                              className="w-auto"
                               mode="single"
                               selected={date}
                               onSelect={(selectedDate) => {
@@ -184,7 +188,6 @@ export default function EditUserInformationForm(
                         <Input
                           {...field}
                           value={String(field.value)}
-                          className="w-[450px]"
                         />
                       )}
                     </FormControl>
@@ -196,7 +199,7 @@ export default function EditUserInformationForm(
           </div>
 
           <div className="flex flex-col gap-4 ">
-            <div className="flex flex-col bg-white w-[510px] items-center pb-[25px] pt-[25px] rounded-lg border">
+            <div className="flex flex-col bg-white w-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
               {(
                 [{ name: "workPlace", label: "ទីកន្លែងធ្វើការ" }] as {
                   name: FieldName;
@@ -208,9 +211,9 @@ export default function EditUserInformationForm(
                   control={form.control}
                   name={name}
                   render={({ field }) => (
-                    <FormItem className="pb-[20px]">
+                    <FormItem className="lg:pb-[20px] pb-[15px] w-full">
                       <div className="flex gap-1">
-                        <FormLabel className="font-khFont text-base font-bold">
+                        <FormLabel className="font-khFont lg:text-base text-xs font-bold">
                           {label}
                         </FormLabel>
                       </div>
@@ -218,7 +221,6 @@ export default function EditUserInformationForm(
                         <Input
                           {...field}
                           value={String(field.value)}
-                          className="w-[450px]"
                         />
                       </FormControl>
                       <FormMessage />
@@ -231,15 +233,15 @@ export default function EditUserInformationForm(
               control={form.control}
               name="bio"
               render={({ field }) => (
-                <FormItem className="flex flex-col bg-white w-[510px] justify-center items-center pb-[25px] pt-[25px] rounded-lg border">
-                  <div className="w-[200px] h-[55px] pr-[450px] relative">
-                    <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">
+                <FormItem className="flex flex-col bg-white w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+                  <div className="w-full lg:h-[55px] h-[35px] relative">
+                    <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg">
                       កែប្រែការពិពណ៌នាអំពីអ្នក
                     </CardTitle>
-                    <div className="w-[28px] h-[2.5px] left-[1px] top-[27px] absolute bg-[#f31260]"></div>
+                    <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
                   </div>
                   <FormControl>
-                    <Textarea {...field} className="w-[450px]" />
+                    <Textarea {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -251,12 +253,12 @@ export default function EditUserInformationForm(
               control={form.control}
               name="coverColor"
               render={({ field }) => (
-                <FormItem className="flex flex-col bg-white w-[510px] justify-center items-center pb-[25px] pt-[25px] rounded-lg border">
-                  <div className="w-[200px] h-[55px] pr-[450px] relative">
-                    <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">
+                <FormItem className="flex flex-col bg-white w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+                  <div className="w-full lg:h-[55px] h-[35px] relative">
+                    <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg">
                       កែប្រែផ្ទៃខាងក្រោយ
                     </CardTitle>
-                    <div className="w-[28px] h-[2.5px] left-[1px] top-[27px] absolute bg-[#f31260]"></div>
+                    <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
                   </div>
                   <ColorPicker
                     onColorChange={(color) => {

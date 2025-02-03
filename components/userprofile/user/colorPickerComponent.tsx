@@ -45,7 +45,7 @@ export function ColorPicker({ initialColor, onColorChange }: ColorPickerProps) {
           setColor(validColor);
           onColorChange(validColor);
         }}
-        className="border w-[400px] rounded"
+        className="border lg:w-[400px] w-[350px] rounded"
         maxLength={7} // Include "#" in max length
       />
     </div>
