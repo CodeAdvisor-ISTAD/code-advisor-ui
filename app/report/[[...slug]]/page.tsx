@@ -20,45 +20,54 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useParams, useRouter } from "next/navigation";
 import { createReport } from "@/hooks/api-hook/engagement/engagement-api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+// Define the form schema
 const formSchema = z.object({
   reason: z.string().min(1, { message: "សូមជ្រើសរើសប្រភេទរបាយការណ៍" }),
   url: z.string().url({ message: "សូមបញ្ចូល URL ត្រឹមត្រូវ" }),
-  descriptoin: z.string().min(10, { message: "សូមបញ្ចូលសារយ៉ាងតិច ១០ តួអក្សរ" }),
+  description: z
+    .string()
+    .min(10, { message: "សូមបញ្ចូលសារយ៉ាងតិច ១០ តួអក្សរ" }),
 });
+
 
 export default function ReportForm() {
   const [loading, setLoading] = useState(false);
-  const userId ="123"
-  const ownerId ="123"
+  const userId = "123";
+  const ownerId = "123";
 
+  const currentUrl = window.location.href;
+
+  // Initialize the form with default values
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       reason: "",
-      url: "",
-      descriptoin: "",
+      url: currentUrl, // Set the current URL as the default value
+      description: "",
     },
   });
 
   const router = useRouter();
   const params = useParams(); // Get dynamic params
 
-// Extract params values from slug
-const type = params.slug?.[0] === "comment" ? "comment" : "content";
-const contentId = params.slug?.[1] || "";
-const commentId = type === "comment" ? params.slug?.[2] || "" : "";
+  // Extract params values from slug
+  const type = params.slug?.[0] === "comment" ? "comment" : "content";
+  const contentId = params.slug?.[1] || "";
+  const commentId = type === "comment" ? params.slug?.[2] || "" : "";
 
-console.log("Type:", type);         // "content" or "comment"
-console.log("Content ID:", contentId); // e.g., "6795c8a465314844e79028dd"
-console.log("Comment ID:", commentId); 
+  console.log("Type:", type); // "content" or "comment"
+  console.log("Content ID:", contentId); // e.g., "6795c8a465314844e79028dd"
+  console.log("Comment ID:", commentId);
 
-  console.log("Type of report: ", type)
+  console.log("Type of report: ", type);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const slug = Array.isArray(params.slug) ? params.slug.join("/") : params.slug || ""; // Ensure slug is a string
-  
+    const slug = Array.isArray(params.slug)
+      ? params.slug.join("/")
+      : params.slug || ""; // Ensure slug is a string
+
     const reportData = {
       type,
       contentId, // Assuming `contentId` is defined in the component scope
@@ -67,10 +76,10 @@ console.log("Comment ID:", commentId);
       ownerId, // Assuming `ownerId` is defined in the component scope
       userId, // Assuming `userId` is defined in the component scope
       reason: values.reason, // Adjusted to match the schema's field name
-      description: values.descriptoin, // Corrected the typo in 'description'
+      description: values.description, // Corrected the typo in 'description'
       url: values.url || undefined, // Optional field
     };
-  
+
     try {
       setLoading(true);
       const response = await createReport(reportData);
@@ -82,24 +91,28 @@ console.log("Comment ID:", commentId);
     } finally {
       setLoading(false);
     }
-  
+
     // Navigate back to the content page
     router.push(`/content/${contentId}`);
   }
-  
 
   return (
     <FormProvider {...form}>
-      <div className="min-h-screen w-full pb-6 pt-[80px] flex justify-center">
+      <div className="min-h-screen w-full pb-6 pt-[80px] flex justify-center px-8">
         <div className="w-full max-w-2xl">
-          <h1 className="text-2xl font-bold">របាយការណ៍</h1>
-          <p>
+          {/* Heading */}
+          <h1 className="text-2xl font-bold md:text-3xl">របាយការណ៍</h1>
+          <p className="mt-2 text-sm md:text-base">
             សូមអរគុណសម្រាប់ការរាយការណ៍អំពើមិនត្រឹមត្រូវ
             ឬអាកប្បកិរិយាដែលផ្ទុយពីលក្ខខណ្ឌរបស់យើង។
           </p>
 
+          {/* Form */}
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 mt-6"
+            >
               {/* Report reason */}
               <FormField
                 control={form.control}
@@ -116,31 +129,41 @@ console.log("Comment ID:", commentId);
                           <FormControl>
                             <RadioGroupItem value="ស្ប៉ាមឬបញ្ហាផ្សេងៗ" />
                           </FormControl>
-                          <FormLabel>ស្ប៉ាមឬបញ្ហាផ្សេងៗ</FormLabel>
+                          <FormLabel className="text-sm md:text-base">
+                            ស្ប៉ាមឬបញ្ហាផ្សេងៗ
+                          </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3">
                           <FormControl>
                             <RadioGroupItem value="ការរំលោភបំពានឬមាតិកាមិនសមរម្យ" />
                           </FormControl>
-                          <FormLabel>ការរំលោភបំពានឬមាតិកាមិនសមរម្យ</FormLabel>
+                          <FormLabel className="text-sm md:text-base">
+                            ការរំលោភបំពានឬមាតិកាមិនសមរម្យ
+                          </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3">
                           <FormControl>
                             <RadioGroupItem value="សិទ្ធិ បញ្ញាឬកម្មសិទ្ធិបញ្ញា" />
                           </FormControl>
-                          <FormLabel>សិទ្ធិ បញ្ញាឬកម្មសិទ្ធិបញ្ញា</FormLabel>
+                          <FormLabel className="text-sm md:text-base">
+                            សិទ្ធិ បញ្ញាឬកម្មសិទ្ធិបញ្ញា
+                          </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3">
                           <FormControl>
                             <RadioGroupItem value="សុវត្ថិភាពឬការគំរាមកំហែង" />
                           </FormControl>
-                          <FormLabel>សុវត្ថិភាពឬការគំរាមកំហែង</FormLabel>
+                          <FormLabel className="text-sm md:text-base">
+                            សុវត្ថិភាពឬការគំរាមកំហែង
+                          </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3">
                           <FormControl>
                             <RadioGroupItem value="ផ្សេងៗទៀត" />
                           </FormControl>
-                          <FormLabel>ផ្សេងៗទៀត</FormLabel>
+                          <FormLabel className="text-sm md:text-base">
+                            ផ្សេងៗទៀត
+                          </FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -155,30 +178,35 @@ console.log("Comment ID:", commentId);
                 name="url"
                 render={({ field }) => (
                   <FormItem>
-                    <h5>URL</h5>
+                    <h5 className="text-sm md:text-base">លីង(យូ​អរអិល)</h5>
                     <FormControl>
-                      <Input placeholder="សូមបញ្ចូល URL" {...field} />
+                      <Input
+                        placeholder="សូមបញ្ចូល URL"
+                        {...field}
+                        className="text-sm md:text-base"
+                        disabled // Disable the input field
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              {/* description Field */}
+              {/* Description Field */}
               <FormField
                 control={form.control}
-                name="descriptoin"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <h5>សារ</h5>
-                    <p>
+                    <h5 className="text-sm md:text-base">សារ</h5>
+                    <p className="text-sm md:text-base">
                       សូមផ្តល់ព័ត៌មានបន្ថែម ឬបរិបទដែលអាចជួយឱ្យយើងយល់
                       និងដោះស្រាយស្ថានភាពនេះ
                     </p>
                     <FormControl>
                       <Textarea
                         placeholder="សូមបញ្ចូលព័ត៌មានលម្អិតបន្ថែម..."
-                        className="min-h-[100px]"
+                        className="min-h-[100px] text-sm md:text-base"
                         {...field}
                       />
                     </FormControl>
@@ -187,7 +215,11 @@ console.log("Comment ID:", commentId);
                 )}
               />
 
-              <Button type="submit" className="bg-primary text-white">
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                className="bg-primary text-white w-full md:w-auto"
+              >
                 ផ្ញើរបាយការណ៍
               </Button>
             </form>

@@ -14,7 +14,6 @@ import {
 import { FaFire, FaHeart, FaRegHeart, FaThumbsUp } from "react-icons/fa";
 import {
   deleteReaction,
-  getUserReaction,
   handleReaction,
 } from "@/hooks/api-hook/engagement/engagement-api";
 import { useEffect, useState } from "react";
@@ -22,32 +21,6 @@ import { useEffect, useState } from "react";
 export function ReactionButton({onReactionChange, contentId, ownerId, slug, userId}) {
   const [selectedReaction, setSelectedReaction] = useState(null);
   const [open, setOpen] = useState(false); // Manually control dropdown open/close state
-
-  // Fetch the user's reaction from localStorage or backend when the component mounts
-  useEffect(() => {
-    const fetchUserReaction = async () => {
-      try {
-        // First check localStorage for the reaction
-        const storedReaction = localStorage.getItem(`${contentId}-${userId}`);
-        if (storedReaction) {
-          setSelectedReaction(storedReaction); // Restore the reaction from localStorage
-        } else {
-          // If no reaction in localStorage, fetch from the backend (if needed)
-          const userReaction = await getUserReaction(contentId, userId);
-          if (userReaction) {
-            setSelectedReaction(userReaction.reactionType);
-          } else {
-            setSelectedReaction(null); // No reaction yet
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching user reaction:", error);
-        setSelectedReaction(null);
-      }
-    };
-
-    fetchUserReaction();
-  }, [contentId, userId]);
 
   const handleReactionClick = async (reactionType) => {
     if (selectedReaction === reactionType) {

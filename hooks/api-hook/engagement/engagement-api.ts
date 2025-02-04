@@ -1,15 +1,9 @@
 import axios from "axios";
 
-// const BASE_URL = " http://localhost:3000"
-// no login
-const BASE_URL = "http://192.168.56.1:8086"
-// login 
-// const BASE_URL = "http://202.178.125.77:1168"
-
 // fetch comment by contentId
 export const getComment = async (contentId: string) => {
   const response = await fetch(
-    `${BASE_URL}/api/v1/engagement/comments/content/${contentId}`
+    `/ces/api/v1/engagement/comments/content/${contentId}`
   );
   if (response.ok) {
     const data = await response.json();
@@ -20,7 +14,6 @@ export const getComment = async (contentId: string) => {
   }
 };
 
-// Create a new comment by contentId
 // Create a new comment by contentId
 export const createComment = async (
   contentId: string,
@@ -34,7 +27,7 @@ export const createComment = async (
 ) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/api/v1/engagement/comments`,
+      `/ces/api/v1/engagement/comments`,
       {
         method: "POST",
         headers: {
@@ -67,7 +60,7 @@ export const createComment = async (
 export const deleteComment = async (commentId: string) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/api/v1/engagement/comments/${commentId}`,
+      `/ces/api/v1/engagement/comments/${commentId}`,
       {
         method: "DELETE",
       }
@@ -94,7 +87,7 @@ export const editComment = async (
   updatedContent: { userId: string; contentId: string; body: string }
 ) => {
   const response = await fetch(
-    `${BASE_URL}/api/v1/engagement/comments/${commentId}`,
+    `/ces/api/v1/engagement/comments/${commentId}`,
     {
       method: "PATCH",
       headers: {
@@ -119,7 +112,7 @@ export const createReply = async (
   replyData: { userId: string; body: string }
 ) => {
   const response = await fetch(
-    `${BASE_URL}/api/v1/engagement/replies/${commentId}`,
+    `/ces/api/v1/engagement/replies/${commentId}`,
     {
       method: "POST",
       headers: {
@@ -146,8 +139,8 @@ export const editReply = async (
   replyData: { userId: string; body: string }
 ) => {
   try {
-    const response = await axios.put(
-      `${BASE_URL}/api/v1/engagement/replies/${replyId}`,
+    const response = await axios.patch(
+      `/ces/api/v1/engagement/replies/${replyId}`,
       replyData
     );
     return response.data; // Return the updated reply data
@@ -161,7 +154,7 @@ export const editReply = async (
 export const deleteReply = async (replyId: string) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/api/v1/engagement/replies/${replyId}`,
+      `/ces/api/v1/engagement/replies/${replyId}`,
       {
         method: "DELETE",
       }
@@ -203,7 +196,7 @@ export const deleteReply = async (replyId: string) => {
 // };
 
 export const handleReaction = async (contentId, userId, reactionType, ownerId, slug) => {
-  const endpoint = `${BASE_URL}/api/v1/reactions/content/${contentId}`;
+  const endpoint = `/ces/api/v1/reactions/content/${contentId}`;
   const payload = {
     contentId,
     userId,
@@ -225,7 +218,7 @@ export const handleReaction = async (contentId, userId, reactionType, ownerId, s
 
 // // get reaction
 // export const getReaction = async (contentId) => {
-//   const endpoint = `${BASE_URL}/api/v1/reactions/content/${contentId}`;
+//   const endpoint = `/api/v1/reactions/content/${contentId}`;
 
 //   try {
 //     const response = await axios.get(endpoint, {
@@ -241,7 +234,7 @@ export const handleReaction = async (contentId, userId, reactionType, ownerId, s
 export const getReactionsByContentId = async (contentId: string) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/api/v1/reactions/content/${contentId}`
+      `/ces/api/v1/reactions/content/${contentId}`
     );
 
     if (!response.ok) {
@@ -265,7 +258,7 @@ export const getReactionsByContentId = async (contentId: string) => {
 export const deleteReaction = async (contentId: string): Promise<void> => {
   try {
     // Make DELETE request to remove the reaction for the given contentId
-    const url = `${BASE_URL}/api/v1/reactions/${contentId}`;
+    const url = `/ces/api/v1/reactions/${contentId}`;
     await axios.delete(url);
 
     console.log(`Reaction with contentId ${contentId} has been deleted.`);
@@ -274,24 +267,6 @@ export const deleteReaction = async (contentId: string): Promise<void> => {
     throw error; // Propagate the error after logging it
   }
 };
-
-export const getUserReaction = async (contentId: string, userId: string) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/api/v1/reactions/${contentId}/user/${userId}`);
-    return response.data.reaction; // This should be the reaction type like "love", "fire", or "like"
-  } catch (error: any) {
-    if (error.response && error.response.status === 404) {
-      // If the status code is 404, return a default value of 0
-      console.warn("No reaction data found. Defaulting to 0.");
-      return 0;
-    }
-
-    // Re-throw any other errors
-    console.error("Error fetching user reaction:", error);
-    throw error;
-  }
-};
-
 
 // report
 export const createReport = async (report: {
@@ -305,7 +280,7 @@ export const createReport = async (report: {
   url?: string; // Optional field for the report URL
 }) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/v1/reports`, {
+    const response = await fetch(`/ces/api/v1/reports`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -332,7 +307,7 @@ interface ShareContent {
 
 export const shareContent = async (shareData: ShareContent) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/v1/reports/shareContent`, shareData);
+    const response = await axios.post(`/ces/api/v1/reports/shareContent`, shareData);
     return response.data;
   } catch (error) {
     console.error("Error sharing content:", error);

@@ -30,21 +30,11 @@ const Preview: React.FC<PreviewProps> = React.memo(({ content }) => {
   }, [content]); // Re-run this effect when content changes
 
   return (
-<<<<<<< HEAD
-    <>
-      <div
-        className="tiptap"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-
-    </>
-=======
     <div
       ref={containerRef}
       className="tiptap prose max-w-none"
       dangerouslySetInnerHTML={{ __html: content }}
     />
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
   );
 });
 

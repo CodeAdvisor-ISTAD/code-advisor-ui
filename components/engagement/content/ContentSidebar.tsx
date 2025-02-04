@@ -3,15 +3,10 @@
 import {
   SidebarComment,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebarContent";
 import { MdMoreHoriz } from "react-icons/md";
@@ -57,7 +52,7 @@ export function ContentSidebar({
   comment,
   bookmark,
 }: Content) {
-  const [isCommentFilled, setIsCommentFilled] = useState(false);
+  const [isCommentFilled, setIsCommentFilled] = useState(true);
   const [isBookmarkFilled, setIsBookmarkFilled] = useState(false);
   const [currentBookmarkCount, setCurrentBookmarkCount] = useState(
     bookmark || 0
@@ -108,9 +103,9 @@ export function ContentSidebar({
     }));
   };
 
-  if (loadingReactions) {
-    return <div>Loading reactions...</div>;
-  }
+  // if (loadingReactions) {
+  //   return <div>Loading reactions...</div>;
+  // }
 
   const handleShare = async (sharePlatform: string) => {
     const shareData = {
@@ -126,12 +121,63 @@ export function ContentSidebar({
     } catch (error) {
       console.error("Error sharing content:", error);
       alert("Failed to share content. Please try again.");
-    } 
+    }
   };
+
+  const [isVisible, setIsVisible] = useState(true); // State to control visibility
+  const [prevScrollPos, setPrevScrollPos] = useState(0); // Track previous scroll position
+  const [isMobile, setIsMobile] = useState(false); // State to check if the screen is mobile
+
+  // Check if the screen is mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Adjust breakpoint as needed
+    };
+
+    // Check on mount and resize
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
+  }, []);
+
+  // Handle scroll behavior for mobile only
+  useEffect(() => {
+    if (!isMobile) return; // Exit if not on mobile
+
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+
+      // Determine scroll direction
+      if (currentScrollPos > prevScrollPos) {
+        // Scrolling down
+        setIsVisible(false);
+      } else {
+        // Scrolling up
+        setIsVisible(true);
+      }
+
+      // Update previous scroll position
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [prevScrollPos, isMobile]);
 
   return (
     <SidebarComment
-      className="bg-gray"
+      className={`bg-gray h-16 md:h-full bg-background md:bg-transparent md:pt-0 pt-5 flex flex-row transition-transform duration-300 ${
+        isMobile && !isVisible ? "translate-y-full" : "translate-y-0"
+      }`}
       collapsible="none"
       side="left"
       width="55px"
@@ -139,9 +185,9 @@ export function ContentSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="py-8 gap-y-8">
+            <SidebarMenu>
               <SidebarMenuItem>
-                <div className="mx-4 justify-self-end">
+                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-4">
                   <ReactionButton
                     onReactionChange={handleReactionClick}
                     slug={slug}
@@ -154,28 +200,23 @@ export function ContentSidebar({
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                <div className=" mx-4 justify-self-end">
+                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-4">
                   <SidebarTrigger
                     icon={
-                      isCommentFilled ? (
-                        <FaRegComment
-                          className="text-2xl"
-                          onClick={toggleComment}
-                        />
-                      ) : (
-                        <FaRegComment
-                          className="text-2xl fill-blue-600"
-                          onClick={toggleComment}
-                        />
-                      )
+                      <FaRegComment
+                        className={`text-2xl ${
+                          isCommentFilled ? "md:fill-blue-600" : ""
+                        }`}
+                        onClick={toggleComment}
+                      />
                     }
                   />
-                  <div className="text-center pt-1">{comment?.length}</div>
+                  <div className="text-center pt-1">{comment?.length || 0}</div>
                 </div>
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                <div className="mx-4 justify-self-end">
+                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-4">
                   {isBookmarkFilled ? (
                     <FaBookmark
                       className="text-2xl fill-yellow-500"

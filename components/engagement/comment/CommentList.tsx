@@ -29,6 +29,7 @@ import { FaRegComment } from "react-icons/fa";
 import { Profile } from "../Profile";
 import { Comment } from "@/types/engagement";
 import { createComment, deleteComment, editComment, createReply, deleteReply, editReply } from "@/hooks/api-hook/engagement/engagement-api";
+import { useUser } from "@/lib/context/userContext";
 
 interface Content {
   comment: Comment[];
@@ -36,9 +37,10 @@ interface Content {
   slug?: string;
   ownerId?: string;
   userId?: string;
+  isLoading?: boolean;
 }
 
-export function CommentList({ comment = [], contentId, slug, ownerId, userId }: Content) {
+export function CommentList({ comment = [], contentId, slug, ownerId, userId }: Content & {isLoading}) {
   const [comments, setComments] = React.useState<Comment[]>(comment);
   const [newComment, setNewComment] = React.useState("");
   const [replyingTo, setReplyingTo] = React.useState<string | null>(null);
@@ -48,16 +50,12 @@ export function CommentList({ comment = [], contentId, slug, ownerId, userId }: 
   const [editingReply, setEditingReply] = useState<string | null>(null);
   const [replyEditContent, setReplyEditContent] = useState<string>("");
   const [isEditing, setIsEditing] = useState(false);
-  const [username, setUsername] = React.useState("CurrentUser");
   const [editContent, setEditContent] = React.useState("");
   const [expandedComments, setExpandedComments] = React.useState<string[]>([]);
 
+  const {user} = useUser()
+
   const handleSubmit = async (parentId: string | null = null) => {
-    // const contentId = "678378aecde7c858c76a0290"; // Example contentId, dynamically set as needed
-    // const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
-    // const ownerId = "b3ee9ec3-be2f-401d-89fc-6f3956efcfc4";
-    // const slug = "spring-boot-jpa"
-    // spring-boot-jpa
   
     if (newComment.trim()) {
       try {
@@ -86,20 +84,6 @@ export function CommentList({ comment = [], contentId, slug, ownerId, userId }: 
       }
     }
   };
-
-  // const handleDelete = async (commentId: string) => {
-  //   try {
-  //     const success = await deleteComment(commentId);
-  
-  //     if (success) {
-  //       // Update state to reflect the deletion of the comment
-  //       setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
-  //       console.log(`Comment with ID ${commentId} was deleted successfully.`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to delete comment:", error);
-  //   }
-  // };
 
   const handleDelete = async (id: string, parentId: string | null = null) => {
     try {
@@ -139,9 +123,6 @@ export function CommentList({ comment = [], contentId, slug, ownerId, userId }: 
 
 
   const handleSaveEdit = async (commentId: string) => {
-    const contentId = "67815231083dc108c96fd929"; // Example contentId, dynamically set as needed
-    const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
-
     try {
       // Prepare the updated comment data
       const updatedComment = {
@@ -174,7 +155,6 @@ export function CommentList({ comment = [], contentId, slug, ownerId, userId }: 
   };
 
   const handleReplySubmit = async (parentId: string) => {
-    const userId = "6783b16f1b533f163cd7460d"; // Replace with the actual userId
     const body = newComment.trim(); // Assuming newComment holds the reply body
   
     if (body) {
@@ -244,9 +224,7 @@ export function CommentList({ comment = [], contentId, slug, ownerId, userId }: 
   };
   
   const handleSaveEditReply = async (replyId: string, parentId: string) => {
-    const contentId = "678378aecde7c858c76a0290"; // Example contentId, dynamically set as needed
-    const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
-  
+
     try {
       // Prepare the updated reply data
       const updatedReply = {
@@ -468,9 +446,8 @@ export function CommentList({ comment = [], contentId, slug, ownerId, userId }: 
         <CardHeader>
           <CardTitle>មតិយោបល់ ({getTotalComments(comments)})</CardTitle>
           <Profile
-            imageUrl="https://i.pinimg.com/236x/3f/a9/2a/3fa92a0c86938e43376928b3ee66518b.jpg"
-            postDate="30 Jan 2004"
-            username="sokkhann"
+            imageUrl={user?.profileImage || "https://avatars.githubusercontent.com/u/110375748?v=4"}
+            username={user?.fullName || "Annonymous"}
           />
         </CardHeader>
 

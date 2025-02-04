@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Profile } from "../Profile";
 // import { Author, Content } from "@/types/engagement";
 // import { Author, Content } from "@/types/engagement";
@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { FaHeart, FaFire, FaThumbsUp } from "react-icons/fa";
 import Preview from "@/components/text-editor/preview";
 import { Content } from "@/types/engagement";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const formatDate = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -29,18 +30,39 @@ export function ContentSection({
   authorUuid: authorUuid,
   reactions: communityEngagement,
   createdAt: createdAt,
-}: Content) {
+  username: username,
+  isLoading,
+}: Content & { isLoading?: boolean }) {
   const formattedDate = formatDate(createdAt);
   return (
     <div className="no-scrollbar overflow-x-hidden">
-      <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar w-[100%%]">
-        <img
-          src={thumbnail}
-          className="w-full h-80 object-cover rounded-t-[5px]"
-        />
-        <div className="mx-20">
+      <Card className="md:ml-[100px] rounded-[5px] shadow-none no-scrollbar">
+        {/* Thumbnail Skeleton */}
+        {isLoading ? (
+          <Skeleton className="rounded-t-[5px] h-80 md:w-[930px] w-[390px]" />
+        ) : (
+          <img
+            src={
+              thumbnail ||
+              "https://i.pinimg.com/736x/d0/e0/0d/d0e00dcece8115773e285495ef2e6949.jpg"
+            }
+            alt={title}
+            className="w-full h-80 object-cover rounded-t-[5px]"
+          />
+        )}
+        <div className="mx-20 md:mx-10 sm:mx-2 xs:mx-0">
           <CardHeader>
-            <h1 className="text-4xl font-bold py-2">{title}</h1>
+            <h1 className="text-4xl font-bold py-2 md:text-3xl sm:text-2xl xs:text-xl">
+              {isLoading ? (
+                <div>
+                  <Skeleton className="h-4 md:w-[800px] w-[350px] mb-4 rounded-lg" />
+                  <Skeleton className="h-4 md:w-[400px] w-[350px] rounded-lg" />
+                </div>
+              ) : (
+                title ||
+                "Memory Optimization Techniques You Must Know for Spring Boot Applications"
+              )}
+            </h1>
             <div className="flex flex-wrap gap-2 pb-2">
               {tags?.map((tag, index) => (
                 <Badge
@@ -52,73 +74,48 @@ export function ContentSection({
                 </Badge>
               ))}
             </div>
-            <div className="flex gap-4">
+
+            {isLoading ? (
+              <div className="max-w-[300px] w-full flex items-center gap-3">
+                <div>
+                  <Skeleton className="flex rounded-full w-12 h-12 " />
+                </div>
+                <div className="w-full flex flex-col gap-2">
+                  <Skeleton className="h-3 md:w-3/5 w-2/5 rounded-lg" />
+                  <Skeleton className="h-3 md:w-4/5 w-1/5 rounded-lg" />
+                </div>
+              </div>
+            ) : (
+              <Profile
+                imageUrl={
+                  authorUuid ||
+                  "https://avatars.githubusercontent.com/u/110375748?v=4"
+                }
+                username={username || "Sokkhann"}
+                postDate={formattedDate || "Jan 31 2025"}
+              />
+            )}
+            
+            <div className="flex gap-4 pt-4">
               <div className="flex gap-2">
                 <FaHeart className="text-2xl text-pink-700" />
-                <span>{communityEngagement?.loveCount}</span>
-                <span>{communityEngagement?.loveCount}</span>
+                <span>{communityEngagement?.loveCount || "8"}</span>
               </div>
               <div className="flex gap-2">
                 <FaFire className="text-2xl text-red-500" />
-                <span>{communityEngagement?.fireCount}</span>
-                <span>{communityEngagement?.fireCount}</span>
+                <span>{communityEngagement?.fireCount || "0"}</span>
               </div>
               <div className="flex gap-2">
                 <FaThumbsUp className="text-2xl text-blue-500" />
-                <span>{communityEngagement?.likeCount}</span>
-                <span>{communityEngagement?.likeCount}</span>
+                <span>{communityEngagement?.likeCount || "0"}</span>
               </div>
             </div>
-
             <div className="pt-4">
-            <div className="space-y-4">
-              <p>
-                Web development is constantly evolving, with new technologies
-                and frameworks emerging regularly. In this post, we'll explore
-                some of the latest trends and what they mean for developers.
-              </p>
-              <h2 className="text-xl font-semibold">Key Trends</h2>
-              <ul className="list-disc pl-6">
-                <li>Serverless architectures</li>
-                <li>JAMstack and static site generators</li>
-                <li>Progressive Web Apps (PWAs)</li>
-              </ul>
-              <img
-                src="https://i.pinimg.com/736x/75/b2/ba/75b2ba0cb7998890338fff3bfb3d1f3c.jpg"
-                alt="Web Development Trends"
-                className="w-[70%] h-auto rounded-[5px] mx-auto py-8"
-              />
-              <h2 className="text-xl font-semibold">Impact on Developers</h2>
-              <ol className="list-decimal pl-6">
-                <li>Increased focus on frontend skills</li>
-                <li>Growing importance of API design</li>
-                <li>Need for continuous learning and adaptation</li>
-              </ol>
-              <p>
-                As these trends continue to shape the industry, developers must
-                stay informed and adapt their skills accordingly.
-              </p>
-              <img
-                src="https://i.pinimg.com/736x/7e/e8/c8/7ee8c8e0e5817cee41a89a1316a3050f.jpg"
-                alt="Web Development Trends"
-                className="w-[70%] h-auto rounded-[5px] mx-auto py-8"
-              />
-            </div>
-              <Profile
-                imageUrl={authorUuid}
-                username={authorUuid}
-                postDate="23 Jan 21"
-                // postDate={formattedDate}
-              />
+              <div className="space-y-4">
+                <Preview content={description as string} />
+              </div>
             </div>
           </CardHeader>
-          {/* <div className="p-6 pt-0">
-            <Preview content={content} />
-          </div> */}
-          
-          {/* <CardContent>{
-            
-            content}</CardContent> */}
         </div>
       </Card>
     </div>

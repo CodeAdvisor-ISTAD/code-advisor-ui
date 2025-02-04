@@ -183,11 +183,11 @@ const SidebarComment = React.forwardRef<
       return (
         <div
           className={cn(
-            "flex h-full w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground",
+            "flex h-full w-full md:w-[--sidebar-width] flex-row bg-sidebar text-sidebar-foreground", // Full width on small screens, fixed width on medium screens and above
             className
           )}
           ref={ref}
-          style={{ width }}
+          style={{ width: isMobile ? "80%" : width }} // 80% width on mobile, fixed width on desktop
           {...props}
         >
           {children}
@@ -201,15 +201,19 @@ const SidebarComment = React.forwardRef<
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+            className="w-[80%] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden fixed bottom-0 right-0" // 80% width on mobile
             style={
               {
-                "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+                "--sidebar-width": "80%", // 80% width on mobile
+                height: "auto", // Adjust height as needed
+                margin: "0 auto", // Center the sidebar horizontally
+                // left: "10%", // Adjust positioning to center the 80% width
+                right: "0", // Adjust positioning to center the 80% width
               } as React.CSSProperties
             }
             side={side}
           >
-            <div className="flex h-full w-full flex-col ">{children}</div>
+            <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>
       );
@@ -218,7 +222,7 @@ const SidebarComment = React.forwardRef<
     return (
       <div
         ref={ref}
-        className="group peer hidden md:block text-sidebar-foreground "
+        className="group peer hidden md:block text-sidebar-foreground"
         data-state={state}
         data-collapsible={state === "collapsed" ? collapsible : ""}
         data-variant={variant}
@@ -237,7 +241,7 @@ const SidebarComment = React.forwardRef<
         />
         <div
           className={cn(
-            "duration-200 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex",
+            "duration-200 fixed inset-y-0 z-10 hidden h-svh w-full md:w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex", // Full width on small screens, fixed width on medium screens and above
             side === "left"
               ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -248,10 +252,10 @@ const SidebarComment = React.forwardRef<
             className
           )}
           style={{
-            width: state === "collapsed" ? 0 : width, // Set width to 0 when collapsed
-            overflow: state === "collapsed" ? "hidden" : "visible", // Ensure content is hidden when collapsed
-            visibility: state === "collapsed" ? "hidden" : "visible", // Hide sidebar if collapsed
-            transition: "width 0.2s, visibility 0.2s, overflow 0.2s", // Smooth transition
+            width: state === "collapsed" ? 0 : isMobile ? "80%" : width, // 80% width on mobile, fixed width on desktop
+            overflow: state === "collapsed" ? "hidden" : "visible",
+            visibility: state === "collapsed" ? "hidden" : "visible",
+            transition: "width 0.2s, visibility 0.2s, overflow 0.2s",
           }}
           {...props}
         >
@@ -489,10 +493,15 @@ const SidebarMenu = React.forwardRef<
   <ul
     ref={ref}
     data-sidebar="menu"
-    className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+    className={cn(
+      "flex w-full min-w-0 flex-row gap-1", // Default for small screens
+      "md:flex-col md:gap-4", // Change to row on medium screens and above
+      className
+    )}
     {...props}
   />
 ));
+
 SidebarMenu.displayName = "SidebarMenu";
 
 const SidebarMenuItem = React.forwardRef<

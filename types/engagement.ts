@@ -19,6 +19,7 @@ export interface Content {
   contentId?: string;
   slug?: string;
   title?: string;
+  username: string;
   description?: React.ReactNode;
   thumbnail?: string;
   authorUuid?: string;
@@ -37,6 +38,7 @@ export interface Content {
 // Type for Comment
 export interface Comment {
   id: string;
+  contentId: string;
   author?: Author;
   body: string;
   createdAt: Date;
