@@ -10,18 +10,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadProfileImage } from "@/hooks/api-hook/user/user-service";
 import BadgeComponent from "../badge/BadgeComponent";
 import { koh_Santepheap } from "@/app/fonts/fonts";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProfileImageProps {
   disableButton: boolean;
   profileAuth: any;
 }
 
-
 export default function ProfileImage({ disableButton, profileAuth }: ProfileImageProps) {
   const queryClient = useQueryClient();
   const [image, setImage] = useState<string>("null");
   const [tempImage, setTempImage] = useState<string | null>(null);
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { mutate: updateUserProfile } = useMutation({
     mutationFn: uploadProfileImage,
@@ -29,14 +30,17 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       queryClient.invalidateQueries({ queryKey: ["authProfile"] });
       toast.success("រូបភាពរបស់អ្នកត្រូវបានរក្សាទុកដោយជោគជ័យ");
+      setLoading(false);
     },
     onError: () => {
       toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព សូមព្យាយាមម្តងទៀត");
+      setLoading(false);
     },
   });
 
   const uploadFile = async (file: File) => {
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.append("file", file);
 
@@ -48,9 +52,11 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
       const result = await response.json();
       setTempImage(result.file_url);
       setShowSavePopup(true);
+      setLoading(false);
       return result.file_url;
     } catch (error) {
       setImage(profilePlaceholder.src);
+      setLoading(false);
       return null;
     }
   };
@@ -86,12 +92,16 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
     <div>
       <div className="flex flex-row absolute lg:-bottom-28 -bottom-20 left-8">
         <div className="relative lg:w-[200px] lg:h-[200px] w-[125px] h-[125px] rounded-full bg-white overflow-hidden bottom-2">
-          <Image
-            src={tempImage || (image !== "null" ? image : profileAuth?.profileImage || profilePlaceholder.src)}
-            alt="Profile"
-            className="object-cover rounded-full border-4 border-gray-200 lg:w-[200px] lg:h-[200px] w-[100px] h-[100px]"
-            fill
-          />
+          {loading ? (
+            <Skeleton style={{ borderRadius: '50%', height: 200, width: 200 }} />
+          ) : (
+            <Image
+              src={tempImage || (image !== "null" ? image : profileAuth?.profileImage || profilePlaceholder.src)}
+              alt="Profile"
+              className="object-cover rounded-full border-4 border-gray-200 lg:w-[200px] lg:h-[200px] w-[100px] h-[100px]"
+              fill
+            />
+          )}
           <input
             type="file"
             accept="image/*"

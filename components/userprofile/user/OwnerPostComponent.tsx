@@ -26,8 +26,6 @@ import {
 import { AuthorCardComponent } from "@/components/content-component/AuthorCardComponent";
 import { getContentByAuthorUuid } from "@/hooks/api-hook/content/content-api";
 import OwnerEmptyCard from "./OwnerEmptyCardComponent";
-import Viewer from "./ViewerComponent";
-import ViewerEmptyCard from "./ViewerEmptyCardComponent";
 
 export default function OwnerPost({
   username,
@@ -36,10 +34,18 @@ export default function OwnerPost({
   username: string;
   authorUuid: string;
 }) {
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [filteredContentData, setFilteredContentData] = useState<any[]>([]);
   const [selectedFilter, setSelectedFilter] = useState("4"); // Default to "All"
+
+
+  useEffect(() => {
+      setInterval(() => {
+        setLoading(false);
+      }, 2000);
+    }, []);
 
   const { data: forumData } = useQuery({
     queryKey: ["ForumOwner"],
@@ -221,7 +227,7 @@ export default function OwnerPost({
                 />
               ))
             ) : (
-              <EmptyCard />
+                <OwnerEmptyCard />
             )}
           </div>
         </TabsContent>

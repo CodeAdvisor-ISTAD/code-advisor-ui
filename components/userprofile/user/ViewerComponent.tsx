@@ -8,13 +8,20 @@ import { useRouter } from "next/navigation";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { useQuery } from "@tanstack/react-query";
 // import AchievementLevelComponent from "../achievement/AchievementCard";
-import AchievementLevelComponent from "@/components/userprofile/achievement/AchievementCard"
+import AchievementLevelComponent from "@/components/userprofile/achievement/AchievementCard";
 import ViewerPost from "./ViewerPostComponent";
 import { log } from "console";
+import OwnerPostSkeleton from "../skeleton/OwnerPostSkeleton";
 
 export default function Viewer({ username }: { username: string }) {
   const [bgColor, setBgColor] = useState("#000040");
-  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setInterval(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   const { data: publicUserProfile } = useQuery({
     queryKey: ["publicUserProfile"],
@@ -52,7 +59,11 @@ export default function Viewer({ username }: { username: string }) {
           </div>
           {/* user post */}
           <div className="col-span-7">
-            <ViewerPost username={username} authorUuid={""} />
+            {loading ? (
+              <OwnerPostSkeleton />
+            ) : (
+              <UserPost username={username} authorUuid={""} />
+            )}
           </div>
         </div>
       </div>

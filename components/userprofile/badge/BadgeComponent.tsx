@@ -16,7 +16,7 @@ export default function BadgeComponent({ userId }: { userId: string }) {
     enabled: !!userId,
   });
 
-  if (isBadgeLoading) return <LoadingPage />;
+  // if (isBadgeLoading) return <LoadingPage />;
 
   return (
     <div>

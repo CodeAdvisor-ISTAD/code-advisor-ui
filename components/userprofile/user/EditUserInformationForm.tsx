@@ -112,116 +112,82 @@ export default function EditUserInformationForm(
         className="lg:space-y-6 space-y-1 mx-2 "
       >
         <ToastContainer />
-        <div className="w-full grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px] ">
-          <div className="flex flex-col bg-white w-full h-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
-            <div className=" h-[55px] w-full relative">
-              <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg ">
-                កែប្រែព័ត៌មានអំពីអ្នក
-              </CardTitle>
-              <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
-            </div>
-            {(
-              [
-                { name: "fullName", label: "គោត្តនាម នាម" },
-                { name: "phoneNumber", label: "លេខទូរស័ព្ទ" },
-                { name: "gender", label: "ភេទ" },
-                { name: "dob", label: "ថ្ងៃ ខែ​ ឆ្នាំកំណើត" },
-                { name: "pob", label: "ទីកន្លែងកំណើត" },
-                { name: "jobPosition", label: "តួនាទី" },
-                { name: "school", label: "សាលារៀន" },
-              ] as { name: FieldName; label: string }[]
-            ).map(({ name, label }) => (
-              <FormField
-                key={name}
-                control={form.control}
-                name={name}
-                render={({ field }) => (
-                  <FormItem className="lg:pb-[20px] pb-[25px] w-full">
-                    <div className="flex gap-1">
-                      <FormLabel className="font-khFont lg:text-base text-xs font-bold">
-                        {label}
-                      </FormLabel>
-                      {name === ("fullName" as FieldName) && (
-                        <p className="text-red-600 lg:text-base text-xs">*</p>
-                      )}
-                    </div>
-                    <FormControl>
-                      {name === "dob" ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full pl-3 justify-start text-left font-normal bg-white ring-black focus:ring-1",
-                                !date && "text-muted-foreground"
-                              )}
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4 text-gray-800" />
-                              {date ? (
-                                format(date, "PPP")
-                              ) : (
-                                <span className="text-gray-700">
-                                  ជ្រើសរើស​ ថ្ងៃ ខែ​ ឆ្នាំកំណើត
-                                </span>
-                              )}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0">
-                            <Calendar
-                              className="w-auto"
-                              mode="single"
-                              selected={date}
-                              onSelect={(selectedDate) => {
-                                setDate(selectedDate);
-                                form.setValue(
-                                  "dob",
-                                  selectedDate
-                                    ? format(selectedDate, "yyyy-MM-dd")
-                                    : ""
-                                );
-                              }}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      ) : (
-                        <Input
-                          {...field}
-                          value={String(field.value)}
-                        />
-                      )}
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-4 ">
-            <div className="flex flex-col bg-white w-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+        <div className="mb-4">
+          <div className="w-full grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px] mt-9">
+            <div className="flex flex-col bg-white w-full h-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+              <div className=" h-[55px] w-full relative">
+                <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg ">
+                  កែប្រែព័ត៌មានអំពីអ្នក
+                </CardTitle>
+                <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
+              </div>
               {(
-                [{ name: "workPlace", label: "ទីកន្លែងធ្វើការ" }] as {
-                  name: FieldName;
-                  label: string;
-                }[]
+                [
+                  { name: "fullName", label: "គោត្តនាម នាម" },
+                  { name: "phoneNumber", label: "លេខទូរស័ព្ទ" },
+                  { name: "gender", label: "ភេទ" },
+                  { name: "dob", label: "ថ្ងៃ ខែ​ ឆ្នាំកំណើត" },
+                  { name: "pob", label: "ទីកន្លែងកំណើត" },
+                  { name: "jobPosition", label: "តួនាទី" },
+                  { name: "school", label: "សាលារៀន" },
+                ] as { name: FieldName; label: string }[]
               ).map(({ name, label }) => (
                 <FormField
                   key={name}
                   control={form.control}
                   name={name}
                   render={({ field }) => (
-                    <FormItem className="lg:pb-[20px] pb-[15px] w-full">
+                    <FormItem className="lg:pb-[20px] pb-[25px] w-full">
                       <div className="flex gap-1">
                         <FormLabel className="font-khFont lg:text-base text-xs font-bold">
                           {label}
                         </FormLabel>
+                        {name === ("fullName" as FieldName) && (
+                          <p className="text-red-600 lg:text-base text-xs">*</p>
+                        )}
                       </div>
                       <FormControl>
-                        <Input
-                          {...field}
-                          value={String(field.value)}
-                        />
+                        {name === "dob" ? (
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-full pl-3 justify-start text-left font-normal bg-white ring-black focus:ring-1",
+                                  !date && "text-muted-foreground"
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4 text-gray-800" />
+                                {date ? (
+                                  format(date, "PPP")
+                                ) : (
+                                  <span className="text-gray-700">
+                                    ជ្រើសរើស​ ថ្ងៃ ខែ​ ឆ្នាំកំណើត
+                                  </span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                className="w-auto"
+                                mode="single"
+                                selected={date}
+                                onSelect={(selectedDate) => {
+                                  setDate(selectedDate);
+                                  form.setValue(
+                                    "dob",
+                                    selectedDate
+                                      ? format(selectedDate, "yyyy-MM-dd")
+                                      : ""
+                                  );
+                                }}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        ) : (
+                          <Input {...field} value={String(field.value)} />
+                        )}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -229,65 +195,95 @@ export default function EditUserInformationForm(
                 />
               ))}
             </div>
-            <FormField
-              control={form.control}
-              name="bio"
-              render={({ field }) => (
-                <FormItem className="flex flex-col bg-white w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
-                  <div className="w-full lg:h-[55px] h-[35px] relative">
-                    <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg">
-                      កែប្រែការពិពណ៌នាអំពីអ្នក
-                    </CardTitle>
-                    <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
-                  </div>
-                  <FormControl>
-                    <Textarea {...field} />
-                  </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="coverColor"
-              render={({ field }) => (
-                <FormItem className="flex flex-col bg-white w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
-                  <div className="w-full lg:h-[55px] h-[35px] relative">
-                    <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg">
-                      កែប្រែផ្ទៃខាងក្រោយ
-                    </CardTitle>
-                    <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
-                  </div>
-                  <ColorPicker
-                    onColorChange={(color) => {
-                      form.setValue("coverColor", color);
-                      if (props.onColorChange) {
-                        props.onColorChange(color);
-                      }
-                    }}
-                    initialColor={form.getValues("coverColor")}
+            <div className="flex flex-col gap-4 ">
+              <div className="flex flex-col bg-white w-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+                {(
+                  [{ name: "workPlace", label: "ទីកន្លែងធ្វើការ" }] as {
+                    name: FieldName;
+                    label: string;
+                  }[]
+                ).map(({ name, label }) => (
+                  <FormField
+                    key={name}
+                    control={form.control}
+                    name={name}
+                    render={({ field }) => (
+                      <FormItem className="lg:pb-[20px] pb-[15px] w-full">
+                        <div className="flex gap-1">
+                          <FormLabel className="font-khFont lg:text-base text-xs font-bold">
+                            {label}
+                          </FormLabel>
+                        </div>
+                        <FormControl>
+                          <Input {...field} value={String(field.value)} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                ))}
+              </div>
+              <FormField
+                control={form.control}
+                name="bio"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col bg-white w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+                    <div className="w-full lg:h-[55px] h-[35px] relative">
+                      <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg">
+                        កែប្រែការពិពណ៌នាអំពីអ្នក
+                      </CardTitle>
+                      <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
+                    </div>
+                    <FormControl>
+                      <Textarea {...field} />
+                    </FormControl>
 
-            <div className="flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={handleRedirect}
-                className="bg-primary text-white px-4 py-2 rounded"
-              >
-                ចាកចេញ
-              </button>
-              <button
-                type="submit"
-                className="bg-primary text-white px-4 py-2 rounded"
-              >
-                រក្សាទុក
-              </button>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="coverColor"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col bg-white w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+                    <div className="w-full lg:h-[55px] h-[35px] relative">
+                      <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg">
+                        កែប្រែផ្ទៃខាងក្រោយ
+                      </CardTitle>
+                      <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
+                    </div>
+                    <ColorPicker
+                      onColorChange={(color) => {
+                        form.setValue("coverColor", color);
+                        if (props.onColorChange) {
+                          props.onColorChange(color);
+                        }
+                      }}
+                      initialColor={form.getValues("coverColor")}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={handleRedirect}
+                  className="bg-primary text-white px-4 py-2 rounded"
+                >
+                  ចាកចេញ
+                </button>
+                <button
+                  type="submit"
+                  className="bg-primary text-white px-4 py-2 rounded"
+                >
+                  រក្សាទុក
+                </button>
+              </div>
             </div>
           </div>
         </div>

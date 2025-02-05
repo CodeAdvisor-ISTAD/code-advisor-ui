@@ -31,7 +31,7 @@ export default function EditUser() {
   return (
     <FormProvider {...methods}>
       <div className="max-w-7xl flex min-h-screen items-center dark:bg-gray-900 mx-auto">
-        <div className="w-full bg-white rounded-lg">
+        <div className="w-full bg-white mb-3 rounded-lg">
           <div className="flex justify-center mb-8">
             <div
               className="cover w-full lg:h-[200px] h-[175px] rounded-[5px] relative"
@@ -46,7 +46,7 @@ export default function EditUser() {
               <ProfileImage profileAuth={ownUser} disableButton={false} />
             </div>
           </div>
-          <div className="flex flex-row space-x-5 justify-center">
+          <div className="flex flex-row space-x-5 mb-3 justify-center gap-2">
             <div className="flex flex-row justify-center lg:mt-[125px] mt-[60px] gap-[15px]">
               <EditUserInformationForm onColorChange={handleColorChange} />
             </div>

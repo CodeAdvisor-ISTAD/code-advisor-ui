@@ -120,6 +120,7 @@ export function AppSidebar() {
 
   if (
     pathname === "/content/new" ||
+    pathname === "/test" ||
     pathname === "/user-profile" ||
     pathname.startsWith("/user-profile/") ||
     pathname === "/edit-user-profile" ||
@@ -129,8 +130,8 @@ export function AppSidebar() {
     pathname === "/notification" ||
     pathname === "/forum/new" ||
     pathname === "/all-content" ||
-      pathname === "/policy"
-    ) {
+    pathname === "/policy"
+  ) {
     return;
   }
 
