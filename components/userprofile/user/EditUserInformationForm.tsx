@@ -109,13 +109,13 @@ export default function EditUserInformationForm(
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="lg:space-y-6 space-y-1 mx-2 "
+        className="lg:-space-y-6 space-y-1 mx-2 "
       >
         <ToastContainer />
         <div className="mb-4">
-          <div className="w-full grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px] mt-9">
+          <div className="w-full grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px]">
             <div className="flex flex-col bg-white w-full h-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
-              <div className=" h-[55px] w-full relative">
+              <div className=" lg:h-[55px] h-[35px] w-full relative">
                 <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg ">
                   កែប្រែព័ត៌មានអំពីអ្នក
                 </CardTitle>
