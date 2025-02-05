@@ -61,7 +61,7 @@ const CreateNewContent = () => {
       formData.append("file", file);
 
       const response = await fetch(
-        "http://167.172.78.79:8090/api/v1/files/upload",
+        "https://media.panda.engineer/api/v1/files/upload",
         {
           method: "POST",
           body: formData,
