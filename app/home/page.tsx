@@ -20,7 +20,7 @@ export default function Home() {
   
 
   return (
-    <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
+    <main className="flex w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
       <div className="ml-[264px] w-[710px] ">
         <CardList searchQuery={searchQuery} />
         {/* <div className="pt-2">

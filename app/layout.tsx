@@ -11,6 +11,7 @@ import { Toaster } from "react-hot-toast";
 import { CommentProvider } from "@/lib/context/commentContext";
 import { UserProvider, useUser } from "@/lib/context/userContext";
 import HighlightInitializer from "@/components/text-editor/HighlightInitializer";
+import { ThemeProvider } from "@/components/theme-provider"
 
 
 export default function RootLayout({
@@ -28,24 +29,32 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
+        className={`${roboto.variable} ${koh_Santepheap.variable} dark:bg-darkSecondary`}
       >
         <HighlightInitializer />
         <UserProvider>
           <CommentProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <Provider>
               {/* Pass the search handler function to NavbarComponent */}
              
-              <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0  z-50">
+              <header className="bg-white dark:bg-darkPrimary border border-gray-200 border-none fixed top-0 right-0 left-0  z-50">
               <NavbarComponent onSearch={handleSearch} />
               </header>
-              <SidebarProvider>
+              <SidebarProvider >
                 <AppSidebar />
-                <main className="w-full bg-background  ">{children}</main>
+                <main className="w-full">{children}</main>
               </SidebarProvider>
               <footer><Footer /></footer>
               <Toaster />
             </Provider>
+          </ThemeProvider>
+            
           </CommentProvider>
         </UserProvider>
       </body>

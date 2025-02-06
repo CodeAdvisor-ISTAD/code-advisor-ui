@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 export default function Footer() {
   return (
-    <footer className="bg-white ">
+    <footer className="bg-white dark:bg-[#1F1F1F] mt-5">
       <div className="container pl-20 p-6 mx-auto">
         {/* Grid Layout */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">

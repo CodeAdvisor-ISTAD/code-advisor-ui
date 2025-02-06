@@ -21,13 +21,13 @@ export default function ISTADCard() {
   return (
     <Card
       onClick={navigateToISTAD}
-      className="w-[341px] h-[315px] mx-auto overflow-hidden rounded-[5px] cursor-pointer"
+      className="w-[341px] h-[315px] mx-auto overflow-hidden rounded-[5px] cursor-pointer dark:bg-darkPrimary"
     >
       <div className="my-4">
         <CardHeader className="py-1">
           <div className="flex items-center gap-2">
             <GraduationCap className="w-8 h-8 text-red-600" />
-            <span className="text-xl font-bold text-[#1a237e]">ISTAD</span>
+            <span className="text-xl font-bold text-[#1a237e] dark:text-white">ISTAD</span>
           </div>
         </CardHeader>
         <CardContent className="space-y-2 p-3">
@@ -54,12 +54,12 @@ export default function ISTADCard() {
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-lg font-normal text-[#1a237e] leading-tight">
+            <h2 className="text-lg font-normal text-[#1a237e] leading-tight dark:text-blue-300">
               Join our intensive Bachelor of Information and Technology and
               launch your dev career
             </h2>
             <div className="flex justify-between items-center text-sm">
-              <div className="text-gray-600">01/01/2025</div>
+              <div className="text-gray-600 dark:text-slate-100">01/01/2025</div>
               <a
                 href="https://maps.app.goo.gl/ASr8ExGKiBFFzEKj7"
                 target="_blank"
@@ -67,7 +67,7 @@ export default function ISTADCard() {
                 className="flex items-center gap-1 text-gray-600 hover:text-red-600 transition-colors"
               >
                 <MapPin className="w-4 h-4 text-red-600" />
-                <span>Phnom Penh</span>
+                <span className="dark:text-slate-200">Phnom Penh</span>
               </a>
             </div>
           </div>

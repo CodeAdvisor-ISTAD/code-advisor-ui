@@ -19,6 +19,8 @@ const config: Config = {
       colors: {
         background: "#FAFAFA",
         primary: "#000040",
+        darkPrimary: "#1F1F1F",
+        darkSecondary: "#252728",
         secondary: "#CD3937",
         font: "#0F172A",
         foreground: "hsl(var(--foreground))",

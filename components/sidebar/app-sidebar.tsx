@@ -135,7 +135,7 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar className="ml-[100px]  h-auto">
+    <Sidebar className="ml-[100px]  h-auto ">
       <SidebarHeader className="p-4 ">
         <h2 className="text-lg font-semibold">CodeAdvisor</h2>
       </SidebarHeader>
@@ -161,7 +161,7 @@ export function AppSidebar() {
                     ) : (
                       <Link
                         href={item.url}
-                        className="flex items-center text-[16px] px-4 py-2 hover:bg-gray-100 rounded-lg"
+                        className="flex items-center text-[16px] px-4 py-2 hover:bg-gray-100 rounded-lg dark:hover:text-black dark:hover:bg-gray-200"
                       >
                         <item.icon className="w-4 h-4 mr-4" />
                         {item.title}
@@ -174,7 +174,7 @@ export function AppSidebar() {
                             <SidebarMenuSubItem key={subItem.id}>
                               <Link
                                 href={subItem.url}
-                                className="flex items-center px-4 py-1 hover:bg-gray-100 rounded-lg"
+                                className="flex items-center px-4 py-1 hover:bg-gray-100 rounded-lg dark:hover:text-black dark:hover:bg-gray-200"
                               >
                                 {subItem.title}
                               </Link>
