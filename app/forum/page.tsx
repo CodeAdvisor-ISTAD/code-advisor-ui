@@ -4,7 +4,7 @@ import ForumCardList from "@/components/card-component/forum-card/ForumCardList"
 import React from "react";
 
 // Types for Elasticsearch response
-type ElasticQuestion = {
+ type ElasticQuestion = {
     _source: {
         after: {
             uuid: string;
@@ -20,7 +20,7 @@ type ElasticQuestion = {
     };
 };
 
-type ElasticResponse = {
+export type ElasticResponse = {
     hits: {
         hits: ElasticQuestion[];
         total: {

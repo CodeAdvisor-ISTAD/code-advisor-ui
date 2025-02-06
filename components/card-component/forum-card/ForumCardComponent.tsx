@@ -142,7 +142,7 @@ export function ForumCardComponent({
                         className="rounded-full w-[40px] h-[40px] object-cover"
                     />
                     <div>
-                        <h3 onClick={() => router.push(`/user-profile/${userData?.username}`) } className="text-base font-normal">{userData?.fullName}</h3>
+                        <h3 onClick={() => router.push(`/user-profile/${userData?.username}`) } className="text-base font-normal">{userData?.fullName}</h3>x
                         <p onClick={() => router.push(`/profile/${userData?.username}`) } className="text-sm text-gray-500">@{userData?.username}</p>
                     </div>
                 </div>
