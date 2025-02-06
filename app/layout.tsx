@@ -1,24 +1,20 @@
- 'use client'
+'use client'
 import localFont from "next/font/local";
 import "./globals.css";
-import NavbarComponent from "@/components/navbar/NavbarComponent"; 
+import NavbarComponent from "@/components/navbar/NavbarComponent";
 import Footer from "@/components/footer/Footer";
 import { roboto, koh_Santepheap } from "./fonts/fonts";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import Provider from "./_provider";
 import { Toaster } from "react-hot-toast";
 import { CommentProvider } from "@/lib/context/commentContext";
-import { UserProvider, useUser } from "@/lib/context/userContext";
+import { UserProvider } from "@/lib/context/userContext";
 import HighlightInitializer from "@/components/text-editor/HighlightInitializer";
 
-
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-
+                                     children,
+                                   }: Readonly<{ children: React.ReactNode }>) {
   // Implement the search handler function
   const handleSearch = (query: string) => {
     console.log("Search query:", query);
@@ -26,29 +22,31 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
-      <body
-        className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}
-      >
-        <HighlightInitializer />
-        <UserProvider>
-          <CommentProvider>
-            <Provider>
-              {/* Pass the search handler function to NavbarComponent */}
-              <NavbarComponent onSearch={handleSearch} />
-            
-              <SidebarProvider>
-                <AppSidebar />
-                <main className="w-full bg-background  ">{children}</main>
-              </SidebarProvider>
-              <footer  className="relative z-10">
-                <Footer />
-              </footer>
-              <Toaster />
-            </Provider>
-          </CommentProvider>
-        </UserProvider>
+      <html lang="en">
+      <body className={`${roboto.variable} ${koh_Santepheap.variable} min-h-screen`}>
+      <HighlightInitializer />
+      <UserProvider>
+        <CommentProvider>
+          <Provider>
+            {/* Wrap header, sidebar, and main content with SidebarProvider */}
+            <SidebarProvider>
+              <header className="bg-white border border-gray-200 fixed top-0 right-0 left-0 z-50">
+                <NavbarComponent onSearch={handleSearch} />
+              </header>
+              <AppSidebar />
+              <main className="w-full bg-background">
+                {children}
+              </main>
+            </SidebarProvider>
+            {/* Footer remains unchanged and is outside the SidebarProvider */}
+            <footer>
+              <Footer />
+            </footer>
+            <Toaster />
+          </Provider>
+        </CommentProvider>
+      </UserProvider>
       </body>
-    </html>
+      </html>
   );
 }

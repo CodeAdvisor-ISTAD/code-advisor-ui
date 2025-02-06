@@ -1,28 +1,33 @@
 "use client";
 import EditUserInformationForm from "@/components/userprofile/user/EditUserInformationForm";
 import { FormProvider, useForm } from "react-hook-form";
-// import ProfileImage from "@/components/userprofile/user/ProfileImage";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import ProfileImage from "@/components/userprofile/user/ProfileImage";
+import ProfileImage from "@/components/userprofile/user/ProfileImageComponent";
 import { useQuery } from "@tanstack/react-query";
 import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
 
 export default function EditUser() {
   const methods = useForm();
   const [coverColor, setCoverColor] = useState("");
-  // const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  const {data : ownUser} = useQuery({
+  const { data: ownUser } = useQuery({
     queryKey: ["profile"],
     queryFn: () => getOwnUserProfile(),
-  })
+  });
 
+  useEffect(() => {
+    if (ownUser && !coverColor) {
+      // Only set initial cover color if it's not already set
+      setCoverColor(ownUser.coverColor || "");
+    }
+  }, [ownUser, coverColor]);
 
   const handleColorChange = (color: string) => {
     setCoverColor(color);
   };
+
   return (
     <FormProvider {...methods}>
       <div className="flex justify-centermin-h-screen justify-center dark:bg-gray-900  p-4">

@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Bio from "@/components/userprofile/user/Bio";
-import UserPost from "@/components/userprofile/user/userPost";
+import UserPost from "@/components/userprofile/user/OwnerPostComponent";
 import UserInformationCardComponent from "@/components/userprofile/user/UserInformationCardComponent";
-import AchievementLevel from "@/components/userprofile/user/achievement/AchievementCard";
-import ProfileImage from "@/components/userprofile/user/ProfileImage";
+import ProfileImage from "@/components/userprofile/user/ProfileImageComponent";
 import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateButton";
 import { useRouter } from "next/navigation";
-import { UserRoundPen } from "lucide-react"
 import { useQuery } from "@tanstack/react-query";
 import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
+import OwnerPost from "@/components/userprofile/user/OwnerPostComponent";
+// import AchievementLevelComponent from "../achievement/AchievementCard";
+import AchievementLevelComponent from "@/components/userprofile/achievement/AchievementCard"
 
 export default function Owner() {
-
   const router = useRouter();
 
   const handleEdit = () => {
@@ -22,22 +22,22 @@ export default function Owner() {
 
   const { data: userInformation } = useQuery({
     queryKey: ["profile"],
-    queryFn: getOwnUserProfile
-  });// Fetch the user profile
+    queryFn: getOwnUserProfile,
+  }); // Fetch the user profile
 
   return (
-    <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">
-      <div className="w-full xs:w-[500px] lg:w-[1252px] bg-white pb-4 rounded-lg">
+    <div className=" max-w-7xl dark:bg-gray-900 lg:p-4 p-1 mx-auto">
+      <div className="w-full bg-white pb-4 rounded-lg">
         <div className="flex justify-center mb-8">
           {/* cover */}
           <div
-            className="cover xs:w-[500px] lg:w-[1252px] h-[200px] rounded-[5px] flex justify-center relative"
-            style={{ backgroundColor: userInformation?.coverColor }}
+            className="cover w-full lg:h-[200px] h-[175px] rounded-[5px] relative"
+            style={{ backgroundColor: userInformation?.coverColor || "#000040" }}
           >
             {/* profile image */}
-            <ProfileImage disableButton profileAuth={userInformation}/>
-            
-            <div className="absolute space-x-5 top-[230px] right-7 ">
+            <ProfileImage disableButton profileAuth={userInformation} />
+
+            <div className="absolute space-x-5 lg:top-[230px] lg:right-7 top-20 right-2">
               <SaveUserUpdateButton
                 disabledCancel={false}
                 disabledSave={false}
@@ -47,17 +47,22 @@ export default function Owner() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row space-x-2 ml-6">
-          <div className="flex flex-col mt-[98px] gap-2">
+        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-2 lg:px-6 px-1">
+          <div className="col-span-5 lg:mt-[98px] mt-14 gap-2 mb-2">
             {/* achievement level card */}
-            <AchievementLevel userId={userInformation?.id} />
+            <AchievementLevelComponent userInformation={userInformation} />
             {/* Bio card */}
             <Bio bio={userInformation?.bio} />
             {/* user information card */}
             <UserInformationCardComponent userInformation={userInformation} />
           </div>
           {/* user post */}
-          <UserPost username={userInformation?.username}/>
+          <div className="col-span-7">
+            <OwnerPost
+              username={userInformation?.username}
+              authorUuid={userInformation?.authorUuid}
+            />
+          </div>
         </div>
       </div>
     </div>

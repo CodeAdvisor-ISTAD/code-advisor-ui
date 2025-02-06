@@ -31,7 +31,7 @@ export function ForumList({ searchQuery }: CardListProps) {
         const fetchData = async () => {
           try {
             const response = await fetch(
-              'http://167.172.78.79:9200/forum.public.question/_search?q=*'
+              'https://elastic.panda.engineer/forum.public.question/_search?q=*'
             );
       
             // Check if the response is OK (status code 200-299)

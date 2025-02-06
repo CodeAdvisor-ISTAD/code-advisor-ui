@@ -38,6 +38,7 @@ import { useUser } from "@/lib/context/userContext";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import formatDate from "@/lib/utils/formatDate";
 import { useRouter } from "next/navigation";
+import router from "next/router";
 
 export default function CommentReplyComponent({ slug }: { slug: string }) {
   const { setReplyTo, setMode, setAnswerUuid, setReplyContent } =
@@ -184,6 +185,8 @@ const UserProfile = ({ authorUsername, createdAt, lastModifedAt }) => {
     enabled: !!authorUsername,
   });
 
+  console.log("username", authorUsername);
+
   // Function to compare dates
   const isLastModifiedNewer = () => {
     if (!lastModifedAt || !createdAt) return false;
@@ -192,20 +195,32 @@ const UserProfile = ({ authorUsername, createdAt, lastModifedAt }) => {
     return lastModifiedDate > createdDate;
   };
 
+  const handleProfileClick = () => {
+    if (authorUsername) {
+      router.push(`/user-profile/${authorUsername}`);
+    }
+  };
+
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 ">
       <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
+          onClick={handleProfileClick}
           src={
             userData?.profileImage ||
             "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp"
           }
           alt={userData?.name || "User"}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover cursor-pointer"
         />
       </div>
       <div>
-        <div className="font-medium">{userData?.fullName || "Loading..."}</div>
+        <div
+          onClick={handleProfileClick}
+          className="cufont-medium cursor-pointer"
+        >
+          {userData?.fullName || "Loading..."}
+        </div>
         <div className="text-sm text-gray-500">
           {isLastModifiedNewer()
             ? `កាលបរិច្ឆេទកែប្រែ: ${formatDate(lastModifedAt)}`
@@ -230,68 +245,68 @@ const AnswerItem = ({
 
   // Fetch total upvotes for this answer
   const { data: totalUpVotes } = useQuery({
-    queryKey: ['totalUpVoteAnswer', ans.uuid],
+    queryKey: ["totalUpVoteAnswer", ans.uuid],
     queryFn: () => totalUpVotesAnswer(ans.uuid),
   });
 
   // Fetch total downvotes for this answer
   const { data: totalDownVotes } = useQuery({
-    queryKey: ['totalDownVoteAnswer', ans.uuid],
+    queryKey: ["totalDownVoteAnswer", ans.uuid],
     queryFn: () => totalDownVotesAnswer(ans.uuid),
   });
 
   // Fetch the current vote status for this answer
   const { data: checkVoteOnAnswer } = useQuery({
-    queryKey: ['checkVoteAnswer', ans.uuid],
+    queryKey: ["checkVoteAnswer", ans.uuid],
     queryFn: () => checkUserIsVoteAnswer(ans.uuid),
   });
 
   // Optimistic update helper function
   const updateVoteOptimistically = (
-    type: 'upvote' | 'downvote',
+    type: "upvote" | "downvote",
     oldVoteStatus: { code: number } | undefined
   ) => {
     // Update check vote status
-    queryClient.setQueryData(['checkVoteAnswer', ans.uuid], (old) => ({
-      ...(typeof old === 'object' && old !== null ? old : {}),
-      code: type === 'upvote' ? 200 : 409,
+    queryClient.setQueryData(["checkVoteAnswer", ans.uuid], (old) => ({
+      ...(typeof old === "object" && old !== null ? old : {}),
+      code: type === "upvote" ? 200 : 409,
     }));
 
     // Update vote counts
     if (oldVoteStatus?.code === 200) {
       // Was upvoted, now changing
       queryClient.setQueryData(
-        ['totalUpVoteAnswer', ans.uuid],
+        ["totalUpVoteAnswer", ans.uuid],
         (old: { totalVotes: number } | undefined | unknown) => ({
-          ...(typeof old === 'object' && old !== null ? old : {}),
+          ...(typeof old === "object" && old !== null ? old : {}),
           totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) - 1,
         })
       );
     } else if (oldVoteStatus?.code === 409) {
       // Was downvoted, now changing
       queryClient.setQueryData(
-        ['totalDownVoteAnswer', ans.uuid],
+        ["totalDownVoteAnswer", ans.uuid],
         (old: { totalVotes: number } | undefined) => ({
-          ...(typeof old === 'object' && old !== null ? old : {}),
+          ...(typeof old === "object" && old !== null ? old : {}),
           totalVotes: (old?.totalVotes ?? 0) - 1,
         })
       );
     }
 
     // Add new vote
-    if (type === 'upvote') {
+    if (type === "upvote") {
       queryClient.setQueryData(
-        ['totalUpVoteAnswer', ans.uuid],
+        ["totalUpVoteAnswer", ans.uuid],
         (old: { totalVotes: number } | undefined) => ({
-          ...(typeof old === 'object' && old !== null ? old : {}),
+          ...(typeof old === "object" && old !== null ? old : {}),
           totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) + 1,
         })
       );
     } else {
       queryClient.setQueryData(
-        ['totalDownVoteAnswer', ans.uuid],
+        ["totalDownVoteAnswer", ans.uuid],
         (old: { totalVotes: number } | undefined | unknown) => ({
-          ...(typeof old === 'object' && old !== null ? old : {}),
+          ...(typeof old === "object" && old !== null ? old : {}),
           totalVotes: ((old as { totalVotes: number })?.totalVotes ?? 0) + 1,
         })
       );
@@ -302,33 +317,49 @@ const AnswerItem = ({
   const { mutate: upVoteAnswer, isPending: upVotePending } = useMutation({
     mutationFn: () => voteAnwser(ans.uuid),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['checkVoteAnswer', ans.uuid] });
-      await queryClient.cancelQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
-      await queryClient.cancelQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+      await queryClient.cancelQueries({
+        queryKey: ["checkVoteAnswer", ans.uuid],
+      });
+      await queryClient.cancelQueries({
+        queryKey: ["totalUpVoteAnswer", ans.uuid],
+      });
+      await queryClient.cancelQueries({
+        queryKey: ["totalDownVoteAnswer", ans.uuid],
+      });
 
       const previousVoteStatus = queryClient.getQueryData<{ code: number }>([
-        'checkVoteAnswer',
+        "checkVoteAnswer",
         ans.uuid,
       ]);
 
-      updateVoteOptimistically('upvote', previousVoteStatus);
+      updateVoteOptimistically("upvote", previousVoteStatus);
 
       return { previousVoteStatus };
     },
     onError: (err, variables, context) => {
       if (context?.previousVoteStatus) {
         queryClient.setQueryData(
-          ['checkVoteAnswer', ans.uuid],
+          ["checkVoteAnswer", ans.uuid],
           context.previousVoteStatus
         );
       }
-      queryClient.invalidateQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
-      queryClient.invalidateQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({
+        queryKey: ["totalUpVoteAnswer", ans.uuid],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["totalDownVoteAnswer", ans.uuid],
+      });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['checkVoteAnswer', ans.uuid] });
-      queryClient.invalidateQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
-      queryClient.invalidateQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({
+        queryKey: ["checkVoteAnswer", ans.uuid],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["totalUpVoteAnswer", ans.uuid],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["totalDownVoteAnswer", ans.uuid],
+      });
     },
   });
 
@@ -336,40 +367,56 @@ const AnswerItem = ({
   const { mutate: downVoteAnswer, isPending: downVotePending } = useMutation({
     mutationFn: () => downVoteAnwser(ans.uuid),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['checkVoteAnswer', ans.uuid] });
-      await queryClient.cancelQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
-      await queryClient.cancelQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+      await queryClient.cancelQueries({
+        queryKey: ["checkVoteAnswer", ans.uuid],
+      });
+      await queryClient.cancelQueries({
+        queryKey: ["totalUpVoteAnswer", ans.uuid],
+      });
+      await queryClient.cancelQueries({
+        queryKey: ["totalDownVoteAnswer", ans.uuid],
+      });
 
       const previousVoteStatus = queryClient.getQueryData<{ code: number }>([
-        'checkVoteAnswer',
+        "checkVoteAnswer",
         ans.uuid,
       ]);
 
-      updateVoteOptimistically('downvote', previousVoteStatus);
+      updateVoteOptimistically("downvote", previousVoteStatus);
 
       return { previousVoteStatus };
     },
     onError: (err, variables, context) => {
       if (context?.previousVoteStatus) {
         queryClient.setQueryData(
-          ['checkVoteAnswer', ans.uuid],
+          ["checkVoteAnswer", ans.uuid],
           context.previousVoteStatus
         );
       }
-      queryClient.invalidateQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
-      queryClient.invalidateQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({
+        queryKey: ["totalUpVoteAnswer", ans.uuid],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["totalDownVoteAnswer", ans.uuid],
+      });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['checkVoteAnswer', ans.uuid] });
-      queryClient.invalidateQueries({ queryKey: ['totalUpVoteAnswer', ans.uuid] });
-      queryClient.invalidateQueries({ queryKey: ['totalDownVoteAnswer', ans.uuid] });
+      queryClient.invalidateQueries({
+        queryKey: ["checkVoteAnswer", ans.uuid],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["totalUpVoteAnswer", ans.uuid],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["totalDownVoteAnswer", ans.uuid],
+      });
     },
   });
 
   // Helper function to determine button color
   const getButtonColor = (expectedCode: number, actualCode: number) => {
-    if (actualCode === 400) return 'text-gray-400'; // Disabled/error state
-    return actualCode === expectedCode ? 'text-green-500' : 'text-gray-600';
+    if (actualCode === 400) return "text-gray-400"; // Disabled/error state
+    return actualCode === expectedCode ? "text-green-500" : "text-gray-600";
   };
 
   return (
@@ -422,7 +469,10 @@ const AnswerItem = ({
                 disabled={downVotePending}
               >
                 <ChevronUp
-                  className={`w-5 h-5 ${getButtonColor(200, checkVoteOnAnswer?.code)}`}
+                  className={`w-5 h-5 ${getButtonColor(
+                    200,
+                    checkVoteOnAnswer?.code
+                  )}`}
                 />
               </button>
               <span className="mx-1">{totalUpVotes?.totalVotes ?? 0}</span>
@@ -432,7 +482,10 @@ const AnswerItem = ({
                 disabled={upVotePending}
               >
                 <ChevronDown
-                  className={`w-5 h-5 ${getButtonColor(409, checkVoteOnAnswer?.code)}`}
+                  className={`w-5 h-5 ${getButtonColor(
+                    409,
+                    checkVoteOnAnswer?.code
+                  )}`}
                 />
               </button>
               <span className="mx-1">{totalDownVotes?.totalVotes ?? 0}</span>

@@ -18,14 +18,20 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ColorPicker } from "./colorPicker";
+import { ColorPicker } from "./colorPickerComponent";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getOwnUserProfile, updateUserProfile } from "@/hooks/api-hook/user/user-service";
+import {
+  getOwnUserProfile,
+  updateUserProfile,
+} from "@/hooks/api-hook/user/user-service";
 
 interface EditUserInformationFormProps {
   onColorChange?: (color: string) => void;
@@ -35,26 +41,29 @@ interface EditUserInformationFormProps {
 export default function EditUserInformationForm(
   props: EditUserInformationFormProps
 ) {
-
   const queryClient = useQueryClient();
 
-  const { data : userInformation } = useQuery({
+  const { data: userInformation } = useQuery({
     queryKey: ["profile"],
     queryFn: getOwnUserProfile,
   }); // Fetch user data
 
-  console.log("userInformation : ", userInformation);
-
   const router = useRouter();
   const [date, setDate] = React.useState<Date>();
-  const {mutate: updateUser, isSuccess} = useMutation({
+  const { mutate: updateUser, isSuccess } = useMutation({
     mutationFn: updateUserProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["profile"],
-      })
-    }
-  })
+      });
+      toast.success("ព័ត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ");
+      // Redirect immediately after successful update
+      router.push(`/user-profile/${userInformation?.username}`);
+    },
+    onError: () => {
+      toast.error("បរាជ័យក្នុងការរក្សាទុកព័ត៌មាន សូមព្យាយាមម្ដងទៀត");
+    },
+  });
 
   type FieldName =
     | "givenName"
@@ -88,23 +97,19 @@ export default function EditUserInformationForm(
       coverColor: userInformation?.coverColor || "",
     },
   });
-
   async function onSubmit(data: any) {
-    console.log("data : ", data);
+    console.log("data: ", data);
     updateUser(data);
-    if(isSuccess){
-      router.push(`/user-profile/${userInformation?.username}`);
-    }
   }
-
   const handleRedirect = () => {
     router.push(`/user-profile/${userInformation?.username}`);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="flex justify-center gap-[15px]">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="lg:space-y-6 space-y-2 mx-2">
+        <ToastContainer />
+        <div className="w-full flex lg:flex-row flex-col justify-center gap-[15px] ">
           <div className="flex flex-col bg-white w-[510px] h-full items-center pb-[25px] pt-[25px] rounded-lg border">
             <div className="w-[200px] h-[55px] pr-[450px] relative">
               <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">

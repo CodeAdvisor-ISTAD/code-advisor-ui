@@ -12,6 +12,7 @@ type AchievementLevel = {
   commentTotal: number;
   interactionTotal: number;
   totalPoints: number;
+  isPublish: boolean;
 };
 
 // Fetch achievement level for a specific user
