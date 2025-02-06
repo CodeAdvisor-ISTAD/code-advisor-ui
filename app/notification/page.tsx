@@ -42,12 +42,13 @@ export default function NotificationsPage() {
   }, []);
 
   useEffect(() => {
-    const currentUserId = user?.uuid;// Replace with actual user ID retrieval method
+    // const currentUserId = user?.uuid;// Replace with actual user ID retrieval method
+    const currentUserId = "3c80f53d-5f59-488b-aa6f-4971f4de2353";
     // console.log("Current user ID:", currentUserId);
     setUserId(currentUserId);
 
     const wsService = new WebSocketService(
-      "http://202.178.125.77:1084/ws",
+      "/notifications/ws",
       currentUserId
     );
 
@@ -66,6 +67,8 @@ export default function NotificationsPage() {
       wsService.disconnect();
     };
   }, [user]);
+
+  console.log("REALTIME NOTIFICATION: ", notifications);
 
 
 
