@@ -72,24 +72,24 @@ export function ForumHistoryCard({
         {/* Content Section */}
         <div className="mb-4">
           <div className="flex justify-between">
-            <h2 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">
+            <h2 className="lg:text-2xl md:text-xl text-lg font-medium tracking-normal text-primary line-clamp-1">
               {slug}
             </h2>
-            <div className=" flex justify-end text-gray-500 hover:text-gray-700">
-              <PopoverRoot>
-                <PopoverTrigger className="border-none ">
-                  <MoreVertical className="w-5 h-5 " />
-                </PopoverTrigger>
-                <PopoverContent className="w-48 h-auto">
-                  <PopoverBody>
-                    {actions.map((action, index) => (
-                      <PopoverButton key={index} onClick={action.action}>
-                        {action.icon}
-                        <span>{action.label}</span>
-                      </PopoverButton>
-                    ))}
-                  </PopoverBody>
-                </PopoverContent>
+            <div className="hidden lg:flex lg:justify-end md:justify-start justify-start text-gray-500 hover:text-gray-700">
+              <PopoverRoot className="hidden md:block">
+              <PopoverTrigger className="border-none">
+                <MoreVertical className="lg:w-5 lg:h-5 md:w-4 md:h-4 w-3 h-3" />
+              </PopoverTrigger>
+              <PopoverContent className="w-auto h-auto">
+                <PopoverBody>
+                {actions.map((action, index) => (
+                  <PopoverButton key={index} onClick={action.action}>
+                  {action.icon}
+                  <span>{action.label}</span>
+                  </PopoverButton>
+                ))}
+                </PopoverBody>
+              </PopoverContent>
               </PopoverRoot>
             </div>
           </div>

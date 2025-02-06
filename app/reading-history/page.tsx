@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -10,9 +9,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { HistoryItem } from "@/lib/reading";
 import { ForumHistoryCard } from "@/components/card-component/history-card/forumHistoryCard";
 import { getBookmarkContent } from "@/hooks/api-hook/user/bookmark";
-import { ContentHistoryCard } from "@/components/card-component/history-card/contentHistoryCard";
 import LoadingPage from "../loading";
-import axios from "axios";
 import toast from "react-hot-toast";
 
 // Function to group history items by createdAt
@@ -134,12 +131,12 @@ export default function ReadingHistoryPage() {
   const groupedHistory = groupByDate(historyData || []);
 
   return (
-    <div className="min-h-screen flex gap-6 pt-[72px] mb-20 no-scrollbar lg:grid lg:grid-cols-5 lg:max-w-5xl mt-[76px] px-2 ">
-      <div className="lg:col-span-1"></div>
-      <div className="w-full p-2 lg:col-span-4">
+    <div className=" h-screen mx-auto w-full md:grid md:grid-cols-7 lg:grid lg:grid-cols-5 lg:max-w-5xl md:max-w-5xl mb-5 mt-[76px] px-2">
+      <div className="md:col-span-3 lg:col-span-1"></div>
+      <div className="w-full p-4 md:col-span-4 lg:col-span-4">
         <Tabs defaultValue="reading">
           <div>
-            <h1 className="text-3xl font-bold text-primary py-3">
+            <h1 className="lg:text-3xl md:text-2xl text-xl font-bold text-primary py-3">
               ទិន្នន័យដែលអ្នកធ្លាប់បានអាន
             </h1>
           </div>
@@ -160,7 +157,7 @@ export default function ReadingHistoryPage() {
             ) : (
               Object.entries(groupedHistory).map(([date, items]) => (
                 <div key={date} className="space-y-4 text-primary">
-                  <h2 className="text-sm font-semibold">{date}</h2>
+                  <h2 className="lg:text-sm md:text-sm text-xs font-semibold">{date}</h2>
                   <div className="space-y-2">
                     {items.map((item: any, index: number) => {
                       // Find matching content history item

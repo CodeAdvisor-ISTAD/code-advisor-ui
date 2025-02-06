@@ -9,8 +9,17 @@ import {
 import { ArticleCardBookmark } from "@/components/card-component/bookmark/articleCard";
 import { BookmarkForumCard } from "@/components/card-component/bookmark/bookmarkForum";
 import { getForumBySlug } from "@/hooks/api-hook/forum/forum-api";
+import BookmarkEmptyComponent from "@/components/card-component/bookmark/BookmarkEmptyComponent";
+import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 export default function BookmarkPage() {
-
+  const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      setInterval(() => {
+        setLoading(false);
+      }, 2000);
+    }, []);
   // Get content bookmark data
 
   const { data: contentBookmarkData } = useQuery({
@@ -45,13 +54,11 @@ export default function BookmarkPage() {
   //   .filter((slug: string | null | undefined | "") => slug !== null);
   // console.log("forumSlugs:", forumSlugs);
   const forumSlugs = (contentBookmarkData?.content || [])
-  .map((item: any) => item.forumSlug)
-  .filter((slug: string | null | undefined) => slug && slug.trim() !== "");
-
-
+    .map((item: any) => item.forumSlug)
+    .filter((slug: string | null | undefined) => slug && slug.trim() !== "");
 
   // get forum data by slug
-  
+
   // const { data: forumBookmarkBySlug } = useQuery({
   //   queryKey: ["forumBookmarkBySlug", forumSlugs],
   //   queryFn: () =>
@@ -67,13 +74,13 @@ export default function BookmarkPage() {
     },
     enabled: Array.isArray(forumSlugs) && forumSlugs.length > 0, // Ensure it's always an array
   });
-  
-  
+
   return (
-    <div className=" h-screen mx-auto w-full lg:grid lg:grid-cols-5 lg:max-w-5xl mb-5 mt-[76px] px-2">
-      <div className="lg:col-span-1"></div>
-      <div className="lg:col-span-4">
-        <h1 className="lg:text-3xl text-xl font-bold text-primary py-3">
+    <div className=" h-screen mx-auto w-full md:grid md:grid-cols-7 lg:grid lg:grid-cols-5 lg:max-w-5xl mb-5 mt-[76px] px-2">
+      <div className="lg:col-span-1 md:col-span-3"></div>
+      {!loading ? (
+        <div className="lg:col-span-4 md:col-span-4">
+        <h1 className="lg:text-3xl md:text-2xl text-xl font-bold text-primary py-3 ">
           កំណត់ត្រារបស់អ្នក
         </h1>
         <Tabs defaultValue="article" className="w-full mx-auto">
@@ -94,18 +101,22 @@ export default function BookmarkPage() {
           {/* article */}
           <TabsContent value="article">
             <div className="grid grid-cols-1 gap-3">
-              {contentBookmarkBySlug?.map((bookmark: any, index: number) => (
-                <ArticleCardBookmark
-                  key={index}
-                  title={bookmark.title}
-                  description={bookmark.description}
-                  tags={bookmark.tags}
-                  tags1={bookmark.tags1}
-                  thumbnail={bookmark.thumbnail}
-                  createdDate={bookmark.createdDate}
-                  slug={bookmark.slug}
-                />
-              ))}
+              {contentBookmarkBySlug?.length > 0 ? (
+                contentBookmarkBySlug.map((bookmark: any, index: number) => (
+                  <ArticleCardBookmark
+                    key={index}
+                    title={bookmark.title}
+                    description={bookmark.description}
+                    tags={bookmark.tags}
+                    tags1={bookmark.tags1}
+                    thumbnail={bookmark.thumbnail}
+                    createdDate={bookmark.createdDate}
+                    slug={bookmark.slug}
+                  />
+                ))
+              ) : (
+                <BookmarkEmptyComponent />
+              )}
             </div>
           </TabsContent>
           {/* forum */}
@@ -127,29 +138,39 @@ export default function BookmarkPage() {
             </div>
           </TabsContent> */}
           <TabsContent value="forum">
-  <div className="grid grid-cols-1 gap-3">
-    {forumBookmarkBySlug?.length > 0 ? (
-      forumBookmarkBySlug.map((bookmark: any, index: number) => (
-        <BookmarkForumCard
-          key={index}
-          title={bookmark.title}
-          content={bookmark.content}
-          createdAt={bookmark.createdAt}
-          slug={bookmark.slug}
-          views={bookmark.views}
-          comments={0}
-          upvotes={0}
-          tags={[]}
-        />
-      ))
-    ) : (
-      <p className="text-gray-500">គ្មានសំនួរដែលបានចំណាំ</p>
-    )}
-  </div>
-</TabsContent>
-
+            <div className="grid grid-cols-1 gap-3">
+              {forumBookmarkBySlug?.length > 0 ? (
+                forumBookmarkBySlug.map((bookmark: any, index: number) => (
+                  <BookmarkForumCard
+                    key={index}
+                    title={bookmark.title}
+                    content={bookmark.content}
+                    createdAt={bookmark.createdAt}
+                    slug={bookmark.slug}
+                    views={bookmark.views}
+                    comments={0}
+                    upvotes={0}
+                    tags={[]}
+                  />
+                ))
+              ) : (
+                // <p className="text-gray-500">គ្មានសំនួរដែលបានចំណាំ</p>
+                <BookmarkEmptyComponent />
+              )}
+            </div>
+          </TabsContent>
         </Tabs>
       </div>
+      ) : (
+        <div className="lg:col-span-4 md:col-span-4">
+        <Skeleton className="w-[250px] lg:h-8 h-5 mt-2 ">
+        </Skeleton>
+        <div defaultValue="article" className="w-full mx-auto">
+          <Skeleton className="w-[200px] lg:h-7 h-4 mt-2"></Skeleton>
+        </div>
+        <Skeleton className="lg:w-[800px] w-[500px] lg:h-72 h-56 mt-2"></Skeleton>
+      </div>
+      )}
     </div>
   );
 }
