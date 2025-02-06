@@ -44,7 +44,7 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("https://media.panda.engineer/api/v1/files/upload?file", {
+      const response = await fetch("https://media.panda.engineer/api/v1/files/upload", {
         method: "POST",
         body: formData,
       });

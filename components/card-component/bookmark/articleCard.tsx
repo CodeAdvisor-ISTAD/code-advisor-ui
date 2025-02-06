@@ -37,7 +37,7 @@ export function ArticleCardBookmark({
           <CardContent className="pt-4 flex flex-row justify-between">
             <div className="">
               <div className="space-y-3 p-0">
-                <h1 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">
+                <h1 className="lg:text-2xl text-lg font-medium tracking-normal text-primary line-clamp-2">
                   {title}
                 </h1>
                 <p className="text-slate-500 text-sm line-clamp-2 ">
