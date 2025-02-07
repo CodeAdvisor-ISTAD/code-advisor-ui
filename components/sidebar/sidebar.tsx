@@ -68,8 +68,8 @@ const items = [
     { id: 3, title: "កត់ចាំណាំ", url: "/bookmark", icon: Calendar },
     { id: 4, title: "ប្រវត្តិ", url: "/reading-history", icon: History },
     { id: 5, title: "អំពីពួកយើង", url: "/about", icon: Contact },
-    { id: 6, title: "ទំនាក់ទំនង", url: "#", icon: Phone },
-    { id: 7, title: "ការកំណត់", url: "#", icon: Settings },
+    // { id: 6, title: "ទំនាក់ទំនង", url: "#", icon: Phone },
+    // { id: 7, title: "ការកំណត់", url: "#", icon: Settings },
 ];
 
 interface MobileSidebarProps {

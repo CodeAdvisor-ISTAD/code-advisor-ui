@@ -69,8 +69,8 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
               </Link>
             </section>
             {/* Search Bar */}
-            <div className="flex flex-1 justify-center">
-              <div className="relative w-full max-w-2xl mr-10 md:mx-0">
+            <div className="flex flex-1 justify-center ">
+              <div className="relative w-full relative w-full max-w-2xl  mr-10 md:mx-0">
                 <input
                     type="text"
                     placeholder="ស្វែងរក"
@@ -101,14 +101,14 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
               </div>
             </div>
             {/* Action Buttons visible only on desktop */}
-            <div className="hidden md:flex gap-2">
+            <div className="hidden md:flex space-x-4">
               <Button
                   onClick={() =>
                       router.push("/oauth2/authorization/code-advisor")
                   }
                   className="text-white bg-primary rounded hover:bg-primary-dark"
               >
-                Login
+                ចូលប្រើ
               </Button>
               <Button
                   onClick={() =>
@@ -116,7 +116,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
                   }
                   className="text-white bg-primary rounded hover:bg-primary-dark"
               >
-                Register
+                បង្កើតគណនី
               </Button>
             </div>
             {/* Hamburger button moved to the right */}    {/* Hamburger Button */}

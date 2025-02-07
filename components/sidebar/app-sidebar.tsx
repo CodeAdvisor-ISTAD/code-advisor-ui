@@ -78,18 +78,18 @@ const items = [
     url: "/about",
     icon: Contact,
   },
-  {
-    id: 6,
-    title: "ទំនាក់ទំនង",
-    url: "#",
-    icon: Phone,
-  },
-  {
-    id: 7,
-    title: "ការកំណត់",
-    url: "#",
-    icon: Settings,
-  },
+  // {
+  //   id: 6,
+  //   title: "ទំនាក់ទំនង",
+  //   url: "#",
+  //   icon: Phone,
+  // },
+  // {
+  //   id: 7,
+  //   title: "ការកំណត់",
+  //   url: "#",
+  //   icon: Settings,
+  // },
 ];
 
 interface AppSidebarProps {
