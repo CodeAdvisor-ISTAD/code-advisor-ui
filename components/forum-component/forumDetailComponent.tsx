@@ -319,9 +319,9 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
-    <div className="  ml-[264px] w-full">
+    <div className="  ml-[264px] w-full dark:bg-darkPrimary">
       <TagComponent />
-      <div className="p-4 bg-white rounded-[5px] shadow-sm">
+      <div className="p-4 bg-white dark:bg-darkPrimary rounded-[5px] shadow-sm">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           {isLoadingBlur ? (

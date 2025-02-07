@@ -4,52 +4,48 @@ import ForumCardList from "@/components/card-component/forum-card/ForumCardList"
 import React from "react";
 
 // Types for Elasticsearch response
- type ElasticQuestion = {
-    _source: {
-        after: {
-            uuid: string;
-            title: string;
-            description: string;
-            slug: string;
-            author_uuid: string;
-            created_at: number;
-            is_archived: boolean;
-            is_deleted: boolean;
-            author_username: string;
-        };
-    };
-};
+// export type ElasticQuestion = {
+//     uuid: string;
+//     title: string;
+//     description: string;
+//     slug: string;
+//     author_uuid: string;
+//     author_username: string;
+//     created_at: number;
+//     is_archived: boolean;
+//     is_deleted: boolean;
+// };
 
-export type ElasticResponse = {
-    hits: {
-        hits: ElasticQuestion[];
-        total: {
-            value: number;
-        };
-    };
-};
+// export type ElasticResponse = {
+//     hits: {
+//         hits: { _source: ElasticQuestion }[];
+//         total: { value: number };
+//     };
+// };
 
-// Updated fetch function for Elasticsearch
+
 const getAllForums = async function fetchAllForums() {
     try {
         const response = await fetch(`https://elastic.panda.engineer/forum.public.question/_search?q=*&pretty=true`);
         if (response.ok) {
-            const data: ElasticResponse = await response.json();
-            // Transform Elasticsearch data to match your component's expected format
+            const data: any = await response.json();
+            
+            // Transforming Elasticsearch response
             const transformedData = {
                 content: data.hits.hits.map(hit => ({
-                    uuid: hit?._source.after?.uuid,
-                    title: hit?._source.after?.title,
-                    description: hit?._source?.after?.description,
-                    slug: hit?._source?.after?.slug,
-                    author_uuid: hit?._source?.after?.author_uuid,
-                    created_at: hit?._source?.after?.created_at,
-                    tags: [], // Add tags if available in your Elasticsearch data
-                    is_archived: hit?._source?.after?.is_archived,
-                    is_deleted: hit?._source?.after?.is_deleted,
-                    author_username: hit?._source?.after?.author_username
+                    uuid: hit?._source?.after_id.toString(),
+                    title: hit?._source?.after_title,
+                    description: hit?._source?.after_description,
+                    slug: hit?._source?.after_slug,
+                    author_uuid: hit?._source?.after_author_uuid,
+                    created_at: hit?._source?.after_created_at,
+                    tags: [], // No tags available in the response
+                    is_archived: hit?._source?.after_is_archived,
+                    is_deleted: hit?._source?.after_is_deleted,
+                    author_username: hit?._source?.after_author_username
                 }))
             };
+
             return transformedData;
         } else {
             console.error('Failed to fetch forum data');
@@ -61,6 +57,7 @@ const getAllForums = async function fetchAllForums() {
     }
 };
 
+
 export default async function Page() {
     const allForum = await getAllForums();
 
@@ -71,7 +68,7 @@ export default async function Page() {
     ];
 
     return (
-        <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
+        <main className="flex w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
             <ForumCardList forumCardData={allForum}/>
             <div className="flex flex-col ml-2 gap-2 ">
                 <TrendingComponent type="Latest" item={latest} />

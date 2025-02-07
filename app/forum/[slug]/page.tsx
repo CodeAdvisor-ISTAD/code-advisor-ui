@@ -24,7 +24,7 @@ export default async function Page({ params }: ParamProps) {
     console.table("forum slug : ", slug);
 
     return (
-        <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
+        <main className="flex bg-gray-100 dark:bg-darkSecondary w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
             {/* Forum Detail Component */}
             <ForumDetailComponent slug={slug as string} />
             <div className="flex flex-col ml-2 gap-2 ">
