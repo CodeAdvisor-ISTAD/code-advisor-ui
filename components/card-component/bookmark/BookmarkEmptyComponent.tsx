@@ -9,7 +9,7 @@ export default function BookmarkEmptyComponent() {
   const route = useRouter();
   return (
     <Card className="w-full p-6 rounded-lg bg-white flex flex-col items-center">
-      <CardTitle className="font-khFont text-2xl pb-2 text-center ">
+      <CardTitle className="font-khFont lg:text-2xl text-xl pb-2 text-center ">
         មិនទាន់មានទិន្នន័យ
       </CardTitle>
       <CardDescription className="flex flex-col justify-center items-center text-center lg:w-[450px] w-[375px]">

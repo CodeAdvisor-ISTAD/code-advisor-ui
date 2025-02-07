@@ -5,7 +5,7 @@ import TagComponent from "@/components/tag/tagComponent";
 export default function ForumCardList({ forumCardData = { content: [] } }: { forumCardData?: any }) {
     return (
         <div className="ml-[264px] w-full">
-            <TagComponent />
+            <TagComponent/>
             <div className="grid grid-cols-1 gap-2 max-w-7xl mx-auto">
                 {forumCardData?.content?.map((card: ForumCardType, index: number) => (
                     <ForumCardComponent key={`${card.uuid}-${index}`} forumCardData={card} />

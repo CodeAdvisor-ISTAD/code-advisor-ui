@@ -31,9 +31,9 @@ export default function Viewer({ username }: { username: string }) {
     queryFn: () => getUserByUsername(username),
   });
 
-  if (publicUserProfile === undefined) {
-    return <div>Loading...</div>;
-  }
+  // if (publicUserProfile === undefined) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="min-h-screen dark:bg-gray-900 p-4 flex justify-center">
@@ -69,9 +69,20 @@ export default function Viewer({ username }: { username: string }) {
               ))
             }
             {/* Bio card */}
-            <Bio bio={""} />
+            {loading ? (
+                          <Skeleton className="h-[150px] mb-2">
+                  
+                          </Skeleton>
+                        ) : (
+                          <Bio bio={""} />)}
             {/* user information card */}
-            <UserInformationCardComponent userInformation={publicUserProfile} />
+            {
+              (loading ? (
+                <Skeleton className="h-[518.6px] mb-2"></Skeleton>
+              ) : (
+                <UserInformationCardComponent userInformation={publicUserProfile} />
+              )
+              )}
           </div>
           {/* user post */}
           <div className="col-span-7">

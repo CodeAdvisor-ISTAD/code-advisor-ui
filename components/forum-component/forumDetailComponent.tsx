@@ -259,7 +259,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     setInterval(() => {
       setIsLoadingBlur(false);
     }, 2000);
-  })
+  });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (mode === "reply") {
@@ -315,159 +315,159 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     queryFn: () => checkBookmarkStatus(slug), // You'll need to implement this
   });
 
-
   const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
-    <div className="  ml-[264px] w-full">
-      <TagComponent />
-      <div className="p-4 bg-white rounded-[5px] shadow-sm">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          {isLoadingBlur ? (
-            <UserProfileSkeleton />
-          ) : (
-            <UserProfile
-            authorUsername={forum?.authorUsername}
-            createdAt={forum?.createdAt}
-          />
-          )}
-          <button className="text-gray-500 hover:text-gray-700">
-            <div className="w-6 h-6">•••</div>
-          </button>
-        </div>
+    <div className="lg:grid lg:grid-cols-7 lg:gap-[96px] w-full px-2 lg:px-0">
+      <div className="lg:col-span-2"></div>
+      <div className="lg:col-span-5 w-full">
+        <TagComponent />
+        <div className="p-4 bg-white w-full rounded-[5px] shadow-sm">
+          {/* Header */}
+          <div className="flex w-full justify-between items-center mb-4">
+            {isLoadingBlur ? (
+              <UserProfileSkeleton />
+            ) : (
+              <UserProfile
+                authorUsername={forum?.authorUsername}
+                createdAt={forum?.createdAt}
+              />
+            )}
+            <button className="text-gray-500 hover:text-gray-700">
+              <div className="w-6 h-6">•••</div>
+            </button>
+          </div>
 
-        {/* Content */}
+          {/* Content */}
 
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold">{forum?.title}</h2>
-          <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
-          <p className="text-lg">{forum?.description}</p>
-          {
-            isLoadingBlur ? (
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">{forum?.title}</h2>
+            <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
+            <p className="text-lg">{forum?.description}</p>
+            {isLoadingBlur ? (
               <RichTextEditorSkeleton />
             ) : (
               <Preview content={forum?.introduction} />
-            )
-          }
+            )}
 
-          {/* Code Block */}
-          <div className="rounded-md p-4 font-mono text-sm">
-            <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
-            {
-              isLoadingBlur ? (
+            {/* Code Block */}
+            <div className="rounded-md p-4 font-mono text-sm">
+              <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
+              {isLoadingBlur ? (
                 <RichTextEditorSkeleton />
               ) : (
                 <Preview content={forum?.expectedAnswers} />
-              )
-            }
+              )}
+            </div>
+
+            {/* Tags */}
+            <div className="flex gap-2">
+              {forum?.tags?.map((tag: TagsType) => (
+                <span
+                  key={tag.id}
+                  className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]"
+                >
+                  #{tag.name}
+                </span>
+              ))}
+            </div>
           </div>
 
-          {/* Tags */}
-          <div className="flex gap-2">
-            {forum?.tags?.map((tag: TagsType) => (
-              <span
-                key={tag.id}
-                className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]"
+          {/* Footer */}
+          <div className="flex justify-between items-center mt-6">
+            <div className="flex items-center">
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+                onClick={() => upvoteMutation()}
+                disabled={downVotePending}
               >
-                #{tag.name}
+                <CircleArrowUp
+                  className={`w-6 h-6 ${getButtonColor(200, checkVoted?.code)}`}
+                />
+              </button>
+              <span className="text-gray-600">
+                {totalUpVote?.totalVotes ?? 0}
               </span>
-            ))}
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+                onClick={() => downvoteMutation()}
+                disabled={upVotePending}
+              >
+                <CircleArrowDown
+                  className={`w-6 h-6 ${getButtonColor(409, checkVoted?.code)}`}
+                />
+              </button>
+              <span className="text-gray-600">
+                {totalDownVote?.totalVotes ?? 0}
+              </span>
+            </div>
+
+            <div className="flex gap-4">
+              <button className="p-2 hover:bg-gray-100 rounded-full">
+                <MessageSquare className="w-6 h-6 text-gray-600" />
+              </button>
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full"
+                onClick={toggleBookmark}
+                disabled={isLoading || isCheckingStatus}
+              >
+                <Bookmark
+                  className={`w-6 h-6 font-bold ${
+                    checkStatus?.bookmarked
+                      ? "text-yellow-500"
+                      : "text-gray-600"
+                  }`}
+                />
+              </button>
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full"
+                onClick={handleShare}
+              >
+                <Share2 className="w-6 h-6 text-gray-600" />
+              </button>
+            </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="flex justify-between items-center mt-6">
-          <div className="flex items-center">
-            <button
-              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
-              onClick={() => upvoteMutation()}
-              disabled={downVotePending}
-            >
-              <CircleArrowUp
-                className={`w-6 h-6 ${getButtonColor(200, checkVoted?.code)}`}
-              />
-            </button>
-            <span className="text-gray-600">
-              {totalUpVote?.totalVotes ?? 0}
-            </span>
-            <button
-              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
-              onClick={() => downvoteMutation()}
-              disabled={upVotePending}
-            >
-              <CircleArrowDown
-                className={`w-6 h-6 ${getButtonColor(409, checkVoted?.code)}`}
-              />
-            </button>
-            <span className="text-gray-600">
-              {totalDownVote?.totalVotes ?? 0}
-            </span>
-          </div>
-
-          <div className="flex gap-4">
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <MessageSquare className="w-6 h-6 text-gray-600" />
-            </button>
-            <button
-              className="p-2 hover:bg-gray-100 rounded-full"
-              onClick={toggleBookmark}
-              disabled={isLoading || isCheckingStatus}
-            >
-              <Bookmark
-                className={`w-6 h-6 font-bold ${
-                  checkStatus?.bookmarked ? "text-yellow-500" : "text-gray-600"
-                }`}
-              />
-            </button>
-            <button
-              className="p-2 hover:bg-gray-100 rounded-full"
-              onClick={handleShare}
-            >
-              <Share2 className="w-6 h-6 text-gray-600" />
-            </button>
-          </div>
+        <div className="mt-5 flex flex-col gap-2" id="editor">
+          <Form {...form}>
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary text-xl font-bold">
+                    ការឆ្លើយតបរបស់អ្នក
+                  </FormLabel>
+                  <FormDescription className="text-sm">
+                    ចែករំលែកគំនិតរបស់អ្នក
+                  </FormDescription>
+                  <FormControl>
+                    <RichTextEditor
+                      ref={editorRef}
+                      content={replyContent || field.value}
+                      onChange={(value: any) => {
+                        console.log("Editor value changing to:", value);
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
+              <Button
+                onClick={() => form.handleSubmit((data) => onSubmit(data))()}
+                type="submit"
+                className="w-full sm:w-auto text-white"
+              >
+                បោះពុម្ភផ្សាយចម្លើយ
+              </Button>
+            </div>
+          </Form>
         </div>
+        <CommentReplyComponent slug={slug} />
       </div>
-      <div className="mt-5 flex flex-col gap-2" id="editor">
-        <Form {...form}>
-          <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-primary text-xl font-bold">
-                  ការឆ្លើយតបរបស់អ្នក
-                </FormLabel>
-                <FormDescription className="text-sm">
-                  ចែករំលែកគំនិតរបស់អ្នក
-                </FormDescription>
-                <FormControl>
-                  <RichTextEditor
-                    ref={editorRef}
-                    content={replyContent || field.value}
-                    onChange={(value: any) => {
-                      console.log("Editor value changing to:", value);
-                      field.onChange(value);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
-            <Button
-              onClick={() => form.handleSubmit((data) => onSubmit(data))()}
-              type="submit"
-              className="w-full sm:w-auto text-white"
-            >
-              បោះពុម្ភផ្សាយចម្លើយ
-            </Button>
-          </div>
-        </Form>
-      </div>
-      <CommentReplyComponent slug={slug} />
     </div>
   );
 }
@@ -482,8 +482,11 @@ const UserProfile = ({ authorUsername, createdAt }) => {
   const router = useRouter();
 
   return (
-    <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push(`/user-profile/${authorUsername}`)}>
-      <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+    <div
+      className="flex items-center gap-3 cursor-pointer"
+      onClick={() => router.push(`/user-profile/${authorUsername}`)}
+    >
+      <div className=" h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
           src={
             userData?.profileImage ||
