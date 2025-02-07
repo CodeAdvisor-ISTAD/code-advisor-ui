@@ -68,7 +68,7 @@ export default function Recommendations({ type, item }: RecommendationProps) {
   const displayedItems = items.slice(0, 4);
 
   return (
-      <Card className="rounded-[5px] dark:bg-darkPrimary">
+      <Card className="rounded-[5px] dark:bg-darkPrimary w-[341px]">
         <div className="">
           <CardHeader className="pb-2">
             <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary dark:text-white">

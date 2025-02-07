@@ -15,7 +15,7 @@ interface NavbarComponentProps {
   onSearch: (query: string) => void;
 }
 
-export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
+export default function NavbarComponent() {
   const route = useRouter();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,7 +37,7 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
     setSearchQuery(newQuery);
 
     if (newQuery.trim() === "") {
-      onSearch(""); // Show all when search is cleared
+      // onSearch(""); // Show all when search is cleared
     }
   };
 
@@ -54,15 +54,15 @@ export default function NavbarComponent({ onSearch }: NavbarComponentProps) {
 
   const handleLogoClick = () => {
     setSearchQuery('');
-    onSearch('');
+    // onSearch('');
   };
 
   if(user) {
-    return <NavbarLogin user={user} onSearch={onSearch} />
+    return <NavbarLogin user={user} />
   }else{
     return (
       <>
-        <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
+        <div className="flex items-center border mb-2 bg-white justify-between h-[72px] px-[100px] dark:bg-darkPrimary">
           {/* Logo */}
           <section>
             <Link href="/" aria-label="Go to home page" onClick={handleLogoClick}>

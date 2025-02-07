@@ -1,4 +1,4 @@
-import Home from "@/app/home/page";
+import Home from "@/pages/HomePages";
 import { CardList } from "@/components/card-component/card/CardList";
 
 export default async function Page({

@@ -285,7 +285,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
       // Handle default case (e.g., creating a new top-level comment)
       const createAnswer: CreateComment = {
         questionSlug: slug,
-        answerUuid: null, // No parent comment
+        answerUuid: "" , // No parent comment
         slug: slug + "-answer-" + Date.now(), // Generate a unique slug
         content: values.content,
       };
@@ -322,9 +322,9 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
-    <div className="ml-[264px] w-full dark:bg-darkPrimary px-4">
+    <div className="w-full dark:bg-darkPrimary">
       <TagComponent />
-      <div className="p-4 bg-white dark:bg-darkPrimary rounded-[5px] shadow-sm">
+      <div className="p-3 bg-white dark:bg-darkPrimary rounded-[5px] shadow-sm border">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           {isLoadingBlur ? (
@@ -342,7 +342,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
 
         {/* Content */}
 
-        <div className="space-y-4">
+        <div className="space-y-4 px-3">
           <h2 className="text-2xl font-bold">{forum?.title}</h2>
           <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
           <p className="text-lg">{forum?.description}</p>
@@ -355,7 +355,6 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
           }
 
           {/* Code Block */}
-          <div className="rounded-md p-4 font-mono text-sm">
             <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
             {
               isLoadingBlur ? (
@@ -364,7 +363,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
                 <Preview content={forum?.expectedAnswers} />
               )
             }
-          </div>
+
 
           {/* Tags */}
           <div className="flex gap-2">
@@ -485,7 +484,7 @@ const UserProfile = ({ authorUsername, createdAt }) => {
   const router = useRouter();
 
   return (
-    <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push(`/user-profile/${authorUsername}`)}>
+    <div className="flex px-4 items-center gap-3 cursor-pointer" onClick={() => router.push(`/user-profile/${authorUsername}`)}>
       <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
           src={

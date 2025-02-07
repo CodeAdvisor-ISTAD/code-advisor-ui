@@ -48,6 +48,7 @@ export function ForumCardComponent({
   forumCardData: ForumCardType;
 }) {
 
+    console.log("Forum Card Data: ", forumCardData);
     const [clicked, setClicked] = useState(false); // State to track if the card is clicked
     const router = useRouter();
 

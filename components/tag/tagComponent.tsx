@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TagComponent() {
     return (
-        <div className="flex items-center bg-white p-2 justify-evenly px-10 rounded-[5px] shadow-sm mb-2 dark:bg-darkPrimary">
+        <div className="flex items-center bg-white p-2 justify-evenly px-10 rounded-sm border mb-2 dark:bg-darkPrimary">
             <button className="flex items-center gap-2">
                 <span className="text-xl">+</span>
                 <span className="">For you</span>

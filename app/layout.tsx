@@ -43,14 +43,13 @@ export default function RootLayout({
             <Provider>
               {/* Pass the search handler function to NavbarComponent */}
              
-              <header className="bg-white dark:bg-darkPrimary border border-gray-200 border-none fixed top-0 right-0 left-0  z-50">
+              {/* <header className="bg-white dark:bg-darkPrimary border border-gray-200 border-none fixed top-0 right-0 left-0  z-50">
               <NavbarComponent onSearch={handleSearch} />
-              </header>
+              </header> */}
               <SidebarProvider >
-                <AppSidebar />
+                {/* <AppSidebar /> */}
                 <main className="w-full">{children}</main>
               </SidebarProvider>
-              <footer><Footer /></footer>
               <Toaster />
             </Provider>
           </ThemeProvider>
