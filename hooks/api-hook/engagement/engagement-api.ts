@@ -1,15 +1,18 @@
 import axios from "axios";
 
-// fetch comment by contentId
+// Fetch comments by contentId using Axios
 export const getComment = async (contentId: string) => {
-  const response = await fetch(
-    `/ces/api/v1/engagement/comments/content/${contentId}`
-  );
-  if (response.ok) {
-    const data = await response.json();
-    console.log(`Comments for ${contentId} fetched:`, data);
-    return data;
-  } else {
+  try {
+    const response = await axios.get(`/ces/api/v1/engagement/comments/content/${contentId}`);
+    
+    // Log the fetched comments for debugging
+    console.log(`Comments for ${contentId} fetched:`, response.data);
+
+    // Return the data (comments)
+    return response.data;
+  } catch (error) {
+    // Handle errors and throw a meaningful message
+    console.error(`Failed to fetch comments for contentId: ${contentId}`, error);
     throw new Error(`Failed to fetch comments for contentId: ${contentId}`);
   }
 };
@@ -81,28 +84,20 @@ export const deleteComment = async (commentId: string) => {
   }
 };
 
-// edit comment by commentId
+// Edit Comment
 export const editComment = async (
   commentId: string,
   updatedContent: { userId: string; contentId: string; body: string }
 ) => {
-  const response = await fetch(
-    `/ces/api/v1/engagement/comments/${commentId}`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedContent),
-    }
-  );
-
-  if (response.ok) {
-    const data = await response.json();
-    console.log(`Comment with ID ${commentId} updated successfully:`, data);
-    return data; // Return the updated comment
-  } else {
-    throw new Error(`Failed to update comment with ID: ${commentId}`);
+  try {
+    const response = await axios.patch(
+      `/ces/api/v1/engagement/comments/${commentId}`,
+      updatedContent
+    );
+    return response.data; // Return the updated comment data
+  } catch (error) {
+    console.error("Error editing comment:", error);
+    throw new Error('Failed to edit comment');
   }
 };
 
@@ -134,6 +129,7 @@ export const createReply = async (
   }
 };
 
+// Edit Reply
 export const editReply = async (
   replyId: string,
   replyData: { userId: string; body: string }
@@ -146,7 +142,7 @@ export const editReply = async (
     return response.data; // Return the updated reply data
   } catch (error) {
     console.error("Error editing reply:", error);
-    throw error; // Handle error appropriately
+    throw new Error('Failed to edit reply');
   }
 };
 
@@ -175,61 +171,15 @@ export const deleteReply = async (replyId: string) => {
   }
 };
 
-// create reaction
-// export const handleReaction = async (contentId, userId, reactionType) => {
-//   const endpoint = `http://192.168.56.1:8086/api/v1/reactions/content/${contentId}`;
-//   const payload = {
-//     contentId,
-//     userId,
-//     reactionType,
-//   };
-
-//   try {
-//     const response = await axios.post(endpoint, payload, {
-//       headers: { "Content-Type": "application/json" },
-//     });
-//     return response.data; // Return the response if needed
-//   } catch (error) {
-//     console.error("Error handling reaction:", error);
-//     throw error; // Optionally rethrow the error for handling elsewhere
-//   }
-// };
-
 export const handleReaction = async (contentId, userId, reactionType, ownerId, slug) => {
-  const endpoint = `/ces/api/v1/reactions/content/${contentId}`;
-  const payload = {
-    contentId,
-    userId,
-    reactionType,
-    ownerId,
-    slug
-  };
-
-  try {
-    const response = await axios.post(endpoint, payload, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return response.data; // Return the response if needed
-  } catch (error) {
-    console.error("Error handling reaction:", error);
-    throw error; // Optionally rethrow the error for handling elsewhere
-  }
+  const response = await fetch(`/ces/api/v1/reactions/content/${contentId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ contentId, userId, reactionType, ownerId, slug }),
+  });
+  return response.json();
 };
 
-// // get reaction
-// export const getReaction = async (contentId) => {
-//   const endpoint = `/api/v1/reactions/content/${contentId}`;
-
-//   try {
-//     const response = await axios.get(endpoint, {
-//       headers: { "Content-Type": "application/json" },
-//     });
-//     return response.data; // Assumes the API response contains the reactions data.
-//   } catch (error) {
-//     console.error(`Error fetching reactions for contentId ${contentId}:`, error);
-//     throw error;
-//   }
-// };
 
 export const getReactionsByContentId = async (contentId: string) => {
   try {
@@ -255,16 +205,41 @@ export const getReactionsByContentId = async (contentId: string) => {
   }
 };
 
-export const deleteReaction = async (contentId: string): Promise<void> => {
+export const deleteReaction = async (contentId) => {
   try {
-    // Make DELETE request to remove the reaction for the given contentId
-    const url = `/ces/api/v1/reactions/${contentId}`;
-    await axios.delete(url);
+    const response = await axios.delete(
+      `/ces/api/v1/reactions/${contentId}`
+    );
 
-    console.log(`Reaction with contentId ${contentId} has been deleted.`);
+    // Log success if needed
+    console.log("Reaction deleted successfully:", response.status);
+
+    return true; // Indicate success
   } catch (error) {
-    console.error(`Error deleting reaction with contentId ${contentId}:`, error);
-    throw error; // Propagate the error after logging it
+    console.error("Error deleting reaction:", error);
+    return false; // Indicate failure
+  }
+};
+
+export const fetchUserReaction = async (contentId, userId) => {
+  try {
+    const response = await axios.get(
+      `/ces/api/v1/reactions/${contentId}/user/${userId}`
+    );
+
+    const data = response.data;
+
+    // Log the reaction type if it exists
+    if (data && !data.isDeleted) {
+      console.log("Fetched Reaction Type:", data.reactionType); // Log the reaction type
+      return { reactionType: data.reactionType }; // Return the reaction type
+    } else {
+      console.log("No reaction found for user:", userId); // Log when no reaction exists
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching user reaction:", error);
+    return null; // Return null in case of an error
   }
 };
 

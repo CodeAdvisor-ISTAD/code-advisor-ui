@@ -38,13 +38,14 @@ export interface Content {
 // Type for Comment
 export interface Comment {
   id: string;
+  userId: string;
   contentId: string;
   author?: Author;
   body: string;
   createdAt: Date;
   isReport: boolean;
   updateAt: Date;
-  parentId?: string | null;
+  commentId?: string | null;
   replies: Comment[];
 }
 

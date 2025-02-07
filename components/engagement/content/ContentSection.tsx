@@ -91,7 +91,7 @@ export function ContentSection({
                   authorUuid ||
                   "https://avatars.githubusercontent.com/u/110375748?v=4"
                 }
-                username={username || "Sokkhann"}
+                username={username || "Annoymous"}
                 postDate={formattedDate || "Jan 31 2025"}
               />
             )}
@@ -99,7 +99,7 @@ export function ContentSection({
             <div className="flex gap-4 pt-4">
               <div className="flex gap-2">
                 <FaHeart className="text-2xl text-pink-700" />
-                <span>{communityEngagement?.loveCount || "8"}</span>
+                <span>{communityEngagement?.loveCount || "0"}</span>
               </div>
               <div className="flex gap-2">
                 <FaFire className="text-2xl text-red-500" />

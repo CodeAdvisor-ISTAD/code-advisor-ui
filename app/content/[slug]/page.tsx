@@ -6,6 +6,7 @@ import { ContentSidebar } from "@/components/engagement/content/ContentSidebar";
 import PrismLoader from "@/components/text-editor/prismLoader";
 import { getContent } from "@/hooks/api-hook/content/content-api";
 import { getComment } from "@/hooks/api-hook/engagement/engagement-api";
+import { useUser } from "@/lib/context/userContext";
 import { useQuery } from "@tanstack/react-query";
 import { use } from "react";
 
@@ -16,12 +17,7 @@ export default function Page({
 }) {
   const resolvedParams = use(params); // Unwrap the params Promise
   const slug = resolvedParams.slug;
-
-  console.log("Slug here: ", slug);
-
-  const contentId = "679f042faf0fca733f2edaf2"; // Example contentId, dynamically set as needed
-  const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
-  const ownerId = "author-67890";
+  const {user} = useUser()
 
   // Fetch content details using React Query
   const { data, isError, isLoading } = useQuery({
@@ -30,10 +26,10 @@ export default function Page({
     enabled: !!slug, // Ensure query only runs when slug exists
   });
 
-  console.log("Content's title: ", data?.title);
-
-  console.log("Here is the content fetch from content service: ", data);
-  console.log("Here is the slug: ", slug);
+  const contentId = data?.contentId || "679f042faf0fca733f2edaf2"
+  const ownerId = data?.authorUUid || "author-67890"
+  const userId = user?.uuid || "6783b16f1b533f163cd7460d"
+  const totalReactions = data?.communityEngagement.likeCount + data?.communityEngagement.fireCount + data?.communityEngagement.loveCount || "0";
 
   // Fetch comments by contentId
   const {
@@ -55,8 +51,9 @@ export default function Page({
           bookmark={0}
           contentId={contentId}
           userId={userId}
-          ownerId={data?.ownerId}
+          ownerId={ownerId}
           slug={slug}
+          totalReactions={totalReactions}
         />
       </div>
       <div className="px-[10px] md:pl-[100px]">
@@ -64,7 +61,7 @@ export default function Page({
           thumbnail={data?.thumbnail}
           username={data?.username}
           title={data?.title}
-          tags={data?.tags}
+          tags={data?.tag}
           reactions={data?.communityEngagement}
           description={data?.content}
           createdAt={data?.createdDate}
@@ -78,7 +75,7 @@ export default function Page({
       </div>
       <CommentSection
         comment={comments}
-        contentId={contentId}
+        contentId={data?.contentId|| contentId}
         ownerId={ownerId}
         slug={slug}
         userId={userId}

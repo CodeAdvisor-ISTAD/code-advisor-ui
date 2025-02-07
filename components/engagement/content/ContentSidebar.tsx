@@ -42,6 +42,7 @@ interface Content {
   userId?: string;
   comment?: Comment[];
   bookmark?: number;
+  totalReactions?: number;
 }
 
 export function ContentSidebar({
@@ -51,6 +52,7 @@ export function ContentSidebar({
   userId,
   comment,
   bookmark,
+  totalReactions,
 }: Content) {
   const [isCommentFilled, setIsCommentFilled] = useState(true);
   const [isBookmarkFilled, setIsBookmarkFilled] = useState(false);
@@ -63,11 +65,6 @@ export function ContentSidebar({
     loveCount: 0,
     fireCount: 0,
   });
-
-  const totalReactions =
-    localReactions.likeCount +
-    localReactions.loveCount +
-    localReactions.fireCount;
 
   useEffect(() => {
     const fetchReactions = async () => {
@@ -102,10 +99,6 @@ export function ContentSidebar({
       [reactionType]: prev[reactionType] + 1, // Increment reaction count
     }));
   };
-
-  // if (loadingReactions) {
-  //   return <div>Loading reactions...</div>;
-  // }
 
   const handleShare = async (sharePlatform: string) => {
     const shareData = {
@@ -187,7 +180,7 @@ export function ContentSidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-4">
+                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
                   <ReactionButton
                     onReactionChange={handleReactionClick}
                     slug={slug}
@@ -195,12 +188,12 @@ export function ContentSidebar({
                     ownerId={ownerId}
                     userId={userId}
                   />
-                  <div className="text-center">{totalReactions}</div>
+                  <div className="text-center pt-1">{totalReactions}</div>
                 </div>
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-4">
+                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
                   <SidebarTrigger
                     icon={
                       <FaRegComment
@@ -216,7 +209,7 @@ export function ContentSidebar({
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-4">
+                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
                   {isBookmarkFilled ? (
                     <FaBookmark
                       className="text-2xl fill-yellow-500"

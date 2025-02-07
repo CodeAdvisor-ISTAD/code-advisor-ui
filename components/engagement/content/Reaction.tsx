@@ -1,7 +1,5 @@
 "use client";
-
 import * as React from "react";
-
 import {
   Select,
   SelectContent,
@@ -14,26 +12,79 @@ import {
 import { FaFire, FaHeart, FaRegHeart, FaThumbsUp } from "react-icons/fa";
 import {
   deleteReaction,
+  fetchUserReaction,
   handleReaction,
 } from "@/hooks/api-hook/engagement/engagement-api";
 import { useEffect, useState } from "react";
 
-export function ReactionButton({onReactionChange, contentId, ownerId, slug, userId}) {
+export function ReactionButton({
+  onReactionChange,
+  contentId,
+  ownerId,
+  slug,
+  userId,
+}) {
   const [selectedReaction, setSelectedReaction] = useState(null);
-  const [open, setOpen] = useState(false); // Manually control dropdown open/close state
+  const [open, setOpen] = useState(false);
+
+  // Fetch the user's reaction when the component mounts
+  useEffect(() => {
+    const fetchReaction = async () => {
+      try {
+        const reaction = await fetchUserReaction(contentId, userId);
+        if (reaction) {
+          console.log("User's Reaction Type:", reaction.reactionType); // Log the reaction type
+          setSelectedReaction(reaction.reactionType); // Set the user's reaction
+          localStorage.setItem(`${contentId}-${userId}`, reaction.reactionType); // Persist locally
+        } else {
+          console.log("User has not reacted yet."); // Log when no reaction exists
+          localStorage.removeItem(`${contentId}-${userId}`);
+        }
+      } catch (error) {
+        console.error("Error fetching user reaction:", error);
+        // Fallback: Try to retrieve from localStorage
+        const cachedReaction = localStorage.getItem(`${contentId}-${userId}`);
+        if (cachedReaction) {
+          console.log(
+            "Fallback Reaction Type from localStorage:",
+            cachedReaction
+          ); // Log fallback
+          setSelectedReaction(cachedReaction);
+        }
+      }
+    };
+    fetchReaction();
+  }, [contentId, userId]);
+
+  useEffect(() => {
+    console.log("Selected Reaction Updated:", selectedReaction);
+  }, [selectedReaction]);
 
   const handleReactionClick = async (reactionType) => {
+    console.log("Selected Reaction Type:", reactionType); // Log the selected reaction type
+
     if (selectedReaction === reactionType) {
       // Deselect reaction (remove it)
-      setSelectedReaction(null); // Immediately update UI to no reaction
-      onReactionChange(reactionType, -1); // Decrease count for the deselected reaction
-      localStorage.removeItem(`${contentId}-${userId}`); // Remove from localStorage
-
       try {
-        await deleteReaction(contentId); // Remove reaction from backend
+        // Immediately update the UI to no reaction
+        setSelectedReaction(null);
+        onReactionChange(reactionType, -1); // Decrease count for the deselected reaction
+        localStorage.removeItem(`${contentId}-${userId}`); // Remove from localStorage
+
+        // Call the delete API
+        const isDeleted = await deleteReaction(contentId);
+        if (!isDeleted) {
+          throw new Error("Failed to delete reaction on the backend.");
+        }
+
+        console.log("Reaction successfully deleted from backend.");
       } catch (error) {
         console.error("Error removing reaction:", error);
-        setSelectedReaction(reactionType); // Revert if delete fails
+
+        // Revert the state if the deletion fails
+        setSelectedReaction(reactionType);
+        onReactionChange(reactionType, 1); // Revert the count
+        localStorage.setItem(`${contentId}-${userId}`, reactionType); // Restore in localStorage
       }
     } else {
       // Set new reaction
@@ -43,11 +94,11 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
 
       try {
         await handleReaction(
-          contentId,  // Pass as part of an object
+          contentId, // Pass as part of an object
           userId,
           reactionType,
           ownerId,
-          slug,
+          slug
         ); // Update reaction on backend
       } catch (error) {
         console.error("Error updating reaction:", error);
@@ -70,7 +121,10 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
 
   return (
     <Select open={open} onOpenChange={setOpen}>
-      <SelectTrigger className="w-[100px] border-collapse">
+      <SelectTrigger
+        className="w-[100px] border-collapse"
+        key={selectedReaction}
+      >
         <SelectValue placeholder={renderReactionIcon(selectedReaction)} />
       </SelectTrigger>
       <SelectContent>
@@ -85,7 +139,6 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
           >
             <FaHeart className="text-2xl text-pink-700" />
           </SelectItem>
-
           <SelectItem
             value="fire"
             className="w-10"
@@ -96,7 +149,6 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
           >
             <FaFire className="text-2xl text-red-500" />
           </SelectItem>
-
           <SelectItem
             value="like"
             className="w-10"

@@ -10,7 +10,7 @@ import { Comment } from "@/types/engagement";
 import React from "react";
 
 interface Content {
-  comment: Comment[];
+  comment?: Comment[];
   contentId?: string;
   slug?: string;
   ownerId?: string;
@@ -38,7 +38,7 @@ export function CommentSection({
             <SidebarMenu>
               <CommentList
                 contentId={contentId}
-                comment={comment}
+                // comment={comment}
                 slug={slug}
                 ownerId={ownerId}
                 userId={userId}
