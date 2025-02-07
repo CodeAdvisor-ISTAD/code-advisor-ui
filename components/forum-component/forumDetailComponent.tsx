@@ -51,6 +51,7 @@ import { TagsSkeleton } from "./skeleton/TagsSkeleton";
 import { RichTextEditorSkeleton } from "./skeleton/RichTextEditorSkeleton";
 import { UserProfileSkeleton } from "./skeleton/UserProfileSkeleton";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -216,6 +217,8 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     },
   });
 
+  const {theme} = useTheme();
+
   const getButtonColor = (expectedCode: number, actualCode: number) => {
     if (actualCode === 400) return "text-gray-400"; // Disabled/error state
     return actualCode === expectedCode ? "text-green-500" : "text-gray-600";
@@ -319,7 +322,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
-    <div className="  ml-[264px] w-full dark:bg-darkPrimary">
+    <div className="ml-[264px] w-full dark:bg-darkPrimary px-4">
       <TagComponent />
       <div className="p-4 bg-white dark:bg-darkPrimary rounded-[5px] shadow-sm">
         {/* Header */}
@@ -368,7 +371,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             {forum?.tags?.map((tag: TagsType) => (
               <span
                 key={tag.id}
-                className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]"
+                className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px] dark:text-gray-50"
               >
                 #{tag.name}
               </span>
@@ -380,7 +383,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
         <div className="flex justify-between items-center mt-6">
           <div className="flex items-center">
             <button
-              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent dark:hover:bg-darkSecondary"
               onClick={() => upvoteMutation()}
               disabled={downVotePending}
             >
@@ -392,7 +395,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               {totalUpVote?.totalVotes ?? 0}
             </span>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent dark:hover:bg-darkSecondary"
               onClick={() => downvoteMutation()}
               disabled={upVotePending}
             >
@@ -410,7 +413,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               <MessageSquare className="w-6 h-6 text-gray-600" />
             </button>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-darkSecondary"
               onClick={toggleBookmark}
               disabled={isLoading || isCheckingStatus}
             >
@@ -421,7 +424,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               />
             </button>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-darkSecondary"
               onClick={handleShare}
             >
               <Share2 className="w-6 h-6 text-gray-600" />
@@ -436,10 +439,10 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-primary text-xl font-bold">
+                <FormLabel className="text-primary text-xl font-bold dark:text-gray-50">
                   ការឆ្លើយតបរបស់អ្នក
                 </FormLabel>
-                <FormDescription className="text-sm">
+                <FormDescription className="text-sm dark:text-gray-50">
                   ចែករំលែកគំនិតរបស់អ្នក
                 </FormDescription>
                 <FormControl>

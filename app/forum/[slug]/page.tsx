@@ -1,4 +1,3 @@
-"use client";
 import ISTADCard from "@/components/card-component/card-trending/Card-Istad";
 import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
 import ForumDetailComponent from "@/components/forum-component/forumDetailComponent";
@@ -20,8 +19,6 @@ export type ParamProps = {
 export default async function Page({ params }: ParamProps) {
   // const { slug: forumSlug } = useParams();
   const { slug } = await params;
-
-    console.table("forum slug : ", slug);
 
     return (
         <main className="flex bg-gray-100 dark:bg-darkSecondary w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">

@@ -21,7 +21,7 @@ export default function ISTADCard() {
   return (
     <Card
       onClick={navigateToISTAD}
-      className="w-[341px] h-[315px] mx-auto overflow-hidden rounded-[5px] cursor-pointer dark:bg-darkPrimary"
+      className="w-[341px]  mx-auto overflow-hidden rounded-[5px] cursor-pointer dark:bg-darkPrimary"
     >
       <div className="my-4">
         <CardHeader className="py-1">
