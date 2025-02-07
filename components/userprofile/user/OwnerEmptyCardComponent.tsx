@@ -10,12 +10,12 @@ import { FiEdit2 } from "react-icons/fi";
 export default function OwnerEmptyCard() {
   const route = useRouter();
   return (
-    <Card className="w-full p-6 rounded-lg bg-white flex flex-col items-center">
-      <CardTitle className="font-khFont text-2xl pb-6 text-center ">
+    <Card className="w-full lg:p-6 p-3 rounded-lg bg-white flex flex-col items-center">
+      <CardTitle className="font-khFont lg:text-2xl lg:pb-6 text-lg pb-3 text-center ">
         ទិន្នន័យរបស់អ្នកមិនទាន់មានទេ
       </CardTitle>
       <CardDescription className="flex flex-col justify-center items-center text-center lg:w-[450px] w-[375px]">
-        <p className="pb-[15px] font-khFont flex justify-center text-center text-[14px] text-gray-600">
+        <p className="pb-[15px] font-khFont flex justify-center text-center text-sm text-gray-600">
           នៅពេលដែលអ្នកធ្វើការចែករំលែក
           អ្នកបានផ្តល់ឱកាសឲ្យអ្នកដទៃបានសិក្សារៀនសូត្រ
           ហើយអ្នកខ្លួនឯងក៏ទទួលបានការពង្រឹងសមត្ថភាពបន្ថែមដូចគ្នា។
@@ -28,7 +28,7 @@ export default function OwnerEmptyCard() {
         បង្កើតថ្មី
       </Button> */}
       {/* Action Icons */}
-      <div className="flex items-center mx-8">
+      <div className="flex items-center mx-8 mt-3">
         <div className="bg-primary px-4 rounded-md text-white">
           <Dropdown
             inline
@@ -45,7 +45,7 @@ export default function OwnerEmptyCard() {
               </span>
             </DropdownItem>
             <DropdownItem className="text-black">
-            <span onClick={() => route.push("/forum/new")}>បង្កើត Forum</span>
+              <span onClick={() => route.push("/forum/new")}>បង្កើត Forum</span>
               {/* <a href="/forum/new">បង្កើត Forum</a> */}
             </DropdownItem>
           </Dropdown>

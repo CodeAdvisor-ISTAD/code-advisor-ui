@@ -129,8 +129,8 @@ export function AppSidebar() {
     pathname === "/notification" ||
     pathname === "/forum/new" ||
     pathname === "/all-content" ||
-      pathname === "/policy"
-    ) {
+    pathname === "/policy"
+  ) {
     return;
   }
 

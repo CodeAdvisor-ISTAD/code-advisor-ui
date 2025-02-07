@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import emptyImage from "@/public/user-profile-image/មិនមានទិន្នន័យ.png";
 
-export default function ViewerEmptyCard() {
+export default function BookmarkEmptyComponent() {
   const route = useRouter();
   return (
     <Card className="w-full p-6 rounded-lg bg-white flex flex-col items-center">

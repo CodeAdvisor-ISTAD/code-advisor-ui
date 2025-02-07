@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const LoadingPage = () => {
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center w-full bg-gray-100">
       <motion.div
         className="flex items-center justify-center flex-col"
         initial={{ opacity: 0 }}
