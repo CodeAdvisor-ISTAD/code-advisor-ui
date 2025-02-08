@@ -30,7 +30,7 @@ export function AuthorCardComponent({
 }: CardData) {
   return (
     <a href={`/content/${slug}`}>
-      <Card className="bg-white rounded-[5px] w-full">
+      <Card className="bg-white dark:bg-darkSecondary rounded-[5px] w-full">
         <div className="flex flex-col justify-between">
           <CardContent className="pt-4 flex flex-row justify-between">
             <div className="">
@@ -38,7 +38,7 @@ export function AuthorCardComponent({
                 <h1 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">
                   {title}
                 </h1>
-                <p className="text-slate-500 text-sm line-clamp-2 ">
+                <p className=" text-sm line-clamp-2 ">
                   {description}
                 </p>
               </div>
@@ -58,7 +58,7 @@ export function AuthorCardComponent({
                   </Badge>
                 </div>
               </div>
-              <div className="pt-4 text-sm text-gray-500">{created_date}</div>
+              <div className="pt-4 text-sm ">{created_date}</div>
             </div>
             <div className="relative h-[100px] w-[150px] overflow-hidden">
               <Image

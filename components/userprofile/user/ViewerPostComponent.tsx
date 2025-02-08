@@ -132,7 +132,7 @@ export default function ViewerPost({
             />
           </Command>
           <Select>
-            <SelectTrigger className=" text-start h-9 bg-white rounded-lg w-[250px]">
+            <SelectTrigger className=" text-start h-9 bg-white dark:bg-darkSecondary rounded-lg w-[250px]">
               <SelectValue placeholder="កាលបរិច្ឆេទ" />
             </SelectTrigger>
             <SelectContent>

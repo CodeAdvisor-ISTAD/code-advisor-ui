@@ -41,15 +41,16 @@ export function CardForumComponent({
   slug: string;
 }) {
   const router = useRouter();
-  
 
   return (
-    <div className=" " onClick={() => router.push(`/forum/${slug}`)} >
-      <div className=" bg-white rounded-[5px] w-full border p-6">
+    <div className=" " onClick={() => router.push(`/forum/${slug}`)}>
+      <div className=" bg-white dark:bg-darkSecondary rounded-[5px] w-full border p-6">
         {/* Content Section */}
         <div className="mb-4">
           <div className="flex justify-between">
-            <h2 className="text-[18px] font-bold text-primary cursor-pointer">{title}</h2>
+            <h2 className="text-[18px] font-bold cursor-pointer">
+              {title}
+            </h2>
             {/* <div className=" flex justify-end text-gray-500 hover:text-gray-700">
               <PopoverRoot>
                 <PopoverTrigger className="border-none ">
@@ -68,14 +69,14 @@ export function CardForumComponent({
               </PopoverRoot>
             </div> */}
           </div>
-          <p className="text-gray-700 mb-4">{content}</p>
+          <p className=" mb-4">{content}</p>
         </div>
 
         {/* Tags Section */}
         <div className="flex flex-wrap gap-2 mb-4 justify-between">
-          <div className="text-gray-500">{formatDate(timestamp)}</div>
+          <div className="">{formatDate(timestamp)}</div>
           {/* Metrics Section */}
-          <div className="flex items-center space-x-4 text-gray-500 mr-2">
+          <div className="flex items-center space-x-4  mr-2">
             <div className="flex items-center space-x-1">
               <MessageSquare className="w-4 h-4" />
               <span>{comments}</span>

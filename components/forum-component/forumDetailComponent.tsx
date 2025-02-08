@@ -51,6 +51,7 @@ import { TagsSkeleton } from "./skeleton/TagsSkeleton";
 import { RichTextEditorSkeleton } from "./skeleton/RichTextEditorSkeleton";
 import { UserProfileSkeleton } from "./skeleton/UserProfileSkeleton";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -60,7 +61,7 @@ const formSchema = z.object({
 
 export default function ForumDetailComponent({ slug }: { slug: string }) {
   const queryClient = useQueryClient();
-  const editorRef = useRef(null);
+  const editorRef = useRef<{ clearContent: () => void } | null>(null);
   const [isLoadingBlur, setIsLoadingBlur] = useState(true);
   const { replyTo, mode, setMode, setReplyTo, answerUuid, replyContent } =
     useCommentContext();
@@ -216,6 +217,8 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     },
   });
 
+  const { theme } = useTheme();
+
   const getButtonColor = (expectedCode: number, actualCode: number) => {
     if (actualCode === 400) return "text-gray-400"; // Disabled/error state
     return actualCode === expectedCode ? "text-green-500" : "text-gray-600";
@@ -247,7 +250,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   useEffect(() => {
     if (replyContent && editorRef.current) {
       // Type assertion for the ref
-      const editor = editorRef.current as {
+      const editor = editorRef.current as unknown as {
         setContent: (content: string) => void;
       };
       editor.setContent(replyContent);
@@ -282,7 +285,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
       // Handle default case (e.g., creating a new top-level comment)
       const createAnswer: CreateComment = {
         questionSlug: slug,
-        answerUuid: null, // No parent comment
+        answerUuid: "", // No parent comment
         slug: slug + "-answer-" + Date.now(), // Generate a unique slug
         content: values.content,
       };
@@ -318,156 +321,149 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
-    <div className="lg:grid lg:grid-cols-7 lg:gap-[96px] w-full px-2 lg:px-0">
-      <div className="lg:col-span-2"></div>
-      <div className="lg:col-span-5 w-full">
-        <TagComponent />
-        <div className="p-4 bg-white w-full rounded-[5px] shadow-sm">
-          {/* Header */}
-          <div className="flex w-full justify-between items-center mb-4">
-            {isLoadingBlur ? (
-              <UserProfileSkeleton />
-            ) : (
-              <UserProfile
-                authorUsername={forum?.authorUsername}
-                createdAt={forum?.createdAt}
+    <div className="w-full dark:bg-darkPrimary  xl:ml-0 px-2">
+      <TagComponent />
+      <div className="p-3 bg-white dark:bg-darkPrimary rounded-[5px] shadow-sm border">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4">
+          {isLoadingBlur ? (
+            <UserProfileSkeleton />
+          ) : (
+            <UserProfile
+              authorUsername={forum?.authorUsername}
+              createdAt={forum?.createdAt}
+            />
+          )}
+          <button className="text-gray-500 hover:text-gray-700">
+            <div className="w-6 h-6">•••</div>
+          </button>
+        </div>
+
+        {/* Content */}
+
+        <div className="space-y-4 px-3">
+          <h2 className="text-2xl font-bold">{forum?.title}</h2>
+          <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
+          <p className="text-lg">{forum?.description}</p>
+          {isLoadingBlur ? (
+            <RichTextEditorSkeleton />
+          ) : (
+            <Preview content={forum?.introduction} />
+          )}
+
+          {/* Code Block */}
+          <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
+          {isLoadingBlur ? (
+            <RichTextEditorSkeleton />
+          ) : (
+            <Preview content={forum?.expectedAnswers} />
+          )}
+
+          {/* Tags */}
+          <div className="flex gap-2">
+            {forum?.tags?.map((tag: TagsType) => (
+              <span
+                key={tag.id}
+                className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px] dark:text-gray-50"
+              >
+                #{tag.name}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-between items-center mt-6">
+          <div className="flex items-center">
+            <button
+              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent dark:hover:bg-darkSecondary"
+              onClick={() => upvoteMutation()}
+              disabled={downVotePending}
+            >
+              <CircleArrowUp
+                className={`w-6 h-6 ${getButtonColor(200, checkVoted?.code)}`}
               />
-            )}
-            <button className="text-gray-500 hover:text-gray-700">
-              <div className="w-6 h-6">•••</div>
+            </button>
+            <span className="text-gray-600">
+              {totalUpVote?.totalVotes ?? 0}
+            </span>
+            <button
+              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent dark:hover:bg-darkSecondary"
+              onClick={() => downvoteMutation()}
+              disabled={upVotePending}
+            >
+              <CircleArrowDown
+                className={`w-6 h-6 ${getButtonColor(409, checkVoted?.code)}`}
+              />
+            </button>
+            <span className="text-gray-600">
+              {totalDownVote?.totalVotes ?? 0}
+            </span>
+          </div>
+
+          <div className="flex gap-4">
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <MessageSquare className="w-6 h-6 text-gray-600" />
+            </button>
+            <button
+              className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-darkSecondary"
+              onClick={toggleBookmark}
+              disabled={isLoading || isCheckingStatus}
+            >
+              <Bookmark
+                className={`w-6 h-6 font-bold ${
+                  checkStatus?.bookmarked ? "text-yellow-500" : "text-gray-600"
+                }`}
+              />
+            </button>
+            <button
+              className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-darkSecondary"
+              onClick={handleShare}
+            >
+              <Share2 className="w-6 h-6 text-gray-600" />
             </button>
           </div>
-
-          {/* Content */}
-
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">{forum?.title}</h2>
-            <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
-            <p className="text-lg">{forum?.description}</p>
-            {isLoadingBlur ? (
-              <RichTextEditorSkeleton />
-            ) : (
-              <Preview content={forum?.introduction} />
-            )}
-
-            {/* Code Block */}
-            <div className="rounded-md p-4 font-mono text-sm">
-              <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
-              {isLoadingBlur ? (
-                <RichTextEditorSkeleton />
-              ) : (
-                <Preview content={forum?.expectedAnswers} />
-              )}
-            </div>
-
-            {/* Tags */}
-            <div className="flex gap-2">
-              {forum?.tags?.map((tag: TagsType) => (
-                <span
-                  key={tag.id}
-                  className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]"
-                >
-                  #{tag.name}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="flex justify-between items-center mt-6">
-            <div className="flex items-center">
-              <button
-                className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
-                onClick={() => upvoteMutation()}
-                disabled={downVotePending}
-              >
-                <CircleArrowUp
-                  className={`w-6 h-6 ${getButtonColor(200, checkVoted?.code)}`}
-                />
-              </button>
-              <span className="text-gray-600">
-                {totalUpVote?.totalVotes ?? 0}
-              </span>
-              <button
-                className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
-                onClick={() => downvoteMutation()}
-                disabled={upVotePending}
-              >
-                <CircleArrowDown
-                  className={`w-6 h-6 ${getButtonColor(409, checkVoted?.code)}`}
-                />
-              </button>
-              <span className="text-gray-600">
-                {totalDownVote?.totalVotes ?? 0}
-              </span>
-            </div>
-
-            <div className="flex gap-4">
-              <button className="p-2 hover:bg-gray-100 rounded-full">
-                <MessageSquare className="w-6 h-6 text-gray-600" />
-              </button>
-              <button
-                className="p-2 hover:bg-gray-100 rounded-full"
-                onClick={toggleBookmark}
-                disabled={isLoading || isCheckingStatus}
-              >
-                <Bookmark
-                  className={`w-6 h-6 font-bold ${
-                    checkStatus?.bookmarked
-                      ? "text-yellow-500"
-                      : "text-gray-600"
-                  }`}
-                />
-              </button>
-              <button
-                className="p-2 hover:bg-gray-100 rounded-full"
-                onClick={handleShare}
-              >
-                <Share2 className="w-6 h-6 text-gray-600" />
-              </button>
-            </div>
-          </div>
         </div>
-        <div className="mt-5 flex flex-col gap-2" id="editor">
-          <Form {...form}>
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-primary text-xl font-bold">
-                    ការឆ្លើយតបរបស់អ្នក
-                  </FormLabel>
-                  <FormDescription className="text-sm">
-                    ចែករំលែកគំនិតរបស់អ្នក
-                  </FormDescription>
-                  <FormControl>
-                    <RichTextEditor
-                      ref={editorRef}
-                      content={replyContent || field.value}
-                      onChange={(value: any) => {
-                        console.log("Editor value changing to:", value);
-                        field.onChange(value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
-              <Button
-                onClick={() => form.handleSubmit((data) => onSubmit(data))()}
-                type="submit"
-                className="w-full sm:w-auto text-white"
-              >
-                បោះពុម្ភផ្សាយចម្លើយ
-              </Button>
-            </div>
-          </Form>
-        </div>
-        <CommentReplyComponent slug={slug} />
       </div>
+      <div className="mt-5 flex flex-col gap-2" id="editor">
+        <Form {...form}>
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-primary text-xl font-bold dark:text-gray-50">
+                  ការឆ្លើយតបរបស់អ្នក
+                </FormLabel>
+                <FormDescription className="text-sm dark:text-gray-50">
+                  ចែករំលែកគំនិតរបស់អ្នក
+                </FormDescription>
+                <FormControl>
+                  <RichTextEditor
+                    ref={editorRef}
+                    content={replyContent || field.value}
+                    onChange={(value: any) => {
+                      console.log("Editor value changing to:", value);
+                      field.onChange(value);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
+            <Button
+              onClick={() => form.handleSubmit((data) => onSubmit(data))()}
+              type="submit"
+              className="w-full sm:w-auto text-white"
+            >
+              បោះពុម្ភផ្សាយចម្លើយ
+            </Button>
+          </div>
+        </Form>
+      </div>
+      <CommentReplyComponent slug={slug} />
     </div>
   );
 }
@@ -483,10 +479,10 @@ const UserProfile = ({ authorUsername, createdAt }) => {
 
   return (
     <div
-      className="flex items-center gap-3 cursor-pointer"
+      className="flex px-4 items-center gap-3 cursor-pointer"
       onClick={() => router.push(`/user-profile/${authorUsername}`)}
     >
-      <div className=" h-10 rounded-full bg-gray-200 overflow-hidden">
+      <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
           src={
             userData?.profileImage ||

@@ -28,7 +28,7 @@ export default function AchievementLevelComponent({
 
   const { data } = useFetchAchievementLevel(userInformation?.id);
   return (
-    <Card className="w-full h-fit bg-white mb-2">
+    <Card className="w-full h-fit bg-white mb-2 dark:bg-darkSecondary">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="w-full lg:h-[40px] h-[30px] relative">

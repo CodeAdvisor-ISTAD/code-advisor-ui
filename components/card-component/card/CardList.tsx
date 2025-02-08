@@ -95,7 +95,7 @@ export function CardList({ searchQuery }: CardListProps) {
   const displayCards = (searchQuery ? filteredCards : cards).slice(0, 10)
 
   return (
-    <div className="">
+    <div className="w-full">
       {displayCards.length === 0 ? (
               <p className="text-center py-4 text-gray-500">No results found</p>
 

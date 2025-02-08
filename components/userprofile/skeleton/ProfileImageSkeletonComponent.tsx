@@ -9,7 +9,7 @@ export default function ProfileImageSkeleton() {
       {/* Profile Image and Details Skeleton */}
       <div className="flex flex-row absolute lg:-bottom-28 -bottom-20 left-8">
         {/* Profile Image Skeleton */}
-        <div className="relative lg:w-[200px] lg:h-[200px] w-[125px] h-[125px] rounded-full bg-white overflow-hidden bottom-2">
+        <div className="relative lg:w-[200px] lg:h-[200px] w-[125px] h-[125px] rounded-full overflow-hidden bottom-2">
           <Skeleton
             className="w-full h-full rounded-full"
             style={{ borderRadius: "50%" }}

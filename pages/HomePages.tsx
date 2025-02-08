@@ -20,18 +20,12 @@ export default function Home() {
   
 
   return (
-    <main className="flex bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
-      <div className="ml-[264px] w-[710px] ">
+    <main className="flex ">
+      <div className="w-full">
         <CardList searchQuery={searchQuery} />
         {/* <div className="pt-2">
           <ForumList searchQuery={searchQuery}></ForumList>
         </div> */}
-      </div>
-
-      <div className="flex flex-col ml-2 gap-2 right-[90px] w-[340px]">
-        <Recommendations type="Latest" />
-        <Recommendations type="Trending" />
-        <ISTADCard />
       </div>
     </main>
   );

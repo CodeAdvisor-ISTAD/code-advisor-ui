@@ -62,7 +62,6 @@ export default function AwardCard(achievement) {
         </div>
       </div>
       <div className="flex flex-col items-center gap-2">
-        <BadgeCheck className="h-6 w-6 text-white" />
       </div>
       <div className="flex flex-col justify-center items-center">
         <img

@@ -154,7 +154,7 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
   });
 
   return (
-    <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
+    <div className=" mt-3  mx-auto bg-white dark:bg-darkPrimary rounded-lg shadow-sm p-6">
       <h2 className="text-xl font-bold mb-4">{totalAnswer?.total} Answers</h2>
 
       {/* Main Comment */}
