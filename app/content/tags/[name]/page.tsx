@@ -1,4 +1,4 @@
-import Home from "@/app/home/page";
+import Home from "@/pages/HomePages";
 import { CardList } from "@/components/card-component/card/CardList";
 
 export default async function Page({
@@ -30,7 +30,7 @@ export default async function Page({
           </p>
         </div>
         <div className="flex mb-9">
-          <CardList></CardList>
+          <CardList searchQuery={""}></CardList>
         </div>
       </div>
     </>

@@ -18,11 +18,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import RichTextEditor from "@/components/text-editor/textEditor";
 import Preview from "@/components/text-editor/preview";
-<<<<<<< HEAD
-import { UseFetchForumTags } from "@/hooks/api-hook/forum/use-tag";
-=======
 import { UseFetchForumTags } from "@/hooks/api-hook/forum/tags-api";
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 import { useMutation } from "@tanstack/react-query";
 import { createForum } from "@/hooks/api-hook/forum/forum-api";
 import { useRouter } from "next/navigation";
@@ -49,13 +45,10 @@ const formSchema = z.object({
     expectedAnswers: z.string().min(10, {
         message: "ចំណងជើងត្រូវមានយ៉ាងហោចណាស់ 10 តួអក្សរ",
     }),
-<<<<<<< HEAD
-=======
     description: z.string().min(10, {
         message: "ការពិពណ៌នាសំណួរត្រូវមានយ៉ាងហោចណាស់ 10 តួអក្សរ",
     }),
     isDrafted: z.boolean().optional(),
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -64,11 +57,7 @@ const CreateNewForum = () => {
     const router = useRouter();
     const [slug, setSlug] = useState("");
 
-<<<<<<< HEAD
-    const { data, isLoading, isError, error } = UseFetchForumTags();
-=======
     const { data, isError } = UseFetchForumTags();
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 
     const { mutate } = useMutation({
         mutationFn: createForum,
@@ -76,18 +65,6 @@ const CreateNewForum = () => {
             return { slug };
         },
         onSuccess: (data, variables, context) => {
-<<<<<<< HEAD
-            toast.success("សំណួររបស់អ្នកបានបោះពុម្ភផ្សាយដោយជោគជ័យ");
-
-            router.push(`/forum/${variables.slug}`);
-        },
-    });
-
-    if (status === "pending") {
-        toast.loading("កំពុងដំណើរការ...");
-    }
-
-=======
             // Show success message
             toast.success(
                 variables.isDrafted
@@ -109,7 +86,6 @@ const CreateNewForum = () => {
         },
     });
 
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
     // Transform the data into the desired format (if needed)
     const transformedTags: TagOption[] =
         data?.map((tag: { name: string }) => ({
@@ -139,11 +115,8 @@ const CreateNewForum = () => {
             tag: [],
             introduction: "",
             expectedAnswers: "",
-<<<<<<< HEAD
-=======
             description: "",
             isDrafted: false,
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
         },
     });
 
@@ -152,11 +125,7 @@ const CreateNewForum = () => {
     };
 
     // 2. Define a submit handler.
-<<<<<<< HEAD
-    function onSubmit(values: z.infer<typeof formSchema>) {
-=======
     function onSubmit(values: z.infer<typeof formSchema>, isDrafted: boolean) {
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
         const forumData: CreateForumType = {
             title: values.title,
             slug: values.slug,
@@ -164,12 +133,8 @@ const CreateNewForum = () => {
             tagName: values.tag,
             introduction: values.introduction,
             expectedAnswers: values.expectedAnswers,
-<<<<<<< HEAD
-            isDrafted: false,
-=======
             description: values.description,
             isDrafted: isDrafted,
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
         };
 
         // 3. Call the mutation function with the form data.
@@ -179,7 +144,7 @@ const CreateNewForum = () => {
     }
 
     return (
-        <div className="container px-0 py-6 items-center mx-auto pb-6 pt-[80px] xs:px-[30px] md:px-[80px] lg:px-[100px]">
+        <div className="container px-0 items-center mx-auto pb-6  xs:px-[30px] md:px-[80px] lg:px-[100px]">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
                 {/* Create New Content */}
                 <div>
@@ -189,13 +154,9 @@ const CreateNewForum = () => {
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <Form {...form}>
                             <form
-<<<<<<< HEAD
-                                onSubmit={form.handleSubmit(onSubmit)}
-=======
                                 onSubmit={(e) => {
                                     e.preventDefault();
                                 }}
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                 className="space-y-6"
                             >
                                 {/* Title */}
@@ -245,8 +206,6 @@ const CreateNewForum = () => {
                                     )}
                                 />
 
-<<<<<<< HEAD
-=======
                                 {/* Description */}
                                 <FormField
                                     control={form.control}
@@ -270,7 +229,6 @@ const CreateNewForum = () => {
                                     )}
                                 />
 
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                 {/* Text Editor */}
                                 <FormField
                                     control={form.control}
@@ -373,11 +331,7 @@ const CreateNewForum = () => {
                                                     )}
                                                     onChange={(
                                                         selectedOptions
-<<<<<<< HEAD
-                                                    ) => {
-=======
-                                                    : any) => {
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
+                                                        : any) => {
                                                         field.onChange(
                                                             selectedOptions.map(
                                                                 (option) =>
@@ -396,29 +350,22 @@ const CreateNewForum = () => {
                                 <div className="flex flex-col sm:flex-row-reverse gap-3 justify-start">
                                     <Button
                                         type="submit"
-<<<<<<< HEAD
-=======
                                         onClick={() =>
                                             form.handleSubmit((data) =>
                                                 onSubmit(data, false)
                                             )()
                                         }
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                         className="w-full sm:w-auto text-white"
                                     >
                                         បោះពុម្ភផ្សាយ
                                     </Button>
                                     <Button
-<<<<<<< HEAD
-                                        type="button"
-=======
                                         onClick={() =>
                                             form.handleSubmit((values) =>
                                                 onSubmit(values, true)
                                             )()
                                         }
                                         type="submit"
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
                                         variant="outline"
                                         className="w-full sm:w-auto text-primary"
                                     >
@@ -451,7 +398,7 @@ const CreateNewForum = () => {
                                 <Preview
                                     content={cleanContent(
                                         form.watch("introduction") ||
-                                            "បញ្ហាដែលអ្នកបានជួបប្រទះ"
+                                        "បញ្ហាដែលអ្នកបានជួបប្រទះ"
                                     )}
                                 />
                             </div>
@@ -464,7 +411,7 @@ const CreateNewForum = () => {
                                 <Preview
                                     content={cleanContent(
                                         form.watch("expectedAnswers") ||
-                                            "ចម្លើយដែលអ្នកចង់បាន"
+                                        "ចម្លើយដែលអ្នកចង់បាន"
                                     )}
                                 />
                             </div>

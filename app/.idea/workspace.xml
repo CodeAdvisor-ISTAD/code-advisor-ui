@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6cff26ef-3ad1-404e-a276-f25e6d663cec" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../hooks/api-hook/engagement/engagement-api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hooks/api-hook/forum/use-tag.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../redux/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../redux/notificationSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../redux/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/[slug]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/content/[slug]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forum/[slug]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forum/[slug]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forum/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forum/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/[[...slug]]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/report/[[...slug]]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/card-component/forum-card/ForumCardList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/card-component/forum-card/ForumCardList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/content-component/createContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/content-component/createContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/engagement/comment/CommentList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/engagement/comment/CommentList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/engagement/comment/CommentSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/engagement/comment/CommentSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/engagement/content/ContentSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/engagement/content/ContentSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/engagement/content/ContentSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/engagement/content/ContentSidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/engagement/content/Reaction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/engagement/content/Reaction.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/forum-component/createForum.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/forum-component/createForum.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/forum-component/forumDetailComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/forum-component/forumDetailComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/navbar/NavbarLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/navbar/NavbarLogin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/text-editor/imageUrlDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/text-editor/imageUrlDialog.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../components/text-editor/textEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../components/text-editor/textEditor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../types/engagement.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../types/engagement.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../types/forum.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../types/forum.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2ryfbgWtiHNzKGIY0ERO9r1Bwl4" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Merging nana",
+    "last_opened_file_path": "C:/Users/JIna/Desktop/advisor/frontend/yk/code-advisor-ui",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.120" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6cff26ef-3ad1-404e-a276-f25e6d663cec" name="Changes" comment="" />
+      <created>1737536309797</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1737536309797</updated>
+      <workItem from="1737536311461" duration="44000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -282,7 +282,7 @@ interface ShareContent {
 
 export const shareContent = async (shareData: ShareContent) => {
   try {
-    const response = await axios.post(`/ces/api/v1/reports/shareContent`, shareData);
+    const response = await axios.post(`/ces/api/v1/shares/shareContent`, shareData);
     return response.data;
   } catch (error) {
     console.error("Error sharing content:", error);

@@ -16,6 +16,8 @@ import {
   handleReaction,
 } from "@/hooks/api-hook/engagement/engagement-api";
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export function ReactionButton({
   onReactionChange,
@@ -49,7 +51,7 @@ export function ReactionButton({
             "Fallback Reaction Type from localStorage:",
             cachedReaction
           ); // Log fallback
-          setSelectedReaction(cachedReaction);
+          // setSelectedReaction(cachedReaction);
         }
       }
     };
@@ -106,8 +108,8 @@ export function ReactionButton({
     }
   };
 
-  // Determine which icon to show based on selected reaction
-  const renderReactionIcon = (selectedReaction) => {
+   // Determine which icon to show based on selected reaction
+   const renderReactionIcon = (selectedReaction) => {
     if (selectedReaction === "love") {
       return <FaHeart className="text-2xl text-pink-700" />;
     } else if (selectedReaction === "fire") {
@@ -130,31 +132,31 @@ export function ReactionButton({
       <SelectContent>
         <SelectGroup className="flex flex-row">
           <SelectItem
-            value="love"
+            value={"love"}
             className="w-10"
             onMouseDown={(e) => {
               e.preventDefault(); // Prevent the dropdown from closing
-              handleReactionClick("love");
+              // handleReactionClick("love");
             }}
           >
             <FaHeart className="text-2xl text-pink-700" />
           </SelectItem>
           <SelectItem
-            value="fire"
+            value={"fire"}
             className="w-10"
             onMouseDown={(e) => {
               e.preventDefault();
-              handleReactionClick("fire");
+              // handleReactionClick("fire");
             }}
           >
             <FaFire className="text-2xl text-red-500" />
           </SelectItem>
           <SelectItem
-            value="like"
+            value={"like"}
             className="w-10"
             onMouseDown={(e) => {
               e.preventDefault();
-              handleReactionClick("like");
+              // handleReactionClick("like");
             }}
           >
             <FaThumbsUp className="text-2xl text-blue-500" />

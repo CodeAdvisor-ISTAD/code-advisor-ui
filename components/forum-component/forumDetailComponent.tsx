@@ -25,11 +25,6 @@ import { useForm } from "react-hook-form";
 import { date, z } from "zod";
 import { Button } from "../ui/button";
 import CommentReplyComponent from "./commentReplyComponent";
-<<<<<<< HEAD
-import { useQuery } from "@tanstack/react-query";
-import { getForumBySlug } from "@/hooks/api-hook/forum/forum-api";
-import Preview from "../text-editor/preview";
-=======
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getForumBySlug,
@@ -55,7 +50,8 @@ import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 import { TagsSkeleton } from "./skeleton/TagsSkeleton";
 import { RichTextEditorSkeleton } from "./skeleton/RichTextEditorSkeleton";
 import { UserProfileSkeleton } from "./skeleton/UserProfileSkeleton";
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
+import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -64,21 +60,6 @@ const formSchema = z.object({
 });
 
 export default function ForumDetailComponent({ slug }: { slug: string }) {
-<<<<<<< HEAD
-    console.log("slug: ", slug);
-    const { data } = useQuery({
-        queryKey: ["forum", slug],
-        queryFn: () => getForumBySlug(slug),
-    });
-
-    console.log("forum: ", data);
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            content: "",
-        },
-    });
-=======
   const queryClient = useQueryClient();
   const editorRef = useRef(null);
   const [isLoadingBlur, setIsLoadingBlur] = useState(true);
@@ -88,31 +69,12 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     queryKey: ["authProfile"],
     queryFn: fetchUserProfile,
   });
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 
   const { data: forum } = useQuery({
     queryKey: ["forum", slug],
     queryFn: () => getForumBySlug(slug),
   });
 
-<<<<<<< HEAD
-                {/* Content */}
-
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
-                    <h2 className="text-xl font-bold">{data?.title}</h2>
-                    <p className="text-gray-700">
-                        <Preview content={data?.introduction} />
-                    </p>
-
-                    {/* Code Block */}
-                    <div className="bg-gray-100 rounded-md p-4 font-mono text-sm">
-                        <h2 className="text-2xl font-bold">
-                            ចម្លើយដែលអ្នកចង់បាន
-                        </h2>
-                        <Preview content={data?.expectedAnswers} />
-                    </div>
-=======
   // Queries for initial data
   const { data: checkVoted } = useQuery({
     queryKey: ["checkVote", slug],
@@ -124,7 +86,6 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     queryKey: ["totalUpVotes", slug],
     queryFn: () => totalUpVotes(slug),
   });
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 
   const { data: totalDownVote } = useQuery({
     queryKey: ["totalDownVotes", slug],
@@ -256,6 +217,8 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     },
   });
 
+  const {theme} = useTheme();
+
   const getButtonColor = (expectedCode: number, actualCode: number) => {
     if (actualCode === 400) return "text-gray-400"; // Disabled/error state
     return actualCode === expectedCode ? "text-green-500" : "text-gray-600";
@@ -322,7 +285,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
       // Handle default case (e.g., creating a new top-level comment)
       const createAnswer: CreateComment = {
         questionSlug: slug,
-        answerUuid: null, // No parent comment
+        answerUuid: "" , // No parent comment
         slug: slug + "-answer-" + Date.now(), // Generate a unique slug
         content: values.content,
       };
@@ -359,9 +322,9 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
-    <div className="  ml-[264px] w-full">
+    <div className="w-full dark:bg-darkPrimary">
       <TagComponent />
-      <div className="p-4 bg-white rounded-[5px] shadow-sm">
+      <div className="p-3 bg-white dark:bg-darkPrimary rounded-[5px] shadow-sm border">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           {isLoadingBlur ? (
@@ -379,7 +342,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
 
         {/* Content */}
 
-        <div className="space-y-4">
+        <div className="space-y-4 px-3">
           <h2 className="text-2xl font-bold">{forum?.title}</h2>
           <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
           <p className="text-lg">{forum?.description}</p>
@@ -392,7 +355,6 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
           }
 
           {/* Code Block */}
-          <div className="rounded-md p-4 font-mono text-sm">
             <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
             {
               isLoadingBlur ? (
@@ -401,14 +363,14 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
                 <Preview content={forum?.expectedAnswers} />
               )
             }
-          </div>
+
 
           {/* Tags */}
           <div className="flex gap-2">
             {forum?.tags?.map((tag: TagsType) => (
               <span
                 key={tag.id}
-                className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]"
+                className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px] dark:text-gray-50"
               >
                 #{tag.name}
               </span>
@@ -420,7 +382,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
         <div className="flex justify-between items-center mt-6">
           <div className="flex items-center">
             <button
-              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent dark:hover:bg-darkSecondary"
               onClick={() => upvoteMutation()}
               disabled={downVotePending}
             >
@@ -432,7 +394,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               {totalUpVote?.totalVotes ?? 0}
             </span>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent dark:hover:bg-darkSecondary"
               onClick={() => downvoteMutation()}
               disabled={upVotePending}
             >
@@ -450,7 +412,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               <MessageSquare className="w-6 h-6 text-gray-600" />
             </button>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-darkSecondary"
               onClick={toggleBookmark}
               disabled={isLoading || isCheckingStatus}
             >
@@ -461,7 +423,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               />
             </button>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-darkSecondary"
               onClick={handleShare}
             >
               <Share2 className="w-6 h-6 text-gray-600" />
@@ -476,10 +438,10 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-primary text-xl font-bold">
+                <FormLabel className="text-primary text-xl font-bold dark:text-gray-50">
                   ការឆ្លើយតបរបស់អ្នក
                 </FormLabel>
-                <FormDescription className="text-sm">
+                <FormDescription className="text-sm dark:text-gray-50">
                   ចែករំលែកគំនិតរបស់អ្នក
                 </FormDescription>
                 <FormControl>
@@ -519,9 +481,10 @@ const UserProfile = ({ authorUsername, createdAt }) => {
     queryFn: () => getUserByUsername(authorUsername),
     enabled: !!authorUsername,
   });
+  const router = useRouter();
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex px-4 items-center gap-3 cursor-pointer" onClick={() => router.push(`/user-profile/${authorUsername}`)}>
       <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
           src={

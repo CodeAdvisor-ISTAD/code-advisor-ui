@@ -2,11 +2,6 @@
 import {
   useEditor,
   EditorContent,
-<<<<<<< HEAD
-  // NodeViewContent,
-  // NodeViewProps,
-=======
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
@@ -35,78 +30,9 @@ import pgsql from "highlight.js/lib/languages/pgsql";
 import "highlight.js/styles/github.css";
 import React, { forwardRef, useImperativeHandle } from "react";
 
-<<<<<<< HEAD
-
-export default function RichTextEditor({ content, onChange }) {
-  const [htmlContent, setHtmlContent] = useState(content);
-
-
-  const lowlights = createLowlight(common);
-  lowlights.register("css", css);
-  lowlights.register("javascript", js);
-  lowlights.register("typescript", ts);
-  lowlights.register("html", html);
-  lowlights.register("java", java);
-  lowlights.register("yaml", yaml);
-  lowlights.register("sql", sql)
-  lowlights.register("pgsql", pgsql)
-  lowlights.register("php", php)
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure(),
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-      Heading.configure({
-        levels: [1, 2, 3],
-      }),
-      OrderedList.configure({
-        HTMLAttributes: {
-          class: "list-decimal ml-3",
-        },
-      }),
-      BulletList.configure({
-        HTMLAttributes: {
-          class: "list-disc ml-3",
-        },
-      }),
-      CodeBlockLowlight.configure({
-        lowlight: lowlights,
-        HTMLAttributes: {
-          class: "tiptap",
-        },
-        languageClassPrefix: "language-",
-      }),
-      Highlight,
-      Image,
-      ImageResize,
-    ],
-    content: content,
-    editorProps: {
-      attributes: {
-        class: "min-h-[156px] border rounded-md bg-slate-50 py-2 px-3",
-      },
-    },
-    onUpdate: ({ editor }) => {
-      console.log(editor.getHTML());
-      const html = editor.getHTML();
-      onChange(editor.getHTML());
-      setHtmlContent(html);
-    },
-  });
-
-  return (
-    <div>
-      <ToolBar editor={editor} />
-      <EditorContent editor={editor} style={{ zIndex: "0"}} />
-    </div>
-  );
-=======
 interface RichTextEditorProps {
   content: string;
   onChange: (html: string) => void;
->>>>>>> 74623ab8108269f38ea91e946d09845abe6a3721
 }
 
 const RichTextEditor = forwardRef<unknown, RichTextEditorProps>(

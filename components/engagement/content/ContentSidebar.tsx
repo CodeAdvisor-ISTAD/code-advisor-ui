@@ -31,29 +31,55 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import {
+  getComment,
   getReactionsByContentId,
   shareContent,
 } from "@/hooks/api-hook/engagement/engagement-api";
+import ShareModal from "./ShareModal";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface Content {
-  contentId?: string;
+  contentId: string;
   slug?: string;
   ownerId?: string;
-  userId?: string;
-  comment?: Comment[];
+  userId: string;
   bookmark?: number;
   totalReactions?: number;
 }
+
+// Type for Comment
+export interface Comment {
+  id: string;
+  userId: string;
+  contentId: string;
+  body: string;
+  createdAt: Date;
+  isReport: boolean;
+  updateAt: Date;
+  commentId: string;
+  replies: Comment[];
+}
+
 
 export function ContentSidebar({
   contentId,
   slug,
   ownerId,
   userId,
-  comment,
   bookmark,
   totalReactions,
 }: Content) {
+  // Fetch comments by contentId
+  const {
+    data: comment = [],
+    isLoading: isCommentsLoading,
+    isError: isCommentsError,
+  } = useQuery({
+    queryKey: ["comments", contentId], // Use unique key for comments
+    queryFn: () => getComment(contentId), // Call the imported function
+  });
+
   const [isCommentFilled, setIsCommentFilled] = useState(true);
   const [isBookmarkFilled, setIsBookmarkFilled] = useState(false);
   const [currentBookmarkCount, setCurrentBookmarkCount] = useState(
@@ -65,6 +91,30 @@ export function ContentSidebar({
     loveCount: 0,
     fireCount: 0,
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlatform, setSelectedPlatform] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Control dropdown visibility
+  const [comments, setComments] = React.useState<Comment[]>(comment);
+
+  const getTotalComments = (comments: Comment[]): number => {
+      let total = 0;
+  
+      const countReplies = (comments: Comment[]): void => {
+        if (!comments) return; // Return early if comments is null or undefined
+        total += comments.length;
+  
+        comments.forEach((comment) => {
+          // Ensure comment.replies is an array before accessing it
+          if (Array.isArray(comment.replies) && comment.replies.length > 0) {
+            countReplies(comment.replies); // Recursively count replies
+          }
+        });
+      };
+  
+      countReplies(comments);
+      return total;
+    };
 
   useEffect(() => {
     const fetchReactions = async () => {
@@ -101,6 +151,10 @@ export function ContentSidebar({
   };
 
   const handleShare = async (sharePlatform: string) => {
+    setSelectedPlatform(sharePlatform); // Set the selected platform
+    setIsDropdownOpen(false); // Hide the dropdown menu
+    setIsModalOpen(true); // Show the modal
+
     const shareData = {
       userId,
       contentId,
@@ -110,11 +164,14 @@ export function ContentSidebar({
     try {
       const response = await shareContent(shareData);
       console.log("Content shared successfully:", response);
-      alert("Content shared successfully!");
     } catch (error) {
       console.error("Error sharing content:", error);
       alert("Failed to share content. Please try again.");
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal
   };
 
   const [isVisible, setIsVisible] = useState(true); // State to control visibility
@@ -204,7 +261,7 @@ export function ContentSidebar({
                       />
                     }
                   />
-                  <div className="text-center pt-1">{comment?.length || 0}</div>
+                  <div className="text-center pt-1">{getTotalComments(comment) || 0}</div>
                 </div>
               </SidebarMenuItem>
 
@@ -250,6 +307,14 @@ export function ContentSidebar({
                         </a>
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
+
+                    {/* Render the ShareModal */}
+                    <ShareModal
+                      isOpen={isModalOpen}
+                      onClose={closeModal}
+                      platform={selectedPlatform}
+                      contentId={contentId}
+                    />
                   </DropdownMenuContent>
                 </DropdownMenu>
               </SidebarMenuItem>
@@ -257,6 +322,14 @@ export function ContentSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        platform={selectedPlatform}
+        contentId={contentId}
+      />
     </SidebarComment>
   );
 }

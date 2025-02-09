@@ -87,7 +87,6 @@ export default function ReportForm() {
       ("Report submitted successfully!");
     } catch (error) {
       console.error("Failed to submit report:", error);
-      alert("Failed to submit the report. Please try again.");
     } finally {
       setLoading(false);
     }

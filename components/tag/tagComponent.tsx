@@ -2,10 +2,10 @@ import React from "react";
 
 export default function TagComponent() {
     return (
-        <div className="flex items-center p-2 justify-evenly px-10 bg-white rounded-[5px] shadow-sm mb-2">
+        <div className="flex items-center bg-white p-2 justify-evenly px-10 rounded-sm border mb-2 dark:bg-darkPrimary">
             <button className="flex items-center gap-2">
                 <span className="text-xl">+</span>
-                <span className="text-primary">For you</span>
+                <span className="">For you</span>
             </button>
             <div className="flex gap-3">
                 {[
@@ -17,7 +17,7 @@ export default function TagComponent() {
                 ].map((tag) => (
                     <button
                         key={tag}
-                        className="hover:bg-gray-100 rounded-full px-3 py-1 text-primary"
+                        className="hover:bg-gray-100 rounded-full px-3 py-1"
                     >
                         #{tag}
                     </button>

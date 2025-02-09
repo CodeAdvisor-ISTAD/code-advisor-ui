@@ -5,7 +5,7 @@ import {
   FormMessage,
 } from "@/components/userprofile/form";
 import { CardTitle } from "@/components/ui/card";
-import { ColorPicker } from "@/components/userprofile/user/colorPicker";
+import { ColorPicker } from "@/components/userprofile/user/colorPickerComponent";
 
 interface ChangeColorCoverProps {
   onColorChange?: (color: string) => void;

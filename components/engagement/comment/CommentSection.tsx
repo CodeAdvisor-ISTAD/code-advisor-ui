@@ -10,15 +10,13 @@ import { Comment } from "@/types/engagement";
 import React from "react";
 
 interface Content {
-  comment?: Comment[];
-  contentId?: string;
-  slug?: string;
-  ownerId?: string;
+  contentId: string;
+  slug: string;
+  ownerId: string;
   userId?: string;
 }
 
 export function CommentSection({
-  comment = [],
   contentId,
   ownerId,
   slug,
@@ -38,7 +36,6 @@ export function CommentSection({
             <SidebarMenu>
               <CommentList
                 contentId={contentId}
-                // comment={comment}
                 slug={slug}
                 ownerId={ownerId}
                 userId={userId}

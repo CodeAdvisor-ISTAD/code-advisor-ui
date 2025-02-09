@@ -34,4 +34,41 @@ const getAllForums = async function fetchAllForums() {
     }
 }
 
-export { createContent, getContent, getAllForums };
+// get content by author uuid
+const getContentByAuthorUuid = async function getContentByAuthorUuid(
+    authorUuid: string,
+    page: number,
+    size: number
+  ) {
+    const response = await fetch(
+      `/contents/api/v1/contents/author/${authorUuid}?page=${page}&size=${size}`
+    );
+    const data = await response.json();
+    console.log("authorUuid",authorUuid);
+  console.log("data",data);
+    if (response.ok) {
+      return data;
+    } else {
+      throw data;
+    }
+  };
+  
+
+// get all content
+const getAllContent = async function getAllContent(
+  page: number,
+  size: number
+) {
+  const response = await fetch(
+    `/contents/api/v1/contents/all?page=${page}&size=${size}`
+  );
+  const data = await response.json();
+
+  if (response.ok) {
+    return data;
+  } else {
+    throw data;
+  }
+};
+  
+export { createContent, getContent, getAllForums, getContentByAuthorUuid, getAllContent };

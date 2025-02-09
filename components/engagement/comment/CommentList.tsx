@@ -38,35 +38,34 @@ import {
   getComment,
 } from "@/hooks/api-hook/engagement/engagement-api";
 import { useUser } from "@/lib/context/userContext";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { findUserProfileByUuid } from "@/hooks/api-hook/user/user-service";
 
 interface Content {
-  comment?: Comment[];
-  contentId?: string;
-  slug?: string;
-  ownerId?: string;
+  contentId: string;
+  slug: string;
+  ownerId: string;
   userId?: string;
   isLoading?: boolean;
 }
 
 export function CommentList({
-  comment = [],
   contentId,
   slug,
   ownerId,
 }: Content & { isLoading }) {
- // Fetch comments by contentId
- const {
-  data: fetchedComments,
-  isLoading: isCommentsLoading,
-  isError: isCommentsError,
-} = useQuery({
-  queryKey: ["comments", contentId], // Use unique key for comments
-  queryFn: () => getComment(contentId), // Call the imported function
-});
+  // Fetch comments by contentId
+  const {
+    data: comment = [], // Default to an empty array if data is undefined
+    isLoading: isCommentsLoading,
+    isError: isCommentsError,
+  } = useQuery({
+    queryKey: ["comments", contentId], // Use unique key for comments
+    queryFn: () => getComment(contentId), // Call the imported function
+  });
 
-const [comments, setComments] = React.useState<Comment[]>([]);  const [newComment, setNewComment] = React.useState("");
+  const [comments, setComments] = React.useState<Comment[]>(comment);
+  const [newComment, setNewComment] = React.useState("");
   const [replyingTo, setReplyingTo] = React.useState<string | null>(null);
   const [editingComment, setEditingComment] = React.useState<string | null>(
     null
@@ -76,13 +75,14 @@ const [comments, setComments] = React.useState<Comment[]>([]);  const [newCommen
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = React.useState("");
   const [expandedComments, setExpandedComments] = React.useState<string[]>([]);
+  const queryClient = useQueryClient();
 
   const { user } = useUser();
   const userId = user?.uuid || "6783b16f1b533f163cd7460d";
 
   const { data: userComment } = useQuery({
-    queryFn: () => findUserProfileByUuid(comment[0]?.userId),
-    queryKey: ["userComment", comment[0]?.userId],
+    queryFn: () => findUserProfileByUuid(comment?.userId),
+    queryKey: ["userComment", comment?.userId],
   });
 
   const handleSubmit = async (parentId: string | null = null) => {
@@ -378,7 +378,10 @@ const [comments, setComments] = React.useState<Comment[]>([]);  const [newCommen
       <CardHeader className="flex flex-row items-center space-y-0">
         <Profile
           key={comment.id}
-          imageUrl={userComment?.profileImage}
+          imageUrl={
+            userComment?.profileImage ||
+            "https://i.pinimg.com/736x/0f/78/5d/0f785d55cea2a407ac8c1d0c6ef19292.jpg"
+          }
           // postDate={comment.createdAt.toLocaleDateString()}
           username={userComment?.username || "annonymous"}
         />
@@ -391,7 +394,6 @@ const [comments, setComments] = React.useState<Comment[]>([]);  const [newCommen
           </DropdownMenuTrigger>
           <DropdownMenuContent className="px-2">
             <DropdownMenuGroup>
-
               {/* edit option */}
               {userId === comment.userId && (
                 <DropdownMenuItem
@@ -546,11 +548,11 @@ const [comments, setComments] = React.useState<Comment[]>([]);  const [newCommen
     <div className="w-full max-w-3xl overflow-hidden p-[1px]">
       <Card className="rounded-[5px] shadow-none">
         <CardHeader>
-          <CardTitle>មតិយោបល់ ({getTotalComments(comments)})</CardTitle>
+          <CardTitle>មតិយោបល់ ({getTotalComments(comment)})</CardTitle>
           <Profile
             imageUrl={
               user?.profileImage ||
-              "https://avatars.githubusercontent.com/u/110375748?v=4"
+              "https://i.pinimg.com/736x/0f/78/5d/0f785d55cea2a407ac8c1d0c6ef19292.jpg"
             }
             username={user?.fullName || "Annonymous"}
           />
@@ -593,7 +595,7 @@ const [comments, setComments] = React.useState<Comment[]>([]);  const [newCommen
       </Card>
 
       <div className="space-y-2 mt-2 rounded-[5px] p-[1px]">
-        {comments.map((comment) => renderComment(comment))}
+        {comment.map((comment) => renderComment(comment))}
       </div>
     </div>
   );

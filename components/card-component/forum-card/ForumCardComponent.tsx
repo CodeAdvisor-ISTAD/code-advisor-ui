@@ -1,39 +1,54 @@
 "use client";
 
 import * as React from "react";
-
 import {
-    MoreVertical,
-    Eye,
-    MessageSquare,
-    ArrowUp,
-    Bookmark,
-    File,
-    Share2Icon,
+  MoreVertical,
+  Eye,
+  MessageSquare,
+  ArrowUp,
+  Bookmark,
+  File,
+  Share2Icon,
 } from "lucide-react";
 import Image from "next/image";
 import {
-    PopoverBody,
-    PopoverButton,
-    PopoverContent,
-    PopoverRoot,
-    PopoverTrigger,
+  PopoverBody,
+  PopoverButton,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTrigger,
 } from "@/components/ui/pop-over";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserByUsername } from "@/hooks/api-hook/user/user-service";
 import { totalAnswersByQuestion, totalUpVotes } from "@/hooks/api-hook/forum/forum-api";
 import { getTagsByQuestionUuid } from "@/hooks/api-hook/forum/tags-api";
-import { useState } from "react";
 import { createHistory } from "@/hooks/api-hook/user/history";
+import { useState } from "react";
+
+interface ForumCardType {
+    uuid: string;
+    slug: string;
+    author_uuid: string;
+    author_username: string;
+    title: string;
+    description: string | null;
+    expectedAnswers: string;
+    tags: TagsType[];
+    isDrafted: boolean;
+    isArchived: boolean;
+    isDeleted: boolean;
+    createdAt: string;
+    updatedAt: string | null;
+}
 
 export function ForumCardComponent({
-    forumCardData,
+  forumCardData,
 }: {
-    forumCardData: ForumCardType;
+  forumCardData: ForumCardType;
 }) {
 
+    console.log("Forum Card Data: ", forumCardData);
     const [clicked, setClicked] = useState(false); // State to track if the card is clicked
     const router = useRouter();
 
@@ -114,13 +129,13 @@ export function ForumCardComponent({
 
     return (
         <div
-            className=" bg-white rounded-[5px] shadow-sm p-6 cursor-pointer"
+            className=" bg-white rounded-[5px] shadow-sm p-6 cursor-pointer dark:bg-darkPrimary"
             onClick={() => handleNavigate(forumCardData?.slug)}
         >
             {/* Header Section */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                    <Image
+                    <Image onClick={() => router.push(`/profile/${userData?.username}`)}
                         src={userData?.profileImage || "https://cdn.vectorstock.com/i/1000v/66/13/default-avatar-profile-icon-social-media-user-vector-49816613.jpg"}
                         alt="User Avatar"
                         width={100}
@@ -128,8 +143,8 @@ export function ForumCardComponent({
                         className="rounded-full w-[40px] h-[40px] object-cover"
                     />
                     <div>
-                        <h3 className="text-base font-normal">{userData?.fullName}</h3>
-                        <p className="text-sm text-gray-500">@{userData?.username}</p>
+                        <h3 onClick={() => router.push(`/user-profile/${userData?.username}`) } className="text-base font-normal">{userData?.fullName}</h3>
+                        <p onClick={() => router.push(`/profile/${userData?.username}`) } className="text-sm text-gray-500">@{userData?.username}</p>
                     </div>
                 </div>
                 <div className="text-gray-500 hover:text-gray-700">
@@ -156,10 +171,10 @@ export function ForumCardComponent({
 
             {/* Content Section */}
             <div className="mb-4">
-                <h2 className="text-[18px] font-bold text-primary decoration-primary">
+                <h2 className="text-[18px] font-bold text-primary dark:text-gray-50 decoration-primary">
                     {forumCardData.title}
                 </h2>
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-700 mb-4 dark:text-gray-300">
                     {forumCardData.description}
                 </p>
             </div>

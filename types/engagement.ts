@@ -14,6 +14,16 @@ export interface Author {
   image: string;
 }
 
+export interface ReactionRequest {
+  contentId: string;
+  type: string;
+  userId: string;
+  reactionType: string;
+  ownerId: string;
+  slug: string;
+}
+
+
 // Type for Content
 export interface Content {
   contentId?: string;
@@ -45,7 +55,7 @@ export interface Comment {
   createdAt: Date;
   isReport: boolean;
   updateAt: Date;
-  commentId?: string | null;
+  commentId: string;
   replies: Comment[];
 }
 
