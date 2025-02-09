@@ -38,24 +38,24 @@ export function CardComponent({
 }: CardData) {
   return (
     <a href={`/content/${slug}`}>
-      <Card className="rounded-[5px] w-[350px] h-[480px] flex flex-col ">
+      <Card className="rounded-[5px] w-[350px] h-[480px] flex flex-col dark:bg-darkPrimary">
         <CardHeader className="space-y-3">
           <div className="space-y-3">
-            <h2 className="text-xl font-medium tracking-normal text-primary line-clamp-2">
+            <h2 className="text-xl font-medium tracking-normal text-primary line-clamp-2 dark:text-white">
               {title}
             </h2>
-            <p className="text-slate-500 text-[16px] line-clamp-2">
+            <div className="text-slate-500 text-[16px] line-clamp-2">
               <Preview content={content} />
-            </p>
+            </div>
           </div>
 
           <div className="max-h-20 overflow-y-auto">
             <div className="flex flex-wrap gap-2">
-              {tags.map((tag, index) => (
+              {tags?.map((tag, index) => (
                 <Badge
                   key={index}
                   variant="outline"
-                  className="border-secondary text-primary text-xs rounded-[5px] font-medium hover:bg-primary hover:text-white"
+                  className="border-secondary text-primary text-xs rounded-[5px] font-medium hover:bg-primary hover:text-white dark:text-white dark:border-white dark:bg-secondary"
                 >
                   #{tag}
                 </Badge>
