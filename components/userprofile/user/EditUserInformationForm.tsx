@@ -133,8 +133,8 @@ export default function EditUserInformationForm(
       >
         <ToastContainer />
         <div className="mb-4">
-          <div className="w-full grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px]">
-            <div className="flex flex-col bg-white dark:bg-darkSecondary w-full h-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+          <div className="w-full md:mt-9 lg:mt-9 grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px] xl:mt-9">
+            <div className="flex flex-col bg-white mt-5 xl:mt-0 lg:mt-0 md:mt-0 dark:bg-darkSecondary w-full h-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
               <div className=" lg:h-[55px] h-[35px] w-full relative">
                 <CardTitle className="left-0 top-0 absolute lg:text-2xl text-lg ">
                   កែប្រែព័ត៌មានអំពីអ្នក
@@ -273,7 +273,7 @@ export default function EditUserInformationForm(
                       <CardTitle className="left-0 top-0 absolute lg:text-2xl text-lg">
                         កែប្រែផ្ទៃខាងក្រោយ
                       </CardTitle>
-                      <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260] dark:bg-[#FB0A5D]"></div>
+                      <div className="lg:w-[28px] md:w-[20px] w-[15px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260] dark:bg-[#FB0A5D]"></div>
                     </div>
                     <ColorPicker
                       onColorChange={(color) => {

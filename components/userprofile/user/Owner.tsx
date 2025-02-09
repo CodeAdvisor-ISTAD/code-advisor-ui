@@ -77,7 +77,7 @@ export default function Owner() {
               </div>
             </div>
           ) : (
-            <Skeleton className="cover w-full lg:h-[200px] h-[170px] rounded-[5px] relative">
+            <Skeleton className="cover w-full lg:h-[200px] md:h-[170px] h-[100px] rounded-[5px] relative">
               <ProfileImageSkeleton />
             </Skeleton>
           )}
