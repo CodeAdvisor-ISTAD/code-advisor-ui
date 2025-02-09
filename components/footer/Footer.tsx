@@ -33,76 +33,76 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Center Section - CSTAD Logo */}
-          <div className="md:col-span-1 lg:col-span-1 2xl:col-span-1">
-            <h3 className="mb-4 text-lg font-semibold">រៀបចំដោយ</h3>
-            <Image
-              src="/logoIstad.png"
-              alt="CSTAD Logo"
-              width={150}
-              height={150}
-              className="object-contain"
-            />
-          </div>
+            {/* Center Section - CSTAD Logo */}
+            <div className="sm:col-span-1 flex flex-col items-center text-center">
+              <h3 className="mb-3 text-lg font-semibold">រៀបចំដោយ</h3>
+              <Image
+                  src="/logoIstad.png"
+                  alt="CSTAD Logo"
+                  width={150}
+                  height={150}
+                  className="object-contain"
+              />
+            </div>
 
-          {/* Navigation Links */}
-          <div className="md:col-span-1 lg:col-span-1 2xl:col-span-1">
-            <h3 className="mb-4 text-lg font-semibold">តំណភ្ជាប់ទំព័រ</h3>
-            <nav className="flex flex-col space-y-2">
-              <Link href="/about" className="hover:underline">
-                អំពីពួកយើង
-              </Link>
-              <Link href="/all-content" className="hover:underline">
-                អត្ថបទ
-              </Link>
-              <Link href="/forum" className="hover:underline">
-                ពិភាក្សា
-              </Link>
-            </nav>
-          </div>
+            {/* Navigation Links */}
+            <div className="sm:col-span-1 flex flex-col items-center text-center">
+              <h3 className="mb-3 text-lg font-semibold">តំណភ្ជាប់ទំព័រ</h3>
+              <nav className="flex flex-col space-y-1">
+                <Link href="/about" className="hover:underline text-md">
+                  អំពីពួកយើង
+                </Link>
+                <Link href="/all-content" className="hover:underline text-md">
+                  អត្ថបទ
+                </Link>
+                <Link href="/forum" className="hover:underline text-md">
+                  ពិភាក្សា
+                </Link>
+              </nav>
+            </div>
 
-          {/* Additional Links */}
-          <div className="md:col-span-1 lg:col-span-1 2xl:col-span-1">
-            <h3 className="mb-4 text-lg font-semibold">ច្បាប់</h3>
-            <nav className="flex flex-col space-y-2">
-              <Link href="" className="hover:underline">
-                លក្ខខណ្ឌប្រើប្រាស់
-              </Link>
-              <Link href="/policy" className="hover:underline">
-                គោលការណ៍ភាពឯកជន
-              </Link>
-            </nav>
-          </div>
+            {/* Additional Links */}
+            <div className="sm:col-span-1 flex flex-col items-center text-center">
+              <h3 className="mb-3 text-lg font-semibold">ច្បាប់</h3>
+              <nav className="flex flex-col space-y-1">
+                <Link href="" className="hover:underline text-md">
+                  លក្ខខណ្ឌប្រើប្រាស់
+                </Link>
+                <Link href="/policy" className="hover:underline text-md">
+                  គោលការណ៍ភាពឯកជន
+                </Link>
+              </nav>
+            </div>
 
-          {/* Social Media Links */}
-          <div className="md:col-span-2 lg:col-span-1 2xl:col-span-1">
-            <h3 className="mb-4 text-lg font-semibold">តំណភ្ជាប់បណ្តេាលសង្គម</h3>
-            <div className="flex flex-col space-y-2">
-              <Link
-                href="https://www.facebook.com/istad.co"
-                className="flex items-center gap-2 hover:underline"
-                target="blank"
-              >
-                <FaFacebook className="h-6 w-6 fill-primary" />
-                <span>Facebook</span>
-              </Link>
-              <Link href="#" className="flex items-center gap-2 hover:underline">
-                <FaTwitter className="h-6 w-6 fill-primary" />
-                <span>Twitter</span>
-              </Link>
-              <Link href="#" className="flex items-center gap-2 hover:underline">
-                <FaEnvelope className="h-6 w-6 fill-primary" />
-                <span>Email</span>
-              </Link>
+            {/* Social Media Links */}
+            <div className="sm:col-span-2 lg:col-span-1 flex flex-col items-center text-center">
+              <h3 className="mb-3 text-lg font-semibold">តំណភ្ជាប់បណ្តេាលសង្គម</h3>
+              <div className="flex flex-col space-y-1">
+                <Link
+                    href="https://www.facebook.com/istad.co"
+                    className="flex items-center gap-2 hover:underline text-md"
+                    target="blank"
+                >
+                  <FaFacebook className="h-5 w-5 fill-primary" />
+                  <span>Facebook</span>
+                </Link>
+                <Link href="#" className="flex items-center gap-2 hover:underline text-md">
+                  <FaTwitter className="h-5 w-5 fill-primary" />
+                  <span>Twitter</span>
+                </Link>
+                <Link href="#" className="flex items-center gap-2 hover:underline text-md">
+                  <FaEnvelope className="h-5 w-5 fill-primary" />
+                  <span>Email</span>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Copyright */}
-        <div className="mt-8 pt-6 border-t  text-center text-sm text-muted-foreground">
-          © 2024 Copyright CodeAdvisors by ISTAD. All rights reserved.™
+          {/* Copyright */}
+          <div className="mt-6 pt-4 border-t text-center text-xs text-muted-foreground">
+            © 2024 Copyright CodeAdvisors by ISTAD. All rights reserved.™
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
   );
 }

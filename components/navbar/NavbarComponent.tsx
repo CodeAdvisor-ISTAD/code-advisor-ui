@@ -1,9 +1,10 @@
-'use client';
+// NavbarComponent.tsx
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useUser } from "@/lib/context/userContext";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
@@ -18,13 +19,14 @@ interface NavbarComponentProps {
 export default function NavbarComponent() {
   const route = useRouter();
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { data: user } = useQuery({
     queryKey: ["profile"],
     queryFn: fetchUserProfile,
   });
   const { setUser } = useUser();
-  const {theme} =useTheme();
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (user) {
@@ -35,7 +37,6 @@ export default function NavbarComponent() {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setSearchQuery(newQuery);
-
     if (newQuery.trim() === "") {
       // onSearch(""); // Show all when search is cleared
     }
@@ -44,7 +45,6 @@ export default function NavbarComponent() {
   const handleSearchSubmit = () => {
     router.push(`/all-content?query=${encodeURIComponent(searchQuery)}`);
   };
-
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -57,9 +57,9 @@ export default function NavbarComponent() {
     // onSearch('');
   };
 
-  if(user) {
+  if (user) {
     return <NavbarLogin user={user} />
-  }else{
+  } else {
     return (
       <>
         <div className="flex items-center border mb-2 bg-white justify-between h-[72px] px-[100px] dark:bg-darkPrimary">
@@ -70,10 +70,8 @@ export default function NavbarComponent() {
               {
                 theme === 'dark' ? (
                   <Image src="/Logo-dark.png" alt="logo" width={100} height={100} />
-
                 ) : (
                   <Image src="/logo1.png" alt="logo" width={100} height={100} />
-
                 )
               }
             </Link>
@@ -91,9 +89,8 @@ export default function NavbarComponent() {
                 onKeyPress={handleKeyPress}
               />
               <button className="absolute right-2 top-1/2 -translate-y-1/2 p-[5px]"
-               onClick={handleSearchSubmit}
-               >
-              
+                onClick={handleSearchSubmit}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -128,8 +125,10 @@ export default function NavbarComponent() {
               Register
             </Button>
           </div>
+
+
         </div>
       </>
-    )
+    );
   }
 }

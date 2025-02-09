@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Star } from "lucide-react";
@@ -31,10 +31,10 @@ export default function Recommendations({ type, item }: RecommendationProps) {
         let url = "";
         if (type === "Latest") {
           url =
-              "http://167.172.78.79:9200/content-service.contents/_search?q=isDeleted:false AND isDraft:false&sort=created_date:desc&size=10&pretty";
+              "https://elastic.panda.engineer/content-service.contents/_search?q=isDeleted:false AND isDraft:false&sort=created_date:desc&size=10&pretty";
         } else if (type === "Trending") {
           url =
-              "http://167.172.78.79:9200/content-service.contents/_search?q=isDeleted:false AND isDraft:false AND tags:java&size=10&pretty";
+              "https://elastic.panda.engineer/content-service.contents/_search?q=isDeleted:false AND isDraft:false AND tags:java&size=10&pretty";
         }
 
         try {

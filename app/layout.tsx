@@ -1,25 +1,22 @@
- 'use client'
+'use client'
 import localFont from "next/font/local";
 import "./globals.css";
-import NavbarComponent from "@/components/navbar/NavbarComponent"; 
+import NavbarComponent from "@/components/navbar/NavbarComponent";
 import Footer from "@/components/footer/Footer";
 import { roboto, koh_Santepheap } from "./fonts/fonts";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import Provider from "./_provider";
 import { Toaster } from "react-hot-toast";
 import { CommentProvider } from "@/lib/context/commentContext";
-import { UserProvider, useUser } from "@/lib/context/userContext";
+import { UserProvider } from "@/lib/context/userContext";
 import HighlightInitializer from "@/components/text-editor/HighlightInitializer";
 import { ThemeProvider } from "@/components/theme-provider"
 
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-
+                                     children,
+                                   }: Readonly<{ children: React.ReactNode }>) {
   // Implement the search handler function
   const handleSearch = (query: string) => {
     console.log("Search query:", query);
@@ -59,6 +56,6 @@ export default function RootLayout({
         </UserProvider>
         </Provider>
       </body>
-    </html>
+      </html>
   );
 }
