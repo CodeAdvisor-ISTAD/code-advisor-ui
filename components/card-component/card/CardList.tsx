@@ -39,7 +39,7 @@ export function CardList({ searchQuery }: CardListProps) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'http://167.172.78.79:9200/content-service.contents/_search?pretty=true&q=*:*'
+          'https://elastic.panda.engineer/content-service.contents/_search?q=*&pretty=true'
         )
         if (!response.ok) {
           throw new Error('Network response was not ok')

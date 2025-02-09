@@ -3,6 +3,7 @@ import { ForumCardComponent } from "./ForumCardComponent";
 import TagComponent from "@/components/tag/tagComponent";
 
 export default function ForumCardList({ forumCardData = { content: [] } }: { forumCardData?: any }) {
+    console.log("forumCardData", forumCardData);
     return (
         <div className="w-full">
             <TagComponent />

@@ -30,7 +30,6 @@ export function ContentSection({
   reactions: communityEngagement,
   createdAt: createdAt,
 }: Content) {
-  const formattedDate = formatDate(createdAt);
   return (
     <div className="no-scrollbar overflow-x-hidden">
       <Card className="ml-[100px] rounded-[5px] shadow-none no-scrollbar w-full">

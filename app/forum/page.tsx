@@ -1,6 +1,6 @@
 import HomeLayout from '@/components/layout/HomeLayout'
 import Layout from '@/components/layout/Layout'
-import ForumPage from '@/pages/ForumPages'
+import ForumPage from '@/components/pages/ForumPages'
 import React from 'react'
 
 function page() {

@@ -111,7 +111,7 @@ const RichTextEditor = forwardRef<unknown, RichTextEditorProps>(
 
     return (
       <div>
-        <ToolBar editor={editor} />
+        {editor && <ToolBar editor={editor} />}
         <EditorContent editor={editor} style={{ zIndex: "0" }} />
       </div>
     );

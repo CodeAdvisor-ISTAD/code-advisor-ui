@@ -52,7 +52,7 @@ export function ReactionButton({onReactionChange, contentId, ownerId, slug, user
         // First check localStorage for the reaction
         const storedReaction = localStorage.getItem(`${contentId}-${userId}`);
         if (storedReaction) {
-          setSelectedReaction(storedReaction); // Restore the reaction from localStorage
+          setSelectedReaction(storedReaction as any); // Restore the reaction from localStorage
         } else {
           // If no reaction in localStorage, fetch from the backend (if needed)
           const userReaction = await getUserReaction(contentId, userId);

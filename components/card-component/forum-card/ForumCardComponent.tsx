@@ -48,7 +48,6 @@ export function ForumCardComponent({
   forumCardData: ForumCardType;
 }) {
 
-    console.log("Forum Card Data: ", forumCardData);
     const [clicked, setClicked] = useState(false); // State to track if the card is clicked
     const router = useRouter();
 
@@ -107,7 +106,7 @@ export function ForumCardComponent({
     };
 
     const { data: userData } = useQuery({
-        queryKey: ['user'],
+        queryKey: ['user', forumCardData?.author_username],
         queryFn: () => getUserByUsername(forumCardData?.author_username),
     });
 
