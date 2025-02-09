@@ -65,14 +65,14 @@ export function HistoryFroumCardComponent({
   return (
     // <a href={`/forum/${slug}`}>
     <div>
-      <div className=" bg-white rounded-[5px] w-full p-4 ring-1 ring-gray-200">
+      <div className=" bg-white dark:bg-darkPrimary rounded-[5px] w-full p-4 ring-1 ring-gray-200">
         {/* Content Section */}
         <div className="mb-4">
           <div className="flex justify-between">
-            <h2 className="lg:text-2xl md:text-xl text-lg font-medium tracking-normal text-primary line-clamp-1">
+            <h2 className="lg:text-2xl md:text-xl text-lg font-medium tracking-normal line-clamp-1">
               <a href={`/forum/${slug}`}>{title}</a>
             </h2>
-            <div className="hidden lg:flex lg:justify-end md:justify-start justify-start text-gray-500 hover:text-gray-700">
+            <div className="hidden lg:flex lg:justify-end md:justify-start justify-start text-gray-500 dark:text-gray-300 hover:text-gray-700">
               <PopoverRoot className="hidden md:block">
                 <PopoverTrigger className="border-none">
                   <MoreVertical className="lg:w-5 lg:h-5 md:w-4 md:h-4 w-3 h-3" />
@@ -106,7 +106,7 @@ export function HistoryFroumCardComponent({
 
         {/* Tags Section */}
         <div className="flex flex-wrap gap-2 mb-4 justify-between">
-          <div className="pt-4 text-sm text-gray-500">
+          <div className="pt-4 text-sm text-gray-500 dark:text-gray-300">
             {new Date(createdAt)
               .toLocaleDateString("en-GB", {
                 year: "numeric",

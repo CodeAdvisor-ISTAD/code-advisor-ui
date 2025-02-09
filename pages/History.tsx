@@ -216,7 +216,7 @@ export default function ReadingHistoryPage() {
         ) : (
           <Tabs defaultValue="reading">
             <div>
-              <h1 className="lg:text-3xl md:text-2xl text-xl font-bold text-primary py-3">
+              <h1 className="lg:text-3xl md:text-2xl text-xl font-bold py-3">
                 ទិន្នន័យដែលអ្នកធ្លាប់បានអាន
               </h1>
             </div>
@@ -234,7 +234,7 @@ export default function ReadingHistoryPage() {
             <TabsContent value="reading" className="space-y-6 ml-1">
               {Object.entries(groupedHistory).length > 0 ? (
                 Object.entries(groupedHistory).map(([date, items]) => (
-                  <div key={date} className="space-y-4 text-primary">
+                  <div key={date} className="space-y-4">
                     <h2 className="lg:text-sm md:text-sm text-xs font-semibold">
                       {formatKhmerDate(date)}
                     </h2>

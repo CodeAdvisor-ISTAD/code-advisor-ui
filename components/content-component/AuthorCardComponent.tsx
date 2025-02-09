@@ -35,7 +35,7 @@ export function AuthorCardComponent({
           <CardContent className="pt-4 flex flex-row justify-between">
             <div className="">
               <div className="space-y-3 p-0">
-                <h1 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">
+                <h1 className="text-2xl font-medium tracking-normal text-primary dark:text-gray-200 line-clamp-2">
                   {title}
                 </h1>
                 <p className=" text-sm line-clamp-2 ">
@@ -46,13 +46,13 @@ export function AuthorCardComponent({
                 <div className="flex flex-wrap gap-2">
                   <Badge
                     variant="outline"
-                    className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
+                    className="border-secondary text-primary dark:text-gray-300 text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
                   >
                     #{tags}
                   </Badge>
                   <Badge
                     variant="outline"
-                    className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
+                    className="border-secondary text-primary dark:text-gray-300 text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white "
                   >
                     #{tags1}
                   </Badge>

@@ -28,7 +28,7 @@ export default function SaveUserUpdateButton({
           onClick={onEdit}
           className="bg-primary dark:bg-secondary xs:px-1 xs:py-1 lg:px-4 lg:py-2 rounded-sm"
         >
-          <div className="w-full flex items-center justify-center gap-2">
+          <div className="w-full flex items-center text-gray-100 justify-center gap-2">
             <p className="">កែប្រែ</p>
             {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
             <UserRoundPen className="w-5 h-5" />

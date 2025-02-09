@@ -10,7 +10,7 @@ export default function TagComponent() {
       <div className="lg:flex md:flex md:gap-2 lg:px-1 lg:gap-3 lg:text-base md:text-base text-sm">
         {[
           "Spring cloud",
-          "Technology",
+          // "Technology",
           "Javascript",
           "Programming",
           "Java",

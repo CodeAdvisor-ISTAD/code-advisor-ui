@@ -48,7 +48,7 @@ export function CardForumComponent({
         {/* Content Section */}
         <div className="mb-4">
           <div className="flex justify-between">
-            <h2 className="text-[18px] font-bold cursor-pointer">
+            <h2 className="text-[18px] dark:text-gray-200 font-bold cursor-pointer">
               {title}
             </h2>
             {/* <div className=" flex justify-end text-gray-500 hover:text-gray-700">
@@ -69,11 +69,11 @@ export function CardForumComponent({
               </PopoverRoot>
             </div> */}
           </div>
-          <p className=" mb-4">{content}</p>
+          <p className=" mb-4 dark:text-gray-300">{content}</p>
         </div>
 
         {/* Tags Section */}
-        <div className="flex flex-wrap gap-2 mb-4 justify-between">
+        <div className="flex flex-wrap gap-2 dark:text-gray-200 mb-4 justify-between">
           <div className="">{formatDate(timestamp)}</div>
           {/* Metrics Section */}
           <div className="flex items-center space-x-4  mr-2">
