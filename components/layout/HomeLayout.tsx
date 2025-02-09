@@ -6,6 +6,7 @@ import Recommendations from "../card-component/card-trending/TrendingComponent";
 import ISTADCard from "../card-component/card-trending/Card-Istad";
 import Footer from "../footer/Footer";
 import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
+import Provider from "@/app/_provider";
 
 function HomeLayout({
   children,
@@ -19,7 +20,8 @@ function HomeLayout({
     "Master React state management with Redux",
 ];
   return (
-    <div className="w-full">
+    <Provider>
+      <div className="w-full">
       <NavbarComponent />
       <div className="flex xl:px-[100px] lg:px-[25px] md:px-[20px] xl:gap-3">
         <div>
@@ -33,6 +35,7 @@ function HomeLayout({
       </div>
       <Footer />
     </div>
+    </Provider>
   );
 }
 

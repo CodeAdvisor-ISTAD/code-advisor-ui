@@ -1,5 +1,5 @@
 import React from 'react'
-import About from '@/pages/AboutPages'
+import About from '@/components/pages/AboutPages'
 import Layout from '@/components/layout/Layout'
 
 function AboutPage() {

@@ -77,7 +77,7 @@ export function ContentSidebar({
   useEffect(() => {
     const fetchReactions = async () => {
       try {
-        const reactions = await getReactionsByContentId(contentId);
+        const reactions = await getReactionsByContentId(contentId || "");
         setLocalReactions(reactions);
       } catch (error) {
         console.error("Failed to fetch reactions:", error);
@@ -120,7 +120,7 @@ export function ContentSidebar({
     };
 
     try {
-      const response = await shareContent(shareData);
+      const response = await shareContent(shareData as any);
       console.log("Content shared successfully:", response);
     } catch (error) {
       console.error("Error sharing content:", error);

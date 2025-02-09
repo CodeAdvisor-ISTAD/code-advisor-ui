@@ -227,7 +227,7 @@ export default function ToolBar({ editor }: { editor: Editor }) {
                         <Toggle
                             size="sm"
                             pressed={option.preesed}
-                            onPressedChange={option.onClick}
+                            onPressedChange={option.onClick ?? (() => {})}
                         >
                             {option.icon}
                         </Toggle>

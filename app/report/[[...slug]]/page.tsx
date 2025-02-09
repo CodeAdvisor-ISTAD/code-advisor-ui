@@ -46,9 +46,9 @@ export default function ReportForm() {
   const params = useParams(); // Get dynamic params
 
 // Extract params values from slug
-const type = params.slug?.[0] === "comment" ? "comment" : "content";
-const contentId = params.slug?.[1] || "";
-const commentId = type === "comment" ? params.slug?.[2] || "" : "";
+const type = params?.slug?.[0] === "comment" ? "comment" : "content";
+const contentId = params?.slug?.[1] || "";
+const commentId = type === "comment" ? params?.slug?.[2] || "" : "";
 
 console.log("Type:", type);         // "content" or "comment"
 console.log("Content ID:", contentId); // e.g., "6795c8a465314844e79028dd"
@@ -57,7 +57,7 @@ console.log("Comment ID:", commentId);
   console.log("Type of report: ", type)
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const slug = Array.isArray(params.slug) ? params.slug.join("/") : params.slug || ""; // Ensure slug is a string
+    const slug = params && Array.isArray(params.slug) ? params.slug.join("/") : params?.slug?.toString() || ""; // Ensure slug is a string
   
     const reportData = {
       type,

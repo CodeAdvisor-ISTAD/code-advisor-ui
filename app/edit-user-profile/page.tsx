@@ -1,5 +1,5 @@
 import Layout from '@/components/layout/Layout'
-import EditUser from '@/pages/EditUserProfile'
+import EditUser from '@/components/pages/EditUserProfile'
 import React from 'react'
 
 function page() {

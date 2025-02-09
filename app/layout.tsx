@@ -32,6 +32,7 @@ export default function RootLayout({
         className={`${roboto.variable} ${koh_Santepheap.variable} dark:bg-darkSecondary`}
       >
         <HighlightInitializer />
+        <Provider>
         <UserProvider>
           <CommentProvider>
           <ThemeProvider
@@ -40,7 +41,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Provider>
+
               {/* Pass the search handler function to NavbarComponent */}
              
               {/* <header className="bg-white dark:bg-darkPrimary border border-gray-200 border-none fixed top-0 right-0 left-0  z-50">
@@ -51,11 +52,12 @@ export default function RootLayout({
                 <main className="w-full">{children}</main>
               </SidebarProvider>
               <Toaster />
-            </Provider>
+
           </ThemeProvider>
             
           </CommentProvider>
         </UserProvider>
+        </Provider>
       </body>
     </html>
   );
