@@ -285,7 +285,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
       // Handle default case (e.g., creating a new top-level comment)
       const createAnswer: CreateComment = {
         questionSlug: slug,
-        answerUuid: "", // No parent comment
+        answerUuid: null, // No parent comment
         slug: slug + "-answer-" + Date.now(), // Generate a unique slug
         content: values.content,
       };
