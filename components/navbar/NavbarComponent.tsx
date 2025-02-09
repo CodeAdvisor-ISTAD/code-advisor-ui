@@ -119,7 +119,7 @@ export default function NavbarComponent() {
               Login
             </Button>
             <Button
-              onClick={() => route.push('http://202.178.125.77/:9090/register')}
+              onClick={() => route.push('https://identity.code-advisors.istad.co/register')}
               className=" text-white bg-primary rounded-[5px] hover:bg-primary-dark transition-colors"
             >
               Register
