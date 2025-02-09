@@ -21,7 +21,7 @@ const items = [
   {
     id: 1,
     title: "អត្ថបទ",
-    url: "/home",
+    url: "/",
     icon: FileQuestion,
     subItems: [
       { id: 1, title: "ថ្មីៗ", url: "/home" },
