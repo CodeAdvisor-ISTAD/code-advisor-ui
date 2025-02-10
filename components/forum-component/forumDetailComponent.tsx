@@ -47,6 +47,10 @@ import {
   unBookmarkForum,
 } from "@/hooks/api-hook/user/bookmark";
 import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
+import { TagsSkeleton } from "./skeleton/TagsSkeleton";
+import { RichTextEditorSkeleton } from "./skeleton/RichTextEditorSkeleton";
+import { UserProfileSkeleton } from "./skeleton/UserProfileSkeleton";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -57,6 +61,7 @@ const formSchema = z.object({
 export default function ForumDetailComponent({ slug }: { slug: string }) {
   const queryClient = useQueryClient();
   const editorRef = useRef(null);
+  const [isLoadingBlur, setIsLoadingBlur] = useState(true);
   const { replyTo, mode, setMode, setReplyTo, answerUuid, replyContent } =
     useCommentContext();
   const { data: user } = useQuery({
@@ -250,6 +255,12 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     }
   }, [replyContent, form]);
 
+  useEffect(() => {
+    setInterval(() => {
+      setIsLoadingBlur(false);
+    }, 2000);
+  })
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (mode === "reply") {
       // Handle reply logic
@@ -313,10 +324,14 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
       <div className="p-4 bg-white rounded-[5px] shadow-sm">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <UserProfile
+          {isLoadingBlur ? (
+            <UserProfileSkeleton />
+          ) : (
+            <UserProfile
             authorUsername={forum?.authorUsername}
             createdAt={forum?.createdAt}
           />
+          )}
           <button className="text-gray-500 hover:text-gray-700">
             <div className="w-6 h-6">•••</div>
           </button>
@@ -328,12 +343,24 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
           <h2 className="text-2xl font-bold">{forum?.title}</h2>
           <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
           <p className="text-lg">{forum?.description}</p>
-          <Preview content={forum?.introduction} />
+          {
+            isLoadingBlur ? (
+              <RichTextEditorSkeleton />
+            ) : (
+              <Preview content={forum?.introduction} />
+            )
+          }
 
           {/* Code Block */}
           <div className="rounded-md p-4 font-mono text-sm">
             <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
-            <Preview content={forum?.expectedAnswers} />
+            {
+              isLoadingBlur ? (
+                <RichTextEditorSkeleton />
+              ) : (
+                <Preview content={forum?.expectedAnswers} />
+              )
+            }
           </div>
 
           {/* Tags */}
@@ -452,9 +479,10 @@ const UserProfile = ({ authorUsername, createdAt }) => {
     queryFn: () => getUserByUsername(authorUsername),
     enabled: !!authorUsername,
   });
+  const router = useRouter();
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push(`/user-profile/${authorUsername}`)}>
       <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
           src={

@@ -51,8 +51,8 @@
 // );
 
 // export { Dashboard, DataBlockPink, DataBlockBlue, DataBlockGreen, DataBlockYellow, DataBlockPurple };
-import { DataBlockProps } from "@/lib/userProfile/information";
-import { useFetchCounts } from "@/lib/userProfile/information";
+import { DataBlockProps } from "@/lib/information";
+import { useFetchCounts } from "@/lib/information";
 
 const DataBlock = ({ number, text, color }: DataBlockProps) => (
   <div className="flex flex-col items-center relative">
@@ -107,4 +107,11 @@ const DataBlockPurple = (props: Omit<DataBlockProps, "color">) => (
   <DataBlock {...props} color="bg-purple-600" />
 );
 
-export { Dashboard, DataBlockPink, DataBlockBlue, DataBlockGreen, DataBlockYellow, DataBlockPurple };
+export {
+  Dashboard,
+  DataBlockPink,
+  DataBlockBlue,
+  DataBlockGreen,
+  DataBlockYellow,
+  DataBlockPurple,
+};

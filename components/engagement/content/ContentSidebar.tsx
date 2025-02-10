@@ -35,7 +35,10 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { getReactionsByContentId } from "@/hooks/api-hook/engagement/engagement-api";
+import {
+  getReactionsByContentId,
+  shareContent,
+} from "@/hooks/api-hook/engagement/engagement-api";
 
 interface Content {
   contentId?: string;
@@ -43,12 +46,17 @@ interface Content {
   ownerId?: string;
   userId?: string;
   comment?: Comment[];
-  bookmark?: number
+  bookmark?: number;
 }
 
-export function ContentSidebar(
-  { contentId, slug, ownerId, userId, comment, bookmark }: Content
-) {
+export function ContentSidebar({
+  contentId,
+  slug,
+  ownerId,
+  userId,
+  comment,
+  bookmark,
+}: Content) {
   const [isCommentFilled, setIsCommentFilled] = useState(false);
   const [isBookmarkFilled, setIsBookmarkFilled] = useState(false);
   const [currentBookmarkCount, setCurrentBookmarkCount] = useState(
@@ -103,6 +111,21 @@ export function ContentSidebar(
   if (loadingReactions) {
     return <div>Loading reactions...</div>;
   }
+
+  const handleShare = async (sharePlatform: string) => {
+    const shareData = {
+      userId,
+      contentId,
+      sharePlatform,
+    };
+
+    try {
+      const response = await shareContent(shareData);
+      console.log("Content shared successfully:", response);
+    } catch (error) {
+      console.error("Error sharing content:", error);
+    } 
+  };
 
   return (
     <SidebarComment
@@ -169,16 +192,22 @@ export function ContentSidebar(
               <SidebarMenuItem>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <div className="justify-self-end mx-4 ">
+                    <div className="justify-self-end mx-4">
                       <MdMoreHoriz className="text-2xl" />
                       <span className="sr-only">More options</span>
                     </div>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="px-2">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>Share to X</DropdownMenuItem>
-                      <DropdownMenuItem>Share to Facebook</DropdownMenuItem>
-                      <DropdownMenuItem>Share to LinkedIn</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleShare("X")}>
+                        Share to X
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleShare("Facebook")}>
+                        Share to Facebook
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleShare("LinkedIn")}>
+                        Share to LinkedIn
+                      </DropdownMenuItem>
                       <DropdownMenuItem>
                         <a href={`/report/content/${contentId}`}>
                           Report Abuse

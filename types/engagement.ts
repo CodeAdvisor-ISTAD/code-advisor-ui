@@ -14,6 +14,16 @@ export interface Author {
   image: string;
 }
 
+export interface ReactionRequest {
+  contentId: string;
+  type: string;
+  userId: string;
+  reactionType: string;
+  ownerId: string;
+  slug: string;
+}
+
+
 // Type for Content
 export interface Content {
   contentId?: string;

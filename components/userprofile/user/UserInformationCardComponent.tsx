@@ -1,7 +1,7 @@
-import React, { useEffect ,useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import { Card, CardTitle } from "@/components/ui/card";
-import { staticUserProfile } from "@/lib/userProfile/information";
+import { staticUserProfile } from "@/lib/information";
 import {
   Table,
   TableBody,
@@ -10,12 +10,11 @@ import {
 } from "@/components/userprofile/table";
 
 export default function UserInformationCardComponent(userInformation) {
-  console.log("userInformation", userInformation);
   const user = userInformation.userInformation || staticUserProfile;
 
   return (
     <div className="flex flex-col gap-4">
-      <Card className="xs:w-[450px] lg:w-[510px] p-6 rounded-lg bg-white">
+      <Card className="w-full p-6 rounded-lg bg-white">
         <div className="w-[80px] h-[55px] relative">
           <CardTitle className="left-0 top-0 absolute text-[#000040] text-2xl">
             អំពីអ្នក
@@ -58,8 +57,16 @@ export default function UserInformationCardComponent(userInformation) {
               <TableCell className="text-lg pb-[10px]">
                 ថ្ងៃ ខែ​ ឆ្នាំកំណើត
               </TableCell>
-                <TableCell className="text-right font-khFont text-lg pb-[10px] font-bold">
-                {user.dob ? new Date(user.dob).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).replace(/ /g, ' - ') : "មិនមានទិន្នន័យ"}
+              <TableCell className="text-right font-khFont text-lg pb-[10px] font-bold">
+                {user.dob
+                  ? new Date(user.dob)
+                      .toLocaleDateString("en-GB", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                      })
+                      .replace(/ /g, " - ")
+                  : "មិនមានទិន្នន័យ"}
               </TableCell>
             </TableRow>
             <TableRow>

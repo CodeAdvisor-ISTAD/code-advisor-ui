@@ -7,8 +7,8 @@ export default function ForumCardList({ forumCardData = { content: [] } }: { for
         <div className="ml-[264px] w-full">
             <TagComponent />
             <div className="grid grid-cols-1 gap-2 max-w-7xl mx-auto">
-                {forumCardData?.content?.map((card: ForumCardType) => (
-                    <ForumCardComponent key={card.uuid} forumCardData={card} />
+                {forumCardData?.content?.map((card: ForumCardType, index: number) => (
+                    <ForumCardComponent key={`${card.uuid}-${index}`} forumCardData={card} />
                 ))}
             </div>
         </div>

@@ -17,6 +17,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useParams } from "next/navigation";
+import { Notification } from "@/types/notifications";
+import { WebSocketService } from "@/lib/websocket";
+import { useEffect } from "react";
+import { fetchNotifications } from "@/lib/api";
+import { useUser } from "@/lib/context/userContext";
 
 interface NavbarLoginProps {
   user: any;
@@ -25,6 +31,13 @@ interface NavbarLoginProps {
 
 export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
   const router = useRouter();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState<number>(0);
+  const [lastCheckedTime, setLastCheckedTime] = useState<number>(
+    typeof window !== "undefined"
+      ? Number(localStorage.getItem("lastNotificationCheck") || "0")
+      : 0
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +57,70 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
     if (e.key === "Enter") {
       handleSearchSubmit();
     }
+  };
+  console.log("User: ", user?.username);
+
+  const [userUuid, setUserUuid] = useState(user?.uuid || "");
+
+  useEffect(() => {
+    if (!user || !user.uuid) {
+      console.warn("User or user UUID is not available.");
+      return;
+    }
+
+    const userUuid = user.uuid;
+
+    console.log("User UUID: ", userUuid);
+
+    const wsService = new WebSocketService(
+      "http://202.178.125.77:1084/ws",
+      userUuid
+    );
+
+    wsService.onNotification((notification) => {
+      setNotifications((prev) => [notification, ...prev]);
+      const notificationTime = new Date(notification.createdAt).getTime();
+      if (notificationTime > lastCheckedTime) {
+        setUnreadCount((prev) => prev + 1);
+      }
+    });
+    wsService.connect();
+
+    const loadInitialNotifications = async () => {
+      try {
+        const initialNotifications = await fetchNotifications(userUuid);
+        setNotifications(initialNotifications);
+
+        const newNotificationsCount = initialNotifications.filter(
+          (notification) =>
+            new Date(notification.createdAt).getTime() > lastCheckedTime &&
+            !notification.read
+        ).length;
+
+        setUnreadCount(newNotificationsCount);
+      } catch (error) {
+        console.error("Failed to fetch notifications:", error);
+      }
+    };
+
+    loadInitialNotifications();
+
+    return () => {
+      wsService.disconnect();
+    };
+  }, [user, lastCheckedTime]);
+
+  const handleNotificationClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const currentTime = Date.now();
+    setLastCheckedTime(currentTime);
+    setUnreadCount(0);
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("lastNotificationCheck", currentTime.toString());
+    }
+
+    router.push("/notification");
   };
 
   return (
@@ -101,19 +178,28 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
             }
           >
             <DropdownItem className="text-black">
-              <span onClick={() => router.push("/content/new")}>បង្កើតអត្ថបទ</span>
+              <span onClick={() => router.push("/content/new")}>
+                បង្កើតអត្ថបទ
+              </span>
             </DropdownItem>
             <DropdownItem className="text-black">
-              <Link href="/forum/new">បង្កើត Forum</Link>
+              <Link href="/forum/new">បង្កើតពិភាក្សា</Link>
             </DropdownItem>
           </Dropdown>
         </div>
 
-        <a href="/notification">
-          <button className="relative text-primary mx-8">
-            <FiBell className="h-7 w-7" />
-          </button>
-        </a>
+        {/* Notification Icon */}
+        <button
+          className="relative text-primary mx-8"
+          onClick={handleNotificationClick}
+        >
+          <FiBell className="h-7 w-7" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 flex h-4 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
+        </button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -148,7 +234,11 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-600">
               <LogOut className="mr-2 h-4 w-4" />
-              <span onClick={() => router.push("http://127.0.0.1:9090/logout")}>ចាកចេញ</span>
+              <span
+                onClick={() => router.push("http://202.178.125.77:9090/logout")}
+              >
+                ចាកចេញ
+              </span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

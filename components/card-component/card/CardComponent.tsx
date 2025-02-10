@@ -40,11 +40,11 @@ export function CardComponent({
     <a href={`/content/${slug}`}>
       <Card className="rounded-[5px] w-[350px] h-[480px] flex flex-col ">
         <CardHeader className="space-y-3">
-          <div className="space-y-3">
-            <h2 className="text-xl font-medium tracking-normal text-primary">
+          <div className="space-y-1">
+            <h2 className="text-xl font-medium tracking-normal text-primary line-clamp-2">
               {title}
             </h2>
-            <p className="text-slate-500 text-[16px] line-clamp-2">
+            <p className="text-slate-500 text-[16px] line-clamp-2 ">
               <Preview content={content} />
             </p>
           </div>

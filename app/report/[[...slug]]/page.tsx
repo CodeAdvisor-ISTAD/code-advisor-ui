@@ -45,22 +45,22 @@ export default function ReportForm() {
   const router = useRouter();
   const params = useParams(); // Get dynamic params
 
-  // Extract params values
-  const type = params.slug ? params.slug[0] : ""; // 'content' or 'comment'
-  const contentId = params.slug ? params.slug[1] : ""; // Content ID
-  const commentId = params.slug ? params.slug[2] : ""; // Comment ID, if available
+// Extract params values from slug
+const type = params.slug?.[0] === "comment" ? "comment" : "content";
+const contentId = params.slug?.[1] || "";
+const commentId = type === "comment" ? params.slug?.[2] || "" : "";
 
-  // function onSubmit(values: z.infer<typeof formSchema>) {
-  //   console.log("Submitted values:", values);
+console.log("Type:", type);         // "content" or "comment"
+console.log("Content ID:", contentId); // e.g., "6795c8a465314844e79028dd"
+console.log("Comment ID:", commentId); 
 
-  //   // Redirect or trigger any additional logic here
-  //   router.push(`/content/${contentId}`);
-  // }
+  console.log("Type of report: ", type)
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const slug = Array.isArray(params.slug) ? params.slug.join("/") : params.slug || ""; // Ensure slug is a string
   
     const reportData = {
+      type,
       contentId, // Assuming `contentId` is defined in the component scope
       commentId, // Assuming `commentId` is defined in the component scope
       slug, // Ensure slug is a string
@@ -75,10 +75,9 @@ export default function ReportForm() {
       setLoading(true);
       const response = await createReport(reportData);
       console.log("Report created successfully:", response);
-      alert("Report submitted successfully!");
+      ("Report submitted successfully!");
     } catch (error) {
       console.error("Failed to submit report:", error);
-      alert("Failed to submit the report. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -100,7 +99,7 @@ export default function ReportForm() {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Report Type */}
+              {/* Report reason */}
               <FormField
                 control={form.control}
                 name="reason"
@@ -164,7 +163,7 @@ export default function ReportForm() {
                 )}
               />
 
-              {/* Message Field */}
+              {/* description Field */}
               <FormField
                 control={form.control}
                 name="descriptoin"

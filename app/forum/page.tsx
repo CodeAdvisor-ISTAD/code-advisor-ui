@@ -1,4 +1,3 @@
-"use client";
 import ISTADCard from "@/components/card-component/card-trending/Card-Istad";
 import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
 import ForumCardList from "@/components/card-component/forum-card/ForumCardList";
@@ -33,7 +32,7 @@ type ElasticResponse = {
 // Updated fetch function for Elasticsearch
 const getAllForums = async function fetchAllForums() {
     try {
-        const response = await fetch(`http://167.172.78.79:9200/forum.public.question/_search?q=*`);
+        const response = await fetch(`https://elastic.panda.engineer/forum.public.question/_search?q=*`);
         if (response.ok) {
             const data: ElasticResponse = await response.json();
             // Transform Elasticsearch data to match your component's expected format

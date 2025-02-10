@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   DataBlockBlue,
   DataBlockGreen,
   DataBlockPink,
   DataBlockPurple,
   DataBlockYellow,
-} from "@/components/userprofile/user/achievement/UserDatapoint";
-import { arabicToKhmer } from "@/lib/userProfile/information";
+} from "@/components/userprofile/achievement/UserDatapoint";
+import { arabicToKhmer } from "@/lib/information";
 
 export default function UserActivityPoints(achievement) {
-  console.log("UserActivityPoints", achievement?.achievement?.interaction_total);
+  console.log(
+    "UserActivityPoints",
+    achievement?.achievement?.interaction_total
+  );
 
   const dataBlocks = [
     {
@@ -20,7 +23,7 @@ export default function UserActivityPoints(achievement) {
     },
     {
       component: DataBlockBlue,
-      number: achievement?.achievement?.ask_question_total  || 0,
+      number: achievement?.achievement?.ask_question_total || 0,
       text: "ធ្លាប់បានសួរ",
       color: "bg-blue-500",
     },
@@ -44,17 +47,15 @@ export default function UserActivityPoints(achievement) {
     },
   ];
 
-
-
   return (
     <div className="w-full max-w-3xl space-y-4 justify-center items-center flex flex-col">
-      <div className="flex items-center w-[400px] justify-center">
+      <div className="flex items-center lg:w-[375px] w-[325px] justify-center">
         {dataBlocks.map(
           ({ component: Component, number, text, color }, index) => (
             <React.Fragment key={index}>
               <Component number={arabicToKhmer(number)} text={text} />
               {color && (
-                <div className="flex lg:w-full xs:w-16 items-center">
+                <div className="flex w-full items-center">
                   <div className={`h-1 w-full ${color} rounded-sm`}></div>
                 </div>
               )}
