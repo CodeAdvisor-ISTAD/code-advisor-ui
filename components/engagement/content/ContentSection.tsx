@@ -7,6 +7,7 @@ import { FaHeart, FaFire, FaThumbsUp } from "react-icons/fa";
 import Preview from "@/components/text-editor/preview";
 import { Content } from "@/types/engagement";
 import { Skeleton } from "@/components/ui/skeleton";
+import UserProfile from "@/components/pages/UserProfile";
 
 const formatDate = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -31,9 +32,9 @@ export function ContentSection({
   reactions: communityEngagement,
   createdAt: createdAt,
   username: username,
+  profileImage: profileImage,
   isLoading,
 }: Content & { isLoading?: boolean }) {
-  const formattedDate = formatDate(createdAt);
   return (
     <div className="no-scrollbar overflow-x-hidden">
       <Card className="md:ml-[100px] rounded-[5px] shadow-none no-scrollbar">
@@ -88,11 +89,11 @@ export function ContentSection({
             ) : (
               <Profile
                 imageUrl={
-                  authorUuid ||
-                  "https://avatars.githubusercontent.com/u/110375748?v=4"
+                  profileImage ||
+                  "https://i.pinimg.com/736x/0f/78/5d/0f785d55cea2a407ac8c1d0c6ef19292.jpg"
                 }
                 username={username || "Annoymous"}
-                postDate={formattedDate || "Jan 31 2025"}
+                postDate={formatDate(createdAt) || "Jan 31 2025"}
               />
             )}
             
