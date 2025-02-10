@@ -18,7 +18,9 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const [linkCopied, setLinkCopied] = useState(false);
 
   // Generate the shareable link
-  const shareableLink = `${window.location.origin}/content/${contentId}`;
+  const shareableLink = typeof window !== "undefined"
+  ? `${window.location.origin}/content/${contentId}`
+  : "";
 
   // Copy link to clipboard
   const handleCopyLink = () => {

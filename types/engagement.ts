@@ -33,8 +33,9 @@ export interface Content {
   description?: React.ReactNode;
   thumbnail?: string;
   authorUuid?: string;
+  profileImage?: string;
   tags?: string[];
-  createdAt?: string;
+  createdAt: string;
   reactions?: Reactions;
   comment?: Comment[];
   isBookmark?: boolean;
