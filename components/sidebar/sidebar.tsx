@@ -39,6 +39,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "../ui/sheet";
+import {ToggleTheme} from "@/components/switch-theme/toggleTheme";
 
 // Define the same items array as in AppSidebar
 const items = [
@@ -80,10 +81,12 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
     // @ts-ignore
     return (
         <Sheet>
+
             <SheetTrigger asChild>
                 <Button className="mr-4 md:hidden absolute  right-0 bg-white">
                     <Menu className="w-10 h-10" />
                 </Button>
+
             </SheetTrigger>
             <SheetContent className="w-[300px]">
                 <SheetHeader>
@@ -138,6 +141,8 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
 
                 {/* Login/Register buttons moved below items */}
                 <div className="p-4 border-t">
+                    <div className=" mb-2">
+                        <ToggleTheme /></div>
                     <Button
                         onClick={() => {
                             onClose();
@@ -156,6 +161,7 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
                     >
                         Register
                     </Button>
+
                 </div>
             </SheetContent>
         </Sheet>

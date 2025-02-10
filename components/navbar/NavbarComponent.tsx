@@ -10,6 +10,7 @@ import { fetchUserProfile } from "@/hooks/api-hook/auth/use-profile";
 import { NavbarLogin } from "./NavbarLogin";
 import { ToggleTheme } from "../switch-theme/toggleTheme";
 import { useTheme } from "next-themes";
+import MobileSidebar from "@/components/sidebar/sidebar";
 
 interface NavbarComponentProps {
   onSearch: (query: string) => void;
@@ -18,6 +19,7 @@ interface NavbarComponentProps {
 export default function NavbarComponent() {
   const route = useRouter();
   const router = useRouter();
+  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { data: user } = useQuery({
     queryKey: ["profile"],
@@ -113,7 +115,7 @@ export default function NavbarComponent() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex h-[50px] items-center gap-3">
+          <div className="hidden md:flex space-x-4">
             <ToggleTheme />
             <Button
               onClick={() => route.push('/oauth2/authorization/code-advisor')}
@@ -128,8 +130,12 @@ export default function NavbarComponent() {
               បង្កើតគណនី
             </Button>
           </div>
+          {/* Hamburger button moved to the right */}    {/* Hamburger Button */}
+          <MobileSidebar onClose={()=>setMobileSidebarOpen(false)}/>
 
         </div>
+
+
 
       </>
     )
