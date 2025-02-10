@@ -188,7 +188,7 @@ export function NavbarLogin({ user }: NavbarLoginProps) {
               </span>
             </DropdownItem>
             <DropdownItem className="text-black">
-              <Link href="/forum/new">បង្កើត Forum</Link>
+              <Link href="/forum/new">បង្កើតពិភាក្សា</Link>
             </DropdownItem>
           </Dropdown>
         </div>

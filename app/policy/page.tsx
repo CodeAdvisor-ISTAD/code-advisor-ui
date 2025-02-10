@@ -72,7 +72,7 @@ const PolicyPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-background from-purple-100 pt-[80px] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background from-purple-100 pt-[90px] px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-4xl font-semibold text-center text-primary mb-8">CodeAdvisors Policy</h1>
                 {policies.map((policy) => (

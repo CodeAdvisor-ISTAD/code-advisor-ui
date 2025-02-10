@@ -31,10 +31,10 @@ export default function Recommendations({ type, item }: RecommendationProps) {
         let url = "";
         if (type === "Latest") {
           url =
-              "http://167.172.78.79:9200/content-service.contents/_search?q=isDeleted:false AND isDraft:false&sort=created_date:desc&size=10&pretty";
+              "https://elastic.panda.engineer/content-service.contents/_search?q=isDeleted:false AND isDraft:false&sort=created_date:desc&size=10&pretty";
         } else if (type === "Trending") {
           url =
-              "http://167.172.78.79:9200/content-service.contents/_search?q=isDeleted:false AND isDraft:false AND tags:java&size=10&pretty";
+              "https://elastic.panda.engineer/content-service.contents/_search?q=isDeleted:false AND isDraft:false AND tags:java&size=10&pretty";
         }
 
         try {
@@ -68,22 +68,22 @@ export default function Recommendations({ type, item }: RecommendationProps) {
   const displayedItems = items.slice(0, 4);
 
   return (
-      <Card className="rounded-[5px] dark:bg-darkPrimary w-[341px]">
+      <Card className="rounded-[5px]">
         <div className="">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary dark:text-white">
+          <CardHeader className="-mb-8">
+            <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary">
               <Star className="h-6 w-6 fill-red-500 text-red-500" />
               {type}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-2 ">
+            <ul className="space-y-2">
               {displayedItems.map((item) => (
                   <li key={item.slug} className="flex items-start gap-2">
                     <span className="mt-4 h-2 w-2 shrink-0 rounded-full bg-primary" />
                     <Link
                         href={`/content/${item.slug}`}
-                        className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer hover:underline dark:text-white"
+                        className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer hover:underline"
                     >
                       {item.title}
                     </Link>
@@ -92,6 +92,5 @@ export default function Recommendations({ type, item }: RecommendationProps) {
             </ul>
           </CardContent>
         </div>
-      </Card>
-  );
+      </Card>  );
 }

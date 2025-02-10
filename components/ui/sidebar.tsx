@@ -230,7 +230,7 @@ const Sidebar = React.forwardRef<
         return (
             <div
                 ref={ref}
-                className="group peer hidden md:block fixed top-[80px] text-sidebar-foreground"
+                className="group peer hidden sm:block fixed top-[80px] text-sidebar-foreground"
                 data-state={state}
                 data-collapsible={state === "collapsed" ? collapsible : ""}
                 data-variant={variant}
@@ -373,7 +373,7 @@ const SidebarHeader = React.forwardRef<
         <div
             ref={ref}
             data-sidebar="header"
-            className={cn("flex flex-col gap-2 p-2", className)}
+            className={cn("flex flex-row gap-0 p-2", className)}
             {...props}
         />
     );
