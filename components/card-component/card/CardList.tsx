@@ -39,7 +39,7 @@ export function CardList({ searchQuery }: CardListProps) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://elastic.panda.engineer/content-service.contents/_search?pretty=true&q=*:*'
+          'https://elastic.panda.engineer/content-service.contents/_search?q=*&pretty=true'
         )
         if (!response.ok) {
           throw new Error('Network response was not ok')
@@ -95,14 +95,14 @@ export function CardList({ searchQuery }: CardListProps) {
   const displayCards = (searchQuery ? filteredCards : cards).slice(0, 10)
 
   return (
-    <div className="">
+    <div className="w-full">
       {displayCards.length === 0 ? (
               <p className="text-center py-4 text-gray-500">No results found</p>
 
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
           {displayCards.map((card) => (
-            <CardComponent key={card.slug} {...card} />
+            <CardComponent key={card.id} {...card} />
           ))}
         </div>
       )}

@@ -10,17 +10,22 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadProfileImage } from "@/hooks/api-hook/user/user-service";
 import BadgeComponent from "../badge/BadgeComponent";
 import { koh_Santepheap } from "@/app/fonts/fonts";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProfileImageProps {
   disableButton: boolean;
   profileAuth: any;
 }
 
-export default function ProfileImage({ disableButton, profileAuth }: ProfileImageProps) {
+export default function ProfileImage({
+  disableButton,
+  profileAuth,
+}: ProfileImageProps) {
   const queryClient = useQueryClient();
   const [image, setImage] = useState<string>("null");
   const [tempImage, setTempImage] = useState<string | null>(null);
   const [showSavePopup, setShowSavePopup] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { mutate: updateUserProfile } = useMutation({
     mutationFn: uploadProfileImage,
@@ -28,28 +33,36 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       queryClient.invalidateQueries({ queryKey: ["authProfile"] });
       toast.success("រូបភាពរបស់អ្នកត្រូវបានរក្សាទុកដោយជោគជ័យ");
+      setLoading(false);
     },
     onError: () => {
       toast.error("បរាជ័យក្នុងការរក្សាទុករូបភាព សូមព្យាយាមម្តងទៀត");
+      setLoading(false);
     },
   });
 
   const uploadFile = async (file: File) => {
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("https://media.panda.engineer/api/v1/files/upload?file", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://media.panda.engineer/api/v1/files/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const result = await response.json();
       setTempImage(result.file_url);
       setShowSavePopup(true);
+      setLoading(false);
       return result.file_url;
     } catch (error) {
       setImage(profilePlaceholder.src);
+      setLoading(false);
       return null;
     }
   };
@@ -84,13 +97,24 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
   return (
     <div>
       <div className="flex flex-row absolute lg:-bottom-28 -bottom-20 left-8">
-        <div className="relative lg:w-[200px] lg:h-[200px] w-[125px] h-[125px] rounded-full bg-white overflow-hidden bottom-2">
-          <Image
-            src={tempImage || (image !== "null" ? image : profileAuth?.profileImage || profilePlaceholder.src)}
-            alt="Profile"
-            className="object-cover rounded-full border-4 border-gray-200 lg:w-[200px] lg:h-[200px] w-[100px] h-[100px]"
-            fill
-          />
+        <div className="relative lg:w-[200px] lg:h-[200px] w-[125px] h-[125px] rounded-full overflow-hidden bottom-2">
+          {loading ? (
+            <Skeleton
+              style={{ borderRadius: "50%", height: 200, width: 200 }}
+            />
+          ) : (
+            <Image
+              src={
+                tempImage ||
+                (image !== "null"
+                  ? image
+                  : profileAuth?.profileImage || profilePlaceholder.src)
+              }
+              alt="Profile"
+              className="object-cover rounded-full border-4 border-gray-200 lg:w-[200px] lg:h-[200px] w-[100px] h-[100px]"
+              fill
+            />
+          )}
           <input
             type="file"
             accept="image/*"
@@ -111,17 +135,23 @@ export default function ProfileImage({ disableButton, profileAuth }: ProfileImag
         <div className="flex items-center justify-between absolute lg:pl-56 pl-[150px] lg:top-[105px] top-[60px] w-[400px] lg:w-[750px]">
           <div>
             <div className="flex gap-2 flex-row w-full mx-auto">
-              <h2 className="lg:text-3xl text-xl font-bold">{profileAuth?.fullName}</h2>
-              <BadgeComponent />
+              <h2 className="lg:text-3xl text-xl font-bold">
+                {profileAuth?.fullName}
+              </h2>
+              <BadgeComponent userId={profileAuth?.id} />
             </div>
-            <p className="lg:text-lg text-xs text-muted-foreground">@{profileAuth?.username}</p>
+            <p className="lg:text-lg text-xs text-muted-foreground">
+              @{profileAuth?.username}
+            </p>
           </div>
         </div>
       </div>
       {showSavePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 max-w-sm w-full rounded-xl shadow-lg transform transition-all duration-300 ease-in-out scale-100">
-            <h3 className="text-xl font-semibold mb-6 text-center text-gray-700">ផ្លាស់ប្តូររូបភាពរបស់អ្នក</h3>
+            <h3 className="text-xl font-semibold mb-6 text-center text-gray-700">
+              ផ្លាស់ប្តូររូបភាពរបស់អ្នក
+            </h3>
             <div className="flex justify-center mb-6">
               <Image
                 src={tempImage || ""}

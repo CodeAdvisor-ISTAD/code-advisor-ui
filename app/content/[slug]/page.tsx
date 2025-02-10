@@ -9,6 +9,8 @@ import { getContent } from "@/hooks/api-hook/content/content-api";
 import { getComment } from "@/hooks/api-hook/engagement/engagement-api";
 import { useQuery } from "@tanstack/react-query";
 import { use } from "react";
+import { SidebarProvider } from "@/components/ui/sidebarContent";
+import Layout from "@/components/layout/Layout";
 
 export default function Page({
   params,
@@ -18,7 +20,7 @@ export default function Page({
   const resolvedParams = use(params); // Unwrap the params Promise
   const slug = resolvedParams.slug;
 
-  console.log("Slug here: ", slug);
+ 
 
   // const contentId = "6795c8a465314844e79028dd"; // Example contentId, dynamically set as needed
   // const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
@@ -30,8 +32,9 @@ export default function Page({
     queryFn: () => getContent(slug),
     enabled: !!slug, // Ensure query only runs when slug exists
   });
+  
 
-  console.log("Content ID: ", data?.id);
+
 
   // Fetch comments by contentId
   const {
@@ -44,40 +47,43 @@ export default function Page({
   });
 
   return (
-    <main className="flex mx-auto mt-[80px] pb-4 bg-gray-100 w-full px-[100px]">
-      <div className="w-full fixed">
-        <ContentSidebar
-          comment={comments} // Replace with your comments data
-          bookmark={0} // Replace with your bookmark count
-          contentId={data?.contentId} // Pass the contentId
-          userId={data?.userId}
-          ownerId={data?.ownerId}
-          slug={slug}
-        />
-      </div>
-      <ContentSection
-        
-        thumbnail={data?.thumbnail}
-        title={data?.title}
-        tags={data?.tags}
-        reactions={data?.communityEngagement}
-        description={data?.content}
-        createdAt={data?.createdDate}
-        slug={data?.slug} // Ensure you pass the correct slug
-        keywords={data?.keywords ?? ""} // Pass your actual keywords if needed
-        isDraft={false}
-        isArchived={false}
-        isDeleted={false}
-      />
-      <CommentSection
-        comment={comments}
-        contentId={data?.contentId}
-        ownerId={data?.ownerId}
-        slug={slug}
-        userId={data?.userId}
-      />
+    <Layout>
+      <SidebarProvider>
+        <div className="flex mx-auto  pb-4 bg-gray-100 w-full px-[100px]">
+          <div className="w-full fixed">
+            <ContentSidebar
+              comment={comments} // Replace with your comments data
+              bookmark={0} // Replace with your bookmark count
+              contentId={data?.contentId} // Pass the contentId
+              userId={data?.userId}
+              ownerId={data?.ownerId}
+              slug={slug}
+            />
+          </div>
+          <ContentSection
+            thumbnail={data?.thumbnail}
+            title={data?.title}
+            tags={data?.tags}
+            reactions={data?.communityEngagement}
+            description={data?.content}
+            createdAt={data?.createdDate}
+            slug={data?.slug} // Ensure you pass the correct slug
+            keywords={data?.keywords ?? ""} // Pass your actual keywords if needed
+            isDraft={false}
+            isArchived={false}
+            isDeleted={false}
+          />
+          <CommentSection
+            comment={comments}
+            contentId={data?.contentId}
+            ownerId={data?.ownerId}
+            slug={slug}
+            userId={data?.userId}
+          />
 
-      <PrismLoader />
-    </main>
+          <PrismLoader />
+        </div>
+      </SidebarProvider>
+    </Layout>
   );
 }

@@ -1,17 +1,12 @@
-export interface badge  {
-    id: string;
-    userId: string;
-    badgeName: string;
-    badgeImage: "string"
-}
 
 
-export async function fetchBadge(badge: any) {
-    const response = await fetch("/users/api/v1/achievement_badges/CodeAdvisors' developer");
-    if(response.ok){
+export async function fetchBadge(userId: string) {
+    const response = await fetch(`/users/api/v1/achievement_badges/user/${userId}`);
+    if (response.ok) {
         const data = await response.json();
+        console.log("dataBadge", data);
         return data;
-    }else{
+    } else {
         return null;
     }
 }

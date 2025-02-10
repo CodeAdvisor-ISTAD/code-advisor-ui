@@ -50,14 +50,20 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
   const handleReply = (answerUuid) => {
     setMode("reply");
     setReplyTo(answerUuid);
-    document.getElementById("editor").scrollIntoView({ behavior: "smooth" });
+    const editorElement = document.getElementById("editor");
+    if (editorElement) {
+      editorElement.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleEditReply = (answerUuid: string, replyContent: string) => {
     setMode("edit");
     setAnswerUuid(answerUuid);
     setReplyContent(replyContent);
-    document.getElementById("editor").scrollIntoView({ behavior: "smooth" });
+    const editorElement = document.getElementById("editor");
+    if (editorElement) {
+      editorElement.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const { data: answer } = useQuery({
@@ -154,7 +160,7 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
   });
 
   return (
-    <div className=" mt-3  mx-auto bg-white rounded-lg shadow-sm p-6">
+    <div className=" mt-3  mx-auto bg-white dark:bg-darkPrimary rounded-lg shadow-sm p-6">
       <h2 className="text-xl font-bold mb-4">{totalAnswer?.total} Answers</h2>
 
       {/* Main Comment */}

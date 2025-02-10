@@ -3,12 +3,12 @@
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import emptyImage from "@/public/user-profile-image/empty-folder.jpg";
+import emptyImage from "@/public/user-profile-image/មិនមានទិន្នន័យ.png";
 
 export default function ViewerEmptyCard() {
   const route = useRouter();
   return (
-    <Card className="w-full p-6 rounded-lg bg-white flex flex-col items-center">
+    <Card className="w-full p-6 rounded-lg bg-white dark:bg-darkSecondary flex flex-col items-center">
       <CardTitle className="font-khFont text-2xl pb-2 text-center ">
         មិនទាន់មានទិន្នន័យ
       </CardTitle>

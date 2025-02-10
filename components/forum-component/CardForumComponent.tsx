@@ -41,32 +41,17 @@ export function CardForumComponent({
   slug: string;
 }) {
   const router = useRouter();
-  const actions = [
-    {
-      icon: <Bookmark className="w-4 h-4" />,
-      label: "កត់ចំណាំ",
-      action: () => console.log("New File"),
-    },
-    {
-      icon: <File className="w-4 h-4" />,
-      label: "រាយការណ៍",
-      action: () => console.log("Upload Image"),
-    },
-    {
-      icon: <Share2Icon className="w-4 h-4" />,
-      label: "ចែករំលែក",
-      action: () => console.log("Edit Colors"),
-    },
-  ];
 
   return (
-    <div className="flex justify-end cursor-pointer" onClick={() => router.push(`/forum/${slug}`)} >
-      <div className=" bg-white rounded-[5px] w-[680px] border p-6">
+    <div className=" " onClick={() => router.push(`/forum/${slug}`)}>
+      <div className=" bg-white dark:bg-darkSecondary rounded-[5px] w-full border p-6">
         {/* Content Section */}
         <div className="mb-4">
           <div className="flex justify-between">
-            <h2 className="text-[18px] font-bold text-primary">{title}</h2>
-            <div className=" flex justify-end text-gray-500 hover:text-gray-700">
+            <h2 className="text-[18px] dark:text-gray-200 font-bold cursor-pointer line-clamp-2">
+              {title}
+            </h2>
+            {/* <div className=" flex justify-end text-gray-500 hover:text-gray-700">
               <PopoverRoot>
                 <PopoverTrigger className="border-none ">
                   <MoreVertical className="w-5 h-5 " />
@@ -82,16 +67,16 @@ export function CardForumComponent({
                   </PopoverBody>
                 </PopoverContent>
               </PopoverRoot>
-            </div>
+            </div> */}
           </div>
-          <p className="text-gray-700 mb-4">{content}</p>
+          <p className=" mb-4 dark:text-gray-300 line-clamp-3">{content}</p>
         </div>
 
         {/* Tags Section */}
-        <div className="flex flex-wrap gap-2 mb-4 justify-between">
-          <div className="text-gray-500">{formatDate(timestamp)}</div>
+        <div className="flex flex-wrap gap-2 dark:text-gray-200 mb-4 justify-between">
+          <div className="">{formatDate(timestamp)}</div>
           {/* Metrics Section */}
-          <div className="flex items-center space-x-4 text-gray-500 mr-2">
+          <div className="flex items-center space-x-4  mr-2">
             <div className="flex items-center space-x-1">
               <MessageSquare className="w-4 h-4" />
               <span>{comments}</span>

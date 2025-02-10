@@ -32,7 +32,7 @@ const Preview: React.FC<PreviewProps> = React.memo(({ content }) => {
   return (
     <div
       ref={containerRef}
-      className="tiptap prose max-w-none"
+      className="tiptap prose max-w-none dark:bg-darkSecondary dark:text-white"
       dangerouslySetInnerHTML={{ __html: content }}
     />
   );

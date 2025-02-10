@@ -44,7 +44,7 @@ export default function AwardCard(achievement) {
   // console.log("achievementData", achievementData);
 
   return (
-    <Card className="p-6 flex items-center justify-between w-full">
+    <Card className="lg:p-6 p-4 flex items-center justify-between w-full">
       <div className="flex flex-col items-center gap-1">
         <span className="text-5xl font-bold">
           {convertToKhmerNumerals(
@@ -62,7 +62,6 @@ export default function AwardCard(achievement) {
         </div>
       </div>
       <div className="flex flex-col items-center gap-2">
-        <BadgeCheck className="h-6 w-6 text-white" />
       </div>
       <div className="flex flex-col justify-center items-center">
         <img

@@ -5,113 +5,111 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9bd93498-4ba0-4fef-871b-ad43ff1a02b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/loading.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/card-component/bookmark/bookmark-forum.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/card-component/history-card/contentHistoryCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/card-component/history-card/forumHistoryCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/content-component/AuthorCardComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/forum-component/skeleton/CommentReplySkeleton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/forum-component/skeleton/ContentSkeleton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/forum-component/skeleton/FooterSkeleton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/forum-component/skeleton/RichTextEditorSkeleton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/forum-component/skeleton/TagsSkeleton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/forum-component/skeleton/UserProfileSkeleton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sidebar/sidebar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/achievement/AchievementCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/achievement/AwardCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/badge/BadgeComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/user/OwnerEmptyCardComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/user/OwnerPostComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/user/ProfileImageComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/user/UserPageNotFoundComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/user/ViewerEmptyCardComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/userprofile/user/ViewerPostComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/advisors.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/award-images/Contributor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/award-images/Expert.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/award-images/Mentor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/award-images/Senior.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/award-images/Top Contributor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/award-images/Verify Expert.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/award-images/learner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/user-profile-image/empty-folder.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/card-component/bookmark/BookmarkEmptyComponent.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/card-component/history-card/HistoryContentCardComponent.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/layout/HomeLayout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/layout/Layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/pages/AboutPages.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/pages/BookmarkPages.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/pages/EditUserProfile.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/pages/ForumDetailPages.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/pages/ForumPages.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/pages/History.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/pages/NotificationPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/pages/UserProfile.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/switch-theme/toggleTheme.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/theme-provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/userprofile/skeleton/AchievementCardSkeleton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/userprofile/skeleton/BadgeSkeletonComponent.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/userprofile/skeleton/OwnerPostSkeleton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/userprofile/skeleton/ProfileImageSkeletonComponent.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/Logo-dark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/ptc-removebg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/user-profile-image/មិនមានទិន្នន័យ.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/about/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/about/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/all-content/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/all-content/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/bookmark/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/bookmark/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/content/[slug]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/content/[slug]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/content/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/content/new/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/content/new/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/content/tags/[name]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/content/tags/[name]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/content/tags/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/content/tags/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/edit-user-profile/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/edit-user-profile/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/error.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/error.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/forum/[slug]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/forum/[slug]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/forum/new/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/forum/new/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/forum/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/forum/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/home/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/home/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/home/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/pages/HomePages.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/loading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/loading.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/notification/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/notification/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/policy/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/policy/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/reading-history/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/reading-history/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/report/[[...slug]]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/report/[[...slug]]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/user-profile/[username]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/user-profile/[username]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/card-component/bookmark/article-card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/bookmark/article-card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/card-component/bookmark/bookmark-card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/card-component/bookmark/article-card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/bookmark/articleCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/card-component/bookmark/bookmark-forum.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/bookmark/bookmarkForum.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/card-component/card-trending/Card-Istad.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card-trending/Card-Istad.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/card-component/card-trending/TrendingComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card-trending/TrendingComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/card-component/card/CardComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card/CardComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/card-component/card/CardList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card/CardList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/card-component/card/MemberComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card/MemberComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/card-component/forum-card/ForumCardComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/forum-card/ForumCardComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/card-component/forum-card/ForumCardList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/forum-card/ForumCardList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/card-component/forum-card/ForumList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/forum-card/ForumList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/card-component/history-card/history-card.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/card-component/history-card/search-tags.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/history-card/search-tags.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/card-component/history-card/forumHistoryCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/history-card/HistoryForumCardComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/content-component/AuthorCardComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/content-component/AuthorCardComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/content-component/createContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/content-component/createContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/engagement/comment/CommentList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/engagement/comment/CommentList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/engagement/content/ContentSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/engagement/content/ContentSection.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/engagement/content/ContentSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/engagement/content/ContentSidebar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/engagement/content/Reaction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/engagement/content/Reaction.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/footer/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/footer/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/forum-component/CardForumComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/forum-component/CardForumComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/forum-component/commentReplyComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/forum-component/commentReplyComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/forum-component/createForum.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/forum-component/createForum.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/forum-component/forumDetailComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/forum-component/forumDetailComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/navbar/NavbarComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/navbar/NavbarComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/navbar/NavbarLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/navbar/NavbarLogin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/notification/NotificationList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/notification/NotificationList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/sidebar/app-sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/sidebar/app-sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/tag/tagComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/tag/tagComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/text-editor/preview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/text-editor/preview.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/text-editor/textEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/text-editor/textEditor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/text-editor/toolBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/text-editor/toolBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/button.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/calendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/calendar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/card.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/pop-over.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/pop-over.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/switch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/switch.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/tabs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/role/Owner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/Owner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/role/ViewerComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/ViewerComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/achievement/AchievementCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/achievement/AchievementCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/achievement/AwardCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/achievement/AwardCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/achievement/PublicAchievementComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/achievement/PublicAchievementComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/achievement/userActivivity.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/achievement/userActivivity.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/badge/BadgeComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/badge/BadgeComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/select.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/select.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/tabs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/textarea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/textarea.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/userprofile/user/Bio.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/Bio.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/CardForumComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/forum-component/CardForumComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/ChangeColorCover.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/ChangeColorCover.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/userprofile/user/EditUserInformationForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/EditUserInformationForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/EmptyCardComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/ProfileImage.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/user/Owner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/Owner.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/user/OwnerEmptyCardComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/OwnerEmptyCardComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/user/OwnerPostComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/OwnerPostComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/user/ProfileImageComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/ProfileImageComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/user/SaveUserUpdateButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/SaveUserUpdateButton.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/userprofile/user/UserInformationCardComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/UserInformationCardComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/achievement/AchievementCard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/achievement/AwardCard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/achievement/FetchDataCompoent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/achievement/PublicAchievementComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/achievement/PublicAchievementComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/achievement/UserDatapoint.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/achievement/UserDatapoint.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/achievement/userActivivity.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/achievement/userActivivity.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/colorPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/colorPickerComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/userprofile/user/userPost.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/achievement.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/achievement.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/api-hook/auth/use-profile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/api-hook/auth/use-profile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/user/ViewerComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/ViewerComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/user/ViewerEmptyCardComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/ViewerEmptyCardComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/userprofile/user/colorPickerComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/userprofile/user/colorPickerComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hooks/api-hook/content/content-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/api-hook/content/content-api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/api-hook/engagement/engagement-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/api-hook/engagement/engagement-api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/api-hook/user/bookmark.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/api-hook/user/bookmark.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hooks/api-hook/user/history.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/api-hook/user/history.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/api-hook/user/user-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/api-hook/user/user-service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/reading.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/reading.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/userProfile/information.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/information.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/user.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/websocket.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/websocket.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/api.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/notificationSlice.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/types/engagement.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/engagement.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/forum.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/forum.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

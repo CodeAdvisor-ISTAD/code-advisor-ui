@@ -53,10 +53,10 @@ export function CommentList({ comment = [], contentId, slug, ownerId, userId }: 
   const [expandedComments, setExpandedComments] = React.useState<string[]>([]);
 
   const handleSubmit = async (parentId: string | null = null) => {
-    // const contentId = "678378aecde7c858c76a0290"; // Example contentId, dynamically set as needed
-    // const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
-    // const ownerId = "b3ee9ec3-be2f-401d-89fc-6f3956efcfc4";
-    // const slug = "spring-boot-jpa"
+    const contentId = "678378aecde7c858c76a0290"; // Example contentId, dynamically set as needed
+    const userId = "6783b16f1b533f163cd7460d"; // Example userId, dynamically set as needed
+    const ownerId = "b3ee9ec3-be2f-401d-89fc-6f3956efcfc4";
+    const slug = "spring-boot-jpa"
     // spring-boot-jpa
   
     if (newComment.trim()) {

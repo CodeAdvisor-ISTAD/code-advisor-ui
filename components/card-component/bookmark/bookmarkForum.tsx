@@ -65,11 +65,11 @@ export function BookmarkForumCard({
       className="cursor-pointer"
       onClick={() => router.push(`/forum/${slug}`)}
     >
-      <div className=" bg-white rounded-[5px] w-full p-4 ring-1 ring-gray-200">
+      <div className=" bg-white dark:bg-darkPrimary rounded-[5px] w-full p-4 ring-1 ring-gray-200 ">
         {/* Content Section */}
         <div className="mb-4">
           <div className="flex justify-between">
-            <h2 className="text-2xl font-medium tracking-normal text-primary line-clamp-2">
+            <h2 className="lg:text-[22px] text-lg font-medium tracking-normal line-clamp-1">
               {title}
             </h2>
             <div className=" flex justify-end text-gray-500 hover:text-gray-700">
@@ -90,19 +90,19 @@ export function BookmarkForumCard({
               </PopoverRoot> */}
             </div>
           </div>
-          <p className="text-gray-700 mb-4">{content}</p>
+          <p className="text-gray-700 dark:text-gray-500 mb-4">{content}</p>
         </div>
         <div className="max-h-20 overflow-y-auto ">
           <div className="flex flex-wrap gap-2">
-            <Badge className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white ">
+            {/* <Badge className="border-secondary text-primary text-xs rounded-[5px] font-medium  hover:bg-primary hover:text-white ">
               #{tags}
-            </Badge>
+            </Badge> */}
           </div>
         </div>
 
         {/* Tags Section */}
         <div className="flex flex-wrap gap-2 mb-4 justify-between">
-          <div className="pt-4 text-sm text-gray-500">
+          <div className="pt-4 lg:text-sm text-xs text-gray-500 dark:text-gray-300">
             {new Date(createdAt)
               .toLocaleDateString("en-GB", {
                 year: "numeric",

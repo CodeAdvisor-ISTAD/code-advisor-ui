@@ -51,6 +51,7 @@ import { TagsSkeleton } from "./skeleton/TagsSkeleton";
 import { RichTextEditorSkeleton } from "./skeleton/RichTextEditorSkeleton";
 import { UserProfileSkeleton } from "./skeleton/UserProfileSkeleton";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -60,7 +61,7 @@ const formSchema = z.object({
 
 export default function ForumDetailComponent({ slug }: { slug: string }) {
   const queryClient = useQueryClient();
-  const editorRef = useRef(null);
+  const editorRef = useRef<{ clearContent: () => void } | null>(null);
   const [isLoadingBlur, setIsLoadingBlur] = useState(true);
   const { replyTo, mode, setMode, setReplyTo, answerUuid, replyContent } =
     useCommentContext();
@@ -216,6 +217,8 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     },
   });
 
+  const { theme } = useTheme();
+
   const getButtonColor = (expectedCode: number, actualCode: number) => {
     if (actualCode === 400) return "text-gray-400"; // Disabled/error state
     return actualCode === expectedCode ? "text-green-500" : "text-gray-600";
@@ -247,7 +250,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   useEffect(() => {
     if (replyContent && editorRef.current) {
       // Type assertion for the ref
-      const editor = editorRef.current as {
+      const editor = editorRef.current as unknown as {
         setContent: (content: string) => void;
       };
       editor.setContent(replyContent);
@@ -259,7 +262,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     setInterval(() => {
       setIsLoadingBlur(false);
     }, 2000);
-  })
+  });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (mode === "reply") {
@@ -315,22 +318,21 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     queryFn: () => checkBookmarkStatus(slug), // You'll need to implement this
   });
 
-
   const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
-    <div className="  ml-[264px] w-full">
+    <div className="w-full dark:bg-darkPrimary  xl:ml-0 px-2">
       <TagComponent />
-      <div className="p-4 bg-white rounded-[5px] shadow-sm">
+      <div className="p-3 bg-white dark:bg-darkPrimary rounded-[5px] shadow-sm border">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           {isLoadingBlur ? (
             <UserProfileSkeleton />
           ) : (
             <UserProfile
-            authorUsername={forum?.authorUsername}
-            createdAt={forum?.createdAt}
-          />
+              authorUsername={forum?.authorUsername}
+              createdAt={forum?.createdAt}
+            />
           )}
           <button className="text-gray-500 hover:text-gray-700">
             <div className="w-6 h-6">•••</div>
@@ -339,36 +341,30 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
 
         {/* Content */}
 
-        <div className="space-y-4">
+        <div className="space-y-4 px-3">
           <h2 className="text-2xl font-bold">{forum?.title}</h2>
           <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
           <p className="text-lg">{forum?.description}</p>
-          {
-            isLoadingBlur ? (
-              <RichTextEditorSkeleton />
-            ) : (
-              <Preview content={forum?.introduction} />
-            )
-          }
+          {isLoadingBlur ? (
+            <RichTextEditorSkeleton />
+          ) : (
+            <Preview content={forum?.introduction} />
+          )}
 
           {/* Code Block */}
-          <div className="rounded-md p-4 font-mono text-sm">
-            <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
-            {
-              isLoadingBlur ? (
-                <RichTextEditorSkeleton />
-              ) : (
-                <Preview content={forum?.expectedAnswers} />
-              )
-            }
-          </div>
+          <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
+          {isLoadingBlur ? (
+            <RichTextEditorSkeleton />
+          ) : (
+            <Preview content={forum?.expectedAnswers} />
+          )}
 
           {/* Tags */}
           <div className="flex gap-2">
             {forum?.tags?.map((tag: TagsType) => (
               <span
                 key={tag.id}
-                className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px]"
+                className="px-3 py-1 text-sm border border-secondary text-primary rounded-[5px] dark:text-gray-50"
               >
                 #{tag.name}
               </span>
@@ -380,7 +376,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
         <div className="flex justify-between items-center mt-6">
           <div className="flex items-center">
             <button
-              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent dark:hover:bg-darkSecondary"
               onClick={() => upvoteMutation()}
               disabled={downVotePending}
             >
@@ -392,7 +388,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               {totalUpVote?.totalVotes ?? 0}
             </span>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent"
+              className="p-2 hover:bg-gray-100 rounded-full disabled:hover:bg-transparent dark:hover:bg-darkSecondary"
               onClick={() => downvoteMutation()}
               disabled={upVotePending}
             >
@@ -410,7 +406,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               <MessageSquare className="w-6 h-6 text-gray-600" />
             </button>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-darkSecondary"
               onClick={toggleBookmark}
               disabled={isLoading || isCheckingStatus}
             >
@@ -421,7 +417,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
               />
             </button>
             <button
-              className="p-2 hover:bg-gray-100 rounded-full"
+              className="p-2 hover:bg-gray-100 rounded-full dark:hover:bg-darkSecondary"
               onClick={handleShare}
             >
               <Share2 className="w-6 h-6 text-gray-600" />
@@ -436,10 +432,10 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-primary text-xl font-bold">
+                <FormLabel className="text-primary text-xl font-bold dark:text-gray-50">
                   ការឆ្លើយតបរបស់អ្នក
                 </FormLabel>
-                <FormDescription className="text-sm">
+                <FormDescription className="text-sm dark:text-gray-50">
                   ចែករំលែកគំនិតរបស់អ្នក
                 </FormDescription>
                 <FormControl>
@@ -482,7 +478,10 @@ const UserProfile = ({ authorUsername, createdAt }) => {
   const router = useRouter();
 
   return (
-    <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push(`/user-profile/${authorUsername}`)}>
+    <div
+      className="flex px-4 items-center gap-3 cursor-pointer"
+      onClick={() => router.push(`/user-profile/${authorUsername}`)}
+    >
       <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
           src={

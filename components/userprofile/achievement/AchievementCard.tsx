@@ -12,14 +12,15 @@ import { User } from "lucide-react";
 import UserActivityPoints from "./userActivivity";
 
 interface AchievementLevelProps {
-
   userInformation: any;
 
   disableButton?: boolean;
-
 }
 
-export default function AchievementLevelComponent({ userInformation, disableButton }: AchievementLevelProps) {
+export default function AchievementLevelComponent({
+  userInformation,
+  disableButton,
+}: AchievementLevelProps) {
   const { data: authUser } = useQuery({
     queryKey: ["authProfile"],
     queryFn: () => fetchUserProfile(),
@@ -27,17 +28,17 @@ export default function AchievementLevelComponent({ userInformation, disableButt
 
   const { data } = useFetchAchievementLevel(userInformation?.id);
   return (
-    <Card className="w-full h-fit bg-white mb-2">
+    <Card className="w-full h-fit bg-white mb-2 dark:bg-darkSecondary">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <div className="w-full h-[40px] relative">
-            <div className="left-0 top-0 absolute text-center text-2xl font-bold">
+          <div className="w-full lg:h-[40px] h-[30px] relative">
+            <div className="left-0 top-0 absolute text-center lg:text-2xl text-lg font-bold">
               សមិទ្ធផល
             </div>
-            <div className="w-[32px] h-[2.5px] left-[2.50px] top-[27px] absolute bg-[#f31260]"></div>
+            <div className="lg:w-[32px] w-[25px] h-[2.5px] left-[2.50px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
           </div>
           {/* publish and unpublish achievement card */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 ">
             {/* <FontAwesomeIcon className="text-gray-400" icon={faCamera} />
             <Label htmlFor="show-achievement" className="font-semibold">
               បិទសមិទ្ធផល
@@ -46,7 +47,7 @@ export default function AchievementLevelComponent({ userInformation, disableButt
             {!disableButton && <PublicAchievementComponent />}
           </div>
         </div>
-        <p className="font-khFont text-muted-foreground">
+        <p className="font-khFont text-muted-foreground lg:text-lg text-sm">
           មានរឿងជាច្រើនដែលយើងទទួលបានពីសមិទ្ធផល
         </p>
       </CardHeader>

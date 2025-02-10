@@ -20,9 +20,9 @@ export default function Home() {
 
 
     return (
-        <main className="flex flex-col md:flex-row bg-gray-100 w-full lg:px-[100px] pb-6 pt-[80px] xs:px-[30px] md:px-[80px]">
+        <main className="flex flex-col-2">
             {/* Left Side Content */}
-            <div className="w-full md:w-[640px] lg:w-[710px] md:ml-[240px] lg:ml-[264px]">
+            <div className="w-full md:w-[640px] lg:w-[710px]">
                 <CardList searchQuery={searchQuery} />
             </div>
 

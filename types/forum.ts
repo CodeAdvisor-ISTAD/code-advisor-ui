@@ -47,7 +47,7 @@ type ForumContent = ForumCardType[];
 
 type CreateComment = {
     questionSlug: string;
-    answerUuid?: string;
+    answerUuid?: string | null;
     slug: string;
     content: string;
 };

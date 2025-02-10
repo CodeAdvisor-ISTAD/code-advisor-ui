@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Star } from "lucide-react";
@@ -92,6 +92,5 @@ export default function Recommendations({ type, item }: RecommendationProps) {
             </ul>
           </CardContent>
         </div>
-      </Card>
-  );
+      </Card>  );
 }

@@ -150,7 +150,7 @@ const SidebarProvider = React.forwardRef<
                             } as React.CSSProperties
                         }
                         className={cn(
-                            "group/sidebar-wrapper flex w-full has-[[data-variant=inset]]:bg-sidebar",
+                            "group/sidebar-wrapper flex w-full has-[[data-variant=inset]]:bg-darkPrimary",
                             className
                         )}
                         ref={ref}
@@ -263,7 +263,7 @@ const Sidebar = React.forwardRef<
                 >
                     <div
                         data-sidebar="sidebar"
-                        className="flex  border-collapse h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
+                        className="flex  border-collapse h-full w-full flex-col bg-sidebar dark:bg-darkPrimary group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow "
                     >
                         {children}
                     </div>
@@ -535,7 +535,7 @@ const sidebarMenuButtonVariants = cva(
         variants: {
             variant: {
                 default:
-                    "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                    "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground dark:hover:text-black dark:hover:bg-gray-200",
                 outline:
                     "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
             },

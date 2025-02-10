@@ -22,7 +22,7 @@ export function ColorPicker({ initialColor, onColorChange }: ColorPickerProps) {
   };
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center w-full space-x-2">
       {/* Color Picker Input */}
       <input
         type="color"
@@ -45,7 +45,7 @@ export function ColorPicker({ initialColor, onColorChange }: ColorPickerProps) {
           setColor(validColor);
           onColorChange(validColor);
         }}
-        className="border w-[400px] rounded"
+        className="border lg:w-[400px] w-[350px] rounded"
         maxLength={7} // Include "#" in max length
       />
     </div>
@@ -101,4 +101,3 @@ export function ColorPicker({ initialColor, onColorChange }: ColorPickerProps) {
 //     </div>
 //   );
 // }
-

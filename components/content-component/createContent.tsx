@@ -25,18 +25,44 @@ import { UseFetchContentTags } from "@/hooks/api-hook/content/use-tag";
 import { useMutation } from "@tanstack/react-query";
 import { createContent } from "@/hooks/api-hook/content/content-api";
 import PrismLoader from "../text-editor/prismLoader";
+import errorMap from "zod/locales/en.js";
 
 const formSchema = z.object({
   title: z.string().min(5, {
     message: "ចំណងជើងត្រូវមានយ៉ាងហោចណាស់ 5 តួអក្សរ",
   }),
-  cover: z.instanceof(File).optional(),
-  slug: z.string().min(5, {
-    message: "Slug ត្រូវមានយ៉ាងហោចណាស់ 5 តួអក្សរ",
-  }),
-  keyword: z.string().min(5, {
-    message: "ពាក្យគន្លឹះត្រូវមានយ៉ាងហោចណាស់ 5 តួអក្សរ",
-  }),
+  // cover: z.instanceof(File).optional(),
+  cover: z
+    .instanceof(File)
+    .refine((file) => file.size <= 5 * 1024 * 1024, {
+      message: "ទំហំឯកសារត្រូវតែតូចជាង 5MB",
+    })
+    .refine(
+      (file) => ["image/jpeg", "image/png", "image/jpg"].includes(file.type),
+      {
+        message: "ប្រភេទឯកសារត្រូវតែជា JPEG, PNG, ឬ JPG",
+      }
+    ),
+
+  slug: z
+    .string()
+    .min(5, {
+      message: "Slug ត្រូវមានយ៉ាងហោចណាស់ 5 តួអក្សរ",
+    })
+    .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, {
+      message: "ទម្រង់ Slug មិនត្រឹមត្រូវ។ ប្រើអក្សរតូច លេខ និងសញ្ញាកាត់ (-) ។",
+    }),
+
+  keyword: z
+    .string()
+    .min(5, {
+      message: "ពាក្យគន្លឹះត្រូវមានយ៉ាងហោចណាស់ 5 តួអក្សរ",
+    })
+    .regex(/^[a-z]+(,[a-z]+)*$/, {
+      message:
+        "ពាក្យគន្លឹះត្រូវប្រើអក្សរតូច និងសញ្ញាក្បៀស (,) ។ មិនអនុញ្ញាតឱ្យមានចន្លោះឬអក្សរធំ",
+    }),
+
   tag: z
     .array(z.string())
     .min(1, { message: "យ៉ាងហោចណាស់ត្រូវការស្លាកមួយ" })
@@ -61,7 +87,7 @@ const CreateNewContent = () => {
       formData.append("file", file);
 
       const response = await fetch(
-        "http://167.172.78.79:8090/api/v1/files/upload",
+        "https://media.panda.engineer/api/v1/files/upload",
         {
           method: "POST",
           body: formData,
@@ -78,7 +104,7 @@ const CreateNewContent = () => {
       // alert("THis is the url: " + result.file_url);
       return result.file_url; // Assuming the API returns the file URL
     } catch (error) {
-      console.error("Error uploading file:", error);
+      // console.error("Error uploading file:", error);
       throw error;
     }
   };
@@ -93,8 +119,8 @@ const CreateNewContent = () => {
       router.push(`/content/${variables.slug}`);
     },
     onError: (error, variables, context) => {
-      toast.error("បរាជ័យក្នុងការបោះពុម្ភផ្សាយអត្ថបទ");
-    }
+      toast.error("បរាជ័យក្នុងការបោះពុម្ភផ្សាយអត្ថបទ" + error);
+    },
   });
 
   // Transform the data into the desired format (if needed)
@@ -160,13 +186,18 @@ const CreateNewContent = () => {
       isDraft: false,
     };
 
+    if (postData.thumbnail === null) {
+      toast.error("សូមបញ្ចូលរូបភាពសម្រាប់អត្ថបទរបស់អ្នក");
+      return;
+    }
+
     mutate(postData);
 
     setSlug(values.slug);
   }
 
   return (
-    <div className="container px-0 py-6 items-center mx-auto pb-6 pt-[80px] xs:px-[30px] md:px-[80px] lg:px-[100px]">
+    <div className="container px-0 py-6 items-center mx-auto pb-6 xs:px-[30px] md:px-[80px] lg:px-[100px]">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
         {/* Create New Content */}
         <div>

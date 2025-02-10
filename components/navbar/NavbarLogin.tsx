@@ -23,13 +23,15 @@ import { WebSocketService } from "@/lib/websocket";
 import { useEffect } from "react";
 import { fetchNotifications } from "@/lib/api";
 import { useUser } from "@/lib/context/userContext";
+import { count } from "console";
+import { ToggleTheme } from "../switch-theme/toggleTheme";
 
 interface NavbarLoginProps {
   user: any;
-  onSearch: (query: string) => void;
+  // onSearch: (query: string) => void;
 }
 
-export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
+export function NavbarLogin({ user }: NavbarLoginProps) {
   const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState<number>(0);
@@ -45,7 +47,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
     setSearchQuery(newQuery);
 
     if (newQuery.trim() === "") {
-      onSearch(""); // Show all when search is cleared
+      // onSearch(""); // Show all when search is cleared
     }
   };
 
@@ -73,7 +75,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
     console.log("User UUID: ", userUuid);
 
     const wsService = new WebSocketService(
-      "http://202.178.125.77:1084/ws",
+      "/notifications/ws",
       userUuid
     );
 
@@ -123,11 +125,13 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
     router.push("/notification");
   };
 
+  console.log("REALTIME COUNT NUMBER: ", unreadCount);
+
   return (
-    <div className="flex z-[100] items-center px-4 justify-between h-[72px] mx-[80px]">
+    <div className="flex items-center border mb-2 bg-white justify-between h-[72px] px-[100px] dark:bg-darkPrimary">
       {/* Logo */}
       <section>
-        <Link href="/" aria-label="Go to home page">
+        <Link href="/" aria-label="Go to home page" className="cursor-pointer">
           <Image src="/logo1.png" alt="logo" width={100} height={100} />
         </Link>
       </section>
@@ -166,8 +170,9 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
       </div>
 
       {/* Action Icons */}
-      <div className="flex items-center mx-8">
-        <div className="bg-primary px-4 rounded-md text-white">
+      <div className="flex items-center justify-center gap-3">
+        <ToggleTheme />
+        <div className="bg-primary rounded-md text-white px-3">
           <Dropdown
             inline
             label={
@@ -190,7 +195,7 @@ export function NavbarLogin({ user, onSearch }: NavbarLoginProps) {
 
         {/* Notification Icon */}
         <button
-          className="relative text-primary mx-8"
+          className="relative text-primary"
           onClick={handleNotificationClick}
         >
           <FiBell className="h-7 w-7" />
