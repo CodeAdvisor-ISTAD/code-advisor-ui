@@ -70,7 +70,7 @@ export function NavbarLogin({ user }: NavbarLoginProps) {
       return;
     }
 
-    const userUuid = user.uuid;
+    const userUuid = user?.uuid;
 
     console.log("User UUID: ", userUuid);
 

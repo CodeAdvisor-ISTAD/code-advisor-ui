@@ -42,8 +42,8 @@ export default function NotificationsPage() {
   }, []);
 
   useEffect(() => {
-    // const currentUserId = user?.uuid;// Replace with actual user ID retrieval method
-    const currentUserId = "3c80f53d-5f59-488b-aa6f-4971f4de2353";
+    const currentUserId = user?.uuid ?? ""; // Replace with actual user ID retrieval method
+    // const currentUserId = "3c80f53d-5f59-488b-aa6f-4971f4de2353";
     // console.log("Current user ID:", currentUserId);
     setUserId(currentUserId);
 
