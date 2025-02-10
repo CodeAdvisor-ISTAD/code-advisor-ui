@@ -86,7 +86,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                 <span>Edit</span>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => onDelete(comment.id, comment.parentId || null)}
+                onClick={() => onDelete(comment.id, comment?.commentId || null)}
               >
                 <Trash className="mr-2 h-4 w-4" />
                 <span>Delete</span>
