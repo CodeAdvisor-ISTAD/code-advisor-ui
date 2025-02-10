@@ -119,16 +119,18 @@ export default function NavbarComponent() {
               onClick={() => route.push('/oauth2/authorization/code-advisor')}
               className=" text-white bg-primary rounded-[5px] hover:bg-primary-dark transition-colors"
             >
-              Login
+              ចូលប្រើ
             </Button>
             <Button
               onClick={() => route.push('https://identity.code-advisors.istad.co/register')}
               className=" text-white bg-primary rounded-[5px] hover:bg-primary-dark transition-colors"
             >
-              Register
+              បង្កើតគណនី
             </Button>
           </div>
+
         </div>
+
       </>
     )
   }
