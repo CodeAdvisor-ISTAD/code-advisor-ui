@@ -101,7 +101,7 @@ export default function Page({
         <meta property="article:author" content="Author Name" /> {/* Optional */}
         <meta property="article:published_time" content={data?.createdDate} /> {/* Optional */}
       </Head>
-      <main className="flex mx-auto mt-[80px] pb-4 bg-gray-100 w-full">
+      <main className="flex mx-auto pb-4 bg-gray-100 dark:bg-darkPrimary w-full">
         <div className="w-full fixed bottom-0 md:bottom-auto flex items-center justify-center md:items-start md:justify-start px-[10px] md:px-[100px]">
           <ContentSidebar
             bookmark={bookmark}

@@ -27,7 +27,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${roboto.variable} ${koh_Santepheap.variable} dark:bg-darkSecondary`}
       >

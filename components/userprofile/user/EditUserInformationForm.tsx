@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import {
   Form,
@@ -46,10 +45,11 @@ export default function EditUserInformationForm(
   const { data: userInformation } = useQuery({
     queryKey: ["profile"],
     queryFn: getOwnUserProfile,
-  }); // Fetch user data
+  });
 
   const router = useRouter();
   const [date, setDate] = React.useState<Date>();
+
   const { mutate: updateUser, isSuccess } = useMutation({
     mutationFn: updateUserProfile,
     onSuccess: () => {
@@ -57,7 +57,6 @@ export default function EditUserInformationForm(
         queryKey: ["profile"],
       });
       toast.success("ព័ត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ");
-      // Redirect immediately after successful update
       router.push(`/user-profile/${userInformation?.username}`);
     },
     onError: () => {
@@ -66,8 +65,7 @@ export default function EditUserInformationForm(
   });
 
   type FieldName =
-    | "givenName"
-    | "familyName"
+    | "fullName"
     | "phoneNumber"
     | "gender"
     | "dob"
@@ -81,26 +79,48 @@ export default function EditUserInformationForm(
 
   const form = useForm({
     defaultValues: {
-      fullName: userInformation?.fullName || "",
-      familyName: userInformation?.familyName || "",
-      givenName: userInformation?.givenName || "",
-      gender: userInformation?.gender || "",
-      phoneNumber: userInformation?.phoneNumber || "",
-      bio: userInformation?.bio || "",
-      workPlace: userInformation?.workPlace || "",
-      pob: userInformation?.pob || "",
-      school: userInformation?.school || "",
-      jobPosition: userInformation?.jobPosition || "",
-      dob: userInformation?.dob || "",
-      profileImage: userInformation?.profileImage || "",
-      isDeleted: userInformation?.isDeleted || false,
-      coverColor: userInformation?.coverColor || "",
+      fullName: "",
+      gender: "",
+      phoneNumber: "",
+      bio: "",
+      workPlace: "",
+      pob: "",
+      school: "",
+      jobPosition: "",
+      dob: "",
+      profileImage: "",
+      isDeleted: false,
+      coverColor: "",
     },
   });
+
+  useEffect(() => {
+    if (userInformation) {
+      form.reset({
+        fullName: userInformation.fullName || "",
+        gender: userInformation.gender || "",
+        phoneNumber: userInformation.phoneNumber || "",
+        bio: userInformation.bio || "",
+        workPlace: userInformation.workPlace || "",
+        pob: userInformation.pob || "",
+        school: userInformation.school || "",
+        jobPosition: userInformation.jobPosition || "",
+        dob: userInformation.dob || "",
+        profileImage: userInformation.profileImage || "",
+        isDeleted: userInformation.isDeleted || false,
+        coverColor: userInformation.coverColor || "",
+      });
+      if (userInformation.dob) {
+        setDate(new Date(userInformation.dob));
+      }
+    }
+  }, [userInformation, form]);
+
   async function onSubmit(data: any) {
     console.log("data: ", data);
     updateUser(data);
   }
+
   const handleRedirect = () => {
     router.push(`/user-profile/${userInformation?.username}`);
   };
@@ -113,13 +133,13 @@ export default function EditUserInformationForm(
       >
         <ToastContainer />
         <div className="mb-4">
-          <div className="w-full grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px]">
-            <div className="flex flex-col bg-white w-full h-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+          <div className="w-full md:mt-9 lg:mt-9 grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px] xl:mt-9">
+            <div className="flex flex-col bg-white mt-5 xl:mt-0 lg:mt-0 md:mt-0 dark:bg-darkSecondary w-full h-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
               <div className=" lg:h-[55px] h-[35px] w-full relative">
-                <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg ">
+                <CardTitle className="left-0 top-0 absolute lg:text-2xl text-lg ">
                   កែប្រែព័ត៌មានអំពីអ្នក
                 </CardTitle>
-                <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
+                <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260] dark:bg-[#FB0A5D]"></div>
               </div>
               {(
                 [
@@ -153,7 +173,7 @@ export default function EditUserInformationForm(
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-full pl-3 justify-start text-left font-normal bg-white ring-black focus:ring-1",
+                                  "w-full pl-3 justify-start text-left font-normal bg-white dark:bg-darkPrimary ring-black focus:ring-1",
                                   !date && "text-muted-foreground"
                                 )}
                               >
@@ -161,7 +181,7 @@ export default function EditUserInformationForm(
                                 {date ? (
                                   format(date, "PPP")
                                 ) : (
-                                  <span className="text-gray-700">
+                                  <span className="text-gray-700 d">
                                     ជ្រើសរើស​ ថ្ងៃ ខែ​ ឆ្នាំកំណើត
                                   </span>
                                 )}
@@ -197,7 +217,7 @@ export default function EditUserInformationForm(
             </div>
 
             <div className="flex flex-col gap-4 ">
-              <div className="flex flex-col bg-white w-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+              <div className="flex flex-col bg-white dark:bg-darkSecondary w-full items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
                 {(
                   [{ name: "workPlace", label: "ទីកន្លែងធ្វើការ" }] as {
                     name: FieldName;
@@ -228,12 +248,12 @@ export default function EditUserInformationForm(
                 control={form.control}
                 name="bio"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col bg-white w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+                  <FormItem className="flex flex-col bg-white dark:bg-darkSecondary w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
                     <div className="w-full lg:h-[55px] h-[35px] relative">
-                      <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg">
+                      <CardTitle className="left-0 top-0 absolute  lg:text-2xl text-lg">
                         កែប្រែការពិពណ៌នាអំពីអ្នក
                       </CardTitle>
-                      <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
+                      <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260] dark:bg-[#FB0A5D]"></div>
                     </div>
                     <FormControl>
                       <Textarea {...field} />
@@ -248,12 +268,12 @@ export default function EditUserInformationForm(
                 control={form.control}
                 name="coverColor"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col bg-white w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
+                  <FormItem className="flex flex-col bg-white dark:bg-darkSecondary w-full justify-center items-center lg:py-[25px] lg:px-[25px] py-[15px] px-[15px] rounded-lg border">
                     <div className="w-full lg:h-[55px] h-[35px] relative">
-                      <CardTitle className="left-0 top-0 absolute text-[#000040] lg:text-2xl text-lg">
+                      <CardTitle className="left-0 top-0 absolute lg:text-2xl text-lg">
                         កែប្រែផ្ទៃខាងក្រោយ
                       </CardTitle>
-                      <div className="lg:w-[28px] w-[20px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260]"></div>
+                      <div className="lg:w-[28px] md:w-[20px] w-[15px] h-[2.5px] left-[1px] lg:top-[27px] top-[22px] absolute bg-[#f31260] dark:bg-[#FB0A5D]"></div>
                     </div>
                     <ColorPicker
                       onColorChange={(color) => {
@@ -273,13 +293,13 @@ export default function EditUserInformationForm(
                 <button
                   type="button"
                   onClick={handleRedirect}
-                  className="bg-primary text-white px-4 py-2 rounded"
+                  className="bg-primary dark:bg-secondary text-white px-4 py-2 rounded"
                 >
                   ចាកចេញ
                 </button>
                 <button
                   type="submit"
-                  className="bg-primary text-white px-4 py-2 rounded"
+                  className="bg-primary text-white dark:bg-secondary px-4 py-2 rounded"
                 >
                   រក្សាទុក
                 </button>

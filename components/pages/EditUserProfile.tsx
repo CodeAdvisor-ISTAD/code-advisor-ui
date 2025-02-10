@@ -28,7 +28,7 @@ export default function EditUser() {
   useEffect(() => {
     if (ownUser && !coverColor) {
       // Only set initial cover color if it's not already set
-      setCoverColor(ownUser.coverColor || "#000040");
+      setCoverColor(ownUser.coverColor);
     }
   }, [ownUser, coverColor]);
 
@@ -38,36 +38,36 @@ export default function EditUser() {
 
   return (
     <FormProvider {...methods}>
-      <div className="max-w-7xl flex min-h-screen items-center dark:bg-gray-900 mx-auto">
-        <div className="w-full bg-white mb-3 rounded-lg">
-          <div className="flex justify-center mb-8">
+      <div className="max-w-7xl flex items-center dark:bg-gray-900 mx-auto">
+        <div className="w-full bg-white dark:bg-darkPrimary rounded-lg">
+          <div className="flex justify-center">
             {loading ? (
-              <Skeleton className="cover w-full lg:h-[200px] h-[175px] rounded-[5px] relative">
+              <Skeleton className="cover w-full lg:h-[200px] mg:h-[175px] h-[100px] rounded-[5px] relative">
                 <ProfileImageSkeleton />
               </Skeleton>
             ) : (
               <div
-                className="cover w-full lg:h-[200px] h-[175px] rounded-[5px] relative"
+                className="cover w-full lg:h-[180px] md:h-[175px] h-[125px] rounded-[5px] relative"
                 style={{ backgroundColor: coverColor || "#000040" }}
               >
-                <input
+                {/* <input
                   type="color"
                   value={coverColor}
                   className="absolute top-2 right-2"
                   onChange={(e) => handleColorChange(e.target.value)}
-                />
+                /> */}
                 <ProfileImage profileAuth={ownUser} disableButton={false} />
               </div>
             )}
           </div>
-          <div className="flex flex-row space-x-5 mb-3 justify-center gap-2">
-            <div className="flex flex-row justify-center lg:mt-[125px] mt-[60px] gap-[15px] ">
+          <div className=" space-x-5 mb-3 justify-center gap-2 md:px-4 xl:px-5">
+            <div className="lg:flex lg:flex-row lg:justify-center md:mb-5  lg:mt-[125px] mt-[90px] gap-[15px] ">
               {!loading ? (
                 <EditUserInformationForm onColorChange={handleColorChange} />
               ) : (
-                <div className="w-full grid lg:grid-cols-2 grid-cols-1 justify-center gap-[15px]">
-                  <div className="mx-1 lg:mx-0">
-                    <Skeleton className="lg:w-[500px] w-[400px] h-[667px] "></Skeleton>
+                <div className="px-2 lg:px-0 xl:px-0 md:px-16 w-full md:mt-9 lg:grid md:grid lg:grid-cols-2 md:grid-cols-1 justify-center xl:gap-[15px] lg:gap-[15px] mt-7 xl:mt-0 lg:mt-0">
+                  <div className="xl:mx-1 mx-0 w-full">
+                    <Skeleton className="w-full xl:h-[667px] lg:h-[600px] md:h-[200px] h-[100px] mb-4 xl:mb-0 lg:mb-0 md:mb-4"></Skeleton>
                   </div>
                   <div className="flex flex-col gap-4 ">
                     <div className="flex flex-col items-center gap-4 mx-1 lg:mx-0">

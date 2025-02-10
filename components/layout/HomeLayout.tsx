@@ -21,12 +21,12 @@ function HomeLayout({
   return (
     <div className="w-full">
       <NavbarComponent />
-      <div className="flex px-[100px] gap-3">
+      <div className="flex xl:px-[100px] lg:px-[25px] md:px-[20px] xl:gap-3">
         <div>
         <AppSidebar />
         </div>
         <div className="w-full">{children}</div>
-        <div className="flex flex-col gap-2">
+        <div className="xl:flex xl:flex-col  xl:gap-2 lg:hidden md:hidden hidden">
           <TrendingComponent type="Latest" item={latest} />
           <ISTADCard />
         </div>

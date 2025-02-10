@@ -38,6 +38,7 @@ import {
 import ShareModal from "./ShareModal";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 interface Content {
   contentId: string;
@@ -60,7 +61,6 @@ export interface Comment {
   commentId: string;
   replies: Comment[];
 }
-
 
 export function ContentSidebar({
   contentId,
@@ -98,28 +98,28 @@ export function ContentSidebar({
   const [comments, setComments] = React.useState<Comment[]>(comment);
 
   const getTotalComments = (comments: Comment[]): number => {
-      let total = 0;
-  
-      const countReplies = (comments: Comment[]): void => {
-        if (!comments) return; // Return early if comments is null or undefined
-        total += comments.length;
-  
-        comments.forEach((comment) => {
-          // Ensure comment.replies is an array before accessing it
-          if (Array.isArray(comment.replies) && comment.replies.length > 0) {
-            countReplies(comment.replies); // Recursively count replies
-          }
-        });
-      };
-  
-      countReplies(comments);
-      return total;
+    let total = 0;
+
+    const countReplies = (comments: Comment[]): void => {
+      if (!comments) return; // Return early if comments is null or undefined
+      total += comments.length;
+
+      comments.forEach((comment) => {
+        // Ensure comment.replies is an array before accessing it
+        if (Array.isArray(comment.replies) && comment.replies.length > 0) {
+          countReplies(comment.replies); // Recursively count replies
+        }
+      });
     };
+
+    countReplies(comments);
+    return total;
+  };
 
   useEffect(() => {
     const fetchReactions = async () => {
       try {
-        const reactions = await getReactionsByContentId(contentId);
+        const reactions = await getReactionsByContentId(contentId || "");
         setLocalReactions(reactions);
       } catch (error) {
         console.error("Failed to fetch reactions:", error);
@@ -162,7 +162,7 @@ export function ContentSidebar({
     };
 
     try {
-      const response = await shareContent(shareData);
+      const response = await shareContent(shareData as any);
       console.log("Content shared successfully:", response);
     } catch (error) {
       console.error("Error sharing content:", error);
@@ -225,111 +225,119 @@ export function ContentSidebar({
 
   return (
     <SidebarComment
-      className={`bg-gray h-16 md:h-full bg-background md:bg-transparent md:pt-0 pt-5 flex flex-row transition-transform duration-300 ${
-        isMobile && !isVisible ? "translate-y-full" : "translate-y-0"
-      }`}
-      collapsible="none"
-      side="left"
-      width="55px"
-    >
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
-                  <ReactionButton
-                    onReactionChange={handleReactionClick}
-                    slug={slug}
-                    contentId={contentId}
-                    ownerId={ownerId}
-                    userId={userId}
-                  />
-                  <div className="text-center pt-1">{totalReactions}</div>
-                </div>
-              </SidebarMenuItem>
-
-              <SidebarMenuItem>
-                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
-                  <SidebarTrigger
-                    icon={
-                      <FaRegComment
-                        className={`text-2xl ${
-                          isCommentFilled ? "md:fill-blue-600" : ""
-                        }`}
-                        onClick={toggleComment}
-                      />
-                    }
-                  />
-                  <div className="text-center pt-1">{getTotalComments(comment) || 0}</div>
-                </div>
-              </SidebarMenuItem>
-
-              <SidebarMenuItem>
-                <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
-                  {isBookmarkFilled ? (
-                    <FaBookmark
-                      className="text-2xl fill-yellow-500"
-                      onClick={toggleBookmark}
-                    />
-                  ) : (
-                    <FaRegBookmark
-                      className="text-2xl"
-                      onClick={toggleBookmark}
-                    />
-                  )}
-                  <div className="text-center pt-1">{currentBookmarkCount}</div>
-                </div>
-              </SidebarMenuItem>
-
-              <SidebarMenuItem>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <div className="justify-self-end mx-4">
-                      <MdMoreHoriz className="text-2xl" />
-                      <span className="sr-only">More options</span>
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="px-2">
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem onClick={() => handleShare("X")}>
-                        Share to X
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleShare("Facebook")}>
-                        Share to Facebook
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleShare("LinkedIn")}>
-                        Share to LinkedIn
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <a href={`/report/content/${contentId}`}>
-                          Report Abuse
-                        </a>
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-
-                    {/* Render the ShareModal */}
-                    <ShareModal
-                      isOpen={isModalOpen}
-                      onClose={closeModal}
-                      platform={selectedPlatform}
+        className={`bg-gray h-16 md:h-full bg-background dark:bg-darkPrimary md:bg-transparent md:pt-0 pt-5 flex flex-row transition-transform duration-300 ${
+          isMobile && !isVisible ? "translate-y-full" : "translate-y-0"
+        }`}
+        collapsible="none"
+        side="left"
+        width="55px"
+      >
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
+                    <ReactionButton
+                      onReactionChange={handleReactionClick}
+                      slug={slug}
                       contentId={contentId}
+                      ownerId={ownerId}
+                      userId={userId}
                     />
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+                    <div className="text-center pt-1">{totalReactions}</div>
+                  </div>
+                </SidebarMenuItem>
 
-      {/* Share Modal */}
-      <ShareModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        platform={selectedPlatform}
-        contentId={contentId}
-      />
-    </SidebarComment>
+                <SidebarMenuItem>
+                  <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
+                    <SidebarTrigger
+                      icon={
+                        <FaRegComment
+                          className={`text-2xl ${
+                            isCommentFilled ? "md:fill-blue-600" : ""
+                          }`}
+                          onClick={toggleComment}
+                        />
+                      }
+                    />
+                    <div className="text-center pt-1">
+                      {getTotalComments(comment) || 0}
+                    </div>
+                  </div>
+                </SidebarMenuItem>
+
+                <SidebarMenuItem>
+                  <div className="mx-4 justify-self-end flex md:flex-col md:gap-2 flex-row gap-3">
+                    {isBookmarkFilled ? (
+                      <FaBookmark
+                        className="text-2xl fill-yellow-500"
+                        onClick={toggleBookmark}
+                      />
+                    ) : (
+                      <FaRegBookmark
+                        className="text-2xl"
+                        onClick={toggleBookmark}
+                      />
+                    )}
+                    <div className="text-center pt-1">
+                      {currentBookmarkCount}
+                    </div>
+                  </div>
+                </SidebarMenuItem>
+
+                <SidebarMenuItem>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <div className="justify-self-end mx-4">
+                        <MdMoreHoriz className="text-2xl" />
+                        <span className="sr-only">More options</span>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="px-2">
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem onClick={() => handleShare("X")}>
+                          Share to X
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleShare("Facebook")}
+                        >
+                          Share to Facebook
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleShare("LinkedIn")}
+                        >
+                          Share to LinkedIn
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <a href={`/report/content/${contentId}`}>
+                            Report Abuse
+                          </a>
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+
+                      {/* Render the ShareModal */}
+                      <ShareModal
+                        isOpen={isModalOpen}
+                        onClose={closeModal}
+                        platform={selectedPlatform}
+                        contentId={contentId}
+                      />
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+
+        {/* Share Modal */}
+        <ShareModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          platform={selectedPlatform}
+          contentId={contentId}
+        />
+      </SidebarComment>
   );
 }

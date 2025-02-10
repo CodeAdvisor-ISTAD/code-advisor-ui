@@ -30,7 +30,7 @@ export function CommentSection({
       side="right"
       collapsible="offcanvas"
     >
-      <SidebarContent className="bg-gray-100 no-scrollbar">
+      <SidebarContent className="bg-gray-100 dark:bg-darkPrimary no-scrollbar">
         <SidebarGroup className="pl-2 pr-0">
           <SidebarGroupContent className="overflow-hidden">
             <SidebarMenu>

@@ -523,7 +523,11 @@ export function CommentList({
               className="w-full"
             />
             <div className="flex justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={handleDismiss}>
+              <Button
+                type="submit"
+                className="text-white"
+                onClick={handleDismiss}
+              >
                 បោះបង់
               </Button>
               <Button type="submit" className="text-white">

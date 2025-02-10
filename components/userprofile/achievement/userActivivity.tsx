@@ -49,7 +49,7 @@ export default function UserActivityPoints(achievement) {
 
   return (
     <div className="w-full max-w-3xl space-y-4 justify-center items-center flex flex-col">
-      <div className="flex items-center lg:w-[375px] w-[325px] justify-center">
+      <div className="flex items-center xl:w-[400px] lg:w-[325px] w-[325px] justify-center">
         {dataBlocks.map(
           ({ component: Component, number, text, color }, index) => (
             <React.Fragment key={index}>

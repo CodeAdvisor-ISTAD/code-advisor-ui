@@ -50,14 +50,20 @@ export default function CommentReplyComponent({ slug }: { slug: string }) {
   const handleReply = (answerUuid) => {
     setMode("reply");
     setReplyTo(answerUuid);
-    document.getElementById("editor").scrollIntoView({ behavior: "smooth" });
+    const editorElement = document.getElementById("editor");
+    if (editorElement) {
+      editorElement.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleEditReply = (answerUuid: string, replyContent: string) => {
     setMode("edit");
     setAnswerUuid(answerUuid);
     setReplyContent(replyContent);
-    document.getElementById("editor").scrollIntoView({ behavior: "smooth" });
+    const editorElement = document.getElementById("editor");
+    if (editorElement) {
+      editorElement.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const { data: answer } = useQuery({

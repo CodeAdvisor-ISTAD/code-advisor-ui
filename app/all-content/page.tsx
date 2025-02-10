@@ -15,7 +15,7 @@ type Keyword = {
 
 export default function AllPage() {
   const searchParams = useSearchParams();
-  const query = searchParams.get("query");
+  const query = searchParams ? searchParams.get("query") : null;
 
   const technology1: string[] = [
     "javascript",

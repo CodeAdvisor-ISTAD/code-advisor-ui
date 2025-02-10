@@ -17,8 +17,8 @@ export default function OwnerPostSkeleton() {
           <Skeleton className="w-[100px] h-[28px]"></Skeleton>
         </div>
         <div className="flex space-x-2 pt-1 pb-0.5">
-          <Skeleton className="border rounded-lg w-[520.04px] h-[34.4px]"></Skeleton>
-          <Skeleton className="w-[230px] h-[34.4px]"></Skeleton>
+          <Skeleton className="border rounded-lg w-[490px] h-[34.4px]"></Skeleton>
+          <Skeleton className="w-[200px] h-[34.4px]"></Skeleton>
         </div>
         <Skeleton className="mt-2 h-[232.6px] w-[696.68px]"></Skeleton>
         {/* <Skeleton className="mt-2 h-[150px] w-[696.68px]"></Skeleton>

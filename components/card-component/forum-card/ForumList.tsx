@@ -87,7 +87,7 @@ export function ForumList({ searchQuery }: CardListProps) {
         ? cards.filter(
             (card) =>
                 card.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                card.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (card.description?.toLowerCase().includes(searchQuery.toLowerCase()) || false) ||
                 card.tags.some((tag) => tag.name.toLowerCase().includes(searchQuery.toLowerCase()))
         )
         : cards

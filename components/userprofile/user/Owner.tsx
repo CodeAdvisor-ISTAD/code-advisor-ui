@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import Bio from "@/components/userprofile/user/Bio";
-import UserPost from "@/components/userprofile/user/OwnerPostComponent";
 import UserInformationCardComponent from "@/components/userprofile/user/UserInformationCardComponent";
 import ProfileImage from "@/components/userprofile/user/ProfileImageComponent";
 import SaveUserUpdateButton from "@/components/userprofile/user/SaveUserUpdateButton";
@@ -18,6 +17,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import AchievementLevelSkeleton from "../skeleton/AchievementCardSkeleton";
 import OwnerPostSkeleton from "../skeleton/OwnerPostSkeleton";
 
+interface UserInformation {
+  coverColor?: string;
+  bio?: string;
+  username?: string;
+  authorUuid?: string;
+}
+
 export default function Owner() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -25,27 +31,33 @@ export default function Owner() {
   const handleEdit = () => {
     router.push("/edit-user-profile");
   };
-
+  const [userInformation, setUserInformation] =
+    useState<UserInformation | null>(null);
   useEffect(() => {
     setInterval(() => {
       setLoading(false);
     }, 2000);
   }, []);
 
-  const { data: userInformation } = useQuery({
-    queryKey: ["profile"],
-    queryFn: getOwnUserProfile,
-  }); // Fetch the user profile
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const data = await getOwnUserProfile();
+      setUserInformation(data);
+    };
+
+    fetchUserProfile();
+  }, []);
+
   return (
-    <div className=" max-w-7xl dark:bg-gray-900 lg:p-4 p-1 mx-auto">
-      <div className="w-full bg-white pb-4 rounded-lg">
+    <div className=" max-w-7xl p-1 mx-auto ">
+      <div className="w-full bg-white pb-4 rounded-lg dark:bg-darkPrimary">
         <div className="flex justify-center mb-8">
           {/* cover */}
           {!loading ? (
             <div
-              className="cover w-full lg:h-[200px] h-[175px] rounded-[5px] relative"
+              className="cover w-full lg:h-[170px] h-[150px] rounded-[5px] relative"
               style={{
-                backgroundColor: userInformation?.coverColor || "#000040",
+                backgroundColor: userInformation?.coverColor,
               }}
             >
               {/* {loading ? (
@@ -55,7 +67,7 @@ export default function Owner() {
             )} */}
               <ProfileImage disableButton profileAuth={userInformation} />
 
-              <div className="absolute space-x-5 lg:top-[230px] lg:right-7 top-20 right-2">
+              <div className="absolute space-x-5 lg:top-[185px] lg:right-7 md:top-[165px] top-2 right-2">
                 <SaveUserUpdateButton
                   disabledCancel={false}
                   disabledSave={false}
@@ -65,7 +77,7 @@ export default function Owner() {
               </div>
             </div>
           ) : (
-            <Skeleton className="cover w-full lg:h-[200px] h-[175px] rounded-[5px] relative">
+            <Skeleton className="cover w-full lg:h-[200px] md:h-[170px] h-[100px] rounded-[5px] relative">
               <ProfileImageSkeleton />
             </Skeleton>
           )}
@@ -76,33 +88,33 @@ export default function Owner() {
             {loading ? (
               <AchievementLevelSkeleton />
             ) : (
-              <AchievementLevelComponent userInformation={userInformation} />)}
+              <AchievementLevelComponent userInformation={userInformation} />
+            )}
             {/* Bio card */}
             {loading ? (
-              <Skeleton className="h-[150px] mb-2">
-      
-              </Skeleton>
+              <Skeleton className="h-[150px] mb-2"></Skeleton>
             ) : (
-              <Bio bio={userInformation?.bio} />)}
+              <Bio bio={userInformation?.bio || ""} />
+            )}
             {/* user post card */}
 
             {/* user information card */}
             {loading ? (
-              <Skeleton className="h-[518.6px] mb-2">
-      
-              </Skeleton>
+              <Skeleton className="h-[518.6px] mb-2"></Skeleton>
             ) : (
-              <UserInformationCardComponent userInformation={userInformation} />)}
-            
+              <UserInformationCardComponent userInformation={userInformation} />
+            )}
           </div>
           {/* user post */}
           <div className="col-span-7">
             {loading ? (
-             <OwnerPostSkeleton />) : (
+              <OwnerPostSkeleton />
+            ) : (
               <OwnerPost
-              username={userInformation?.username}
-              authorUuid={userInformation?.authorUuid}
-            />)}
+                username={userInformation?.username || ""}
+                authorUuid={userInformation?.authorUuid || ""}
+              />
+            )}
           </div>
         </div>
       </div>

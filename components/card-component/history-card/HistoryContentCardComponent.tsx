@@ -1,5 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
 import {
   MoreVertical,
   Badge,
@@ -9,7 +7,7 @@ import {
   ShareIcon,
   TrashIcon,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   PopoverBody,
   PopoverButton,
@@ -17,11 +15,11 @@ import {
   PopoverRoot,
   PopoverTrigger,
 } from "@/components/ui/pop-over";
-import router from "next/router";
 
 interface HistoryCardProps {}
 
 interface HistoryCardProps {
+  thumbnail: string;
   createdAt: string;
   title: string;
   content: string;
@@ -35,9 +33,10 @@ interface HistoryCardProps {
   onShare?: () => void;
 }
 
-export function ForumHistoryCard({
+export function HistoryContentCardComponent({
   createdAt,
   title,
+  thumbnail,
   content,
   slug,
   // views,
@@ -66,30 +65,30 @@ export function ForumHistoryCard({
   ];
 
   return (
-    // <a href={`/forum/${slug}`} >
+    // <a href={`/content/${slug}`}>
     <div>
-      <div className=" bg-white rounded-[5px] w-full p-4 ring-1 ring-gray-200">
+      <div className=" bg-white dark:bg-darkPrimary rounded-[5px] w-full p-4 ring-1 ring-gray-200">
         {/* Content Section */}
         <div className="mb-4">
           <div className="flex justify-between">
             <h2 className="lg:text-2xl md:text-xl text-lg font-medium tracking-normal text-primary line-clamp-1">
-              {slug}
+              <a href={`/content/${slug}`}>{title}</a>
             </h2>
-            <div className="hidden lg:flex lg:justify-end md:justify-start justify-start text-gray-500 hover:text-gray-700">
+            <div className="hidden lg:flex lg:justify-end md:justify-start justify-start text-gray-500 dark:text-gray-300 hover:text-gray-700">
               <PopoverRoot className="hidden md:block">
-              <PopoverTrigger className="border-none">
-                <MoreVertical className="lg:w-5 lg:h-5 md:w-4 md:h-4 w-3 h-3" />
-              </PopoverTrigger>
-              <PopoverContent className="w-auto h-auto">
-                <PopoverBody>
-                {actions.map((action, index) => (
-                  <PopoverButton key={index} onClick={action.action}>
-                  {action.icon}
-                  <span>{action.label}</span>
-                  </PopoverButton>
-                ))}
-                </PopoverBody>
-              </PopoverContent>
+                <PopoverTrigger className="border-none">
+                  <MoreVertical className="lg:w-5 lg:h-5 md:w-4 md:h-4 w-3 h-3" />
+                </PopoverTrigger>
+                <PopoverContent className="w-auto h-auto">
+                  <PopoverBody>
+                    {actions.map((action, index) => (
+                      <PopoverButton key={index} onClick={action.action}>
+                        {action.icon}
+                        <span>{action.label}</span>
+                      </PopoverButton>
+                    ))}
+                  </PopoverBody>
+                </PopoverContent>
               </PopoverRoot>
             </div>
           </div>
@@ -109,7 +108,7 @@ export function ForumHistoryCard({
 
         {/* Tags Section */}
         <div className="flex flex-wrap gap-2 mb-4 justify-between">
-          <div className="pt-4 text-sm text-gray-500">
+          <div className="pt-4 text-sm text-gray-500 dark:text-gray-300" >
             {new Date(createdAt)
               .toLocaleDateString("en-GB", {
                 year: "numeric",
@@ -123,6 +122,17 @@ export function ForumHistoryCard({
               .replace(/\b(am|pm)\b/g, (match) => match.toUpperCase())}
           </div>
           {/* Metrics Section */}
+          {thumbnail && title && (
+            <div className="relative h-[100px] w-[150px] overflow-hidden">
+              <Image
+                src={thumbnail}
+                alt={title}
+                fill
+                className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+                sizes="(max-width: 250px) 0vw, 1200px"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

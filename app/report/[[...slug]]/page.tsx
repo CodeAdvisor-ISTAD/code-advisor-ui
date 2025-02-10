@@ -82,7 +82,7 @@ export default function ReportForm() {
 
     try {
       setLoading(true);
-      const response = await createReport(reportData);
+      const response = await createReport(reportData as any);
       console.log("Report created successfully:", response);
       ("Report submitted successfully!");
     } catch (error) {

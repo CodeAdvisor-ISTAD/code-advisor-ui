@@ -61,7 +61,7 @@ const formSchema = z.object({
 
 export default function ForumDetailComponent({ slug }: { slug: string }) {
   const queryClient = useQueryClient();
-  const editorRef = useRef(null);
+  const editorRef = useRef<{ clearContent: () => void } | null>(null);
   const [isLoadingBlur, setIsLoadingBlur] = useState(true);
   const { replyTo, mode, setMode, setReplyTo, answerUuid, replyContent } =
     useCommentContext();
@@ -217,7 +217,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     },
   });
 
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   const getButtonColor = (expectedCode: number, actualCode: number) => {
     if (actualCode === 400) return "text-gray-400"; // Disabled/error state
@@ -250,7 +250,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
   useEffect(() => {
     if (replyContent && editorRef.current) {
       // Type assertion for the ref
-      const editor = editorRef.current as {
+      const editor = editorRef.current as unknown as {
         setContent: (content: string) => void;
       };
       editor.setContent(replyContent);
@@ -262,7 +262,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     setInterval(() => {
       setIsLoadingBlur(false);
     }, 2000);
-  })
+  });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (mode === "reply") {
@@ -285,7 +285,7 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
       // Handle default case (e.g., creating a new top-level comment)
       const createAnswer: CreateComment = {
         questionSlug: slug,
-        answerUuid: "" , // No parent comment
+        answerUuid: null, // No parent comment
         slug: slug + "-answer-" + Date.now(), // Generate a unique slug
         content: values.content,
       };
@@ -318,11 +318,10 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
     queryFn: () => checkBookmarkStatus(slug), // You'll need to implement this
   });
 
-
   const { toggleBookmark, isLoading, isError } = useBookmarkMutations(slug);
 
   return (
-    <div className="w-full dark:bg-darkPrimary">
+    <div className="w-full dark:bg-darkPrimary  xl:ml-0 px-2">
       <TagComponent />
       <div className="p-3 bg-white dark:bg-darkPrimary rounded-[5px] shadow-sm border">
         {/* Header */}
@@ -331,9 +330,9 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
             <UserProfileSkeleton />
           ) : (
             <UserProfile
-            authorUsername={forum?.authorUsername}
-            createdAt={forum?.createdAt}
-          />
+              authorUsername={forum?.authorUsername}
+              createdAt={forum?.createdAt}
+            />
           )}
           <button className="text-gray-500 hover:text-gray-700">
             <div className="w-6 h-6">•••</div>
@@ -346,24 +345,19 @@ export default function ForumDetailComponent({ slug }: { slug: string }) {
           <h2 className="text-2xl font-bold">{forum?.title}</h2>
           <h2 className="text-xl font-bold">សំណូរដែលបានជួបប្រទះ</h2>
           <p className="text-lg">{forum?.description}</p>
-          {
-            isLoadingBlur ? (
-              <RichTextEditorSkeleton />
-            ) : (
-              <Preview content={forum?.introduction} />
-            )
-          }
+          {isLoadingBlur ? (
+            <RichTextEditorSkeleton />
+          ) : (
+            <Preview content={forum?.introduction} />
+          )}
 
           {/* Code Block */}
-            <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
-            {
-              isLoadingBlur ? (
-                <RichTextEditorSkeleton />
-              ) : (
-                <Preview content={forum?.expectedAnswers} />
-              )
-            }
-
+          <h2 className="text-xl font-bold mb-3">ចម្លើយដែលអ្នកចង់បាន</h2>
+          {isLoadingBlur ? (
+            <RichTextEditorSkeleton />
+          ) : (
+            <Preview content={forum?.expectedAnswers} />
+          )}
 
           {/* Tags */}
           <div className="flex gap-2">
@@ -484,7 +478,10 @@ const UserProfile = ({ authorUsername, createdAt }) => {
   const router = useRouter();
 
   return (
-    <div className="flex px-4 items-center gap-3 cursor-pointer" onClick={() => router.push(`/user-profile/${authorUsername}`)}>
+    <div
+      className="flex px-4 items-center gap-3 cursor-pointer"
+      onClick={() => router.push(`/user-profile/${authorUsername}`)}
+    >
       <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
         <img
           src={

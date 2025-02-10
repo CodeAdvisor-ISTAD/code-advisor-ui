@@ -40,24 +40,21 @@ export default function OwnerPost({
   const [filteredContentData, setFilteredContentData] = useState<any[]>([]);
   const [selectedFilter, setSelectedFilter] = useState("4"); // Default to "All"
 
-
   useEffect(() => {
-      setInterval(() => {
-        setLoading(false);
-      }, 2000);
-    }, []);
+    setInterval(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   const { data: forumData } = useQuery({
     queryKey: ["ForumOwner"],
     queryFn: () => getQuestionByAuthorName(username, 0, 10),
   });
 
-  const { data: contentData, refetch : refetchDataContent } = useQuery({
+  const { data: contentData, refetch: refetchDataContent } = useQuery({
     queryKey: ["ContentOwner"],
     queryFn: () => getContentByAuthorUuid(authorUuid, 0, 10),
   });
-
-  
 
   const filterDataByDate = (data: any[], dateField: string) => {
     const currentDate = new Date();
@@ -151,7 +148,14 @@ export default function OwnerPost({
       <Tabs defaultValue="forum">
         <TabsList>
           <TabsTrigger value="forum">សំនួររបស់អ្នក</TabsTrigger>
-          <TabsTrigger value="content" onClick={() => {refetchDataContent()}}>មាតិការបស់អ្នក</TabsTrigger>
+          <TabsTrigger
+            value="content"
+            onClick={() => {
+              refetchDataContent();
+            }}
+          >
+            មាតិការបស់អ្នក
+          </TabsTrigger>
         </TabsList>
         <div className="flex space-x-2 pt-1 pb-0.5">
           <Command className="border h-9 rounded-lg">
@@ -164,8 +168,8 @@ export default function OwnerPost({
             />
           </Command>
           <Select onValueChange={(value) => setSelectedFilter(value)}>
-            <SelectTrigger className="text-start h-9 bg-white rounded-lg w-[250px]">
-              <SelectValue placeholder="កាលបរិច្ឆេទ" />
+            <SelectTrigger className="text-start h-9 rounded-lg w-[250px]">
+              <SelectValue placeholder="កាលបរិច្ឆេទ"/>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup className="rounded-sm">
@@ -227,7 +231,7 @@ export default function OwnerPost({
                 />
               ))
             ) : (
-                <OwnerEmptyCard />
+              <OwnerEmptyCard />
             )}
           </div>
         </TabsContent>

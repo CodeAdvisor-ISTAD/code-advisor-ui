@@ -8,7 +8,7 @@ import emptyImage from "@/public/user-profile-image/មិនមានទិន�
 export default function ViewerEmptyCard() {
   const route = useRouter();
   return (
-    <Card className="w-full p-6 rounded-lg bg-white flex flex-col items-center">
+    <Card className="w-full p-6 rounded-lg bg-white dark:bg-darkSecondary flex flex-col items-center">
       <CardTitle className="font-khFont text-2xl pb-2 text-center ">
         មិនទាន់មានទិន្នន័យ
       </CardTitle>
