@@ -64,7 +64,7 @@ export function CardComponent({
           </div>
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="relative w-full h-[157.5px] md:h-[262.5px] overflow-hidden">
+          <div className="relative w-full h-[300px] md:h-[262.5px] overflow-hidden">
             <Image
               src={thumbnail}
               alt={title}

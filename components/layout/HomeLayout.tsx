@@ -8,9 +8,9 @@ import Footer from "../footer/Footer";
 import TrendingComponent from "@/components/card-component/card-trending/TrendingComponent";
 
 function HomeLayout({
-                      children,
-                      showTrending = true, // default to true, so it's shown by default
-                    }: Readonly<{
+  children,
+  showTrending = true, // default to true, so it's shown by default
+}: Readonly<{
   children: React.ReactNode;
   showTrending?: boolean; // optional prop to toggle trending visibility
 }>) {
@@ -21,20 +21,20 @@ function HomeLayout({
   ];
 
   return (
-      <div className="w-full">
-        <NavbarComponent />
-        <div className="flex xl:px-[100px] lg:px-[25px] md:px-[20px] xl:gap-3">
-          <div>
-            <AppSidebar />
-          </div>
-          <div className="w-full">{children}</div>
-          <div className="xl:flex xl:flex-col xl:gap-2 lg:hidden md:hidden hidden">
-            {showTrending && <TrendingComponent type="Latest" item={latest} />}
-              {showTrending &&< ISTADCard />}
-          </div>
+    <div className="w-full">
+      <NavbarComponent />
+      <div className="flex xl:px-[100px] lg:px-[25px] md:px-[20px] xl:gap-3">
+        <div>
+          <AppSidebar />
         </div>
-        <Footer />
+        <div className="w-full">{children}</div>
+        <div className="xl:flex xl:flex-col xl:gap-2 lg:hidden md:hidden hidden">
+          {showTrending && <TrendingComponent type="Latest" item={latest} />}
+          {showTrending && <ISTADCard />}
+        </div>
       </div>
+      <Footer />
+    </div>
   );
 }
 
