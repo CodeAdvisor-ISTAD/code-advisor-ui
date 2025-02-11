@@ -60,19 +60,13 @@ export function NavbarLogin({ user }: NavbarLoginProps) {
       handleSearchSubmit();
     }
   };
-  console.log("User: ", user?.username);
-
-  const [userUuid, setUserUuid] = useState(user?.uuid || "");
 
   useEffect(() => {
     if (!user || !user.uuid) {
-      console.warn("User or user UUID is not available.");
       return;
     }
 
     const userUuid = user?.uuid;
-
-    console.log("User UUID: ", userUuid);
 
     const wsService = new WebSocketService(
       "/notifications/ws",
@@ -124,8 +118,6 @@ export function NavbarLogin({ user }: NavbarLoginProps) {
 
     router.push("/notification");
   };
-
-  console.log("REALTIME COUNT NUMBER: ", unreadCount);
 
   return (
     <div className="flex items-center border mb-2 bg-white justify-between h-[72px] px-[100px] dark:bg-darkPrimary">
