@@ -38,7 +38,7 @@ export function CardComponent({
 }: CardData) {
   return (
     <a href={`/content/${slug}`}>
-      <Card className="rounded-[5px] w-[350px] h-[480px] flex flex-col ">
+      <Card className="rounded-[5px] w-[350px] h-[480px] flex flex-col  ">
         <CardHeader className="space-y-3">
           <div className="space-y-1">
             <h2 className="text-xl font-medium tracking-normal text-primary line-clamp-2">

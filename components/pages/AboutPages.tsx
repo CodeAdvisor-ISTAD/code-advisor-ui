@@ -27,22 +27,21 @@ export default function About() {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+
+    <div className="relative min-h-screen overflow-hidden ">
       <div className="relative z-10">
         <main className="overflow-hidden relative z-10">
           {/* Hero Section */}
           <section className="mt-40">
             <AnimatedBackground />
             {/* Main Content */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               {/* Text Section */}
               <div className="space-y-8" data-aos="fade-right">
-                <div className="flex items-center gap-4">
-                  <h1 className="text-3xl md:text-4xl lg:text-4xl 2xl:text-4xl ml-4 md:ml-28 lg:ml-28 2xl:ml-28 font-extrabold text-secondary">
-                    អំពី​​​ CodeAdvisors
-                  </h1>
-                </div>
-                <p className="text-base md:text-lg lg:text-lg 2xl:text-lg ml-4 md:ml-28 lg:ml-28 2xl:ml-28 text-gray-700">
+                <h1 className="text-3xl md:text-4xl font-extrabold text-secondary ml-4 md:ml-20">
+                  អំពី​​​ CodeAdvisors
+                </h1>
+                <p className="text-base md:text-lg text-gray-700 ml-4 md:ml-20">
                   CodeAdvisors ផ្តល់ជូនពិតជាមួយនឹង Developers
                   តាមរយៈការរៀបចាក់ការជំនាញ វិជ្ជាជីវៈថ្មីៗ
                   និងបង្កើតនូវការទំនាក់ទំនងល្អៗជាមួយគ្នាបន្ថែមទៀត។
@@ -51,35 +50,25 @@ export default function About() {
 
               {/* Image Section */}
               <motion.div
-                className="relative h-[200px] md:h-[300px] lg:h-[400px] 2xl:h-[450px] mr-4 md:mr-20 lg:mr-20 2xl:mr-20"
-                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="relative w-full h-[250px] md:h-[300px]"
+                  initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
               >
                 <motion.div
-                  className="w-full h-full"
-                  animate={{
-                    y: [0, 8, -8, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    ease: "easeInOut",
-                  }}
-                  whileHover={{
-                    scale: 1.05,
-                    rotate: [0, -2, 2, -2, 0],
-                    transition: { duration: 0.5 },
-                  }}
-                  whileTap={{ scale: 3, rotate: 0 }}
+                    className="w-full h-full"
+                    animate={{ y: [0, 8, -8, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    whileHover={{ scale: 1.05, rotate: [0, -2, 2, -2, 0], transition: { duration: 0.5 } }}
                 >
-                  <Image
-                    src="/about-us/1.png"
-                    alt="Programming Education Illustration"
-                    fill
-                    className="object-contain rounded-lg"
-                  />
+                  <div className="relative w-full h-full">
+                    <Image
+                        src="/about-us/1.png"
+                        alt="Programming Education Illustration"
+                        fill
+                        className="object-contain rounded-lg"
+                    />
+                  </div>
                 </motion.div>
               </motion.div>
             </div>
@@ -89,24 +78,25 @@ export default function About() {
           <section className="mt-[100px] bg-white border border-gray-100">
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 mb-10">
               {/* Goal Feature */}
-              <div className="text-center mx-4 md:mx-28 lg:mx-28 2xl:mx-28" data-aos="fade-up">
+              <div className="text-center mx-4 md:mx-16 lg:mx-28 2xl:mx-32" data-aos="fade-up">
                 <div className="flex justify-center">
                   <Image
-                    src="/2.png"
-                    alt="Code Advisors Logo"
-                    width={150}
-                    height={150}
-                    className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 2xl:w-48 2xl:h-48"
+                      src="/2.png"
+                      alt="Code Advisors Logo"
+                      width={150}
+                      height={150}
+                      className="w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 2xl:w-48 2xl:h-48"
                   />
                 </div>
-                <h3 className="text-xl md:text-2xl lg:text-2xl 2xl:text-2xl font-semibold text-primary">
+                <h3 className="text-lg md:text-xl lg:text-2xl 2xl:text-2xl font-semibold text-primary">
                   បេសកម្ម
                 </h3>
-                <p className="text-gray-600 text-sm md:text-base lg:text-base 2xl:text-base">
+                <p className="text-gray-600 text-xs md:text-sm lg:text-base 2xl:text-lg">
                   ផ្តល់វិធីសាស្រ្តក្នុងការចែករំលែក ចំណេះដឹង ការដោះស្រាយបញ្ហា
                   និងអភិវឌ្ឍន៍ចំណេះដឹង។
                 </p>
               </div>
+
 
               {/* Meaning Feature */}
               <div
@@ -159,8 +149,8 @@ export default function About() {
           </section>
 
           {/* About Section */}
-          <section className="container bg-white mt-20 border border-gray-100">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 items-center">
+          <section className="container bg-white mt-20 border border-gray-100 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 items-center p-4">
               <div
                 className="h-[200px] md:h-[300px] lg:h-[350px] 2xl:h-[400px]"
                 data-aos="fade-right"
@@ -227,7 +217,7 @@ export default function About() {
                       data-aos="fade-up"
                       data-aos-delay={index * 100}
                     >
-                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 2xl:w-12 2xl:h-12 rounded-full bg-primary flex items-center justify-center border border-secondary">
+                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 2xl:w-12 2xl:h-12 rounded-full bg-primary flex items-center justify-center ">
                         {item.icon}
                       </div>
                       <div>

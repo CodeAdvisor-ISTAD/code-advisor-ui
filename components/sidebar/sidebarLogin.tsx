@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { X, ChevronDown, Menu } from "lucide-react";
+import { X, ChevronDown, Menu, User, LogOut } from "lucide-react";
 import { Home, Inbox, Calendar, Settings, History, Phone, Contact, FileQuestion } from "lucide-react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,17 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTi
 import { ToggleTheme } from "@/components/switch-theme/toggleTheme";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { Dropdown, DropdownItem } from "flowbite-react";
+import { FiBell, FiEdit2 } from "react-icons/fi";
+import {
+    DropdownMenu,
+    DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
+import router from "next/router";
 
 // Define the same items array as in AppSidebar
 const items = [
@@ -40,37 +51,104 @@ const items = [
     { id: 5, title: "អំពីពួកយើង", url: "/about", icon: Contact },
 ];
 
-interface MobileSidebarProps {
+interface MobileSidebarLoginProps {
     onClose: () => void;
 }
 
-export default function MobileSidebar({ onClose }: MobileSidebarProps) {
+export default function MobileSidebarLogin({ onClose }: MobileSidebarLoginProps) {
     const pathname = usePathname();
     const [openMenus, setOpenMenus] = useState<Record<number, boolean>>({});
+    const [unreadCount, setUnreadCount] = useState<number>(0); // Add unread count state
+    const [user, setUser] = useState<any>(null); // Replace with proper user state management
 
     const toggleMenu = (id: number) => {
         setOpenMenus((prev) => ({ ...prev, [id]: !prev[id] }));
     };
 
+    const handleNotificationClick = () => {
+        // Define notification click behavior
+        console.log("Notification clicked!");
+        setUnreadCount(0); // Example: reset unread count on click
+    };
+
     return (
         <Sheet>
             {/* Trigger Button */}
+            {/* Menu Button */}
             <SheetTrigger asChild>
-                <Button className="mr-4 md:hidden " variant="ghost">
-
-                    <Menu className="w-6 h-6 text-primary" />
+                <Button className="mr-4 md:hidden p-2" variant="ghost">
+                    <Menu className="w-5 h-5 text-primary" />
                 </Button>
             </SheetTrigger>
 
-            {/* Sheet Content - Sidebar Menu */}
-            <SheetContent className="w-[300px] p-0 ">
+            {/* Sidebar Content */}
+            <SheetContent className="w-[280px] p-0">
                 <SheetHeader className="p-4 border-b">
                     <SheetTitle>CodeAdvisors</SheetTitle>
                 </SheetHeader>
-                <div className="p-4">
 
-                    <div className="flex justify-end">
-                        <ToggleTheme /></div>
+
+                <div className="p-4">
+                    {/* User Section (Avatar, Theme, Buttons) */}
+                    <div className="flex items-center justify-between mb-4">
+
+
+                        {/* Create Buttons */}
+                        <div className="flex gap-2">
+                            <Button
+                                className="bg-primary text-white px-2 py-1 text-xs flex items-center gap-1 shadow-sm hover:bg-primary-dark"
+                                onClick={() => router.push("/content/new")}
+                            >
+                                <span>បង្កើតអត្ថបទ</span>
+                            </Button>
+                            <Button
+                                className="bg-primary text-white px-2 py-1 text-xs flex items-center gap-1 shadow-sm hover:bg-primary-dark"
+                                onClick={() => router.push("/forum/new")}
+                            >
+                                <span>បង្កើតការពិភាក្សា</span>
+                            </Button>
+
+                        </div>
+                        <DropdownMenu>
+
+                            <ToggleTheme />
+
+                            <DropdownMenuTrigger asChild>
+                            <Avatar className="h-8 w-8 cursor-pointer">
+                                <AvatarImage src={user?.profileImage} alt="User avatar" />
+                                <AvatarFallback />
+                            </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-52" align="end">
+                            <DropdownMenuSeparator />
+                            <DropdownMenuGroup>
+                                <a href={`/user-profile/${user?.username}`}>
+                                    <DropdownMenuItem>
+                                        <User className="mr-2 h-4 w-4" />
+                                        <span>ប្រវត្តិរូប</span>
+                                    </DropdownMenuItem>
+                                </a>
+                                <DropdownMenuItem>
+                                    <Settings className="mr-2 h-4 w-4" />
+                                    <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <div className="flex w-full items-center justify-between">
+                                        <Switch />
+                                    </div>
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="text-red-600">
+                                <LogOut className="mr-2 h-4 w-4" />
+                                <span onClick={() => router.push("http://202.178.125.77:9090/logout")}>
+                                        ចាកចេញ
+                                    </span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    </div>
+
 
                     <AnimatePresence>
                         {items.map((item) => (
@@ -135,34 +213,6 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
                             </motion.div>
                         ))}
                     </AnimatePresence>
-                </div>
-
-                {/* Login/Register buttons moved below items */}
-                <div className="p-4 border-t">
-                    <div className="mb-2">
-                    </div>
-                    <SheetClose asChild>
-                        <Button
-                            onClick={() => {
-                                onClose();
-                                window.location.href = "/oauth2/authorization/code-advisor";
-                            }}
-                            className="w-full text-white bg-primary rounded hover:bg-primary-dark mb-2"
-                        >
-                            ចូលប្រើ
-                        </Button>
-                    </SheetClose>
-                    <SheetClose asChild>
-                        <Button
-                            onClick={() => {
-                                onClose();
-                                window.location.href = "http://202.178.125.77:9090/register";
-                            }}
-                            className="w-full text-white bg-primary rounded hover:bg-primary-dark"
-                        >
-                            បង្កើតគណនី
-                        </Button>
-                    </SheetClose>
                 </div>
             </SheetContent>
         </Sheet>

@@ -18,19 +18,20 @@ export default function Home() {
         }
     };
 
-
     return (
-        <main className="flex flex-col-2">
-            {/* Left Side Content */}
-            <div className="w-full md:w-[640px] lg:w-[710px]">
-                <CardList searchQuery={searchQuery} />
-            </div>
+        <main className="flex justify-center">
+            <div className="flex flex-col md:flex-row w-full max-w-[1200px] ">
+                {/* Left Side Content */}
+                <div className="w-full md:w-[640px] lg:w-[710px] mb-2 md:p-0 p-9 md:mt-0 -mt-9">
+                    <CardList searchQuery={searchQuery}/>
 
-            {/* Right Side Content */}
-            <div className="flex flex-col gap-2 w-full md:w-[320px] lg:w-[340px] md:ml-6 lg:ml-2">
-                <Recommendations type="Latest" />
-                <Recommendations type="Trending" />
-                <ISTADCard />
+                </div>
+                {/* Right Side Content */}
+                <div className="flex flex-col gap-2 w-full md:w-[320px] lg:w-[340px] md:ml-6 lg:ml-2 md:mt-0 mt-2 md:p-0 p-2">
+                    <Recommendations type="Latest"/>
+                    <Recommendations type="Trending"/>
+                    <ISTADCard/>
+                </div>
             </div>
         </main>
     );
