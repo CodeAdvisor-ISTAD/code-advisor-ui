@@ -97,7 +97,7 @@ export default function AllPage() {
 
           {/* ForumList Section */}
           <div className="w-full md:w-[700px] ml-0 md:ml-[200px]">
-            {/*<ForumList searchQuery={query || ""} />*/}
+            <ForumList searchQuery={query || ""} />
           </div>
         </div>
 
