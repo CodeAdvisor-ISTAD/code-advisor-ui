@@ -4,6 +4,7 @@ import '../globals.css';
 import NavbarComponent from "@/components/navbar/NavbarComponent";
 import toast, { Toaster } from 'react-hot-toast';
 import Footer from "@/components/footer/Footer";
+import {NavbarLogin} from "@/components/navbar/NavbarLogin";
 
 export default function ContentLayout({
                                           children,

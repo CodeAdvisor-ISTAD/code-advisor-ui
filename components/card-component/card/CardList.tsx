@@ -100,7 +100,7 @@ export function CardList({ searchQuery }: CardListProps) {
               <p className="text-center py-4 text-gray-500">No results found</p>
 
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 justify-center md:grid-cols-2 lg:grid-cols-2 gap-2">
           {displayCards.map((card) => (
             <CardComponent key={card.id} {...card} />
           ))}
