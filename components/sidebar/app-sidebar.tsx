@@ -24,8 +24,8 @@ const items = [
     url: "/",
     icon: FileQuestion,
     subItems: [
-      { id: 1, title: "ថ្មីៗ", url: "/home" },
-      { id: 2, title: "ពេញនិយម", url: "#" },
+      { id: 1, title: "ថ្មីៗ", url: "/" },
+      { id: 2, title: "ពេញនិយម", url: "/" },
       { id: 3, title: "ស្លាក", url: "/content/tags" },
     ],
   },
@@ -40,12 +40,12 @@ const items = [
       { id: 3, title: "ស្លាក", url: "/content/tags" },
     ],
   },
-  { id: 3, title: "ការពិភាក្សា", url: "#", icon: Inbox },
+  // { id: 3, title: "ការពិភាក្សា", url: "#", icon: Inbox },
   { id: 4, title: "កត់ចាំណាំ", url: "/bookmark", icon: Calendar },
   { id: 5, title: "ប្រវត្តិ", url: "/reading-history", icon: History },
   { id: 6, title: "អំពីពួកយើង", url: "/about", icon: Contact },
-  { id: 7, title: "ទំនាក់ទំនង", url: "#", icon: Phone },
-  { id: 8, title: "ការកំណត់", url: "#", icon: Settings },
+  // { id: 7, title: "ទំនាក់ទំនង", url: "#", icon: Phone },
+  // { id: 8, title: "ការកំណត់", url: "#", icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -58,7 +58,7 @@ export function AppSidebar() {
 
   return (
     <aside className="w-[256px] bg-white border rounded-sm p-5 sticky top-0 h-screen hidden md:block dark:bg-darkPrimary">
-      <h2 className="text-xl font-bold">CodeAdvisor</h2>
+      <h2 className="text-xl font-bold">CodeAdvisors</h2>
       <div className="mt-6 space-y-2">
         <AnimatePresence>
           {items.map((item) => (

@@ -52,7 +52,7 @@ export default function ErrorPage({
                     We&apos;re sorry. The page you requested could not be found.
                 </p>
                 <p className="text-gray-600 mb-4">Please go back to the home page.</p>
-                <Link href="/home">
+                <Link href="/">
                 <Button className="text-white bg-secondary hover:bg-primary rounded-sm px-4 py-2">
                     Go Back Home
                 </Button>
