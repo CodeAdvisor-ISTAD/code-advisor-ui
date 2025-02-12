@@ -71,8 +71,8 @@ const members = [
 
 function MemberCard({ name, image, quote, facebookLink, githubLink }: { name: string; image: string; quote: string; facebookLink: string; githubLink: string }) {
   return (
-      <div className="rounded-[50px] border-[5px] w-[270px] h-[390px] border-primary p-4 flex flex-col items-center bg-white" data-aos="fade-up" data-aos-duration="1000">
-        <div className="relative w-[150px] h-[150px] mb-10">
+      <div className="rounded-[50px] border-[5px] w-[270px] h-[390px] border-primary p-4 flex flex-col items-center bg-white dark:bg-darkPrimary" data-aos="fade-up" data-aos-duration="1000">
+        <div className="relative w-[175px] h-[150px] mb-10">
           <div className="absolute inset-0 transform rotate-45 " />
           <Image
               src={image}
@@ -87,7 +87,7 @@ function MemberCard({ name, image, quote, facebookLink, githubLink }: { name: st
           {`{${name}}`}
         </h4>
 
-        <p className="text-sm text-center text-primary mb-6 line-clamp-3">
+        <p className="text-sm text-center text-primary mb-6 line-clamp-3 dark:text-white">
           {quote}
         </p>
 
@@ -121,7 +121,7 @@ export default function TeamSection() {
         </h2>
 
         {/* Leaders Grid */}
-        <div className="flex justify-center flex-wrap gap-8 max-w-[700px] mx-auto mb-20">
+        <div className="flex justify-center flex-wrap gap-8 max-w-[700px] mx-auto mb-20 ">
           {leaders.map((leader, index) => (
               <div key={leader.name} data-aos="fade-up" data-aos-delay={index * 200}>
                 <MemberCard {...leader} />

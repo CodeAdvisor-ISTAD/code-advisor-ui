@@ -77,12 +77,12 @@ export default function MobileSidebarLogin({ onClose }: MobileSidebarLoginProps)
             {/* Menu Button */}
             <SheetTrigger asChild>
                 <Button className="mr-4 md:hidden p-2" variant="ghost">
-                    <Menu className="w-5 h-5 text-primary" />
+                    <Menu className="w-5 h-5 text-primary dark:text-white" />
                 </Button>
             </SheetTrigger>
 
             {/* Sidebar Content */}
-            <SheetContent className="w-[280px] p-0">
+            <SheetContent className="w-[280px] p-0 dark:bg-darkPrimary">
                 <SheetHeader className="p-4 border-b">
                     <SheetTitle>CodeAdvisors</SheetTitle>
                 </SheetHeader>

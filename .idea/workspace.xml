@@ -7,7 +7,16 @@
     <list default="true" id="9bd93498-4ba0-4fef-871b-ad43ff1a02b4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/all-content/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/all-content/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/card-component/forum-card/ForumList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/forum-card/ForumList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/card-component/card-trending/Card-Istad.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card-trending/Card-Istad.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/card-component/card-trending/TrendingComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card-trending/TrendingComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/card-component/card/CardComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card/CardComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/card-component/card/MemberComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/card-component/card/MemberComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/footer/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/footer/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/navbar/NavbarLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/navbar/NavbarLogin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/pages/AboutPages.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/pages/AboutPages.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/pages/HomePages.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/pages/HomePages.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/sidebar/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/sidebar/sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/sidebar/sidebarLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/sidebar/sidebarLogin.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +43,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;nana&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;test-4&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/vanndeth/Desktop/code-advisor-ui/redux&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -102,6 +111,7 @@
       <workItem from="1738913757131" duration="193000" />
       <workItem from="1739235904872" duration="12610000" />
       <workItem from="1739278785950" duration="9466000" />
+      <workItem from="1739335361249" duration="10218000" />
     </task>
     <servers />
   </component>

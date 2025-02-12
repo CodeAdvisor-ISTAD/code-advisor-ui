@@ -30,7 +30,7 @@ export default function Home() {
                 <div className="flex flex-col gap-2 w-full md:w-[320px] lg:w-[340px] md:ml-6 lg:ml-2 md:mt-0 mt-2 md:p-0 p-2">
                     <Recommendations type="Latest"/>
                     <Recommendations type="Trending"/>
-                    <ISTADCard/>
+                    <ISTADCard />
                 </div>
             </div>
         </main>

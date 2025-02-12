@@ -53,23 +53,24 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
     };
 
     return (
-        <Sheet>
+
+        <Sheet  >
             {/* Trigger Button */}
             <SheetTrigger asChild>
                 <Button className="mr-4 md:hidden " variant="ghost">
 
-                    <Menu className="w-6 h-6 text-primary" />
+                    <Menu className="w-6 h-6 text-primary dark:text-white" />
                 </Button>
             </SheetTrigger>
 
             {/* Sheet Content - Sidebar Menu */}
-            <SheetContent className="w-[300px] p-0 ">
+            <SheetContent className="w-[300px] p-0 dark:text-white dark:bg-darkPrimary ">
                 <SheetHeader className="p-4 border-b">
-                    <SheetTitle>CodeAdvisors</SheetTitle>
+                    <SheetTitle className="dark:text-white">CodeAdvisors</SheetTitle>
                 </SheetHeader>
-                <div className="p-4">
+                <div className="p-4 ">
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-end  ">
                         <ToggleTheme /></div>
 
                     <AnimatePresence>
@@ -79,16 +80,16 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 10 }}
-                                className="rounded-lg overflow-hidden"
+                                className="rounded-lg overflow-hidden dark:text-white"
                             >
                                 {item.subItems ? (
                                     <div>
                                         <button
                                             onClick={() => toggleMenu(item.id)}
-                                            className="w-full flex items-center justify-between p-3 rounded-md hover:bg-gray-100 transition-all dark:hover:bg-darkSecondary"
+                                            className="w-full flex items-center justify-between p-3 rounded-md hover:bg-gray-100 transition-all dark:hover:bg-darkSecondary dark:text-white"
                                         >
                                             <div className="flex items-center gap-2">
-                                                <item.icon className="text-xl" />
+                                                <item.icon className="text-xl dark:text-white" />
                                                 {item.title}
                                             </div>
                                             <ChevronDown
@@ -109,7 +110,7 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
                                                         <SheetClose asChild key={subItem.id}>
                                                             <Link
                                                                 href={subItem.url}
-                                                                className="block p-2 hover:bg-gray-100 rounded-md transition dark:hover:bg-darkSecondary"
+                                                                className="block p-2 hover:bg-gray-100 rounded-md transition dark:hover:bg-darkSecondary dark:text-white"
                                                             >
                                                                 {subItem.title}
                                                             </Link>
@@ -127,7 +128,7 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
                                                 pathname === item.url ? "bg-gray-100" : "hover:bg-gray-100 dark:hover:bg-darkSecondary"
                                             }`}
                                         >
-                                            <item.icon className="text-xl" />
+                                            <item.icon className="text-xl dark:text-white" />
                                             {item.title}
                                         </Link>
                                     </SheetClose>
@@ -138,7 +139,7 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
                 </div>
 
                 {/* Login/Register buttons moved below items */}
-                <div className="p-4 border-t">
+                <div className="p-4 border-t ">
                     <div className="mb-2">
                     </div>
                     <SheetClose asChild>

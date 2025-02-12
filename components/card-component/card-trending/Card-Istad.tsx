@@ -21,7 +21,7 @@ export default function ISTADCard() {
   return (
       <Card
           onClick={navigateToISTAD}
-          className="w-[341px] h-[315px] mx-auto overflow-hidden rounded-[5px] cursor-pointer"
+          className="w-[341px] h-[315px] mx-auto overflow-hidden rounded-[5px] cursor-pointer hidden md:block dark:bg-darkPrimary"
       >
         <div className="">
           <CardHeader className="py-1 -mt-2 -mb-5">
@@ -36,13 +36,13 @@ export default function ISTADCard() {
                 {programs.map((program, index) => (
                     <div
                         key={index}
-                        className="p-1 text-center bg-white/10 rounded text-white text-[10px] hover:bg-white/20 transition-colors cursor-pointer"
+                        className="p-1 text-center bg-white/10 rounded text-white text-[10px] hover:bg-white/20 transition-colors cursor-pointer "
                     >
                       {program.title}
                     </div>
                 ))}
               </div>
-              <div className="flex justify-between text-white text-xs">
+              <div className="flex justify-between text-white text-xs ">
                 <div className="flex items-center gap-1">
                   <Phone className="w-3 h-3" />
                   <span>(855) 093 990 910</span>
@@ -54,7 +54,7 @@ export default function ISTADCard() {
             </div>
 
             <div className="space-y-2">
-              <h2 className="text-lg font-normal text-[#1a237e] leading-tight">
+              <h2 className="text-lg font-normal text-[#1a237e] leading-tight dark:text-white">
                 Join our intensive Bachelor of Information and Technology and
                 launch your dev career
               </h2>

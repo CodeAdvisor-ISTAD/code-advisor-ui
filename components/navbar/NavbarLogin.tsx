@@ -125,7 +125,7 @@ export function NavbarLogin({ user }: NavbarLoginProps) {
                     <input
                         type="text"
                         placeholder="ស្វែងរក"
-                        className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none"
+                        className="w-full h-[35px] text-sm rounded-[5px] border border-gray-300 pl-4 pr-10 focus:outline-none dark:border-black"
                         value={searchQuery}
                         onChange={handleSearchChange}
                         onKeyPress={handleKeyPress}
@@ -160,28 +160,28 @@ export function NavbarLogin({ user }: NavbarLoginProps) {
                 </div>
 
                 {/* Create Dropdown */}
-                <div className="bg-primary rounded-md text-white px-3 hidden md:flex">
+                <div className="bg-primary rounded-md text-white px-3 hidden md:flex dark:bg-secondary">
                     <Dropdown
                         inline
                         label={
-                            <div className="flex items-center space-x-2 bg-primary py-2 rounded-md text-white shadow hover:bg-primary-dark">
+                            <div className="flex items-center space-x-2  py-2 rounded-md text-white shadow hover:bg-primary-dark ">
                                 <span className="text-sm font-medium">បង្កើតថ្មី</span>
                                 <FiEdit2 className="text-white" />
                             </div>
                         }
                     >
-                        <DropdownItem className="text-black">
+                        <DropdownItem className="text-black dark:hover:bg-secondary">
                             <span onClick={() => router.push("/content/new")}>បង្កើតអត្ថបទ</span>
                         </DropdownItem>
-                        <DropdownItem className="text-black">
+                        <DropdownItem className="text-black dark:hover:bg-secondary">
                             <Link href="/forum/new">បង្កើតពិភាក្សា</Link>
                         </DropdownItem>
                     </Dropdown>
                 </div>
 
                 {/* Notification Icon */}
-                <button className="relative text-primary" onClick={handleNotificationClick}>
-                    <FiBell className="h-5 w-5 md:h-7 md:w-7 md:ml-0 ml-2" />
+                <button className="relative text-primary " onClick={handleNotificationClick}>
+                    <FiBell className="h-5 w-5 md:h-7 md:w-7 md:ml-0 ml-2 dark:text-secondary " />
                     {unreadCount > 0 && (
                         <span className="absolute -top-1 -right-1 flex h-4 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                             {unreadCount > 9 ? "9+" : unreadCount}

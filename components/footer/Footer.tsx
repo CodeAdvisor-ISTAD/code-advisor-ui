@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 export default function Footer() {
   return (
-      <footer className="bg-white">
+      <footer className="bg-white dark:bg-darkPrimary">
         <div className="container px-4 py-6 mx-auto">
           {/* Grid Layout */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">
@@ -20,7 +20,7 @@ export default function Footer() {
                       alt="PTC Logo"
                       width={60}
                       height={60}
-                      className="object-contain"
+                      className="object-contain dark:bg-black"
                   />
                   <Image
                       src="/cbrd.png"
@@ -83,7 +83,7 @@ export default function Footer() {
                     className="flex items-center gap-2 hover:underline text-md"
                     target="blank"
                 >
-                  <FaFacebook className="h-5 w-5 fill-primary" />
+                  <FaFacebook className="h-5 w-5 fill-primary " />
                   <span>Facebook</span>
                 </Link>
                 <Link href="#" className="flex items-center gap-2 hover:underline text-md">

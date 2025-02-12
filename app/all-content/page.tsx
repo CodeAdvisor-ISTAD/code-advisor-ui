@@ -102,14 +102,14 @@ export default function AllPage() {
         </div>
 
         {/* Right Section: TechAndKeywordList */}
-        <div className="container mx-auto md:mr-[200px] md:ml-2 mt-6 md:mt-0">
+        <div className="container mx-auto md:mr-[200px] md:ml-2 mt-6 md:mt-0 ">
           {/* Tags Section */}
-          <div className="bg-white rounded-md shadow-md h-[53px] flex items-center px-4 mb-2">
+          <div className="bg-white rounded-md shadow-sm h-[53px] flex items-center px-4 mb-2 dark:bg-darkPrimary dark:shadow-primary">
             <p className="text-secondary font-bold text-[20px]">ស្លាក #</p>
           </div>
 
           {/* Popular and Famous Tags */}
-          <div className="bg-white rounded-md shadow-md p-6">
+          <div className="bg-white rounded-md shadow-sm p-6 dark:bg-darkPrimary dark:shadow-primary">
             <div className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8">
               <div className="flex-1">
                 <h2 className="text-lg font-bold mb-4 text-secondary">ស្លាកពេញនិយម</h2>
@@ -127,7 +127,7 @@ export default function AllPage() {
                 </ul>
               </div>
               <div className="flex-1">
-                <h2 className="text-lg font-bold mb-4 text-secondary">ស្លាកល្បីៗ</h2>
+                <h2 className="text-lg font-bold mb-4 text-secondary ">ស្លាកល្បីៗ</h2>
                 <ul className="list-disc pl-14 space-y-1">
                   {technology2.map((tech, index) => (
                       <li key={index} className="text-sm pb-2">
@@ -145,7 +145,7 @@ export default function AllPage() {
           </div>
 
           {/* Keywords Section */}
-          <div className="mt-2 bg-white rounded-md shadow-md p-6">
+          <div className="mt-2 bg-white rounded-md shadow-sm p-6 dark:bg-darkPrimary dark:shadow-primary ">
             <h2 className="text-lg font-bold mb-4 text-secondary">ពាក្យគន្លឹះ</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Object.entries(groupedKeywords).map(([letter, items]) => (
