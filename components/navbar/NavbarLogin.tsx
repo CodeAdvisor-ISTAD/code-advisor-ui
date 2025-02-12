@@ -206,15 +206,6 @@ export function NavbarLogin({ user }: NavbarLoginProps) {
                                     <span>ប្រវត្តិរូប</span>
                                 </DropdownMenuItem>
                             </a>
-                            <DropdownMenuItem>
-                                <Settings className="mr-2 h-4 w-4" />
-                                <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <div className="flex w-full items-center justify-between">
-                                    <Switch />
-                                </div>
-                            </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-red-600">

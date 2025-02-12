@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { ToggleTheme } from "@/components/switch-theme/toggleTheme";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 
 // Define the same items array as in AppSidebar
 const items = [
@@ -45,6 +45,7 @@ interface MobileSidebarProps {
 }
 
 export default function MobileSidebar({ onClose }: MobileSidebarProps) {
+    const route = useRouter();
     const pathname = usePathname();
     const [openMenus, setOpenMenus] = useState<Record<number, boolean>>({});
 
@@ -146,9 +147,9 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
                         <Button
                             onClick={() => {
                                 onClose();
-                                window.location.href = "/oauth2/authorization/code-advisor";
+                                route.push('/oauth2/authorization/code-advisor');
                             }}
-                            className="w-full text-white bg-primary rounded hover:bg-primary-dark mb-2"
+                            className="w-full text-white bg-primary rounded-[5px] hover:bg-primary-dark transition-colors mb-2"
                         >
                             ចូលប្រើ
                         </Button>
@@ -157,9 +158,9 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
                         <Button
                             onClick={() => {
                                 onClose();
-                                window.location.href = "http://202.178.125.77:9090/register";
+                                route.push('https://identity.code-advisors.istad.co/register');
                             }}
-                            className="w-full text-white bg-primary rounded hover:bg-primary-dark"
+                            className="w-full text-white bg-primary rounded-[5px] hover:bg-primary-dark transition-colors"
                         >
                             បង្កើតគណនី
                         </Button>

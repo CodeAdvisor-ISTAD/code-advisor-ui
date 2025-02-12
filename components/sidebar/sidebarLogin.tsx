@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { ToggleTheme } from "@/components/switch-theme/toggleTheme";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import { Dropdown, DropdownItem } from "flowbite-react";
 import { FiBell, FiEdit2 } from "react-icons/fi";
 import {
@@ -56,6 +56,7 @@ interface MobileSidebarLoginProps {
 }
 
 export default function MobileSidebarLogin({ onClose }: MobileSidebarLoginProps) {
+    const router = useRouter();
     const pathname = usePathname();
     const [openMenus, setOpenMenus] = useState<Record<number, boolean>>({});
     const [unreadCount, setUnreadCount] = useState<number>(0); // Add unread count state
@@ -128,15 +129,7 @@ export default function MobileSidebarLogin({ onClose }: MobileSidebarLoginProps)
                                         <span>ប្រវត្តិរូប</span>
                                     </DropdownMenuItem>
                                 </a>
-                                <DropdownMenuItem>
-                                    <Settings className="mr-2 h-4 w-4" />
-                                    <span>ដាស់ផ្ទាំងគ្រប់គ្រង</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <div className="flex w-full items-center justify-between">
-                                        <Switch />
-                                    </div>
-                                </DropdownMenuItem>
+
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className="text-red-600">
