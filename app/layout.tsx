@@ -58,7 +58,7 @@ export const metadata: Metadata = {
         alt: "CodeAdvisors Thumbnail",
       },
     ],
-    emails: "codeadvisors.services@gmail.com",
+    emails: "",
     url: "https://code-advisors.istad.co",
     siteName: "CodeAdvisors",
   },
@@ -87,8 +87,8 @@ export default function RootLayout({
           <CommentProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            // defaultTheme="system"
+            enableSystem={false}
             disableTransitionOnChange
           >
             <Provider>
