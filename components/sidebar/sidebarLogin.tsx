@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { X, ChevronDown, Menu, User, LogOut } from "lucide-react";
 import { Home, Inbox, Calendar, Settings, History, Phone, Contact, FileQuestion } from "lucide-react";
@@ -20,6 +20,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import router from "next/router";
+import { UserInformation } from "@/types/user";
+import { getOwnUserProfile } from "@/hooks/api-hook/user/user-service";
 
 // Define the same items array as in AppSidebar
 const items = [
@@ -60,7 +62,17 @@ export default function MobileSidebarLogin({ onClose }: MobileSidebarLoginProps)
     const pathname = usePathname();
     const [openMenus, setOpenMenus] = useState<Record<number, boolean>>({});
     const [unreadCount, setUnreadCount] = useState<number>(0); // Add unread count state
-    const [user, setUser] = useState<any>(null); // Replace with proper user state management
+    const [userInformation, setUserInformation] =
+        useState<UserInformation | null>(null);
+
+        useEffect(() => {
+            async function fetchUserProfile() {
+                const data = await getOwnUserProfile();
+                setUserInformation(data);
+            }
+        
+            fetchUserProfile();
+          }, [userInformation]);
 
     const toggleMenu = (id: number) => {
         setOpenMenus((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -71,6 +83,8 @@ export default function MobileSidebarLogin({ onClose }: MobileSidebarLoginProps)
         console.log("Notification clicked!");
         setUnreadCount(0); // Example: reset unread count on click
     };
+
+    
 
     return (
         <Sheet>
@@ -116,14 +130,14 @@ export default function MobileSidebarLogin({ onClose }: MobileSidebarLoginProps)
 
                             <DropdownMenuTrigger asChild>
                             <Avatar className="h-8 w-8 cursor-pointer">
-                                <AvatarImage src={user?.profileImage} alt="User avatar" />
+                                <AvatarImage src={userInformation?.profileImage} alt="User avatar" />
                                 <AvatarFallback />
                             </Avatar>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-52" align="end">
                             <DropdownMenuSeparator />
                             <DropdownMenuGroup>
-                                <a href={`/user-profile/${user?.username}`}>
+                                <a href={`/user-profile/${userInformation?.username}`}>
                                     <DropdownMenuItem>
                                         <User className="mr-2 h-4 w-4" />
                                         <span>ប្រវត្តិរូប</span>

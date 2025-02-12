@@ -46,7 +46,7 @@ export default function Owner() {
     };
 
     fetchUserProfile();
-  }, []);
+  }, [userInformation]);
 
   return (
     <div className=" max-w-7xl p-1 mx-auto ">
