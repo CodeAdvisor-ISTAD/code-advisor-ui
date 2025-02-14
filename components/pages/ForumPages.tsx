@@ -40,7 +40,6 @@ const getAllForums = async function fetchAllForums() {
 
 export default async function ForumPage() {
     const allForum = await getAllForums();
-
     const latest = [
         "Advanced CSS techniques for modern web design",
         "Learn Tailwind CSS for responsive layouts",

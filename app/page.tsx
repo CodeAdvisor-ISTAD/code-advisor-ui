@@ -1,4 +1,3 @@
-"use client";
 import HomeLayout from "@/components/layout/HomeLayout";
 import Home from "../components/pages/HomePages";
 

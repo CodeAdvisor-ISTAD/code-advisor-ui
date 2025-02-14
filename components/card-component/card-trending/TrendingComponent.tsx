@@ -31,10 +31,10 @@ export default function Recommendations({ type, item }: RecommendationProps) {
         let url = "";
         if (type === "Latest") {
           url =
-              "https://elastic.panda.engineer/content-service.contents/_search?q=isDeleted:false AND isDraft:false&sort=created_date:desc&size=10&pretty";
+            "https://elastic.panda.engineer/content-service.contents/_search?q=isDeleted:false AND isDraft:false&sort=created_date:desc&size=10&pretty";
         } else if (type === "Trending") {
           url =
-              "https://elastic.panda.engineer/content-service.contents/_search?q=isDeleted:false AND isDraft:false AND tags:java&size=10&pretty";
+            "https://elastic.panda.engineer/content-service.contents/_search?q=isDeleted:false AND isDraft:false AND tags:java&size=10&pretty";
         }
 
         try {
@@ -46,10 +46,13 @@ export default function Recommendations({ type, item }: RecommendationProps) {
 
           if (data?.hits?.hits) {
             const items = data.hits.hits.map(
-                (hit: { _id: string; _source: { title: string; slug?: string } }) => ({
-                  slug: hit._source.slug || hit._id, // Prefer slug, fallback to _id
-                  title: hit._source.title,
-                })
+              (hit: {
+                _id: string;
+                _source: { title: string; slug?: string };
+              }) => ({
+                slug: hit._source.slug || hit._id, // Prefer slug, fallback to _id
+                title: hit._source.title,
+              })
             );
             setItems(items);
           } else {
@@ -68,29 +71,33 @@ export default function Recommendations({ type, item }: RecommendationProps) {
   const displayedItems = items.slice(0, 4);
 
   return (
-      <Card className="rounded-[5px] dark:bg-darkPrimary">
-        <div className="">
-          <CardHeader className="-mb-8">
-            <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary dark:text-white">
-              <Star className="h-6 w-6 fill-red-500 text-red-500" />
-              {type}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 dark:text-white">
-              {displayedItems.map((item) => (
-                  <li key={item.slug} className="flex items-start gap-2 dark:text-white ">
-                    <span className="mt-4 h-2 w-2 shrink-0 rounded-full bg-primary dark:text-white" />
-                    <Link
-                        href={`/content/${item.slug}`}
-                        className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer hover:underline dark:text-white"
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-              ))}
-            </ul>
-          </CardContent>
-        </div>
-      </Card>  );
+    <Card className="rounded-[5px] dark:bg-darkPrimary md:hidden hidden lg:hidden xl:block">
+      <div className="">
+        <CardHeader className="-mb-8">
+          <CardTitle className="flex font-normal items-center gap-2 text-2xl text-primary dark:text-white">
+            <Star className="h-6 w-6 fill-red-500 text-red-500" />
+            {type}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-2 dark:text-white">
+            {displayedItems.map((item) => (
+              <li
+                key={item.slug}
+                className="flex items-start gap-2 dark:text-white "
+              >
+                <span className="mt-4 h-2 w-2 shrink-0 rounded-full bg-primary dark:text-white" />
+                <Link
+                  href={`/content/${item.slug}`}
+                  className="text-primary p-[0.3rem] rounded-[5px] cursor-pointer hover:underline dark:text-white"
+                >
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </div>
+    </Card>
+  );
 }

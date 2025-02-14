@@ -3,9 +3,6 @@ import ISTADCard from "@/components/card-component/card-trending/Card-Istad";
 import Recommendations from "@/components/card-component/card-trending/TrendingComponent";
 import { useState } from "react";
 import { CardList } from "@/components/card-component/card/CardList";
-import NavbarComponent from "@/components/navbar/NavbarComponent";
-import ForumCardList from "@/components/card-component/forum-card/ForumCardList";
-import { ForumList } from "@/components/card-component/forum-card/ForumList";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,7 +17,7 @@ export default function Home() {
 
   return (
     <main className="flex justify-center">
-      <div className="flex flex-col md:flex-row w-full max-w-[1200px] ">
+      <div className="flex flex-col md:flex-row w-full">
         {/* Left Side Content */}
         <div className="w-full md:w-[640px] lg:w-[710px] mb-2 md:p-0 p-9 md:mt-0 -mt-9">
           <CardList searchQuery={searchQuery} />
